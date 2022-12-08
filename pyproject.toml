@@ -1,10 +1,10 @@
 [build-system]
-requires = ["setuptools"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [project]
 name = "ffpack"
-version = "0.0.0"
+version = "0.0.1"
 authors = [
   { name="Dongping Zhu" },
 ]
@@ -15,8 +15,18 @@ classifiers = [
     "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering",
+]
+keywords = ["Fatigue", "Fracture" ]
+dependencies = [
+    "numpy>= 1.21.0",
 ]
 
 [project.urls]
 "Homepage" = "https://github.com/dpzhuX/ffpack"
 "Bug Tracker" = "https://github.com/dpzhuX/ffpack/issues"
+
+[tool.pytest.ini_options]
+addopts = [
+    "--import-mode=importlib",
+]
