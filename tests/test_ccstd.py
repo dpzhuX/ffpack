@@ -139,10 +139,25 @@ def test_levelCrossingCounting_case3():
 #
 # Test peakCounting function
 #
+def test_peakPeakCounting_case1():
+    # Standard peak counting data from E1049-85(2017) Fig.3(a)
+    data = [ 0.0, 1.5, 0.5, 3.5, 0.5, 2.5, -1.5, -0.5, -2.5, 
+             -2.0, -2.7, -2.5, -3.5, 1.5, 0.5, 3.5, -0.5 ]
+    calRst = ccstd.peakCounting( data )
+    expectedRst = [ [ -3.5, 1.0 ], [ -2.7, 1.0 ], [ -2.5, 1.0 ], [ -1.5, 1.0 ], 
+                    [ 1.5, 2.0 ], [ 2.5, 1.0 ], [ 3.5, 2.0 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
 
 #
 # Test simpleRangeCounting function
 #
+def test_simpleRangeCounting_case1():
+    # Standard simple range counting data from E1049-85(2017) Fig.4(a)
+    data = [ -2.0, 1.0, -3.0, 5.0, -1.0, 3.0, -4.0, 4.0, -2.0 ]
+    calRst = ccstd.simpleRangeCounting( data )
+    expectedRst = [ [ 3.0, 0.5 ], [ 4.0, 1.0 ], [ 6.0, 1.0 ], 
+                    [ 7.0, 0.5 ], [ 8.0, 1.0 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
 
 #
 # Test rainflowCounting function
