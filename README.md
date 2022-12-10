@@ -12,8 +12,15 @@ pip install ffpack
 
 ## Status
 
+`ffpack` is currently under active development. 
+
 
 ## Contents
 
-* Fatigue counting
+* Fatigue cycle counting in ASTM
+    * Level crossing counting
+    * Peak counting
+    * Simple range counting
+    * Rainflow counting
 
+## Document
