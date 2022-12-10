@@ -7,6 +7,8 @@ name = "ffpack"
 version = "0.0.1"
 authors = [
   { name="Dongping Zhu" },
+  { name="Xiaogang Huang" },
+  { name="Zhixia Ding" },
 ]
 description = "Fatigue and fracture package"
 readme = "README.md"
