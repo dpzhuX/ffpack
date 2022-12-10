@@ -1,32 +1,33 @@
 [build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+requires = ["poetry-core>=1.1.0"]
+build-backend = "poetry.core.masonry.api"
 
-[project]
+[tool.poetry]
 name = "ffpack"
-version = "0.0.1"
-authors = [
-  { name="Dongping Zhu" },
-  { name="Xiaogang Huang" },
-  { name="Zhixia Ding" },
-]
+version = "0.0.4"
 description = "Fatigue and fracture package"
+authors = [ "Dongping Zhu <example@example.com>", 
+            "Xiaogang Huang <example@example.com>",
+            "Zhixia Ding <example@example.com>"
+          ]
 readme = "README.md"
-requires-python = ">=3.7"
+
+homepage = "https://pypi.org/project/ffpack"
+repository = "https://github.com/dpzhuX/ffpack"
+documentation = "https://ffpack.readthedocs.io/en/latest/"
+
+keywords = [ "fatigue", "fracture", "counting" ]
+
 classifiers = [
     "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
     "Topic :: Scientific/Engineering",
 ]
-keywords = ["Fatigue", "Fracture" ]
-dependencies = [
-    "numpy>= 1.21.0",
-]
 
-[project.urls]
-"Homepage" = "https://github.com/dpzhuX/ffpack"
-"Bug Tracker" = "https://github.com/dpzhuX/ffpack/issues"
+[tool.poetry.dependencies]
+python = "^3.7"
+numpy = "^1.21"
 
 [tool.pytest.ini_options]
 addopts = [

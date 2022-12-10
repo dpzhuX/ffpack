@@ -116,7 +116,7 @@ def simpleRangeCounting( data ):
         if i == 0:
             continue
         prev = data[ i - 1 ]
-        rstDict[ abs( prev - cur ) ] += 1
+        rstDict[ abs( prev - cur ) ] += 0.5
 
     if len( rstDict ) == 0:
         return [ [] ] 
