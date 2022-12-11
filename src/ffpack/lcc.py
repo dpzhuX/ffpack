@@ -9,7 +9,7 @@ import numpy as np
 from ffpack import utils
 from collections import defaultdict, deque
 
-def levelCrossingCounting( data, levels=None ):
+def astmLevelCrossingCounting( data, levels=None ):
     '''
     Implement the level crossing counting method based on E1049-85: sec 5.1.1
     By default, this method does the level crossing couting for each integers
@@ -55,7 +55,7 @@ def levelCrossingCounting( data, levels=None ):
     rst = rst[ rst[ :, 0 ].argsort() ]
     return rst.tolist()
 
-def peakCounting( data, level=None ):
+def astmPeakCounting( data, level=None ):
     '''
     Implement the peak counting method based on E1049-85: sec 5.2.1
     By default, this method does the peak crossing couting for y == 0
@@ -93,7 +93,7 @@ def peakCounting( data, level=None ):
     rst = rst[ rst[ :, 0 ].argsort() ]
     return rst.tolist()
 
-def simpleRangeCounting( data ):
+def astmSimpleRangeCounting( data ):
     '''
     Implement the simple range counting method based on E1049-85: sec 5.3.1
     Args:
@@ -124,7 +124,7 @@ def simpleRangeCounting( data ):
     rst = rst[ rst[ :, 0 ].argsort() ]
     return rst.tolist()
 
-def rainflowCounting( data ):
+def astmRainflowCounting( data ):
     '''
     Implement the rainflow counting method based on E1049-85: sec 5.4.4
     Args:
