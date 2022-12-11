@@ -1,0 +1,15 @@
+version: 2
+
+formats: all
+
+sphinx:
+  configuration: docs/source/conf.py
+
+submodules:
+  exclude: all
+
+python:
+  version: 3
+  install:
+    - requirements: docs/requirements.txt
+  system_packages: true
