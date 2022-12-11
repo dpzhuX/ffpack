@@ -19,4 +19,5 @@ Contents
 
    usage
    cycle counting methods
+   utility methods
    api

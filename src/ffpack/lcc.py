@@ -16,8 +16,9 @@ def astmLevelCrossingCounting( data, refLevel=0.0, levels=None ):
     at the reference level of 0.0.
 
     Args:
-        data: 1D input sequence data for couning
-        levels: 1D input sequence levels
+        data: 1D sequence data for couning
+        refLevel: scalar value indicating the reference level
+        levels: 1D sequence of self-defined levels
 
     Returns:
         rst: 2D sorted output data
