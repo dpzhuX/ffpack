@@ -2,11 +2,11 @@
 
 # -- Project information
 
-project = 'Lumache'
-copyright = '2021, Graziella'
-author = 'Graziella'
+project = 'FFPack'
+copyright = '2022, Dongping Zhu'
+author = 'Dongping Zhu'
 
-release = '0.1'
+release = '0.1.0'
 version = '0.1.0'
 
 # -- General configuration
@@ -17,7 +17,10 @@ extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.autosummary',
     'sphinx.ext.intersphinx',
+    'nbsphinx',
 ]
+
+source_suffix = [".rst", ".md"]
 
 intersphinx_mapping = {
     'python': ('https://docs.python.org/3/', None),
