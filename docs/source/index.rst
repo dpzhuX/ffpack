@@ -18,5 +18,5 @@ Contents
    :caption: Contents:
 
    usage
+   cycle counting methods
    api
-   cycle counting methods/ASTM Level crossing counting
