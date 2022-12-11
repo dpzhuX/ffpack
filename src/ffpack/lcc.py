@@ -9,13 +9,16 @@ import numpy as np
 from ffpack import utils
 from collections import defaultdict, deque
 
-def astmLevelCrossingCounting( data, levels=None ):
+def astmLevelCrossingCounting( data, refLevel=0.0, levels=None ):
     '''
     Implement the level crossing counting method based on E1049-85: sec 5.1.1
     By default, this method does the level crossing couting for each integers
+    at the reference level of 0.0.
+
     Args:
-        data: 1D input sequence data for couning
-        levels: 1D input sequence levels
+        data: 1D sequence data for couning
+        refLevel: scalar value indicating the reference level
+        levels: 1D sequence of self-defined levels
 
     Returns:
         rst: 2D sorted output data
@@ -46,8 +49,8 @@ def astmLevelCrossingCounting( data, levels=None ):
             leftIndex += 1
         rightIndex = np.searchsorted( levels, upperVal, side='right' )
         for j in range( leftIndex, rightIndex ):
-            if ( intervalStart <= intervalEnd and levels[ j ] >= 0 ) or \
-               ( intervalStart > intervalEnd and levels[ j ] < 0 ):
+            if ( intervalStart <= intervalEnd and levels[ j ] >= refLevel ) or \
+               ( intervalStart > intervalEnd and levels[ j ] < refLevel ):
                 rstDict[ levels[ j ] ] += 1
     if len( rstDict ) == 0:
         return [ [] ]
@@ -55,13 +58,13 @@ def astmLevelCrossingCounting( data, levels=None ):
     rst = rst[ rst[ :, 0 ].argsort() ]
     return rst.tolist()
 
-def astmPeakCounting( data, level=None ):
+def astmPeakCounting( data, refLevel=None ):
     '''
     Implement the peak counting method based on E1049-85: sec 5.2.1
     By default, this method does the peak crossing couting for y == 0
     Args:
         data: 1D input sequence data for couning
-        level: Scalar data
+        refLevel: Scalar data
 
     Returns:
         rst: 2D sorted output data
@@ -72,8 +75,8 @@ def astmPeakCounting( data, level=None ):
         raise ValueError( "Input data dimension should be 1" )
     if data.shape[0] <= 1:
         raise ValueError( "Input data length should be at least 2")
-    if level is None:
-        level =  0.0;
+    if refLevel is None:
+        refLevel =  0.0;
     
     rstDict = defaultdict( int )
     for i, cur in enumerate( data ):
@@ -83,8 +86,8 @@ def astmPeakCounting( data, level=None ):
         # Compare the prev and next
         prev = data[ i - 1 ]
         next = data[ i + 1 ]
-        if ( prev < cur and cur > next and cur >= level ) or \
-           ( prev > cur and cur < next and cur < level ):
+        if ( prev < cur and cur > next and cur >= refLevel ) or \
+           ( prev > cur and cur < next and cur < refLevel ):
             rstDict[ cur ] += 1
 
     if len( rstDict ) == 0:
