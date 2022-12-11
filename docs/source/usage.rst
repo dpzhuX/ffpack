@@ -3,32 +3,23 @@ Usage
 
 .. _installation:
 
+Environment
+------------
+
+We encourage to use conda for environment management but it is not necessary.
+
+To create an environment with a specific Python version:
+
+.. code-block:: bash
+
+   $ conda create -n ffpackEnv python=3.9
+
 Installation
 ------------
 
-To use Lumache, first install it using pip:
+To use FFPack, install it using pip:
 
-.. code-block:: console
+.. code-block:: bash
 
-   (.venv) $ pip install lumache
-
-Creating recipes
-----------------
-
-To retrieve a list of random ingredients,
-you can use the ``lumache.get_random_ingredients()`` function:
-
-.. autofunction:: lumache.get_random_ingredients
-
-The ``kind`` parameter should be either ``"meat"``, ``"fish"``,
-or ``"veggies"``. Otherwise, :py:func:`lumache.get_random_ingredients`
-will raise an exception.
-
-.. autoexception:: lumache.InvalidKindError
-
-For example:
-
->>> import lumache
->>> lumache.get_random_ingredients()
-['shells', 'gorgonzola', 'parsley']
+   $ pip install ffpack
 
