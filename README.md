@@ -1,6 +1,7 @@
-# Fatigue and fracture package
+# Welcome to FFPack
 
-`ffpack` is an open source Python library for fatigue and fracture evaluation.
+## Purpose
+`ffpack` ( Fatigue and Fracture Package ) is an open source Python library for fatigue and fracture evaluation. It supports the standard fatigue counting methods in ASTM E1049-85(2017). A lot of features are preparing for this package.
 
 ## Installation
 
@@ -14,13 +15,16 @@ pip install ffpack
 
 `ffpack` is currently under active development. 
 
-
 ## Contents
 
-* Fatigue cycle counting in ASTM
-    * Level crossing counting
-    * Peak counting
-    * Simple range counting
-    * Rainflow counting
+* Load cycle counting methods
+    * ASTM level crossing counting
+    * ASTM peak counting
+    * ASTM simple range counting
+    * ASTM rainflow counting
+* Load spectra and matrices
+    * WIP
 
 ## Document
+
+You can find a complete docummentation for setting up `ffpack` at the [Read the Docs site](https://ffpack.readthedocs.io/en/latest/).
