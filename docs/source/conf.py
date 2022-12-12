@@ -2,7 +2,7 @@
 
 # -- Project information
 
-project = 'FFPack'
+project = 'FFPACK'
 copyright = '2022, Dongping Zhu'
 author = 'Dongping Zhu'
 

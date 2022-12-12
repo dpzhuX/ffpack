@@ -1,7 +1,7 @@
-Welcome to FFPack's documentation!
+Welcome to FFPACK's documentation!
 ===================================
 
-**FFPack** (Fatigue and Fracture PACKage) is a open source Python library for fatigue and fracture evaluation
+**FFPACK** (Fatigue and Fracture PACKage) is a open source Python library for fatigue and fracture evaluation
 
 Check out the :doc:`usage` section for further information, including
 how to :ref:`installation` the project.
