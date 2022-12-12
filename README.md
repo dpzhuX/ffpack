@@ -1,11 +1,14 @@
-# Welcome to FFPack
+# Welcome to FFPACK
+
+![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/dpzhuX/ffpack/Python%20package/main)
+![GitHub](https://img.shields.io/github/license/dpzhuX/ffpack)
 
 ## Purpose
-`ffpack` ( Fatigue and Fracture Package ) is an open source Python library for fatigue and fracture evaluation. It supports the standard fatigue counting methods in ASTM E1049-85(2017). A lot of features are preparing for this package.
+`FFPACK` ( Fatigue and Fracture PACKage ) is an open source Python library for fatigue and fracture evaluation. It supports the standard fatigue counting methods in ASTM E1049-85(2017). A lot of features are under active development.
 
 ## Installation
 
-`ffpack` can be installed via [PyPI](https://pypi.org/project/ffpack/):
+`FFPACK` can be installed via [PyPI](https://pypi.org/project/ffpack/):
 
 ```
 pip install ffpack
@@ -13,7 +16,7 @@ pip install ffpack
 
 ## Status
 
-`ffpack` is currently under active development. 
+`FFPACK` is currently under active development. 
 
 ## Contents
 
@@ -27,4 +30,4 @@ pip install ffpack
 
 ## Document
 
-You can find a complete docummentation for setting up `ffpack` at the [Read the Docs site](https://ffpack.readthedocs.io/en/latest/).
+You can find a complete docummentation for setting up `FFPACK` at the [Read the Docs site](https://ffpack.readthedocs.io/en/latest/).
