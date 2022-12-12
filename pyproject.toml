@@ -6,10 +6,17 @@ build-backend = "poetry.core.masonry.api"
 name = "ffpack"
 version = "0.1.0"
 description = "Fatigue and fracture package"
-authors = [ "Dongping Zhu <example@example.com>", 
-            "Xiaogang Huang <example@example.com>",
-            "Zhixia Ding <example@example.com>"
-          ]
+authors = [
+    "Dongping Zhu",
+    "Xiaogang Huang",
+    "Zhixia Ding",
+]
+
+maintainers = [ 
+    "Dongping Zhu", 
+    "Xiaogang Huang",
+    "Zhixia Ding",
+]
 readme = "README.md"
 
 homepage = "https://pypi.org/project/ffpack"
