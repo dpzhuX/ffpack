@@ -16,7 +16,7 @@ def astmLevelCrossingCounting( data, refLevel=0.0, levels=None ):
     at the reference level of 0.0.
 
     Args:
-        data: 1D sequence data for couning
+        data: 1D sequence data for counting
         refLevel: scalar value indicating the reference level
         levels: 1D sequence of self-defined levels
 
@@ -63,7 +63,7 @@ def astmPeakCounting( data, refLevel=None ):
     Implement the peak counting method based on E1049-85: sec 5.2.1
     By default, this method does the peak crossing couting for y == 0
     Args:
-        data: 1D input sequence data for couning
+        data: 1D input sequence data for counting
         refLevel: Scalar data
 
     Returns:
@@ -76,7 +76,7 @@ def astmPeakCounting( data, refLevel=None ):
     if data.shape[0] <= 1:
         raise ValueError( "Input data length should be at least 2")
     if refLevel is None:
-        refLevel =  0.0;
+        refLevel =  0.0
     
     rstDict = defaultdict( int )
     for i, cur in enumerate( data ):
@@ -100,7 +100,7 @@ def astmSimpleRangeCounting( data ):
     '''
     Implement the simple range counting method based on E1049-85: sec 5.3.1
     Args:
-        data: 1D input sequence data for couning
+        data: 1D input sequence data for counting
 
     Returns:
         rst: 2D sorted output data
@@ -131,7 +131,7 @@ def astmRainflowCounting( data ):
     '''
     Implement the rainflow counting method based on E1049-85: sec 5.4.4
     Args:
-        data: 1D input sequence data for couning
+        data: 1D input sequence data for counting
 
     Returns:
         rst: 2D sorted output data
@@ -197,15 +197,19 @@ def astmRainflowCounting( data ):
     return rst.tolist()
 
 
-def rychlikRainflowCycleCounting( data, aggragate=True ):
+def rychlikRainflowCycleCounting( data, aggregate=True ):
     '''
-    Implement the rainflow counting method based on Definition 1
+    Implement the rainflow counting method based on Definition 1 (topLevel-up cycle TUC)
     in "A new definition of the rainflow cycle counting method" by Rychilk on IJF
     Args:
-        data: 1D input sequence data for couning
+        data: array_like
+            1D input sequence data for counting
+        aggragate: bool, optional
+            if aggregate the range H(t) sequence nor not
 
     Returns:
-        rst: 1D range H(t) sequence 
+        rst: 1D range H(t) sequence if aggregate is false
+             2D sorted output data if aggregate is true
     '''
 
     def getMinLeft( data, i ):
@@ -241,7 +245,7 @@ def rychlikRainflowCycleCounting( data, aggragate=True ):
             height = data[ i ] - max( getMinLeft( data, i ), getMinRight( data, i ))
             rstSeq.append( round( height, 7 ) )
     
-    if ( not aggragate ): 
+    if ( not aggregate ): 
         return rstSeq
 
     rstDict = defaultdict( int )
