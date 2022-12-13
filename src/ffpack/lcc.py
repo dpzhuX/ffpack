@@ -195,3 +195,47 @@ def astmRainflowCounting( data ):
     rst = np.array( [ [ key, val ] for key, val in rstDict.items() ] )
     rst = rst[ rst[ :, 0 ].argsort() ]
     return rst.tolist()
+
+
+def rychlikRainflowCycleCounting( data ):
+    '''
+    Implement the rainflow counting method based on Definition 1
+    in "A new definition of the rainflow cycle counting method" by Rychilk on IJF
+    Args:
+        data: 1D input sequence data for couning
+
+    Returns:
+        rst: 1D range H(t) sequence 
+    '''
+
+    def getMinLeft( data, i ):
+        if (i == 1): return min(data[0], data[1])
+        
+        left = data[i - 1]
+        j = i - 2
+        while (j >= 0 and data[j] < data[i]): 
+            left = min(left, data[j])
+            j -= 1
+
+        return left
+
+    def getMinRight( data, i ):
+        if (i == len(data) - 2): 
+            return min(data[len(data) - 1], data[len(data) - 2])
+        
+        right = data[i + 1]
+        j = i + 2
+        while (j < len(data) and data[j] < data[i]):
+            right = min(right, data[j])
+            j += 1
+
+        return right 
+
+
+    peakVallays = utils.getSequencePeakAndValleys( data, keepEnds=True )
+    rstSeq = []
+    for i in range(1, len(data) - 1):
+        if (data[i] > data[i - 1] and data[i] > data[i + 1]):
+            rstSeq.append(min(data[i] - getMinLeft(data, i), data[i] - getMinRight(data, i)))
+            
+    return rstSeq
