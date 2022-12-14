@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import numpy as np
+from collections import defaultdict
 
 def getSequencePeakAndValleys( data, keepEnds=False ):
     '''
@@ -68,3 +69,45 @@ def digitizeSequenceToResoultion( data, resolution=1.0 ):
     for d in data:
         rst.append( np.rint( d / resolution) * resolution )
     return rst
+
+def cycleCountingAccordingToBinSize( data, binSize=1.0 ):
+    '''
+    Count number of occurrences of each cycle digitized to the nearest bin.
+
+    Args:
+        data: 2D array_like
+            2D input sequence data [ [ cycle, count ] ] for bin collection 
+        binSize: float, optional
+            bin size is the difference between each level, 
+            for example, binSize=1.0, the levels will be 0.0, 1.0, 2.0, 3.0 ...
+    
+    Returns:
+        rst: 2D array_like
+            2D data [ [ level, count ] ] with level starts from 0 to maximum possible value
+    
+    Notes:
+        When a value is in the middle, it will be counted downward
+        for example, 0.5 when binSize=1.0, the count will be counted to 0.0 
+    '''
+
+    def getBinKey( value ):
+        key = binSize * int( value / binSize )
+        if ( value - key > key + binSize - value):
+            key += binSize
+        return key
+
+    rstDict = defaultdict( int )
+    max_value = np.max( np.array( data )[ :, 0 ] )
+    numBins = int( getBinKey( max_value ) / binSize ) + 1
+    for i in range( numBins ):
+        rstDict[ i * binSize ] = 0
+
+    for valueCount in data:
+        key = getBinKey( valueCount[ 0 ] )
+        rstDict[ key ] += valueCount[ 1 ]
+    
+    if len( rstDict ) == 0:
+        return [ [ ] ] 
+    rst = np.array( [ [ key, val ] for key, val in rstDict.items() ] )
+    rst = rst[ rst[ :, 0 ].argsort() ]
+    return rst.tolist()

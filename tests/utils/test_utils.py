@@ -109,7 +109,8 @@ def test_getSequencePeakAndValleys_noPointsAndTwoDimCase_valueError():
     data = [ [ 1.0, 2.0 ], [ 3.0, 4.0 ] ]
     with pytest.raises( ValueError ):
         _ = utils.getSequencePeakAndValleys( data, keepEnds=True )
-    
+
+
 ###############################################################################
 # Test digitizeSequenceToResolution
 ###############################################################################
@@ -200,3 +201,89 @@ def test_digitizeSequenceToResolution_twoDimInputCase_valueError():
     data = [ [ 1.0, 2.5 ], [ 3.0, 4.5 ] ]
     with pytest.raises( ValueError ):
         _ = utils.digitizeSequenceToResoultion( data, resolution=1.0 )
+
+
+###############################################################################
+# Test cycleCountingAccordingToBinSize
+###############################################################################
+def test_cycleCountingAccordingToBinSize_onePairDefaultBinSize_oneCount():
+    # case 1: closer to 0
+    data = [ [ 0.2, 2.0 ] ]
+    calRst = utils.cycleCountingAccordingToBinSize( data, binSize=1.0 )
+    expectedRst = [ [ 0.0, 2.0 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    # case 2: closer to 1
+    data = [ [ 0.7, 2.0 ] ]
+    calRst = utils.cycleCountingAccordingToBinSize( data, binSize=1.0 )
+    expectedRst = [ [ 0.0, 0.0 ], [ 1.0, 2.0 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    # case 3: in the middle
+    data = [ [ 0.5, 2.0 ] ]
+    calRst = utils.cycleCountingAccordingToBinSize( data, binSize=1.0 )
+    expectedRst = [ [ 0.0, 2.0 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    # case 4: greater than 1 and closer to 2
+    data = [ [ 1.7, 2.0 ] ]
+    calRst = utils.cycleCountingAccordingToBinSize( data, binSize=1.0 )
+    expectedRst = [ [ 0.0, 0.0 ], [ 1.0, 0.0 ], [ 2.0, 2.0 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    # case 5: greater than 1 and closer to 1
+    data = [ [ 1.2, 2.0 ] ]
+    calRst = utils.cycleCountingAccordingToBinSize( data, binSize=1.0 )
+    expectedRst = [ [ 0.0, 0.0 ], [ 1.0, 2.0 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    # case 6: greater than 1 and in the middle
+    data = [ [ 1.5, 2.0 ] ]
+    calRst = utils.cycleCountingAccordingToBinSize( data, binSize=1.0 )
+    expectedRst = [ [ 0.0, 0.0 ], [ 1.0, 2.0 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+def test_cycleCountingAccordingToBinSize_twoPairsDefaultBinSize_countDepends():
+    # case 1: aggregate to two bins
+    data = [ [ 0.2, 2.0 ], [ 1.2, 2.0 ] ]
+    calRst = utils.cycleCountingAccordingToBinSize( data, binSize=1.0 )
+    expectedRst = [ [ 0.0, 2.0 ], [ 1.0, 2.0 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    # case 2: aggregate to one bin
+    data = [ [ 0.7, 2.0 ], [ 1.2, 2.0 ] ]
+    calRst = utils.cycleCountingAccordingToBinSize( data, binSize=1.0 )
+    expectedRst = [ [ 0.0, 0.0 ], [ 1.0, 4.0 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    # case 3: aggregate to one bin - lager than binSize
+    data = [ [ 1.7, 2.0 ], [ 2.2, 2.0 ] ]
+    calRst = utils.cycleCountingAccordingToBinSize( data, binSize=1.0 )
+    expectedRst = [ [ 0.0, 0.0 ], [ 1.0, 0.0 ], [ 2.0, 4.0 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+def test_cycleCountingAccordingToBinSize_twoPairsSmallerBinSize_countDepends():
+    # case 1: aggregate to two bins
+    data = [ [ 0.3, 2.0 ], [ 0.9, 2.0 ] ]
+    calRst = utils.cycleCountingAccordingToBinSize( data, binSize=0.5 )
+    expectedRst = [ [ 0.0, 0.0 ], [ 0.5, 2.0 ], [ 1.0, 2.0 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    # case 2: aggregate to one bin
+    data = [ [ 0.3, 2.0 ], [ 0.7, 2.0 ] ]
+    calRst = utils.cycleCountingAccordingToBinSize( data, binSize=0.5 )
+    expectedRst = [ [ 0.0, 0.0 ], [ 0.5, 4.0 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+def test_cycleCountingAccordingToBinSize_twoPairsLargerBinSize_countDepends():
+    # case 1: aggregate to two bins
+    data = [ [ 0.3, 2.0 ], [ 2.9, 2.0 ] ]
+    calRst = utils.cycleCountingAccordingToBinSize( data, binSize=2.0 )
+    expectedRst = [ [ 0.0, 2.0 ], [ 2.0, 2.0 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    # case 2: aggregate to one bin
+    data = [ [ 1.8, 2.0 ], [ 2.7, 2.0 ] ]
+    calRst = utils.cycleCountingAccordingToBinSize( data, binSize=2.0 )
+    expectedRst = [ [ 0.0, 0.0 ], [ 2.0, 4.0 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
