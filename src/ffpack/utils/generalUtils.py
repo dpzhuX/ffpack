@@ -66,7 +66,7 @@ def digitizeSequenceToResoultion( data, resolution=1.0 ):
 
     Parameters
     ----------
-    data: 1darray
+    data: 1d array
         Sequence data to digitize.
     
     resolution: bool, optional
@@ -74,7 +74,7 @@ def digitizeSequenceToResoultion( data, resolution=1.0 ):
     
     Returns
     -------
-    rst: 1darray
+    rst: 1d array
         A list contains the digitized data.
     
     Raises

@@ -15,18 +15,18 @@ def astmLevelCrossingCounting( data, refLevel=0.0, levels=None ):
 
     Parameters
     ----------
-    data: 1darray
+    data: 1d array
         Load sequence data for counting.
     
     refLevel: scalar, optional
         Reference level.
     
-    levels: 1darray
+    levels: 1d array
         Self-defined levels for counting.
 
     Returns
     -------
-    rst: 2darray
+    rst: 2d array
         Sorted counting restults.
     
     Raises
@@ -82,7 +82,7 @@ def astmPeakCounting( data, refLevel=None ):
 
     Parameters
     ----------
-    data: 1darray
+    data: 1d array
         Load sequence data for counting.
     
     refLevel: scalar, optional
@@ -90,7 +90,7 @@ def astmPeakCounting( data, refLevel=None ):
     
     Returns
     -------
-    rst: 2darray
+    rst: 2d array
         Sorted counting restults.
     
     Raises
@@ -138,12 +138,12 @@ def astmSimpleRangeCounting( data ):
 
     Parameters
     ----------
-    data: 1darray
+    data: 1d array
         Load sequence data for counting.
     
     Returns
     -------
-    rst: 2darray
+    rst: 2d array
         Sorted counting restults.
     
     Raises
@@ -185,12 +185,12 @@ def astmRainflowCounting( data ):
 
     Parameters
     ----------
-    data: 1darray
+    data: 1d array
         Load sequence data for counting.
     
     Returns
     -------
-    rst: 2darray
+    rst: 2d array
         Sorted counting restults.
     
     Raises

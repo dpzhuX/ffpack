@@ -9,7 +9,7 @@ def cycleCountingAccordingToBinSize( data, binSize=1.0 ):
 
     Parameters
     ----------
-    data: 2darray
+    data: 2d array
         Input load cycle counting data [ [ range, count ], ... ] for bin collection 
 
     binSize: scalar, optional
@@ -18,7 +18,7 @@ def cycleCountingAccordingToBinSize( data, binSize=1.0 ):
 
     Returns
     -------
-    rst: 2darray
+    rst: 2d array
         Aggregated [ [ range, count ] ] with range starts from 0 to maximum 
         possible value by the binSize
 

@@ -15,7 +15,7 @@ def randomWalkUniform( steps, dim=1 ):
     
     Returns
     -------
-    rst: 2darray
+    rst: 2d array
         A 2d steps by dim matrix holding the coordinates 
         of the position at each step.
     

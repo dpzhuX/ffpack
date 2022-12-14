@@ -11,14 +11,14 @@ def rychlikRainflowCycleCounting( data, aggregate=True ):
 
     Parameters
     ----------
-    data: 1darray 
+    data: 1d array 
         Load sequence data for counting.
     aggragate: bool, optional
         if aggregate set to False, the original range H(t) sequence will be returned.
     
     Returns
     -------
-    rst: 2darray
+    rst: 2d array
         Sorted counting restults.
     
     Notes
