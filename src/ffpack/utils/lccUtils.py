@@ -34,6 +34,12 @@ def cycleCountingAccordingToBinSize( data, binSize=1.0 ):
     -----
     When a value is in the middle, it will be counted downward
     for example, 0.5 when binSize=1.0, the count will be counted to 0.0 
+
+    Examples
+    --------
+    >>> from ffpack.utils import cycleCountingAccordingToBinSize
+    >>> data = [ [ 1.7, 2.0 ], [ 2.2, 2.0 ] ]
+    >>> rst = cycleCountingAccordingToBinSize( data )
     '''
     def getBinKey( value ):
         key = binSize * int( value / binSize )

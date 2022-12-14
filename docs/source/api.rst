@@ -1,15 +1,15 @@
 Module API
 ==========
 
-The ``lsg`` module
--------------------------
+Load sequence generator ``lsg`` 
+--------------------------------------
 
 .. automodule:: ffpack.lsg.randomWalk
    :undoc-members:
    :members:
 
-The ``lcc`` module
--------------------------
+Load cycle counting ``lcc`` 
+----------------------------------
 
 ASTM Counting
 ^^^^^^^^^^^^^
@@ -25,12 +25,18 @@ Rychlik Counting
    :undoc-members:
    :members:
 
-The ``utils`` module
--------------------------
+Utility ``utils``
+------------------------
+
+General utils
+^^^^^^^^^^^^^
 
 .. automodule:: ffpack.utils.generalUtils
    :undoc-members:
    :members:
+
+``lcc`` utils
+^^^^^^^^^^^^^
 
 .. automodule:: ffpack.utils.lccUtils
    :undoc-members:

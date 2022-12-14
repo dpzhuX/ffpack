@@ -28,6 +28,12 @@ def getSequencePeakAndValleys( data, keepEnds=False ):
         If the data dimension is not 1.
         If the data length is less than 2 with keedEnds == False
         If the data length is less than 3 with keedEnds == True
+
+    Examples
+    --------
+    >>> from ffpack.utils import getSequencePeakAndValleys
+    >>> data = [ -0.5, 1.0, -2.0, 3.0, -1.0, 4.5, -2.5, 3.5, -1.5, 1.0 ]
+    >>> rst = getSequencePeakAndValleys( data )
     '''
     # Egde cases
     data = np.array( data )
@@ -81,6 +87,12 @@ def digitizeSequenceToResoultion( data, resolution=1.0 ):
     Notes
     -----
     The default round function will round half to even: 1.5, 2.5 => 2.0:
+
+    Examples
+    --------
+    >>> from ffpack.utils import digitizeSequenceToResoultion 
+    >>> data = [ -1.0, 2.3, 1.8, 0.6, -0.4, 0.8, -1.6, -2.5, 3.4, 0.3, 0.1 ]
+    >>> rst = digitizeSequenceToResoultion( data )
     '''
     # Egde cases
     data = np.array( data )

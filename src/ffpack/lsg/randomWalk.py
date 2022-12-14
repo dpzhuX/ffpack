@@ -27,7 +27,7 @@ def randomWalkUniform( steps, dim=1 ):
     Examples
     --------
     >>> from ffpack.lsg import randomWalkUniform
-    >>> rst = randomWalkUniform( 5, dim=2 )
+    >>> rst = randomWalkUniform( 5 )
 
     '''
     # Edge case check

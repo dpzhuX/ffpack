@@ -24,6 +24,13 @@ def rychlikRainflowCycleCounting( data, aggregate=True ):
     Notes
     -----
     If aggregate is False, the original 1d counting resutls will be returned.
+
+    Examples
+    --------
+    >>> from ffpack.lcc import rychlikRainflowCycleCounting
+    >>> data = [ -0.8, 1.3, 0.7, 3.4, 0.7, 2.5, -1.4, -0.5, -2.3, 
+    >>>          -2.2, -2.6, -2.4, -3.3, 1.5, 0.6, 3.4, -0.5 ]
+    >>> rst = rychlikRainflowCycleCounting( data )
     '''
 
     def getMinLeft( data, i ):

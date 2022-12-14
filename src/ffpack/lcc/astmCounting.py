@@ -33,6 +33,13 @@ def astmLevelCrossingCounting( data, refLevel=0.0, levels=None ):
     ------
     ValueError
         If the data length is less than 2 or the data dimension is not 1.
+
+    Examples
+    --------
+    >>> from ffpack.lcc import astmLevelCrossingCounting
+    >>> data = [ -0.8, 1.3, 0.7, 3.4, 0.7, 2.5, -1.4, -0.5, -2.3, 
+    >>>          -2.2, -2.6, -2.4, -3.3, 1.5, 0.6, 3.4, -0.5 ]
+    >>> rst = astmLevelCrossingCounting( data )
     '''
     # Edge case check
     data = np.array( data )
@@ -90,6 +97,13 @@ def astmPeakCounting( data, refLevel=None ):
     ------
     ValueError
         If the data length is less than 2 or the data dimension is not 1.
+
+    Examples
+    --------
+    >>> from ffpack.lcc import astmPeakCounting
+    >>> data = [ 0.0, 1.5, 0.5, 3.5, 0.5, 2.5, -1.5, -0.5, -2.5, 
+    >>>          -2.0, -2.7, -2.5, -3.5, 1.5, 0.5, 3.5, -0.5 ]
+    >>> rst = astmPeakCounting( data )
     '''
     # Edge case check
     data = np.array( data )
@@ -136,6 +150,12 @@ def astmSimpleRangeCounting( data ):
     ------
     ValueError
         If the data length is less than 2 or the data dimension is not 1.
+
+    Examples
+    --------
+    >>> from ffpack.lcc import astmSimpleRangeCounting
+    >>> data = [ -2.0, 1.0, -3.0, 5.0, -1.0, 3.0, -4.0, 4.0, -2.0 ]
+    >>> rst = astmSimpleRangeCounting( data )
     '''
     data = np.array( data )
     if len( data.shape ) != 1:
@@ -177,6 +197,12 @@ def astmRainflowCounting( data ):
     ------
     ValueError
         If the data length is less than 2 or the data dimension is not 1.
+
+    Examples
+    --------
+    >>> from ffpack.lcc import astmRainflowCounting
+    >>> data = [ -2.0, 1.0, -3.0, 5.0, -1.0, 3.0, -4.0, 4.0, -2.0 ]
+    >>> rst = astmRainflowCounting( data )
     '''
     # Edge case check
     data = np.array( data )
