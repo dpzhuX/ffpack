@@ -45,7 +45,7 @@ def getSequencePeakAndValleys( data, keepEnds=False ):
         raise ValueError( "Input data length should be at least 3")
 
     rst = []
-    prev = None
+    prev = data[ 0 ]
     for i, cur in enumerate( data ):
         if i == 0 or i == len( data ) - 1:
             if keepEnds:
@@ -55,7 +55,8 @@ def getSequencePeakAndValleys( data, keepEnds=False ):
             if ( prev < cur and cur > next ) or \
                ( prev > cur and cur < next ):
                rst.append( cur )
-        prev = cur
+               prev = cur
+        
     return rst
 
 def digitizeSequenceToResoultion( data, resolution=1.0 ):
