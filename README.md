@@ -21,10 +21,16 @@ pip install ffpack
 ## Contents
 
 * Load cycle counting methods
-    * ASTM level crossing counting
-    * ASTM peak counting
-    * ASTM simple range counting
-    * ASTM rainflow counting
+    * ASTM
+        * ASTM level crossing counting
+        * ASTM peak counting
+        * ASTM simple range counting
+        * ASTM rainflow counting
+    * Rychlik
+        * Rychlik rainflow Counting
+* Load sequence generator
+    * Random walk
+        * Uniform random walk
 * Load spectra and matrices
     * WIP
 

@@ -4,7 +4,7 @@ import numpy as np
 from ffpack import utils
 from collections import defaultdict, deque
 
-def rychlikRainflowCycleCounting( data, aggregate=True ):
+def rychlikRainflowCounting( data, aggregate=True ):
     '''
     Implement the rainflow counting method based on Definition 1 (topLevel-up cycle TUC)
     in "A new definition of the rainflow cycle counting method" by Rychilk on IJF
@@ -44,7 +44,12 @@ def rychlikRainflowCycleCounting( data, aggregate=True ):
         return right 
 
 
-    peakVallays = utils.getSequencePeakAndValleys( data, keepEnds=True )
+    # if do not want to use this util function, simply delete this line
+    # but need to add edge cases: one point, two points
+    # one qestion needs to consider: 
+    # what if two peaks with the same value? counted as a peak or not?
+    # currently either with or without util function, it is not considered as a peak 
+    data = utils.getSequencePeakAndValleys( data, keepEnds=True )
     rstSeq = [ ]
     for i in range( 1, len( data ) - 1 ):
         if ( data[ i ] > data[ i - 1 ] and data[ i ] > data[ i + 1 ] ):
