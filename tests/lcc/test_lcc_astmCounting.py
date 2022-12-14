@@ -39,6 +39,7 @@ def test_astmLevelCrossingCounting_normalUseCase_pass():
                     [ 1.0, 5.0 ], [ 2.0, 3.0 ], [ 3.0, 2.0 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
     
+
 def test_astmLevelCrossingCounting_normalTrivialCase_pass():
     # Trivial case 1
     data = [ 0.0, 2.0 ]
@@ -81,6 +82,7 @@ def test_astmLevelCrossingCounting_normalTrivialCase_pass():
     calRst = lcc.astmLevelCrossingCounting( data )
     expectedRst = [ [ ] ]
     np.testing.assert_allclose( calRst, expectedRst )
+
 
 def test_astmLevelCrossingCounting_withRefLevelCase_pass():
     # Standard level corssing counting data from E1049-85(2017) Fig.2(a)
@@ -129,6 +131,7 @@ def test_astmLevelCrossingCounting_withRefLevelCase_pass():
     expectedRst = [ [ ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
+
 def test_astmLevelCrossingCounting_withLevelsCase_pass():
     # Standard level corssing counting data from E1049-85(2017) Fig.2(a)
     # Set the levels
@@ -168,11 +171,13 @@ def test_astmLevelCrossingCounting_withLevelsCase_pass():
     expectedRst = [ [ -1.0, 1.0 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
+
 def test_astmLevelCrossingCounting_emptyInputCase_valueError():
     # Test edge cases for empty list
     data = [ ]
     with pytest.raises( ValueError ):
         _ = lcc.astmLevelCrossingCounting( data )
+
 
 def test_astmLevelCrossingCounting_singleInputCase_valueError():
     # Test edge cases for 1 element list
@@ -180,11 +185,14 @@ def test_astmLevelCrossingCounting_singleInputCase_valueError():
     with pytest.raises( ValueError ):
         _ = lcc.astmLevelCrossingCounting( data )
 
+
 def test_astmLevelCrossingCounting_twoDimInputCase_valueError():
     # Test edge cases for 2D list
     data = [ [ 1.0 ], [ 2.0 ] ]
     with pytest.raises( ValueError ):
         _ = lcc.astmLevelCrossingCounting( data )
+
+
 
 ###############################################################################
 # Test astmPeakCounting function
@@ -206,6 +214,7 @@ def test_astmPeakCounting_normalUseCase_pass():
     expectedRst = [ [ -3.5, 1.0 ], [ -2.7, 1.0 ], [ -2.5, 1.0 ], [ -1.5, 1.0 ], 
                     [ 1.5, 2.0 ], [ 2.5, 1.0 ], [ 3.5, 2.0 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
+
 
 def test_astmPeakCounting_normalTrivialCase_pass():
     # Trivial case 1
@@ -237,6 +246,7 @@ def test_astmPeakCounting_normalTrivialCase_pass():
     calRst = lcc.astmPeakCounting( data )
     expectedRst = [ [ -1.5, 1.0 ], [ 1.0, 1.0 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
+
 
 def test_astmPeakCounting_withRefLevelCase_pass():
     # Standard peak counting data from E1049-85(2017) Fig.3(a)
@@ -313,6 +323,8 @@ def test_astmPeakCounting_twoDimInputCase_valueError():
     with pytest.raises( ValueError ):
         _ = lcc.astmPeakCounting( data )
 
+
+
 ###############################################################################
 # Test astmSimpleRangeCounting function
 ###############################################################################
@@ -331,6 +343,7 @@ def test_astmSimpleRangeCounting_normalUseCase_pass():
     expectedRst = [ [ 3.0, 0.5 ], [ 4.0, 1.0 ], [ 6.0, 1.0 ], 
                     [ 7.0, 0.5 ], [ 8.0, 1.0 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
+
 
 def test_astmSimpleRangeCounting_normalTrivialCase_pass():
     # Trivial case 1
@@ -399,11 +412,13 @@ def test_astmSimpleRangeCounting_normalTrivialCase_pass():
     expectedRst = [ [ 1.0, 0.5 ], [ 2.0, 0.5 ], [ 4.0, 0.5 ], [ 6.0, 0.5 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
+
 def test_astmSimpleRangeCounting_emptyInputCase_valueError():
     # Test edge cases for empty list
     data = [ ]
     with pytest.raises( ValueError ):
         _ = lcc.astmSimpleRangeCounting( data )
+
 
 def test_astmSimpleRangeCounting_singleInputCase_valueError():
     # Test edge cases for 1 element list
@@ -411,11 +426,14 @@ def test_astmSimpleRangeCounting_singleInputCase_valueError():
     with pytest.raises( ValueError ):
         _ = lcc.astmSimpleRangeCounting( data )
 
+
 def test_astmSimpleRangeCounting_twoDimInputCase_valueError():
     # Test edge cases for 2D list
     data = [ [ 1.0 ], [ 2.0 ] ]
     with pytest.raises( ValueError ):
         _ = lcc.astmSimpleRangeCounting( data )
+
+
 
 ###############################################################################
 # Test astmRainflowCounting function
@@ -433,6 +451,7 @@ def test_astmRainflowCounting_normalUseCase_pass():
     calRst = lcc.astmRainflowCounting( data )
     expectedRst = [ [ 3.0, 0.5 ], [ 4.0, 1.5 ], [ 6.0, 0.5 ], [ 8.0, 1.0 ], [ 9.0, 0.5 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
+
 
 def test_astmRainflowCounting_normalTrivialCase_pass():
     # Trivial case 1
@@ -501,17 +520,20 @@ def test_astmRainflowCounting_normalTrivialCase_pass():
     expectedRst = [ [ 1.0, 0.5 ], [ 2.0, 0.5 ], [ 4.0, 0.5 ], [ 6.0, 0.5 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
+
 def test_astmRainflowCounting_emptyInputCase_valueError():
     # Test edge cases for empty list
     data = [ ]
     with pytest.raises( ValueError ):
         _ = lcc.astmRainflowCounting( data )
 
+
 def test_astmRainflowCounting_singleInputCase_valueError():
     # Test edge cases for 1 element list
     data = [ 1.0 ]
     with pytest.raises( ValueError ):
         _ = lcc.astmRainflowCounting( data )
+
 
 def test_astmRainflowCounting_twoDimInputCase_valueError():
     # Test edge cases for 2D list

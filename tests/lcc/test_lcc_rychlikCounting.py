@@ -17,6 +17,7 @@ def test_rychlikRainflowCounting_twoPoints_empty():
     expectedRst = [ [ ] ] 
     np.testing.assert_allclose( calRst, expectedRst )
 
+
 def test_rychlikRainflowCounting_threePointsIncreasing_empty():
     data = [ 0.0, 2.0, 3.0 ]
     calRst = lcc.rychlikRainflowCounting( data, False )
@@ -27,6 +28,7 @@ def test_rychlikRainflowCounting_threePointsIncreasing_empty():
     expectedRst = [ [ ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
+
 def test_rychlikRainflowCounting_threePointsDecreasing_empty():
     data = [ 3.0, 2.0, 0.0 ]
     calRst = lcc.rychlikRainflowCounting( data, False )
@@ -36,6 +38,7 @@ def test_rychlikRainflowCounting_threePointsDecreasing_empty():
     calRst = lcc.rychlikRainflowCounting( data, True )
     expectedRst = [ [ ] ] 
     np.testing.assert_allclose( calRst, expectedRst )
+
 
 def test_rychlikRainflowCounting_threePointsDownward_empty():
     # case 1: left is lower
@@ -58,6 +61,7 @@ def test_rychlikRainflowCounting_threePointsDownward_empty():
     expectedRst = [ [ ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
+
 def test_rychlikRainflowCounting_threePointsUpward_smallerDistance():
     # case 1: right is higher
     data = [ 0.0, 2.0, 1.0 ]
@@ -78,6 +82,7 @@ def test_rychlikRainflowCounting_threePointsUpward_smallerDistance():
     calRst = lcc.rychlikRainflowCounting( data, True )
     expectedRst = [ [ 1.0, 1 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
+
 
 def test_rychlikRainflowCounting_fourPointsNoCrossing_smallerDistance():
     # case 1: higher valley in the right
@@ -100,6 +105,7 @@ def test_rychlikRainflowCounting_fourPointsNoCrossing_smallerDistance():
     expectedRst = [ [ 2.0, 1 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
+
 def test_rychlikRainflowCounting_fivePoints_aggrated():
     data = [ 0.0, 3.0, 1.0, 4.0, 2.0 ]
     calRst = lcc.rychlikRainflowCounting( data, False )
@@ -109,6 +115,7 @@ def test_rychlikRainflowCounting_fivePoints_aggrated():
     calRst = lcc.rychlikRainflowCounting( data, True )
     expectedRst = [ [ 2.0, 2.0 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
+
 
 def test_rychlikRainflowCounting_withRedundencePoints_aggrated():
     data = [ 0.0, 1.0, 3.0, 2.0, 1.0, 2.0, 3.0, 4.0, 3.0, 2.0 ]
@@ -120,15 +127,17 @@ def test_rychlikRainflowCounting_withRedundencePoints_aggrated():
     expectedRst = [ [ 2.0, 2.0 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
-def test_rychlikRainflowCounting_withSamePeakPoints_empty():
-    data = [ 0.0, 3.0, 3.0, 2.0, 1.0, 2.0, 3.0, 4.0, 4.0, 2.0 ]
+
+def test_rychlikRainflowCounting_withSamePeakPoints_oneKept():
+    data = [ 0.0, 3.0, 3.0, 2.0, 1.0, 2.0, 3.0, 4.0, 4.0, 4.0, 2.0 ]
     calRst = lcc.rychlikRainflowCounting( data, False )
-    expectedRst = [ ]
+    expectedRst = [ 2.0, 2.0 ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     calRst = lcc.rychlikRainflowCounting( data, True )
-    expectedRst = [ [  ] ]
+    expectedRst = [ [ 2.0, 2.0 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
+
 
 def test_rychlikRainflowCounting_normalUseCase_pass():
     # Standard level corssing counting data from E1049-85(2017) Fig.2(a)

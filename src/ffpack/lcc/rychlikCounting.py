@@ -58,11 +58,8 @@ def rychlikRainflowCounting( data, aggregate=True ):
         return right 
 
 
-    # if do not want to use this util function, simply delete this line
-    # but need to add edge cases: one point, two points
-    # one qestion needs to consider: 
-    # what if two peaks with the same value? counted as a peak or not?
-    # currently either with or without util function, it is not considered as a peak 
+    # we need to use this util function since it keeps one peak 
+    # if there are two or more points together with the same peak value
     data = generalUtils.getSequencePeakAndValleys( data, keepEnds=True )
     rstSeq = [ ]
     for i in range( 1, len( data ) - 1 ):
