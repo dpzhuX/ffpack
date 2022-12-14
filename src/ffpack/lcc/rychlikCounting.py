@@ -1,22 +1,36 @@
 #!/usr/bin/env python3
 
 import numpy as np
-from ffpack import utils
-from collections import defaultdict, deque
+from ffpack.utils import generalUtils 
+from collections import defaultdict 
 
 def rychlikRainflowCounting( data, aggregate=True ):
     '''
-    Implement the rainflow counting method based on Definition 1 (topLevel-up cycle TUC)
-    in "A new definition of the rainflow cycle counting method" by Rychilk on IJF
-    Args:
-        data: array_like
-            1D input sequence data for counting
-        aggragate: bool, optional
-            if aggregate the range H(t) sequence nor not
+    Rychilk rainflow counting (topLevel-up cycle TUC) in 
+    "A new definition of the rainflow cycle counting method" by Rychilk on IJF.
 
-    Returns:
-        rst: 1D range H(t) sequence if aggregate is false
-             2D sorted output data if aggregate is true
+    Parameters
+    ----------
+    data: 1d array 
+        Load sequence data for counting.
+    aggragate: bool, optional
+        if aggregate set to False, the original range H(t) sequence will be returned.
+    
+    Returns
+    -------
+    rst: 2d array
+        Sorted counting restults.
+    
+    Notes
+    -----
+    If aggregate is False, the original 1d counting resutls will be returned.
+
+    Examples
+    --------
+    >>> from ffpack.lcc import rychlikRainflowCycleCounting
+    >>> data = [ -0.8, 1.3, 0.7, 3.4, 0.7, 2.5, -1.4, -0.5, -2.3, 
+    >>>          -2.2, -2.6, -2.4, -3.3, 1.5, 0.6, 3.4, -0.5 ]
+    >>> rst = rychlikRainflowCycleCounting( data )
     '''
 
     def getMinLeft( data, i ):
@@ -49,7 +63,7 @@ def rychlikRainflowCounting( data, aggregate=True ):
     # one qestion needs to consider: 
     # what if two peaks with the same value? counted as a peak or not?
     # currently either with or without util function, it is not considered as a peak 
-    data = utils.getSequencePeakAndValleys( data, keepEnds=True )
+    data = generalUtils.getSequencePeakAndValleys( data, keepEnds=True )
     rstSeq = [ ]
     for i in range( 1, len( data ) - 1 ):
         if ( data[ i ] > data[ i - 1 ] and data[ i ] > data[ i + 1 ] ):
