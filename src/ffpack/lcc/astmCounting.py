@@ -6,22 +6,33 @@ ASTM E1049-85(2017) Standard Practices for Cycle Counting in Fatigue Analysis
 '''
 
 import numpy as np
-from ffpack import utils
+from ffpack.utils import generalUtils
 from collections import defaultdict, deque
 
 def astmLevelCrossingCounting( data, refLevel=0.0, levels=None ):
     '''
-    Implement the level crossing counting method based on E1049-85: sec 5.1.1
-    By default, this method does the level crossing couting for each integers
-    at the reference level of 0.0.
+    ASTM level crossing counting in E1049-85: sec 5.1.1.
 
-    Args:
-        data: 1D sequence data for counting
-        refLevel: scalar value indicating the reference level
-        levels: 1D sequence of self-defined levels
+    Parameters
+    ----------
+    data: 1darray
+        Load sequence data for counting.
+    
+    refLevel: scalar, optional
+        Reference level.
+    
+    levels: 1darray
+        Self-defined levels for counting.
 
-    Returns:
-        rst: 2D sorted output data
+    Returns
+    -------
+    rst: 2darray
+        Sorted counting restults.
+    
+    Raises
+    ------
+    ValueError
+        If the data length is less than 2 or the data dimension is not 1.
     '''
     # Edge case check
     data = np.array( data )
@@ -60,14 +71,25 @@ def astmLevelCrossingCounting( data, refLevel=0.0, levels=None ):
 
 def astmPeakCounting( data, refLevel=None ):
     '''
-    Implement the peak counting method based on E1049-85: sec 5.2.1
-    By default, this method does the peak crossing couting for y == 0
-    Args:
-        data: 1D input sequence data for counting
-        refLevel: Scalar data
+    ASTM peak counting in E1049-85: sec 5.2.1.
 
-    Returns:
-        rst: 2D sorted output data
+    Parameters
+    ----------
+    data: 1darray
+        Load sequence data for counting.
+    
+    refLevel: scalar, optional
+        Reference level.
+    
+    Returns
+    -------
+    rst: 2darray
+        Sorted counting restults.
+    
+    Raises
+    ------
+    ValueError
+        If the data length is less than 2 or the data dimension is not 1.
     '''
     # Edge case check
     data = np.array( data )
@@ -98,12 +120,22 @@ def astmPeakCounting( data, refLevel=None ):
 
 def astmSimpleRangeCounting( data ):
     '''
-    Implement the simple range counting method based on E1049-85: sec 5.3.1
-    Args:
-        data: 1D input sequence data for counting
+    ASTM simple range counting in E1049-85: sec 5.3.1.
 
-    Returns:
-        rst: 2D sorted output data
+    Parameters
+    ----------
+    data: 1darray
+        Load sequence data for counting.
+    
+    Returns
+    -------
+    rst: 2darray
+        Sorted counting restults.
+    
+    Raises
+    ------
+    ValueError
+        If the data length is less than 2 or the data dimension is not 1.
     '''
     data = np.array( data )
     if len( data.shape ) != 1:
@@ -112,7 +144,7 @@ def astmSimpleRangeCounting( data ):
         raise ValueError( "Input data length should be at least 2")
 
     # Remove the intermediate value first
-    data = np.array( utils.getSequencePeakAndValleys( data, keepEnds=True ) )
+    data = np.array( generalUtils.getSequencePeakAndValleys( data, keepEnds=True ) )
 
     rstDict = defaultdict( int )
     for i, cur in enumerate( data ):
@@ -129,12 +161,22 @@ def astmSimpleRangeCounting( data ):
 
 def astmRainflowCounting( data ):
     '''
-    Implement the rainflow counting method based on E1049-85: sec 5.4.4
-    Args:
-        data: 1D input sequence data for counting
+    ASTM rainflow counting in E1049-85: sec 5.4.4.
 
-    Returns:
-        rst: 2D sorted output data
+    Parameters
+    ----------
+    data: 1darray
+        Load sequence data for counting.
+    
+    Returns
+    -------
+    rst: 2darray
+        Sorted counting restults.
+    
+    Raises
+    ------
+    ValueError
+        If the data length is less than 2 or the data dimension is not 1.
     '''
     # Edge case check
     data = np.array( data )
@@ -144,7 +186,7 @@ def astmRainflowCounting( data ):
         raise ValueError( "Input data length should be at least 2")
 
     # Remove the intermediate value first
-    data = np.array( utils.getSequencePeakAndValleys( data, keepEnds=True ) )
+    data = np.array( generalUtils.getSequencePeakAndValleys( data, keepEnds=True ) )
 
     dequeA = deque()
     dequeB = deque( [ i for i in data ] )

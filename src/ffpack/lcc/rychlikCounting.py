@@ -1,22 +1,29 @@
 #!/usr/bin/env python3
 
 import numpy as np
-from ffpack import utils
-from collections import defaultdict, deque
+from ffpack.utils import generalUtils 
+from collections import defaultdict 
 
 def rychlikRainflowCycleCounting( data, aggregate=True ):
     '''
-    Implement the rainflow counting method based on Definition 1 (topLevel-up cycle TUC)
-    in "A new definition of the rainflow cycle counting method" by Rychilk on IJF
-    Args:
-        data: array_like
-            1D input sequence data for counting
-        aggragate: bool, optional
-            if aggregate the range H(t) sequence nor not
+    Rychilk rainflow counting (topLevel-up cycle TUC) in 
+    "A new definition of the rainflow cycle counting method" by Rychilk on IJF.
 
-    Returns:
-        rst: 1D range H(t) sequence if aggregate is false
-             2D sorted output data if aggregate is true
+    Parameters
+    ----------
+    data: 1darray 
+        Load sequence data for counting.
+    aggragate: bool, optional
+        if aggregate set to False, the original range H(t) sequence will be returned.
+    
+    Returns
+    -------
+    rst: 2darray
+        Sorted counting restults.
+    
+    Notes
+    -----
+    If aggregate is False, the original 1d counting resutls will be returned.
     '''
 
     def getMinLeft( data, i ):
@@ -44,7 +51,7 @@ def rychlikRainflowCycleCounting( data, aggregate=True ):
         return right 
 
 
-    peakVallays = utils.getSequencePeakAndValleys( data, keepEnds=True )
+    peakVallays = generalUtils.getSequencePeakAndValleys( data, keepEnds=True )
     rstSeq = [ ]
     for i in range( 1, len( data ) - 1 ):
         if ( data[ i ] > data[ i - 1 ] and data[ i ] > data[ i + 1 ] ):

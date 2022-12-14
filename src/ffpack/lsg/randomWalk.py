@@ -2,17 +2,33 @@
 
 import numpy as np
 
-def randomWalk( steps, dim=1 ):
+def randomWalkUniform( steps, dim=1 ):
     '''
-    Implement the random walk function.
+    Random walk function.
 
-    Args:
-        steps: scalar value denoting the number of steps
-        dim: scalar value denoting the data dimension
+    Parameters
+    ----------
+    steps: scalar
+        Number of steps for generating.
+    dim: scalar, optional
+        Data dimension.
+    
+    Returns
+    -------
+    rst: 2darray
+        A 2d steps by dim matrix holding the coordinates 
+        of the position at each step.
+    
+    Raises
+    ------
+    ValueError
+        If the steps is less than 1 or the dim is less than 1.
 
-    Returns:
-        rst: 2D steps by dim matrix holding the coordinates 
-             of the position at each step.
+    Examples
+    --------
+    >>> from ffpack.lsg import randomWalkUniform
+    >>> rst = randomWalkUniform( 5, dim=2 )
+
     '''
     # Edge case check
     if not isinstance( steps, int ) or not isinstance( dim, int ):
