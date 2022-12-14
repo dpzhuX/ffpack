@@ -35,6 +35,14 @@ General utils
    :undoc-members:
    :members:
 
+``fdr`` utils
+^^^^^^^^^^^^^
+
+.. automodule:: ffpack.utils.fdrUtils
+   :undoc-members:
+   :members:
+   :private-members:
+
 ``lcc`` utils
 ^^^^^^^^^^^^^
 
