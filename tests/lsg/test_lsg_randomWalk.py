@@ -5,48 +5,48 @@ import numpy as np
 import pytest
 
 ###############################################################################
-# Test randomWalk
+# Test randomWalkUniform
 ###############################################################################
-def test_randomWalk_normalUseCase_diffByOne():
-    calRst = lsg.randomWalk( 100, dim=1 )
+def test_randomWalkUniform_normalUseCase_diffByOne():
+    calRst = lsg.randomWalkUniform( 100, dim=1 )
     sumRowRst = np.sum( np.array( calRst ), axis=1 ).astype( int )
     for i in range( 1, len( sumRowRst ) ):
         assert abs( sumRowRst[ i ] - sumRowRst[ i - 1 ] ) == 1
 
-    calRst = lsg.randomWalk( 100, dim=2 )
+    calRst = lsg.randomWalkUniform( 100, dim=2 )
     sumRowRst = np.sum( np.array( calRst ), axis=1 ).astype( int )
     for i in range( 1, len( sumRowRst ) ):
         assert abs( sumRowRst[ i ] - sumRowRst[ i - 1 ] ) == 1
 
-    calRst = lsg.randomWalk( 100, dim=3 )
+    calRst = lsg.randomWalkUniform( 100, dim=3 )
     sumRowRst = np.sum( np.array( calRst ), axis=1 ).astype( int )
     for i in range( 1, len( sumRowRst ) ):
         assert abs( sumRowRst[ i ] - sumRowRst[ i - 1 ] ) == 1
 
-    calRst = lsg.randomWalk( 100, dim=4 )
+    calRst = lsg.randomWalkUniform( 100, dim=4 )
     sumRowRst = np.sum( np.array( calRst ), axis=1 ).astype( int )
     for i in range( 1, len( sumRowRst ) ):
         assert abs( sumRowRst[ i ] - sumRowRst[ i - 1 ] ) == 1
 
-    calRst = lsg.randomWalk( 50, dim=8 )
+    calRst = lsg.randomWalkUniform( 50, dim=8 )
     sumRowRst = np.sum( np.array( calRst ), axis=1 ).astype( int )
     for i in range( 1, len( sumRowRst ) ):
         assert abs( sumRowRst[ i ] - sumRowRst[ i - 1 ] ) == 1
 
-def test_randomWalk_stepsLessThanOneCase_valueError():
+def test_randomWalkUniform_stepsLessThanOneCase_valueError():
     with pytest.raises( ValueError ):
-        _ = lsg.randomWalk( 0 )
+        _ = lsg.randomWalkUniform( 0 )
 
     with pytest.raises( ValueError ):
-        _ = lsg.randomWalk( -2 )
+        _ = lsg.randomWalkUniform( -2 )
 
-def test_randomWalk_dimLessThanOneCase_valueError():
+def test_randomWalkUniform_dimLessThanOneCase_valueError():
     steps = 1
     dim = 0
     with pytest.raises( ValueError ):
-        _ = lsg.randomWalk( 1, dim=0 )
+        _ = lsg.randomWalkUniform( 1, dim=0 )
 
     steps = 1
     dim = -2
     with pytest.raises( ValueError ):
-        _ = lsg.randomWalk( 1, dim=-2 )
+        _ = lsg.randomWalkUniform( 1, dim=-2 )
