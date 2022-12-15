@@ -1,51 +1,30 @@
 Module API
 ==========
 
-Load sequence generator ``lsg`` 
---------------------------------------
+fdr module
+----------
+.. toctree::
+   :maxdepth: 2
 
-.. automodule:: ffpack.lsg.randomWalk
-   :undoc-members:
-   :members:
+   module/fdr
 
-Load cycle counting ``lcc`` 
-----------------------------------
+lcc module
+----------
+.. toctree::
+   :maxdepth: 2
 
-ASTM Counting
-^^^^^^^^^^^^^
+   module/lcc
 
-.. automodule:: ffpack.lcc.astmCounting
-   :undoc-members:
-   :members:
+lsg module
+----------
+.. toctree::
+   :maxdepth: 2
 
-Rychlik Counting
-^^^^^^^^^^^^^^^^
+   module/lsg
 
-.. automodule:: ffpack.lcc.rychlikCounting
-   :undoc-members:
-   :members:
+utils module
+------------
+.. toctree::
+   :maxdepth: 2
 
-Utility ``utils``
-------------------------
-
-General utils
-^^^^^^^^^^^^^
-
-.. automodule:: ffpack.utils.generalUtils
-   :undoc-members:
-   :members:
-
-``fdr`` utils
-^^^^^^^^^^^^^
-
-.. automodule:: ffpack.utils.fdrUtils
-   :undoc-members:
-   :members:
-   :private-members:
-
-``lcc`` utils
-^^^^^^^^^^^^^
-
-.. automodule:: ffpack.utils.lccUtils
-   :undoc-members:
-   :members:
+   module/utils

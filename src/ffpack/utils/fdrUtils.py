@@ -74,9 +74,6 @@ class SnCurveFitter:
         Examples
         --------
         >>> rst = snCurveFitter.getN( 2 )
-        100
-        >>> rst = snCurveFitter.getN( 0.2 )
-        -1
         '''
         if S <= 0:
             raise ValueError( "S should be larger than 0" )
