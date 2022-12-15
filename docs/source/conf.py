@@ -22,6 +22,7 @@ extensions = [
     'sphinx.ext.coverage',
     'sphinx.ext.napoleon',
     'sphinx.ext.intersphinx',
+    'myst_parser',
     'nbsphinx',
 ]
 
