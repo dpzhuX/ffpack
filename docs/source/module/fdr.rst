@@ -1,6 +1,3 @@
-Fatigue damage rule ``fdr`` 
-===========================
-
 Palmgren-miner damage rule
 --------------------------
 

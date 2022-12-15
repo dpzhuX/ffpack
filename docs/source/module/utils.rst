@@ -1,6 +1,3 @@
-Utility ``utils``
-=================
-
 General utils
 -------------
 

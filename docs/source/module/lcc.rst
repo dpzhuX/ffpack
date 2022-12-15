@@ -1,6 +1,3 @@
-Load cycle counting ``lcc`` 
-===========================
-
 ASTM Counting
 -------------
 
