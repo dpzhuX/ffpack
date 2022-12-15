@@ -1,13 +1,23 @@
 #!/usr/bin/env python3
 
+'''
+Rychlik proposed a topLevel up cycle conting method and proved that the propsed 
+method is equivalent to the classical rainflow rounting method. Compared to the
+classical rainflow counting method, the proposed method keep the original 
+sequence information which is quite useful if the sequence information is
+required for further analysis.
+
+Reference: Rychlik, I., 1987. A new definition of the rainflow cycle counting method. 
+International journal of fatigue, 9(2), pp.119-121.
+'''
+
 import numpy as np
 from ffpack.utils import generalUtils 
 from collections import defaultdict 
 
 def rychlikRainflowCounting( data, aggregate=True ):
     '''
-    Rychilk rainflow counting (topLevel-up cycle TUC) in 
-    "A new definition of the rainflow cycle counting method" by Rychilk on IJF.
+    Rychilk rainflow counting (topLevel-up cycle TUC)
 
     Parameters
     ----------
@@ -23,7 +33,7 @@ def rychlikRainflowCounting( data, aggregate=True ):
     
     Notes
     -----
-    If aggregate is False, the original 1d counting resutls will be returned.
+    If aggregate is False, the original 1d counting results will be returned.
 
     Examples
     --------
