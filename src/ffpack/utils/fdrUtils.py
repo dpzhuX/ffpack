@@ -62,7 +62,7 @@ class SnCurveFitter:
         
         Returns
         -------
-        rst: integer
+        rst: scalar
             Fatigue life under the query S. 
             If S is less than or equal fatigueLimit, -1 will be returned. 
 
@@ -81,4 +81,4 @@ class SnCurveFitter:
         if S <= self.fatigueLimit:
             return -1
         else:
-            return np.power( 10, self.fitter( S ) ).astype( int )
+            return np.power( 10, self.fitter( S ) )

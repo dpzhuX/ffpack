@@ -50,6 +50,8 @@ def minerDamageRuleNaive( fatigueData ):
     if fatigueData.shape[0] < 1:
         raise ValueError( "Input data length should be at least 1" )
     for p in fatigueData:
+        if len( p ) != 2:
+            raise ValueError( "Each pair length in fatigueData should be 2" )
         if p[ 0 ] < 0:
             raise ValueError( "Counting cycles should be larger than or equal 0" )
         if p[ 1 ] <= 0:
@@ -102,11 +104,19 @@ def minerDamageRuleClassic( lccData, snData, fatigueLimit ):
         raise ValueError( "Input lccData dimension should be 2" )
     if lccData.shape[0] < 1:
         raise ValueError( "Input lccData length should be at least 1" )
+    for p in lccData:
+        if len( p ) != 2:
+            raise ValueError( "Each pair length in lccData should be 2" )
+        if p[ 0 ] <= 0:
+            raise ValueError( "Range should be larger than 0" )
+        if p[ 1 ] <= 0:
+            raise ValueError( "Counts should be larger than 0" )
     
     snCurveFitter = utils.SnCurveFitter( snData, fatigueLimit=fatigueLimit )
 
     rst = 0
     for p in lccData:
-        rst += p[ 1 ]/snCurveFitter.getN( p[ 0 ] )
+        if snCurveFitter.getN( p[ 0 ] ) != -1: 
+            rst += p[ 1 ]/snCurveFitter.getN( p[ 0 ] )
 
     return rst 
