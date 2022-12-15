@@ -118,6 +118,12 @@ def test_minerDamageRuleClassic_emptyInput_valueError():
     with pytest.raises( ValueError ):
         _ = fdr.minerDamageRuleClassic( lccData, snData, fatigueLimit )
 
+    lccData = [ ] 
+    snData = [ [ 10, 5 ], [ 100, 4 ], [ 100000, 1 ] ]
+    fatigueLimit = 0.5
+    with pytest.raises( ValueError ):
+        _ = fdr.minerDamageRuleClassic( lccData, snData, fatigueLimit )
+
 def test_minerDamageRuleClassic_oneDimInput_valueError():
     lccData = [ 1.0, 2.0, 3.0 ] 
     snData = [ [ 10, 5 ], [ 100, 4 ], [ 100000, 1 ] ]

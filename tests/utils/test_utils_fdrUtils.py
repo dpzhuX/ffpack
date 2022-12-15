@@ -61,6 +61,10 @@ def test_snCurverFitter_emptyData_valueError():
     with pytest.raises( ValueError ):
         _ = utils.SnCurveFitter( data, fatigueLimit=0.2 )
 
+    data = [ ]
+    with pytest.raises( ValueError ):
+        _ = utils.SnCurveFitter( data, fatigueLimit=0.2 )
+
 def test_snCurverFitter_fatigueLimitLessZero_valueError():
     data = [ [ 10, 4 ], [ 10000, 1 ] ]
     with pytest.raises( ValueError ):
