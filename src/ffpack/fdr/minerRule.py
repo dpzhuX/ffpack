@@ -96,7 +96,7 @@ def minerDamageRuleClassic( lccData, snData, fatigueLimit ):
     >>> lccData = [ [ 1, 100 ], [ 2, 10 ] ]
     >>> snData = [ [ 10, 3 ], [ 1000, 1 ] ]
     >>> fatigueLimit = 0.5
-    >>> rst = minerDamageRuleClassic( data, fatigueLimit )
+    >>> rst = minerDamageRuleClassic( lccData, snData, fatigueLimit )
     '''
     # Edge case check
     lccData = np.array( lccData )
