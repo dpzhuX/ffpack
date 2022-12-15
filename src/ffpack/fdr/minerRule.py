@@ -47,7 +47,7 @@ def minerDamageRuleNaive( fatigueData ):
     fatigueData = np.array( fatigueData )
     if len( fatigueData.shape ) != 2:
         raise ValueError( "Input fatigueData dimension should be 2" )
-    if fatigueData.shape[0] < 1:
+    if fatigueData.shape[ 0 ] < 1:
         raise ValueError( "Input data length should be at least 1" )
     for p in fatigueData:
         if len( p ) != 2:
@@ -102,7 +102,7 @@ def minerDamageRuleClassic( lccData, snData, fatigueLimit ):
     lccData = np.array( lccData )
     if len( lccData.shape ) != 2:
         raise ValueError( "Input lccData dimension should be 2" )
-    if lccData.shape[0] < 1:
+    if lccData.shape[ 0 ] < 1:
         raise ValueError( "Input lccData length should be at least 1" )
     for p in lccData:
         if len( p ) != 2:

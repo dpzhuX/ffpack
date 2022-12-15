@@ -35,7 +35,7 @@ class SnCurveFitter:
         data = np.array( data )
         if len( data.shape ) != 2:
             raise ValueError( "Input data dimension should be 2" )
-        if data.shape[0] < 2:
+        if data.shape[ 0 ] < 2:
             raise ValueError( "Input data length should be at least 2" )
         if fatigueLimit <= 0:
             raise ValueError( "fatigueLimit should be larger than 0" )
