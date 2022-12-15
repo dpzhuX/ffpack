@@ -74,7 +74,7 @@ def test_astmLevelCrossingCounting_normalTrivialCase_pass():
     # Trivial case 6
     data = [ 0.0, -2.5 ]
     calRst = lcc.astmLevelCrossingCounting( data )
-    expectedRst = [ [ -2.0, 1.0 ] , [ -1.0, 1.0 ]]
+    expectedRst = [ [ -2.0, 1.0 ], [ -1.0, 1.0 ]]
     np.testing.assert_allclose( calRst, expectedRst )
     
     # Trivial case 7
@@ -305,11 +305,13 @@ def test_astmPeakCounting_withRefLevelCase_pass():
     expectedRst = [ [ -1.5, 1.0 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
+
 def test_astmPeakCounting_emptyInputCase_valueError():
     # Test edge cases for empty list
     data = [ ]
     with pytest.raises( ValueError ):
         _ = lcc.astmPeakCounting( data )
+
 
 def test_astmPeakCounting_singleInputCase_valueError():
     # Test edge cases for 1 element list

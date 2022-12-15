@@ -47,11 +47,11 @@ def astmLevelCrossingCounting( data, refLevel=0.0, levels=None ):
         raise ValueError( "Input data dimension should be 1" )
     if data.shape[0] <= 1:
         raise ValueError( "Input data length should be at least 2")
-    if levels is None or len( levels )==0 :
+    if levels is None or len( levels ) == 0:
         minElement = np.floor( np.min( data ) )
         maxElement = np.ceil( np.max( data ) )
         numElement = maxElement - minElement + 1
-        levels =  np.linspace( minElement, maxElement, numElement.astype(int) )
+        levels = np.linspace( minElement, maxElement, numElement.astype(int) )
     else:
         levels = np.array( sorted( set( levels ) ) )
 
@@ -112,7 +112,7 @@ def astmPeakCounting( data, refLevel=None ):
     if data.shape[0] <= 1:
         raise ValueError( "Input data length should be at least 2")
     if refLevel is None:
-        refLevel =  0.0
+        refLevel = 0.0
     
     rstDict = defaultdict( int )
     for i, cur in enumerate( data ):
@@ -263,4 +263,3 @@ def astmRainflowCounting( data ):
     rst = np.array( [ [ key, val ] for key, val in rstDict.items() ] )
     rst = rst[ rst[ :, 0 ].argsort() ]
     return rst.tolist()
-

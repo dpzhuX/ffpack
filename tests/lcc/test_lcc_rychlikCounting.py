@@ -151,7 +151,7 @@ def test_rychlikRainflowCounting_normalUseCase_pass():
 
     calRst = lcc.rychlikRainflowCounting( data, True )
     expectedRst = [ [ 0.1, 1.0 ], [ 0.2, 1.0 ], [ 0.6, 1.0 ], 
-             [ 0.9, 2.0 ], [ 1.8, 1.0 ], [ 3.9, 1.0 ], [ 4.2, 1.0 ] ] 
+                    [ 0.9, 2.0 ], [ 1.8, 1.0 ], [ 3.9, 1.0 ], [ 4.2, 1.0 ] ] 
     np.testing.assert_allclose( calRst, expectedRst )
 
     # Adding extra data into the standard data without change the slope
@@ -167,7 +167,7 @@ def test_rychlikRainflowCounting_normalUseCase_pass():
 
     calRst = lcc.rychlikRainflowCounting( data, True )
     expectedRst = [ [ 0.1, 1.0 ], [ 0.2, 1.0 ], [ 0.6, 1.0 ], 
-             [ 0.9, 2.0 ], [ 1.8, 1.0 ], [ 3.9, 1.0 ], [ 4.2, 1.0 ] ] 
+                    [ 0.9, 2.0 ], [ 1.8, 1.0 ], [ 3.9, 1.0 ], [ 4.2, 1.0 ] ] 
     np.testing.assert_allclose( calRst, expectedRst )
 
     # Slightly bias the data without change the slope
@@ -183,5 +183,5 @@ def test_rychlikRainflowCounting_normalUseCase_pass():
 
     calRst = lcc.rychlikRainflowCounting( data, True )
     expectedRst = [ [ 0.1, 1.0 ], [ 0.2, 1.0 ], [ 0.6, 1.0 ], [ 0.8, 1.0 ],
-             [ 0.9, 1.0 ], [ 1.8, 1.0 ], [ 3.9, 1.0 ], [ 4.2, 1.0 ] ] 
+                    [ 0.9, 1.0 ], [ 1.8, 1.0 ], [ 3.9, 1.0 ], [ 4.2, 1.0 ] ] 
     np.testing.assert_allclose( calRst, expectedRst )
