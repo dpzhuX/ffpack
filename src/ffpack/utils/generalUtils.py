@@ -54,8 +54,8 @@ def getSequencePeakAndValleys( data, keepEnds=False ):
             next = data[ i + 1 ]
             if ( prev < cur and cur > next ) or \
                ( prev > cur and cur < next ):
-               rst.append( cur )
-               prev = cur
+                rst.append( cur )
+                prev = cur
         
     return rst
 

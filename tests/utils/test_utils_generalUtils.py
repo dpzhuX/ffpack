@@ -47,7 +47,7 @@ def test_getSequencePeakAndValleys_twoPointsKeepEnds_pointskept():
     data = [ -0.5, 1.0 ]
     # Keep ends
     calRst = utils.getSequencePeakAndValleys( data, keepEnds=True )
-    expectedRst= [ -0.5, 1.0 ]
+    expectedRst = [ -0.5, 1.0 ]
     np.testing.assert_allclose( calRst, expectedRst )
 
 
@@ -56,12 +56,12 @@ def test_getSequencePeakAndValleys_threePointsSimple_pass():
 
     # case 1: do not keep ends
     calRst = utils.getSequencePeakAndValleys( data )
-    expectedRst= [ 1.0 ]
+    expectedRst = [ 1.0 ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     # case 2: keep ends
     calRst = utils.getSequencePeakAndValleys( data, keepEnds=True )
-    expectedRst= [ -0.5, 1.0, 0.0 ]
+    expectedRst = [ -0.5, 1.0, 0.0 ]
     np.testing.assert_allclose( calRst, expectedRst )
 
 
@@ -70,32 +70,32 @@ def test_getSequencePeakAndValleys_threePointsWithSameValue_depends():
     data = [ -0.5, 1.0, 1.0 ]
     
     calRst = utils.getSequencePeakAndValleys( data )
-    expectedRst= [  ]
+    expectedRst = [  ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     calRst = utils.getSequencePeakAndValleys( data, keepEnds=True )
-    expectedRst= [ -0.5, 1.0 ]
+    expectedRst = [ -0.5, 1.0 ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     # case 2: first two the same
     data = [ 1.0, 1.0, 2.0 ]
     
     calRst = utils.getSequencePeakAndValleys( data )
-    expectedRst= [  ]
+    expectedRst = [  ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     calRst = utils.getSequencePeakAndValleys( data, keepEnds=True )
-    expectedRst= [ 1.0, 2.0 ]
+    expectedRst = [ 1.0, 2.0 ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     # case 3: three values the same
     data = [ 1.0, 1.0, 1.0 ]
     calRst = utils.getSequencePeakAndValleys( data )
-    expectedRst= [  ]
+    expectedRst = [  ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     calRst = utils.getSequencePeakAndValleys( data, keepEnds=True )
-    expectedRst= [ 1.0, 1.0 ]
+    expectedRst = [ 1.0, 1.0 ]
     np.testing.assert_allclose( calRst, expectedRst )
 
 
@@ -104,33 +104,33 @@ def test_getSequencePeakAndValleys_fourPointsWithSameValue_depends():
     data = [ -0.5, 1.0, 1.0, 1.0 ]
     
     calRst = utils.getSequencePeakAndValleys( data )
-    expectedRst= [  ]
+    expectedRst = [  ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     calRst = utils.getSequencePeakAndValleys( data, keepEnds=True )
-    expectedRst= [ -0.5, 1.0 ]
+    expectedRst = [ -0.5, 1.0 ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     # case 2: first three the same
     data = [ 1.0, 1.0, 1.0, 2.0 ]
     
     calRst = utils.getSequencePeakAndValleys( data )
-    expectedRst= [  ]
+    expectedRst = [  ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     calRst = utils.getSequencePeakAndValleys( data, keepEnds=True )
-    expectedRst= [ 1.0, 2.0 ]
+    expectedRst = [ 1.0, 2.0 ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     # case 3: first two the same, last two the same
     data = [ 1.0, 1.0, 2.0, 2.0 ]
     
     calRst = utils.getSequencePeakAndValleys( data )
-    expectedRst= [  ]
+    expectedRst = [  ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     calRst = utils.getSequencePeakAndValleys( data, keepEnds=True )
-    expectedRst= [ 1.0, 2.0 ]
+    expectedRst = [ 1.0, 2.0 ]
     np.testing.assert_allclose( calRst, expectedRst )
 
 
@@ -139,22 +139,22 @@ def test_getSequencePeakAndValleys_fivePointsWithSameValue_depends():
     data = [ -0.5, 1.0, 1.0, 1.0, 0.0 ]
     
     calRst = utils.getSequencePeakAndValleys( data )
-    expectedRst= [ 1.0 ]
+    expectedRst = [ 1.0 ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     calRst = utils.getSequencePeakAndValleys( data, keepEnds=True )
-    expectedRst= [ -0.5, 1.0, 0.0 ]
+    expectedRst = [ -0.5, 1.0, 0.0 ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     # case 2: last three the same
     data = [ -0.5, 1.0, 2.0, 2.0, 2.0 ]
     
     calRst = utils.getSequencePeakAndValleys( data )
-    expectedRst= [  ]
+    expectedRst = [  ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     calRst = utils.getSequencePeakAndValleys( data, keepEnds=True )
-    expectedRst= [ -0.5, 2.0 ]
+    expectedRst = [ -0.5, 2.0 ]
     np.testing.assert_allclose( calRst, expectedRst )
 
 
@@ -162,37 +162,37 @@ def test_getSequencePeakAndValleys_normalUseOnlyPeakAndValleys_pass():
     data = [ -0.5, 1.0, -2.0, 3.0, -1.0, 4.5, -2.5, 3.5, -1.5, 1.0 ]
     # Do not keep ends
     calRst = utils.getSequencePeakAndValleys( data )
-    expectedRst= [ 1.0, -2.0, 3.0, -1.0, 4.5, -2.5, 3.5, -1.5 ]
+    expectedRst = [ 1.0, -2.0, 3.0, -1.0, 4.5, -2.5, 3.5, -1.5 ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     data = [ -0.5, 1.0, -2.0, 3.0, -1.0, 4.5, -2.5, 3.5, -1.5, 1.0 ]
     # Keep ends
     calRst = utils.getSequencePeakAndValleys( data, keepEnds=True )
-    expectedRst= [ -0.5, 1.0, -2.0, 3.0, -1.0, 4.5, -2.5, 3.5, -1.5, 1.0 ]
+    expectedRst = [ -0.5, 1.0, -2.0, 3.0, -1.0, 4.5, -2.5, 3.5, -1.5, 1.0 ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     data = [ 1.0, 2.0, 0.5, 3.0, 1.0, 4.5, 2.5, 3.5, 1.5, 4.0 ]
     # Do not keep ends
     calRst = utils.getSequencePeakAndValleys( data )
-    expectedRst= [ 2.0, 0.5, 3.0, 1.0, 4.5, 2.5, 3.5, 1.5 ]
+    expectedRst = [ 2.0, 0.5, 3.0, 1.0, 4.5, 2.5, 3.5, 1.5 ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     data = [ 1.0, 2.0, 0.5, 3.0, 1.0, 4.5, 2.5, 3.5, 1.5, 4.0 ]
     # Keep ends
     calRst = utils.getSequencePeakAndValleys( data, keepEnds=True )
-    expectedRst= [ 1.0, 2.0, 0.5, 3.0, 1.0, 4.5, 2.5, 3.5, 1.5, 4.0 ]
+    expectedRst = [ 1.0, 2.0, 0.5, 3.0, 1.0, 4.5, 2.5, 3.5, 1.5, 4.0 ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     data = [ -1.0, -2.0, -0.5, -3.0, -1.0, -4.5, -2.5, -3.5, -1.5, -4.0 ]
     # Do not keep ends
     calRst = utils.getSequencePeakAndValleys( data )
-    expectedRst= [ -2.0, -0.5, -3.0, -1.0, -4.5, -2.5, -3.5, -1.5 ]
+    expectedRst = [ -2.0, -0.5, -3.0, -1.0, -4.5, -2.5, -3.5, -1.5 ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     data = [ -1.0, -2.0, -0.5, -3.0, -1.0, -4.5, -2.5, -3.5, -1.5, -4.0 ]
     # Keep ends
     calRst = utils.getSequencePeakAndValleys( data, keepEnds=True )
-    expectedRst= [ -1.0, -2.0, -0.5, -3.0, -1.0, -4.5, -2.5, -3.5, -1.5, -4.0 ]
+    expectedRst = [ -1.0, -2.0, -0.5, -3.0, -1.0, -4.5, -2.5, -3.5, -1.5, -4.0 ]
     np.testing.assert_allclose( calRst, expectedRst )
 
 
@@ -201,14 +201,14 @@ def test_getSequencePeakAndValleys_normalUseExtraPointsInSequence_pass():
              3.5, 1.0, -1.0, -2.5, -1.5, 3.0, 3.5, 1.5, 0.0, -1.5, 0.5, 1.0 ]
     # Do not keep ends
     calRst = utils.getSequencePeakAndValleys( data )
-    expectedRst= [ 1.0, -2.0, 3.0, -1.0, 4.5, -2.5, 3.5, -1.5 ]
+    expectedRst = [ 1.0, -2.0, 3.0, -1.0, 4.5, -2.5, 3.5, -1.5 ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     data = [ -0.5, 0.0, 1.0, -1.0, -2.0, -1.0, 1.5, 3.0, 2.5, -1.0, 0.5, 1.5, 4.5, 
              3.5, 1.0, -1.0, -2.5, -1.5, 3.0, 3.5, 1.5, 0.0, -1.5, 0.5, 1.0 ]
     # Keep ends
     calRst = utils.getSequencePeakAndValleys( data, keepEnds=True )
-    expectedRst= [ -0.5, 1.0, -2.0, 3.0, -1.0, 4.5, -2.5, 3.5, -1.5, 1.0 ]
+    expectedRst = [ -0.5, 1.0, -2.0, 3.0, -1.0, 4.5, -2.5, 3.5, -1.5, 1.0 ]
     np.testing.assert_allclose( calRst, expectedRst )
     
 

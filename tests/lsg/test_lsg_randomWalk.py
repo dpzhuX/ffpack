@@ -41,12 +41,8 @@ def test_randomWalkUniform_stepsLessThanOneCase_valueError():
         _ = lsg.randomWalkUniform( -2 )
 
 def test_randomWalkUniform_dimLessThanOneCase_valueError():
-    steps = 1
-    dim = 0
     with pytest.raises( ValueError ):
         _ = lsg.randomWalkUniform( 1, dim=0 )
 
-    steps = 1
-    dim = -2
     with pytest.raises( ValueError ):
         _ = lsg.randomWalkUniform( 1, dim=-2 )
