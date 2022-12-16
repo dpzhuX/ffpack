@@ -70,7 +70,7 @@ def minerDamageRuleClassic( lccData, snData, fatigueLimit ):
     ----------
     lccData: 2d array
         Load cycle counting results in 2D matrix,
-        e.g., [ [ range, counts ], ... ]
+        e.g., [ [ value, counts ], ... ]
     
     snData: 2d array
         Experimental SN data in 2D matrix,

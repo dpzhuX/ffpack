@@ -1,2 +1,2 @@
 from .randomWalk import *
-from .autoregressiveMode import *
+from .autoregressiveModel import *
