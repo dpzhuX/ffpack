@@ -112,11 +112,11 @@ def minerDamageRuleClassic( lccData, snData, fatigueLimit ):
         if p[ 1 ] <= 0:
             raise ValueError( "Counts should be larger than 0" )
     
-    snCurveFitter = utils.SnCurveFitter( snData, fatigueLimit=fatigueLimit )
+    fitterForSnCurve = utils.FitterForSnCurve( snData, fatigueLimit=fatigueLimit )
 
     rst = 0
     for p in lccData:
-        nFromSNCurve = snCurveFitter.getN( p[ 0 ] )
+        nFromSNCurve = fitterForSnCurve.getN( p[ 0 ] )
         if nFromSNCurve != -1: 
             rst += p[ 1 ] / nFromSNCurve
 

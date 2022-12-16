@@ -70,7 +70,7 @@ def rychlikRainflowCounting( data, aggregate=True ):
 
     # we need to use this util function since it keeps one peak 
     # if there are two or more points together with the same peak value
-    data = generalUtils.getSequencePeakAndValleys( data, keepEnds=True )
+    data = generalUtils.sequencePeakAndValleys( data, keepEnds=True )
     rstSeq = [ ]
     for i in range( 1, len( data ) - 1 ):
         if ( data[ i ] > data[ i - 1 ] and data[ i ] > data[ i + 1 ] ):
