@@ -3,7 +3,7 @@
 import numpy as np
 from collections import defaultdict
 
-def cycleCountingAccordingToBinSize( data, binSize=1.0 ):
+def cycleCountingAggregation( data, binSize=1.0 ):
     '''
     Count number of occurrences of each cycle digitized to the nearest bin.
 
@@ -37,9 +37,9 @@ def cycleCountingAccordingToBinSize( data, binSize=1.0 ):
 
     Examples
     --------
-    >>> from ffpack.utils import cycleCountingAccordingToBinSize
+    >>> from ffpack.utils import cycleCountingAggregation
     >>> data = [ [ 1.7, 2.0 ], [ 2.2, 2.0 ] ]
-    >>> rst = cycleCountingAccordingToBinSize( data )
+    >>> rst = cycleCountingAggregation( data )
     '''
     def getBinKey( value ):
         key = binSize * int( value / binSize )

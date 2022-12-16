@@ -164,7 +164,7 @@ def astmSimpleRangeCounting( data ):
         raise ValueError( "Input data length should be at least 2")
 
     # Remove the intermediate value first
-    data = np.array( generalUtils.getSequencePeakAndValleys( data, keepEnds=True ) )
+    data = np.array( generalUtils.sequencePeakAndValleys( data, keepEnds=True ) )
 
     rstDict = defaultdict( int )
     for i, cur in enumerate( data ):
@@ -212,7 +212,7 @@ def astmRainflowCounting( data ):
         raise ValueError( "Input data length should be at least 2")
 
     # Remove the intermediate value first
-    data = np.array( generalUtils.getSequencePeakAndValleys( data, keepEnds=True ) )
+    data = np.array( generalUtils.sequencePeakAndValleys( data, keepEnds=True ) )
 
     dequeA = deque()
     dequeB = deque( [ i for i in data ] )

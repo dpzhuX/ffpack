@@ -2,7 +2,7 @@
 
 import numpy as np
 
-class SnCurveFitter:
+class FitterForSnCurve:
     '''
     Fit a SN curve based on the experimental data.
     
@@ -25,10 +25,10 @@ class SnCurveFitter:
 
     Examples
     --------
-    >>> from ffpack.utils import snCurveFitter
+    >>> from ffpack.utils import fitterForSnCurve
     >>> data = [ [ 10, 3 ], [ 1000, 1 ] ]
     >>> fatigueLimit = 0.5
-    >>> snCurveFitter = SnCurveFitter( data, fatigueLimit )
+    >>> fitterForSnCurve = FitterForSnCurve( data, fatigueLimit )
     '''
     def __init__( self, data, fatigueLimit ):
         # Edge case check
@@ -73,7 +73,7 @@ class SnCurveFitter:
         
         Examples
         --------
-        >>> rst = snCurveFitter.getN( 2 )
+        >>> rst = fitterForSnCurve.getN( 2 )
         '''
         if S <= 0:
             raise ValueError( "S should be larger than 0" )

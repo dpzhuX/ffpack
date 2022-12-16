@@ -2,7 +2,7 @@
 
 import numpy as np
 
-def getSequencePeakAndValleys( data, keepEnds=False ):
+def sequencePeakAndValleys( data, keepEnds=False ):
     '''
     Remove the intermediate value and only get the peaks and valleys of the data
 
@@ -31,9 +31,9 @@ def getSequencePeakAndValleys( data, keepEnds=False ):
 
     Examples
     --------
-    >>> from ffpack.utils import getSequencePeakAndValleys
+    >>> from ffpack.utils import sequencePeakAndValleys
     >>> data = [ -0.5, 1.0, -2.0, 3.0, -1.0, 4.5, -2.5, 3.5, -1.5, 1.0 ]
-    >>> rst = getSequencePeakAndValleys( data )
+    >>> rst = sequencePeakAndValleys( data )
     '''
     # Egde cases
     data = np.array( data )
@@ -59,7 +59,7 @@ def getSequencePeakAndValleys( data, keepEnds=False ):
         
     return rst
 
-def digitizeSequenceToResoultion( data, resolution=1.0 ):
+def sequenceDigitization( data, resolution=1.0 ):
     '''
     Digitize the sequence data to a specific resolution
 
@@ -91,9 +91,9 @@ def digitizeSequenceToResoultion( data, resolution=1.0 ):
 
     Examples
     --------
-    >>> from ffpack.utils import digitizeSequenceToResoultion 
+    >>> from ffpack.utils import sequenceDigitization 
     >>> data = [ -1.0, 2.3, 1.8, 0.6, -0.4, 0.8, -1.6, -2.5, 3.4, 0.3, 0.1 ]
-    >>> rst = digitizeSequenceToResoultion( data )
+    >>> rst = sequenceDigitization( data )
     '''
     # Egde cases
     data = np.array( data )

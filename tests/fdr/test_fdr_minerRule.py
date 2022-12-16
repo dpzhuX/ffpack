@@ -4,7 +4,7 @@ from ffpack import fdr
 import numpy as np
 import pytest
 from unittest.mock import Mock
-from ffpack.utils import SnCurveFitter
+from ffpack.utils import FitterForSnCurve
 
 
 ###############################################################################
@@ -112,8 +112,8 @@ def test_minerDamageRuleClassic_irregularInput_valueError():
 
 def test_minerDamageRuleClassic_twoPairs_scalarOutput():
 
-    snCurveFitter = Mock( SnCurveFitter )
-    snCurveFitter.getN = lambda self, x: { 1: 1000, 2: 100 }[x]
+    fitterForSnCurve = Mock( FitterForSnCurve )
+    fitterForSnCurve.getN = lambda self, x: { 1: 1000, 2: 100 }[x]
 
     lccData = [ [ 1, 100 ], [ 2, 10 ] ]
     snData = [ [ 10, 3 ], [ 1000, 1 ] ]
@@ -126,8 +126,8 @@ def test_minerDamageRuleClassic_twoPairs_scalarOutput():
 
 def test_minerDamageRuleClassic_threePairs_scalarOutput():
 
-    snCurveFitter = Mock( SnCurveFitter )
-    snCurveFitter.getN = lambda self, x: { 1: 100000, 2: 10000, 3: 1000, 4: 100 }[x]
+    fitterForSnCurve = Mock( FitterForSnCurve )
+    fitterForSnCurve.getN = lambda self, x: { 1: 100000, 2: 10000, 3: 1000, 4: 100 }[x]
 
     lccData = [ [ 1, 1000 ], [ 2, 100 ], [ 4, 10 ] ]
     snData = [ [ 10, 5 ], [ 100, 4 ], [ 100000, 1 ] ]
@@ -154,30 +154,30 @@ def test_minerDamageRuleClassic_threePairs_scalarOutput():
 
 def test_minerDamageRuleClassic_threePairsHighFatigueLimit_scalarOutput():
 
-    snCurveFitter = Mock( SnCurveFitter )
+    fitterForSnCurve = Mock( FitterForSnCurve )
     
     lccData = [ [ 1, 1000 ], [ 2, 100 ], [ 4, 10 ] ]
     snData = [ [ 10, 5 ], [ 100, 4 ], [ 100000, 1 ] ]
     fatigueLimit = 1
-    snCurveFitter.getN = lambda self, x: { 1: -1, 2: 10000, 4: 100 }[x]
+    fitterForSnCurve.getN = lambda self, x: { 1: -1, 2: 10000, 4: 100 }[x]
     calRst = fdr.minerDamageRuleClassic( lccData, snData, fatigueLimit )
     expectedRst = 0.11 
     np.testing.assert_allclose( calRst, expectedRst )
 
     fatigueLimit = 2
-    snCurveFitter.getN = lambda self, x: { 1: -1, 2: -1, 4: 100 }[x]
+    fitterForSnCurve.getN = lambda self, x: { 1: -1, 2: -1, 4: 100 }[x]
     calRst = fdr.minerDamageRuleClassic( lccData, snData, fatigueLimit )
     expectedRst = 0.1 
     np.testing.assert_allclose( calRst, expectedRst )
 
     fatigueLimit = 3
-    snCurveFitter.getN = lambda self, x: { 1: -1, 2: -1, 4: 100 }[x]
+    fitterForSnCurve.getN = lambda self, x: { 1: -1, 2: -1, 4: 100 }[x]
     calRst = fdr.minerDamageRuleClassic( lccData, snData, fatigueLimit )
     expectedRst = 0.1 
     np.testing.assert_allclose( calRst, expectedRst )
 
     fatigueLimit = 4
-    snCurveFitter.getN = lambda self, x: { 1: -1, 2: -1, 4: -1 }[x]
+    fitterForSnCurve.getN = lambda self, x: { 1: -1, 2: -1, 4: -1 }[x]
     calRst = fdr.minerDamageRuleClassic( lccData, snData, fatigueLimit )
     expectedRst = 0
     np.testing.assert_allclose( calRst, expectedRst )
