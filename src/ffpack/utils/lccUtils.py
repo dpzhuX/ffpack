@@ -10,7 +10,7 @@ def cycleCountingAggregation( data, binSize=1.0 ):
     Parameters
     ----------
     data: 2d array
-        Input load cycle counting data [ [ range, count ], ... ] for bin collection 
+        Input load cycle counting data [ [ value, count ], ... ] for bin collection 
 
     binSize: scalar, optional
         bin size is the difference between each level, 
@@ -19,16 +19,14 @@ def cycleCountingAggregation( data, binSize=1.0 ):
     Returns
     -------
     rst: 2d array
-        Aggregated [ [ range, count ] ] with range starts from 0 to maximum 
-        possible value by the binSize
+        Aggregated [ [ aggregatedValue, count ] ] by the binSize
 
 
     Raises
     ------
     ValueError
-        If the data dimension is not 1.
-        If the data length is less than 2 with keedEnds == False
-        If the data length is less than 3 with keedEnds == True
+        If the data dimension is not 2.
+        If the data is empty
 
     Notes
     -----
@@ -41,6 +39,13 @@ def cycleCountingAggregation( data, binSize=1.0 ):
     >>> data = [ [ 1.7, 2.0 ], [ 2.2, 2.0 ] ]
     >>> rst = cycleCountingAggregation( data )
     '''
+    # Egde cases
+    data = np.array( data )
+    if len( data.shape ) != 2:
+        raise ValueError( "Input data dimension should be 2" )
+    if data.shape[1] != 2:
+        raise ValueError( "Input data should be [ value, count ] pairs")
+
     def getBinKey( value ):
         key = binSize * int( value / binSize )
         if ( value - key > key + binSize - value):
@@ -48,11 +53,6 @@ def cycleCountingAggregation( data, binSize=1.0 ):
         return key
 
     rstDict = defaultdict( int )
-    max_value = np.max( np.array( data )[ :, 0 ] )
-    numBins = int( getBinKey( max_value ) / binSize ) + 1
-    for i in range( numBins ):
-        rstDict[ i * binSize ] = 0
-
     for valueCount in data:
         key = getBinKey( valueCount[ 0 ] )
         rstDict[ key ] += valueCount[ 1 ]
