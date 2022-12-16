@@ -44,7 +44,7 @@ def cycleCountingAggregation( data, binSize=1.0 ):
     if len( data.shape ) != 2:
         raise ValueError( "Input data dimension should be 2" )
     if data.shape[1] != 2:
-        raise ValueError( "Input data length should be at least 1")
+        raise ValueError( "Input data should be [ value, count ] pairs")
 
     def getBinKey( value ):
         key = binSize * int( value / binSize )

@@ -8,13 +8,11 @@ import pytest
 ###############################################################################
 # Test cycleCountingAggregation
 ###############################################################################
-def test_cycleCountingAggregation_emptyData_valueError():
+def test_cycleCountingAggregation_incorrectData_valueError():
     data = [ [ ] ]
     with pytest.raises( ValueError ):
         _ = utils.cycleCountingAggregation( data )
-
-
-def test_cycleCountingAggregation_incorrectDataDim_valueError():
+    
     data = [  ]
     with pytest.raises( ValueError ):
         _ = utils.cycleCountingAggregation( data )
