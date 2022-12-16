@@ -116,7 +116,8 @@ def minerDamageRuleClassic( lccData, snData, fatigueLimit ):
 
     rst = 0
     for p in lccData:
-        if snCurveFitter.getN( p[ 0 ] ) != -1: 
-            rst += p[ 1 ] / snCurveFitter.getN( p[ 0 ] )
+        nFromSNCurve = snCurveFitter.getN( p[ 0 ] )
+        if nFromSNCurve != -1: 
+            rst += p[ 1 ] / nFromSNCurve
 
     return rst 
