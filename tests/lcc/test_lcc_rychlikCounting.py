@@ -2,12 +2,45 @@
 
 from ffpack import lcc
 import numpy as np
+import pytest
 from unittest.mock import patch
 
 
 ###############################################################################
 # Test rychlikRainflowCounting function
 ###############################################################################
+def test_srychlikRainflowCounting_noPointsOrOnePoint_valueError():
+    data = [ ]
+    with pytest.raises( ValueError ):
+        _ = lcc.rychlikRainflowCounting( data, False )
+    
+    with pytest.raises( ValueError ):
+        _ = lcc.rychlikRainflowCounting( data, True )
+
+    data = [ 1.0 ]
+    with pytest.raises( ValueError ):
+        _ = lcc.rychlikRainflowCounting( data, False )
+    
+    with pytest.raises( ValueError ):
+        _ = lcc.rychlikRainflowCounting( data, True )
+
+
+def test_srychlikRainflowCounting_incorrectDataDim_valueError():
+    data = [ [ 1.0 ] ]
+    with pytest.raises( ValueError ):
+        _ = lcc.rychlikRainflowCounting( data, False )
+    
+    with pytest.raises( ValueError ):
+        _ = lcc.rychlikRainflowCounting( data, True )
+
+    data = [ [ [ 1.0 ] ] ]
+    with pytest.raises( ValueError ):
+        _ = lcc.rychlikRainflowCounting( data, False )
+    
+    with pytest.raises( ValueError ):
+        _ = lcc.rychlikRainflowCounting( data, True )
+
+
 @patch( "ffpack.utils.generalUtils.sequencePeakAndValleys" )
 def test_rychlikRainflowCounting_twoPoints_empty( mock_get ):
     data = [ 0.0, 2.0 ]

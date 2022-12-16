@@ -30,7 +30,13 @@ def rychlikRainflowCounting( data, aggregate=True ):
     -------
     rst: 2d array
         Sorted counting restults.
-    
+
+    Raises
+    ------
+    ValueError
+        If the data dimension is not 1
+        If the data length is less than 2
+
     Notes
     -----
     If aggregate is False, the original 1d counting results will be returned.
@@ -42,7 +48,13 @@ def rychlikRainflowCounting( data, aggregate=True ):
     >>>          -2.2, -2.6, -2.4, -3.3, 1.5, 0.6, 3.4, -0.5 ]
     >>> rst = rychlikRainflowCycleCounting( data )
     '''
-
+    # Egde cases
+    data = np.array( data )
+    if len( data.shape ) != 1:
+        raise ValueError( "Input data dimension should be 1" )
+    if data.shape[0] < 2:
+        raise ValueError( "Input data length should be at least 2")
+    
     def getMinLeft( data, i ):
         if ( i == 1 ): 
             return min( data[ 0 ], data[ 1 ] )
