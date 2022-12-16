@@ -4,9 +4,26 @@ from ffpack import lsg
 import numpy as np
 import pytest
 
+
 ###############################################################################
 # Test randomWalkUniform
 ###############################################################################
+def test_randomWalkUniform_numStepsLessThanOneCase_valueError():
+    with pytest.raises( ValueError ):
+        _ = lsg.randomWalkUniform( 0 )
+
+    with pytest.raises( ValueError ):
+        _ = lsg.randomWalkUniform( -2 )
+
+
+def test_randomWalkUniform_dimLessThanOneCase_valueError():
+    with pytest.raises( ValueError ):
+        _ = lsg.randomWalkUniform( 1, dim=0 )
+
+    with pytest.raises( ValueError ):
+        _ = lsg.randomWalkUniform( 1, dim=-2 )
+        
+
 def test_randomWalkUniform_normalUseCase_diffByOne():
     calRst = lsg.randomWalkUniform( 100, dim=1 )
     sumRowRst = np.sum( np.array( calRst ), axis=1 ).astype( int )
@@ -32,17 +49,3 @@ def test_randomWalkUniform_normalUseCase_diffByOne():
     sumRowRst = np.sum( np.array( calRst ), axis=1 ).astype( int )
     for i in range( 1, len( sumRowRst ) ):
         assert abs( sumRowRst[ i ] - sumRowRst[ i - 1 ] ) == 1
-
-def test_randomWalkUniform_stepsLessThanOneCase_valueError():
-    with pytest.raises( ValueError ):
-        _ = lsg.randomWalkUniform( 0 )
-
-    with pytest.raises( ValueError ):
-        _ = lsg.randomWalkUniform( -2 )
-
-def test_randomWalkUniform_dimLessThanOneCase_valueError():
-    with pytest.raises( ValueError ):
-        _ = lsg.randomWalkUniform( 1, dim=0 )
-
-    with pytest.raises( ValueError ):
-        _ = lsg.randomWalkUniform( 1, dim=-2 )

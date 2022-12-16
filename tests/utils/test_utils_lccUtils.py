@@ -2,7 +2,7 @@
 
 from ffpack import utils
 import numpy as np
-import pytest
+
 
 ###############################################################################
 # Test cycleCountingAccordingToBinSize
