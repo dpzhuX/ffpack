@@ -2,27 +2,27 @@
 
 import numpy as np
 
-def randomWalkUniform( steps, dim=1 ):
+def randomWalkUniform( numSteps, dim=1 ):
     '''
-    Random walk function.
+    Generate load sequence by random walk.
 
     Parameters
     ----------
-    steps: scalar
-        Number of steps for generating.
+    numSteps: integer 
+        Number of numSteps for generating.
     dim: scalar, optional
         Data dimension.
     
     Returns
     -------
     rst: 2d array
-        A 2d steps by dim matrix holding the coordinates 
+        A 2d (numSteps by dim) matrix holding the coordinates 
         of the position at each step.
     
     Raises
     ------
     ValueError
-        If the steps is less than 1 or the dim is less than 1.
+        If the numSteps is less than 1 or the dim is less than 1.
 
     Examples
     --------
@@ -31,15 +31,15 @@ def randomWalkUniform( steps, dim=1 ):
 
     '''
     # Edge case check
-    if not isinstance( steps, int ) or not isinstance( dim, int ):
-        raise ValueError( "Input data type should be int" )
-    if steps < 1:
-        raise ValueError( "steps should be at least 1" )
+    if not isinstance( numSteps, int ) or not isinstance( dim, int ):
+        raise ValueError( "numSteps should be int" )
+    if numSteps < 1:
+        raise ValueError( "numSteps should be at least 1" )
     if dim < 1:
         raise ValueError( "dim should be at least 1" )
 
     rst = [ [ 0 ] * dim ]
-    for i in range( steps ):
+    for i in range( numSteps ):
         randomInt = np.random.randint( 2 * dim )
         randomDim = randomInt % dim
         randomDir = 1 if randomInt >= dim else -1
