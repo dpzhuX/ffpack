@@ -75,15 +75,16 @@ def rychlikRainflowCounting( data, aggregate=True ):
     for i in range( 1, len( data ) - 1 ):
         if ( data[ i ] > data[ i - 1 ] and data[ i ] > data[ i + 1 ] ):
             # TODO: set a global variable for round digit
-            height = data[ i ] - max( getMinLeft( data, i ), getMinRight( data, i ))
-            rstSeq.append( round( height, 7 ) )
+            higher = max( getMinLeft( data, i ), getMinRight( data, i ))
+            rstSeq.append( [ higher, data[ i ] ] )
     
     if ( not aggregate ): 
         return rstSeq
 
     rstDict = defaultdict( int )
-    for i, cur in enumerate( rstSeq ):
-        rstDict[ cur ] += 1
+    for lowHigh in rstSeq:
+        height = round( lowHigh[ 1 ] - lowHigh[ 0 ], 7 )
+        rstDict[ height ] += 1
 
     if len( rstDict ) == 0:
         return [ [ ] ] 
