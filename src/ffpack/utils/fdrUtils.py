@@ -4,33 +4,36 @@ import numpy as np
 
 class FitterForSnCurve:
     '''
-    Fit a SN curve based on the experimental data.
-    
-    Parameters
-    ----------
-    data: 2d array
-        Experimental data for fitting in 2D matrix,
-        e.g., [ [ N_1, S_1 ], [ N_2, S_2 ], ..., [ N_i, S_i ] ]
-    
-    fatigueLimit: scalar
-        Fatigue limit indicating the minimum S that can cause fatigue.
-    
-    Raises
-    ------
-    ValueError
-        If the data dimension is not 2.
-        If the data length is less than 2.
-        If the fatigueLimit is less than or equal 0.
-        If N_i or S_i is less than or equal 0.
-
-    Examples
-    --------
-    >>> from ffpack.utils import fitterForSnCurve
-    >>> data = [ [ 10, 3 ], [ 1000, 1 ] ]
-    >>> fatigueLimit = 0.5
-    >>> fitterForSnCurve = FitterForSnCurve( data, fatigueLimit )
+    Fitter for a SN curve based on the experimental data.
     '''
     def __init__( self, data, fatigueLimit ):
+        '''
+        Initialize a fitter for SN curve based on the experimental data.
+        
+        Parameters
+        ----------
+        data: 2d array
+            Experimental data for fitting in 2D matrix,
+            e.g., [ [ N_1, S_1 ], [ N_2, S_2 ], ..., [ N_i, S_i ] ]
+        
+        fatigueLimit: scalar
+            Fatigue limit indicating the minimum S that can cause fatigue.
+        
+        Raises
+        ------
+        ValueError
+            If the data dimension is not 2.
+            If the data length is less than 2.
+            If the fatigueLimit is less than or equal 0.
+            If N_i or S_i is less than or equal 0.
+
+        Examples
+        --------
+        >>> from ffpack.utils import fitterForSnCurve
+        >>> data = [ [ 10, 3 ], [ 1000, 1 ] ]
+        >>> fatigueLimit = 0.5
+        >>> fitterForSnCurve = FitterForSnCurve( data, fatigueLimit )
+        '''
         # Edge case check
         data = np.array( data )
         if len( data.shape ) != 2:
