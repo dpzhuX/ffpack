@@ -9,7 +9,7 @@ import numpy as np
 from ffpack.utils import generalUtils
 from collections import defaultdict, deque
 
-def astmLevelCrossingCounting( data, refLevel=0.0, levels=None ):
+def astmLevelCrossingCounting( data, refLevel=0.0, levels=None, aggregate=True ):
     '''
     ASTM level crossing counting in E1049-85: sec 5.1.1.
 
@@ -17,12 +17,12 @@ def astmLevelCrossingCounting( data, refLevel=0.0, levels=None ):
     ----------
     data: 1d array
         Load sequence data for counting.
-    
     refLevel: scalar, optional
         Reference level.
-    
     levels: 1d array
         Self-defined levels for counting.
+    aggragate: bool, optional
+        If aggregate set to False, the original sequence will be returned.
 
     Returns
     -------
@@ -56,6 +56,7 @@ def astmLevelCrossingCounting( data, refLevel=0.0, levels=None ):
         levels = np.array( sorted( set( levels ) ) )
 
     rstDict = defaultdict( int )
+    rstSeq = [ ]
     # Check each interval
     for i in range( len( data ) - 1 ):
         intervalStart = data[ i ]
@@ -70,13 +71,14 @@ def astmLevelCrossingCounting( data, refLevel=0.0, levels=None ):
             if ( intervalStart <= intervalEnd and levels[ j ] >= refLevel ) or \
                ( intervalStart > intervalEnd and levels[ j ] < refLevel ):
                 rstDict[ levels[ j ] ] += 1
+                rstSeq.append( levels[ j ] )
     if len( rstDict ) == 0:
-        return [ [] ]
+        return [ [] ] if aggregate else [ ]
     rst = np.array( [ [ key, val ] for key, val in rstDict.items() ] )
     rst = rst[ rst[ :, 0 ].argsort() ]
-    return rst.tolist()
+    return rst.tolist() if aggregate else rstSeq
 
-def astmPeakCounting( data, refLevel=None ):
+def astmPeakCounting( data, refLevel=None, aggregate=True ):
     '''
     ASTM peak counting in E1049-85: sec 5.2.1.
 
@@ -84,9 +86,10 @@ def astmPeakCounting( data, refLevel=None ):
     ----------
     data: 1d array
         Load sequence data for counting.
-    
     refLevel: scalar, optional
         Reference level.
+    aggragate: bool, optional
+        If aggregate set to False, the original sequence will be returned.
     
     Returns
     -------
@@ -115,6 +118,7 @@ def astmPeakCounting( data, refLevel=None ):
         refLevel = 0.0
     
     rstDict = defaultdict( int )
+    rstSeq = [ ]
     for i, cur in enumerate( data ):
         if i == 0 or i == len( data ) - 1:
             continue
@@ -125,14 +129,15 @@ def astmPeakCounting( data, refLevel=None ):
         if ( prev < cur and cur > next and cur >= refLevel ) or \
            ( prev > cur and cur < next and cur < refLevel ):
             rstDict[ cur ] += 1
+            rstSeq.append( cur )
 
     if len( rstDict ) == 0:
-        return [ [] ] 
+        return [ [] ] if aggregate else [ ]
     rst = np.array( [ [ key, val ] for key, val in rstDict.items() ] )
     rst = rst[ rst[ :, 0 ].argsort() ]
-    return rst.tolist()
+    return rst.tolist() if aggregate else rstSeq
 
-def astmSimpleRangeCounting( data ):
+def astmSimpleRangeCounting( data, aggregate=True ):
     '''
     ASTM simple range counting in E1049-85: sec 5.3.1.
 
@@ -140,6 +145,8 @@ def astmSimpleRangeCounting( data ):
     ----------
     data: 1d array
         Load sequence data for counting.
+    aggragate: bool, optional
+        If aggregate set to False, the original sequence will be returned.
     
     Returns
     -------
@@ -167,19 +174,21 @@ def astmSimpleRangeCounting( data ):
     data = np.array( generalUtils.sequencePeakAndValleys( data, keepEnds=True ) )
 
     rstDict = defaultdict( int )
+    rstSeq = [ ]
     for i, cur in enumerate( data ):
         if i == 0:
             continue
         prev = data[ i - 1 ]
         rstDict[ abs( prev - cur ) ] += 0.5
+        rstSeq.append( [ prev, cur ] )
 
     if len( rstDict ) == 0:
         return [ [] ] 
     rst = np.array( [ [ key, val ] for key, val in rstDict.items() ] )
     rst = rst[ rst[ :, 0 ].argsort() ]
-    return rst.tolist()
+    return rst.tolist() if aggregate else rstSeq
 
-def astmRainflowCounting( data ):
+def astmRainflowCounting( data, aggregate=True ):
     '''
     ASTM rainflow counting in E1049-85: sec 5.4.4.
 
@@ -187,6 +196,8 @@ def astmRainflowCounting( data ):
     ----------
     data: 1d array
         Load sequence data for counting.
+    aggragate: bool, optional
+        If aggregate set to False, the original sequence will be returned.
     
     Returns
     -------
@@ -219,6 +230,7 @@ def astmRainflowCounting( data ):
     S = None
     YContainsS = None
     rstDict = defaultdict( int )
+    rstSeq = [ ]
     while len( dequeB ) >= 3:
         A = dequeB.popleft()
         B = dequeB.popleft()
@@ -231,12 +243,14 @@ def astmRainflowCounting( data ):
         if X >= Y:
             if YContainsS:
                 rstDict[ Y ] += 0.5
+                rstSeq.append( [ A, B, 0.5 ])
                 dequeB.appendleft( C )
                 dequeB.appendleft( B )
                 S = None
                 YContainsS = None
             else:
                 rstDict[ Y ] += 1
+                rstSeq.append( [ A, B, 1 ] )
                 dequeB.appendleft( C )
                 while dequeA:
                     dequeB.appendleft( dequeA.pop() )
@@ -256,10 +270,11 @@ def astmRainflowCounting( data ):
         B = dequeB.popleft()
         Y = abs( A - B )
         rstDict[ Y ] += 0.5
+        rstSeq.append( [ A, B, 0.5 ] )
         A = B
 
     if len( rstDict ) == 0:
         return [ [] ] 
     rst = np.array( [ [ key, val ] for key, val in rstDict.items() ] )
     rst = rst[ rst[ :, 0 ].argsort() ]
-    return rst.tolist()
+    return rst.tolist() if aggregate else rstSeq
