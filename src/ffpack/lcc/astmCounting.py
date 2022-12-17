@@ -55,9 +55,13 @@ def astmLevelCrossingCounting( data, refLevel=0.0, levels=None, aggregate=True )
     else:
         levels = np.array( sorted( set( levels ) ) )
 
+    # Remove the intermediate value first
+    data = np.array( generalUtils.sequencePeakAndValleys( data, keepEnds=True ) )
+
     rstDict = defaultdict( int )
     rstSeq = [ ]
     # Check each interval
+    # Each interval will be searched from small to large value
     for i in range( len( data ) - 1 ):
         intervalStart = data[ i ]
         intervalEnd = data[ i + 1 ]
