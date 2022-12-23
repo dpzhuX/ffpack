@@ -9,7 +9,7 @@ from unittest.mock import patch
 ###############################################################################
 # Test rychlikRainflowCounting function
 ###############################################################################
-def test_srychlikRainflowCounting_noPointsOrOnePoint_valueError():
+def test_rychlikRainflowCounting_noPointsOrOnePoint_valueError():
     data = [ ]
     with pytest.raises( ValueError ):
         _ = lcc.rychlikRainflowCounting( data, False )
@@ -25,7 +25,7 @@ def test_srychlikRainflowCounting_noPointsOrOnePoint_valueError():
         _ = lcc.rychlikRainflowCounting( data, True )
 
 
-def test_srychlikRainflowCounting_incorrectDataDim_valueError():
+def test_rychlikRainflowCounting_incorrectDataDim_valueError():
     data = [ [ 1.0 ] ]
     with pytest.raises( ValueError ):
         _ = lcc.rychlikRainflowCounting( data, False )
