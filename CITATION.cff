@@ -1,0 +1,14 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Zhu"
+  given-names: "Dongping"
+- family-names: "Ding"
+  given-names: "Zhixia"
+- family-names: "Huang"
+  given-names: "Xiaogang"
+title: "FFPACK - Fatigue and Fracture PACKage"
+version: v0.2.0
+doi: 10.5281/zenodo.7478425
+date-released: 2022-12-23
+url: "https://github.com/dpzhuX/ffpack"
