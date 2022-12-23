@@ -19,8 +19,8 @@ def minerDamageRuleNaive( fatigueData ):
     ----------
     fatigueData: 2d array 
         Paired counting and experimental data under each load condition,
-        e.g., [ [ C_1, F_1 ], [ C_2, F_2 ], ..., [ C_i, F_i ] ] 
-        where C_i and F_i represent the counting cycles and failure cycles
+        e.g., [ [ C1, F1 ], [ C2, F2 ], ..., [ Ci, Fi ] ] 
+        where Ci and Fi represent the counting cycles and failure cycles
         under the same load condition.
     
     Returns
@@ -74,7 +74,7 @@ def minerDamageRuleClassic( lccData, snData, fatigueLimit ):
     
     snData: 2d array
         Experimental SN data in 2D matrix,
-        e.g., [ [ N_1, S_1 ], [ N_2, S_2 ], ..., [ N_i, S_i ] ]
+        e.g., [ [ N1, S1 ], [ N2, S2 ], ..., [ Ni, Si ] ]
     
     fatigueLimit: scalar
         Fatigue limit indicating the minimum S that can cause fatigue.
