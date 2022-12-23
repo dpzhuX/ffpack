@@ -24,13 +24,20 @@ def rychlikRainflowCounting( data, aggregate=True ):
     data: 1d array 
         Load sequence data for counting.
     aggragate: bool, optional
-        if aggregate set to False, the original range H(t) sequence will be returned.
+        if aggregate set to False, the original sequence will be returned.
     
     Returns
     -------
     rst: 2d array
-        Sorted counting restults.
-    
+        Array of sequence [ start or end , peak ] for range H(t) if not aggregate.
+        Sorted counting results if aggregate (default).
+
+    Raises
+    ------
+    ValueError
+        If the data dimension is not 1
+        If the data length is less than 2
+
     Notes
     -----
     If aggregate is False, the original 1d counting results will be returned.
@@ -42,7 +49,13 @@ def rychlikRainflowCounting( data, aggregate=True ):
     >>>          -2.2, -2.6, -2.4, -3.3, 1.5, 0.6, 3.4, -0.5 ]
     >>> rst = rychlikRainflowCycleCounting( data )
     '''
-
+    # Egde cases
+    data = np.array( data )
+    if len( data.shape ) != 1:
+        raise ValueError( "Input data dimension should be 1" )
+    if data.shape[0] < 2:
+        raise ValueError( "Input data length should be at least 2" )
+    
     def getMinLeft( data, i ):
         if ( i == 1 ): 
             return min( data[ 0 ], data[ 1 ] )
@@ -75,15 +88,16 @@ def rychlikRainflowCounting( data, aggregate=True ):
     for i in range( 1, len( data ) - 1 ):
         if ( data[ i ] > data[ i - 1 ] and data[ i ] > data[ i + 1 ] ):
             # TODO: set a global variable for round digit
-            height = data[ i ] - max( getMinLeft( data, i ), getMinRight( data, i ))
-            rstSeq.append( round( height, 7 ) )
+            higher = max( getMinLeft( data, i ), getMinRight( data, i ) )
+            rstSeq.append( [ higher, data[ i ] ] )
     
     if ( not aggregate ): 
         return rstSeq
 
     rstDict = defaultdict( int )
-    for i, cur in enumerate( rstSeq ):
-        rstDict[ cur ] += 1
+    for lowHigh in rstSeq:
+        height = round( lowHigh[ 1 ] - lowHigh[ 0 ], 7 )
+        rstDict[ height ] += 1
 
     if len( rstDict ) == 0:
         return [ [ ] ] 
