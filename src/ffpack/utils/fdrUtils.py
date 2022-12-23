@@ -8,13 +8,13 @@ class FitterForSnCurve:
     '''
     def __init__( self, data, fatigueLimit ):
         '''
-        Initialize a fitter for SN curve based on the experimental data.
+        Initialize a fitter for a SN curve based on the experimental data.
         
         Parameters
         ----------
         data: 2d array
-            Experimental data for fitting in 2D matrix,
-            e.g., [ [ N_1, S_1 ], [ N_2, S_2 ], ..., [ N_i, S_i ] ]
+            Experimental data for fitting in a 2D matrix,
+            e.g., [ [ N1, S1 ], [ N2, S2 ], ..., [ Ni, Si ] ]
         
         fatigueLimit: scalar
             Fatigue limit indicating the minimum S that can cause fatigue.

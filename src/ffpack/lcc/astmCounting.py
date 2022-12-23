@@ -22,12 +22,13 @@ def astmLevelCrossingCounting( data, refLevel=0.0, levels=None, aggregate=True )
     levels: 1d array
         Self-defined levels for counting.
     aggragate: bool, optional
-        If aggregate set to False, the original sequence will be returned.
+        If aggregate is set to False, the original sequence for internal counting,
+        e.g., [ crossPoint1, corssPoint2, ... ], will be returned.
 
     Returns
     -------
     rst: 2d array
-        Sorted counting restults.
+        Sorted counting results.
     
     Raises
     ------
@@ -93,12 +94,13 @@ def astmPeakCounting( data, refLevel=None, aggregate=True ):
     refLevel: scalar, optional
         Reference level.
     aggragate: bool, optional
-        If aggregate set to False, the original sequence will be returned.
+        If aggregate is set to False, the original sequence for internal counting,
+        e.g., [ peak1, peak2, ... ], will be returned.
     
     Returns
     -------
     rst: 2d array
-        Sorted counting restults.
+        Sorted counting results.
     
     Raises
     ------
@@ -150,12 +152,14 @@ def astmSimpleRangeCounting( data, aggregate=True ):
     data: 1d array
         Load sequence data for counting.
     aggragate: bool, optional
-        If aggregate set to False, the original sequence will be returned.
+        If aggregate is set to False, the original sequence for internal counting,
+        e.g., [ [ rangeStart1, rangeEnd1 ], [ rangeStart2, rangeEnd2 ], ... ], 
+        will be returned.
     
     Returns
     -------
     rst: 2d array
-        Sorted counting restults.
+        Sorted counting results.
     
     Raises
     ------
@@ -201,12 +205,14 @@ def astmRainflowCounting( data, aggregate=True ):
     data: 1d array
         Load sequence data for counting.
     aggragate: bool, optional
-        If aggregate set to False, the original sequence will be returned.
+        If aggregate is set to False, the original sequence for internal counting, 
+        e.g., [ [ rangeStart1, rangeEnd1, count1 ], 
+        [ rangeStart2, rangeEnd2, count2 ], ... ], will be returned.
     
     Returns
     -------
     rst: 2d array
-        Sorted counting restults.
+        Sorted counting results.
     
     Raises
     ------

@@ -1,10 +1,29 @@
 FFPACK's Documentation
 ===================================
 
-**FFPACK** (Fatigue and Fracture PACKage) is a open source Python library for fatigue and fracture evaluation
+**FFPACK** (Fatigue and Fracture PACKage) is a open source Python library for 
+fatigue and fracture evaluation.
 
 Check out the :doc:`usage` section for further information, including
-how to :ref:`installation` the project.
+how to create a :ref:`environment` for the project.
+
+.. note::
+
+   Please select the correct version of FFPACK documentation. 
+   The version can be found at the upper left under the `FFPACK` title.
+   Three versions of documentation are provided:
+
+   * `stable`: the documentation for the most recent released version.
+   * `latest`: the documentation for `main` branch.
+   * `docs`: the documentation for `docs` branch.
+
+   The `docs` branch and associated `docs` documentation represents 
+   the newest documentation under development. Once the documentation is finished, 
+   the changes will be merged into `main` branch and the `latest` version 
+   will be updated.
+
+   To switch the version, Click `Read the Docs` at the bottom left.
+
 
 .. note::
 

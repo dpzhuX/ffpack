@@ -6,7 +6,7 @@ def sequencePeakAndValleys( data, keepEnds=False ):
     '''
     Remove the intermediate value and only get the peaks and valleys of the data
 
-    The peak and valley refers the data points that are EXACTLY above and below
+    The peak and valley refer the data points that are EXACTLY above and below
     the neighbors, not equal. 
 
     Parameters
@@ -71,7 +71,7 @@ def sequenceDigitization( data, resolution=1.0 ):
         Sequence data to digitize.
     
     resolution: bool, optional
-        The desired reolution to round the data points.
+        The desired resolution to round the data points.
     
     Returns
     -------

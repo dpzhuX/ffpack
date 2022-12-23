@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 '''
-Palmgren-Miner damage rule is one of the famous fatigue damage rule for 
+Palmgren-Miner damage rule is one of the famous fatigue damage rules for 
 fatigue estimation. The rule is defined in a simple and intuitive way and
 it is very popular now.
 
@@ -19,8 +19,8 @@ def minerDamageRuleNaive( fatigueData ):
     ----------
     fatigueData: 2d array 
         Paired counting and experimental data under each load condition,
-        e.g., [ [ C_1, F_1 ], [ C_2, F_2 ], ..., [ C_i, F_i ] ] 
-        where C_i and F_i represent the counting cycles and failure cycles
+        e.g., [ [ C1, F1 ], [ C2, F2 ], ..., [ Ci, Fi ] ] 
+        where Ci and Fi represent the counting cycles and failure cycles
         under the same load condition.
     
     Returns
@@ -33,8 +33,8 @@ def minerDamageRuleNaive( fatigueData ):
     ValueError
         If fatigueData length is less than 1.
         If counting cycles is less than 0.
-        If failure cycles is less than or equal 0.
-        If counting cycles is large than failure cycles.
+        If number of failure cycles is less than or equal 0.
+        If number of counting cycles is large than failure cycles.
 
     
     Examples
@@ -64,17 +64,17 @@ def minerDamageRuleNaive( fatigueData ):
 
 def minerDamageRuleClassic( lccData, snData, fatigueLimit ):
     '''
-    Classical Palmgren-miner damage rule calcuates the damage results based on SN curve.
+    Classical Palmgren-miner damage rule calculates the damage results based on the SN curve.
     
     Parameters
     ----------
     lccData: 2d array
-        Load cycle counting results in 2D matrix,
-        e.g., [ [ value, counts ], ... ]
+        Load cycle counting results in a 2D matrix,
+        e.g., [ [ value, count ], ... ]
     
     snData: 2d array
         Experimental SN data in 2D matrix,
-        e.g., [ [ N_1, S_1 ], [ N_2, S_2 ], ..., [ N_i, S_i ] ]
+        e.g., [ [ N1, S1 ], [ N2, S2 ], ..., [ Ni, Si ] ]
     
     fatigueLimit: scalar
         Fatigue limit indicating the minimum S that can cause fatigue.
