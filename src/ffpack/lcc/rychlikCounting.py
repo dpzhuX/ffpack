@@ -24,13 +24,14 @@ def rychlikRainflowCounting( data, aggregate=True ):
     data: 1d array 
         Load sequence data for counting.
     aggragate: bool, optional
-        if aggregate set to False, the original sequence will be returned.
+        if aggregate is set to False, the original sequence for internal counting,
+        e.g., [ [ rangeStart1, rangeEnd1 ], [ rangeStart2, rangeEnd2 ], ... ], 
+        will be returned.
     
     Returns
     -------
     rst: 2d array
-        Array of sequence [ start or end , peak ] for range H(t) if not aggregate.
-        Sorted counting results if aggregate (default).
+        Sorted counting results.
 
     Raises
     ------
