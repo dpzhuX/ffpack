@@ -3,6 +3,8 @@
 from ffpack import lcc
 import numpy as np
 import pytest
+from unittest.mock import patch
+
 
 ###############################################################################
 # Test astmLevelCrossingCounting function
@@ -330,9 +332,11 @@ def test_astmPeakCounting_twoDimInputCase_valueError():
 ###############################################################################
 # Test astmSimpleRangeCounting function
 ###############################################################################
-def test_astmSimpleRangeCounting_normalUseCase_pass():
+@patch( "ffpack.utils.generalUtils.sequencePeakAndValleys" )
+def test_astmSimpleRangeCounting_normalUseCase_pass( mock_get ):
     # Standard simple range counting data from E1049-85(2017) Fig.4(a)
     data = [ -2.0, 1.0, -3.0, 5.0, -1.0, 3.0, -4.0, 4.0, -2.0 ]
+    mock_get.return_value = [ -2.0, 1.0, -3.0, 5.0, -1.0, 3.0, -4.0, 4.0, -2.0 ]
     calRst = lcc.astmSimpleRangeCounting( data )
     expectedRst = [ [ 3.0, 0.5 ], [ 4.0, 1.0 ], [ 6.0, 1.0 ], 
                     [ 7.0, 0.5 ], [ 8.0, 1.0 ] ]
@@ -341,75 +345,88 @@ def test_astmSimpleRangeCounting_normalUseCase_pass():
     # Adding extra data into the standard data without change the slope
     data = [ -2.0, -0.5, 1.0, 0.0, -1.5, -3.0, -1.0, 2.5, 5.0, 3.0, 1.0, -0.5, -1.0, 2.0, 
              3.0, -0.5, -3.5, -4.0, 2.0, 3.0, 4.0, 3.0, 1.0, -2.0 ]
+    mock_get.return_value = [ -2.0, 1.0, -3.0, 5.0, -1.0, 3.0, -4.0, 4.0, -2.0 ]
     calRst = lcc.astmSimpleRangeCounting( data )
     expectedRst = [ [ 3.0, 0.5 ], [ 4.0, 1.0 ], [ 6.0, 1.0 ], 
                     [ 7.0, 0.5 ], [ 8.0, 1.0 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
 
-def test_astmSimpleRangeCounting_normalTrivialCase_pass():
+@patch( "ffpack.utils.generalUtils.sequencePeakAndValleys" )
+def test_astmSimpleRangeCounting_normalTrivialCase_pass( mock_get ):
     # Trivial case 1
     data = [ 0.0, 1.5 ]
+    mock_get.return_value = [ 0.0, 1.5 ]
     calRst = lcc.astmSimpleRangeCounting( data )
     expectedRst = [ [ 1.5, 0.5 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     # Trivial case 2
     data = [ 1.5, 2.0 ]
+    mock_get.return_value = [ 1.5, 2.0 ]
     calRst = lcc.astmSimpleRangeCounting( data )
     expectedRst = [ [ 0.5, 0.5 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     # Trivial case 3
     data = [ 3.0, 1.0 ]
+    mock_get.return_value = [ 3.0, 1.0 ]
     calRst = lcc.astmSimpleRangeCounting( data )
     expectedRst = [ [ 2.0, 0.5 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     # Trivial case 4
     data = [ -0.5, -1.0 ]
+    mock_get.return_value = [ -0.5, -1.0 ]
     calRst = lcc.astmSimpleRangeCounting( data )
     expectedRst = [ [ 0.5, 0.5 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     # Trivial case 5
     data = [ 0.0, 1.5, 0.0 ]
+    mock_get.return_value = [ 0.0, 1.5, 0.0 ]
     calRst = lcc.astmSimpleRangeCounting( data )
     expectedRst = [ [ 1.5, 1.0 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     # Trivial case 6
     data = [ -1.0, -2.5, -1.0 ]
+    mock_get.return_value = [ -1.0, -2.5, -1.0 ]
     calRst = lcc.astmSimpleRangeCounting( data )
     expectedRst = [ [ 1.5, 1.0 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     # Trivial case 7
     data = [ 0.0, 1.5, 1.0 ]
+    mock_get.return_value = [ 0.0, 1.5, 1.0 ]
     calRst = lcc.astmSimpleRangeCounting( data )
     expectedRst = [ [ 0.5, 0.5 ], [ 1.5, 0.5 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     # Trivial case 8
     data = [ 0.0, -2.5, -1.0 ]
+    mock_get.return_value = [ 0.0, -2.5, -1.0 ]
     calRst = lcc.astmSimpleRangeCounting( data )
     expectedRst = [ [ 1.5, 0.5 ], [ 2.5, 0.5 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     # Trivial case 9
     data = [ 0.0, 2.5, 0.0, 3.0 ]
+    mock_get.return_value = [ 0.0, 2.5, 0.0, 3.0 ]
     calRst = lcc.astmSimpleRangeCounting( data )
     expectedRst = [ [ 2.5, 1.0 ], [ 3.0, 0.5 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     # Trivial case 10
     data = [ -1.0, 3.0, -0.5, 1.0, -2.0 ]
+    mock_get.return_value = [ -1.0, 3.0, -0.5, 1.0, -2.0 ]
     calRst = lcc.astmSimpleRangeCounting( data )
     expectedRst = [ [ 1.5, 0.5 ], [ 3.0, 0.5 ], [ 3.5, 0.5 ], [ 4.0, 0.5 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     # Trivial case 11
     data = [ -1.0, 1.0, -3.0, 3.0, 2.0 ]
+    mock_get.return_value = [ -1.0, 1.0, -3.0, 3.0, 2.0 ]
     calRst = lcc.astmSimpleRangeCounting( data )
     expectedRst = [ [ 1.0, 0.5 ], [ 2.0, 0.5 ], [ 4.0, 0.5 ], [ 6.0, 0.5 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
@@ -440,9 +457,11 @@ def test_astmSimpleRangeCounting_twoDimInputCase_valueError():
 ###############################################################################
 # Test astmRainflowCounting function
 ###############################################################################
-def test_astmRainflowCounting_normalUseCase_pass():
+@patch( "ffpack.utils.generalUtils.sequencePeakAndValleys" )
+def test_astmRainflowCounting_normalUseCase_pass( mock_get ):
     # Standard rainflow counting data from E1049-85(2017) Fig.6(a)
     data = [ -2.0, 1.0, -3.0, 5.0, -1.0, 3.0, -4.0, 4.0, -2.0 ]
+    mock_get.return_value = [ -2.0, 1.0, -3.0, 5.0, -1.0, 3.0, -4.0, 4.0, -2.0 ]
     calRst = lcc.astmRainflowCounting( data )
     expectedRst = [ [ 3.0, 0.5 ], [ 4.0, 1.5 ], [ 6.0, 0.5 ], [ 8.0, 1.0 ], [ 9.0, 0.5 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
@@ -450,74 +469,87 @@ def test_astmRainflowCounting_normalUseCase_pass():
     # Adding extra data into the standard data without change the slope
     data = [ -2.0, -0.5, 1.0, 0.0, -1.5, -3.0, -1.0, 2.5, 5.0, 3.0, 1.0, -0.5, -1.0, 2.0, 
              3.0, -0.5, -3.5, -4.0, 2.0, 3.0, 4.0, 3.0, 1.0, -2.0 ]
+    mock_get.return_value = [ -2.0, 1.0, -3.0, 5.0, -1.0, 3.0, -4.0, 4.0, -2.0 ]
     calRst = lcc.astmRainflowCounting( data )
     expectedRst = [ [ 3.0, 0.5 ], [ 4.0, 1.5 ], [ 6.0, 0.5 ], [ 8.0, 1.0 ], [ 9.0, 0.5 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
 
-def test_astmRainflowCounting_normalTrivialCase_pass():
+@patch( "ffpack.utils.generalUtils.sequencePeakAndValleys" )
+def test_astmRainflowCounting_normalTrivialCase_pass( mock_get ):
     # Trivial case 1
     data = [ 0.0, 1.5 ]
+    mock_get.return_value = [ 0.0, 1.5 ]
     calRst = lcc.astmRainflowCounting( data )
     expectedRst = [ [ 1.5, 0.5 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     # Trivial case 2
     data = [ 1.5, 2.0 ]
+    mock_get.return_value = [ 1.5, 2.0 ]
     calRst = lcc.astmRainflowCounting( data )
     expectedRst = [ [ 0.5, 0.5 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     # Trivial case 3
     data = [ 3.0, 1.0 ]
+    mock_get.return_value = [ 3.0, 1.0 ]
     calRst = lcc.astmRainflowCounting( data )
     expectedRst = [ [ 2.0, 0.5 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     # Trivial case 4
     data = [ -0.5, -1.0 ]
+    mock_get.return_value = [ -0.5, -1.0 ]
     calRst = lcc.astmRainflowCounting( data )
     expectedRst = [ [ 0.5, 0.5 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     # Trivial case 5
     data = [ 0.0, 1.5, 0.0 ]
+    mock_get.return_value = [ 0.0, 1.5, 0.0 ]
     calRst = lcc.astmRainflowCounting( data )
     expectedRst = [ [ 1.5, 1.0 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     # Trivial case 6
     data = [ -1.0, -2.5, -1.0 ]
+    mock_get.return_value = [ -1.0, -2.5, -1.0 ]
     calRst = lcc.astmRainflowCounting( data )
     expectedRst = [ [ 1.5, 1.0 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     # Trivial case 7
     data = [ 0.0, 1.5, 1.0 ]
+    mock_get.return_value = [ 0.0, 1.5, 1.0 ]
     calRst = lcc.astmRainflowCounting( data )
     expectedRst = [ [ 0.5, 0.5 ], [ 1.5, 0.5 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     # Trivial case 8
     data = [ 0.0, -2.5, -1.0 ]
+    mock_get.return_value = [ 0.0, -2.5, -1.0 ]
     calRst = lcc.astmRainflowCounting( data )
     expectedRst = [ [ 1.5, 0.5 ], [ 2.5, 0.5 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     # Trivial case 9
     data = [ 0.0, 2.5, 0.0, 3.0 ]
+    mock_get.return_value = [ 0.0, 2.5, 0.0, 3.0 ]
     calRst = lcc.astmRainflowCounting( data )
     expectedRst = [ [ 2.5, 1.0 ], [ 3, 0.5 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     # Trivial case 10
     data = [ -1.0, 3.0, -0.5, 1.0, -2.0 ]
+    mock_get.return_value = [ -1.0, 3.0, -0.5, 1.0, -2.0 ]
     calRst = lcc.astmRainflowCounting( data )
     expectedRst = [ [ 1.5, 1.0 ], [ 4.0, 0.5 ], [ 5.0, 0.5 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     # Trivial case 11
     data = [ -1.0, 1.0, -3.0, 3.0, 2.0 ]
+    mock_get.return_value = [ -1.0, 1.0, -3.0, 3.0, 2.0 ]
     calRst = lcc.astmRainflowCounting( data )
     expectedRst = [ [ 1.0, 0.5 ], [ 2.0, 0.5 ], [ 4.0, 0.5 ], [ 6.0, 0.5 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
