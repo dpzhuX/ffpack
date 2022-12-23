@@ -4,7 +4,7 @@
 ![GitHub](https://img.shields.io/github/license/dpzhuX/ffpack)
 
 ## Purpose
-`FFPACK` ( Fatigue and Fracture PACKage ) is an open source Python library for fatigue and fracture analysis. It supports the load cycle counting with ASTM methods, load sequence generators, fatigue damage evaluations, etc. A lot of features are under active development. `FFPACK` is designed to help engineers analyze the fatigue and fracture behavior in engineering practice.
+`FFPACK` ( Fatigue and Fracture PACKage ) is an open-source Python library for fatigue and fracture analysis. It supports load cycle counting with ASTM methods, load sequence generators, fatigue damage evaluations, etc. A lot of features are under active development. `FFPACK` is designed to help engineers analyze fatigue and fracture behavior in engineering practice.
 
 ## Installation
 
@@ -48,4 +48,4 @@ pip install ffpack
 
 ## Document
 
-You can find a complete docummentation for setting up `FFPACK` at the [Read the Docs site](https://ffpack.readthedocs.io/en/latest/).
+You can find a complete documentation for setting up `FFPACK` at the [Read the Docs site](https://ffpack.readthedocs.io/en/latest/).
