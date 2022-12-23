@@ -19,6 +19,12 @@ def test_astmLevelCrossingCounting_normalUseCase_pass():
                     [ 1.0, 5.0 ], [ 2.0, 3.0 ], [ 3.0, 2.0 ] ] 
     np.testing.assert_allclose( calRst, expectedRst )
 
+    # When aggregate is False, each interval will be searched from small to large value
+    calRst = lcc.astmLevelCrossingCounting( data, aggregate=False )
+    expectedRst = [ 0.0, 1.0, 1.0, 2.0, 3.0, 1.0, 2.0, -1.0, -2.0, 
+                    -1.0, -3.0, 0.0, 1.0, 1.0, 2.0, 3.0 ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
     # Adding extra data into the standard data without change the slope
     data = [ -0.8, 0.0, 1.0, 1.3, 0.7, 1.0, 2.0, 3.4, 3.0, 2.0, 
              1.0, 0.7, 1.0, 2.0, 2.5, 2.0, 1.0, 0.0, -1.0, -1.4, 
@@ -28,6 +34,11 @@ def test_astmLevelCrossingCounting_normalUseCase_pass():
     calRst = lcc.astmLevelCrossingCounting( data )
     expectedRst = [ [ -3.0, 1.0 ], [ -2.0, 1.0 ], [ -1.0, 2.0 ], [ 0.0, 2.0 ], 
                     [ 1.0, 5.0 ], [ 2.0, 3.0 ], [ 3.0, 2.0 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    calRst = lcc.astmLevelCrossingCounting( data, aggregate=False )
+    expectedRst = [ 0.0, 1.0, 1.0, 2.0, 3.0, 1.0, 2.0, -1.0, -2.0, 
+                    -1.0, -3.0, 0.0, 1.0, 1.0, 2.0, 3.0 ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     # Slightly bias the data without change the slope
@@ -41,6 +52,11 @@ def test_astmLevelCrossingCounting_normalUseCase_pass():
                     [ 1.0, 5.0 ], [ 2.0, 3.0 ], [ 3.0, 2.0 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
     
+    calRst = lcc.astmLevelCrossingCounting( data, aggregate=False )
+    expectedRst = [ 0.0, 1.0, 1.0, 2.0, 3.0, 1.0, 2.0, -1.0, -2.0, 
+                    -1.0, -3.0, 0.0, 1.0, 1.0, 2.0, 3.0 ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
 
 def test_astmLevelCrossingCounting_normalTrivialCase_pass():
     # Trivial case 1
@@ -49,10 +65,18 @@ def test_astmLevelCrossingCounting_normalTrivialCase_pass():
     expectedRst = [ [ 0.0, 1.0 ], [ 1.0, 1.0 ], [ 2.0, 1.0 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
+    calRst = lcc.astmLevelCrossingCounting( data, aggregate=False )
+    expectedRst = [ 0.0, 1.0, 2.0 ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
     # Trivial case 2
     data = [ -0.5, 2.5 ]
     calRst = lcc.astmLevelCrossingCounting( data )
     expectedRst = [ [ 0.0, 1.0 ], [ 1.0, 1.0 ], [ 2.0, 1.0 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    calRst = lcc.astmLevelCrossingCounting( data, aggregate=False )
+    expectedRst = [ 0.0, 1.0, 2.0 ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     # Trivial case 3
@@ -61,16 +85,28 @@ def test_astmLevelCrossingCounting_normalTrivialCase_pass():
     expectedRst = [ [ ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
+    calRst = lcc.astmLevelCrossingCounting( data, aggregate=False )
+    expectedRst = [ ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
     # Trivial case 4
     data = [ 2.5, -0.5 ]
     calRst = lcc.astmLevelCrossingCounting( data )
     expectedRst = [ [ ] ]
     np.testing.assert_allclose( calRst, expectedRst )
     
+    calRst = lcc.astmLevelCrossingCounting( data, aggregate=False )
+    expectedRst = [ ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
     # Trivial case 5
     data = [ 2.5, -1.5 ]
     calRst = lcc.astmLevelCrossingCounting( data )
     expectedRst = [ [ -1.0, 1.0 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    calRst = lcc.astmLevelCrossingCounting( data, aggregate=False )
+    expectedRst = [ -1.0 ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     # Trivial case 6
@@ -79,10 +115,18 @@ def test_astmLevelCrossingCounting_normalTrivialCase_pass():
     expectedRst = [ [ -2.0, 1.0 ], [ -1.0, 1.0 ]]
     np.testing.assert_allclose( calRst, expectedRst )
     
+    calRst = lcc.astmLevelCrossingCounting( data, aggregate=False )
+    expectedRst = [ -2.0, -1.0 ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
     # Trivial case 7
     data = [ -2.5, -0.5 ]
     calRst = lcc.astmLevelCrossingCounting( data )
     expectedRst = [ [ ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    calRst = lcc.astmLevelCrossingCounting( data, aggregate=False )
+    expectedRst = [ ]
     np.testing.assert_allclose( calRst, expectedRst )
 
 
@@ -96,6 +140,11 @@ def test_astmLevelCrossingCounting_withRefLevelCase_pass():
                     [ 1.0, 5.0 ], [ 2.0, 3.0 ], [ 3.0, 2.0 ] ] 
     np.testing.assert_allclose( calRst, expectedRst )
 
+    calRst = lcc.astmLevelCrossingCounting( data, refLevel=refLevel, aggregate=False )
+    expectedRst = [ 1.0, 1.0, 2.0, 3.0, 1.0, 2.0, -1.0, 0.0, 
+                    -2.0, -1.0, -3.0, 1.0, 1.0, 2.0, 3.0, 0.0 ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
     # Add other levels
     data = [ -0.8, 1.3, 0.7, 3.4, 0.7, 2.5, -1.4, -0.5, -2.3, 
              -2.2, -2.6, -2.4, -3.3, 1.5, 0.6, 3.4, -0.5 ]
@@ -105,11 +154,20 @@ def test_astmLevelCrossingCounting_withRefLevelCase_pass():
                     [ 1.0, 5.0 ], [ 2.0, 3.0 ], [ 3.0, 2.0 ] ] 
     np.testing.assert_allclose( calRst, expectedRst )
 
+    calRst = lcc.astmLevelCrossingCounting( data, refLevel=refLevel, aggregate=False )
+    expectedRst = [ 0.0, 1.0, 1.0, 2.0, 3.0, 1.0, 2.0, -1.0, 
+                    -2.0, -3.0, -1.0, 0.0, 1.0, 1.0, 2.0, 3.0 ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
     # Trivial case 1
     data = [ 0.0, 2.2 ]
     refLevel = 1.0
     calRst = lcc.astmLevelCrossingCounting( data, refLevel=refLevel )
     expectedRst = [ [ 1.0, 1.0 ], [ 2.0, 1.0 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    calRst = lcc.astmLevelCrossingCounting( data, refLevel=refLevel, aggregate=False )
+    expectedRst = [ 1.0, 2.0 ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     # Trivial case 2
@@ -119,6 +177,10 @@ def test_astmLevelCrossingCounting_withRefLevelCase_pass():
     expectedRst = [ [ 2.0, 1.0 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
+    calRst = lcc.astmLevelCrossingCounting( data, refLevel=refLevel, aggregate=False )
+    expectedRst = [ 2.0 ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
     # Trivial case 3
     data = [ 1.0, -2.5 ]
     refLevel = -1.0
@@ -126,11 +188,19 @@ def test_astmLevelCrossingCounting_withRefLevelCase_pass():
     expectedRst = [ [ -2.0, 1.0 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
+    calRst = lcc.astmLevelCrossingCounting( data, refLevel=refLevel, aggregate=False )
+    expectedRst = [ -2.0 ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
     # Trivial case 4
     data = [ 1.0, -2.5 ]
     refLevel = -2.0
     calRst = lcc.astmLevelCrossingCounting( data, refLevel=refLevel )
     expectedRst = [ [ ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    calRst = lcc.astmLevelCrossingCounting( data, refLevel=refLevel, aggregate=False )
+    expectedRst = [ ]
     np.testing.assert_allclose( calRst, expectedRst )
 
 
@@ -144,12 +214,20 @@ def test_astmLevelCrossingCounting_withLevelsCase_pass():
     expectedRst = [ [ -3.0, 1.0 ], [ -2.0, 1.0 ], [ 2.0, 3.0 ], [ 3.0, 2.0 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
+    calRst = lcc.astmLevelCrossingCounting( data, levels=levels, aggregate=False )
+    expectedRst = [ 2.0, 3.0, 2.0, -2.0, -3.0, 2.0, 3.0 ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
     # Add other levels
     data = [ -0.8, 1.3, 0.7, 3.4, 0.7, 2.5, -1.4, -0.5, -2.3, 
              -2.2, -2.6, -2.4, -3.3, 1.5, 0.6, 3.4, -0.5 ]
     levels = [ -5, -4, -3, -2, 2, 3, 4, 5 ]
     calRst = lcc.astmLevelCrossingCounting( data, levels=levels )
     expectedRst = [ [ -3.0, 1.0 ], [ -2.0, 1.0 ], [ 2.0, 3.0 ], [ 3.0, 2.0 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    calRst = lcc.astmLevelCrossingCounting( data, levels=levels, aggregate=False )
+    expectedRst = [ 2.0, 3.0, 2.0, -2.0, -3.0, 2.0, 3.0 ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     # Trivial case 1
@@ -159,6 +237,10 @@ def test_astmLevelCrossingCounting_withLevelsCase_pass():
     expectedRst = [ [ 0.0, 1.0 ], [ 1.0, 1.0 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
+    calRst = lcc.astmLevelCrossingCounting( data, levels=levels, aggregate=False )
+    expectedRst = [ 0.0, 1.0 ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
     # Trivial case 2
     data = [ 0.0, 2.2 ]
     levels = [ 2.0 ]
@@ -166,11 +248,19 @@ def test_astmLevelCrossingCounting_withLevelsCase_pass():
     expectedRst = [ [ 2.0, 1.0 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
+    calRst = lcc.astmLevelCrossingCounting( data, levels=levels, aggregate=False )
+    expectedRst = [ 2.0 ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
     # Trivial case 3
     data = [ 1.0, -2.5 ]
     levels = [ -1.0 ]
     calRst = lcc.astmLevelCrossingCounting( data, levels=levels )
     expectedRst = [ [ -1.0, 1.0 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    calRst = lcc.astmLevelCrossingCounting( data, levels=levels, aggregate=False )
+    expectedRst = [ -1.0 ]
     np.testing.assert_allclose( calRst, expectedRst )
 
 
@@ -208,6 +298,10 @@ def test_astmPeakCounting_normalUseCase_pass():
                     [ 1.5, 2.0 ], [ 2.5, 1.0 ], [ 3.5, 2.0 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
+    calRst = lcc.astmPeakCounting( data, aggregate=False )
+    expectedRst = [ 1.5, 3.5, 2.5, -1.5, -2.5, -2.7, -3.5, 1.5, 3.5 ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
     # Adding extra data into the standard data without change the slope
     data = [ 0.0, 1.0, 1.5, 0.5, 0.5, 1.0, 2.0, 3.5, 2.0, 1.0, 0.5, 1.5, 2.5, 
              0.0, -1.0, -1.5, -1.0, -0.5, -2.0, -2.5, -2.0, -2.7, -2.5, -3.5, 
@@ -215,6 +309,10 @@ def test_astmPeakCounting_normalUseCase_pass():
     calRst = lcc.astmPeakCounting( data )
     expectedRst = [ [ -3.5, 1.0 ], [ -2.7, 1.0 ], [ -2.5, 1.0 ], [ -1.5, 1.0 ], 
                     [ 1.5, 2.0 ], [ 2.5, 1.0 ], [ 3.5, 2.0 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    calRst = lcc.astmPeakCounting( data, aggregate=False )
+    expectedRst = [ 1.5, 3.5, 2.5, -1.5, -2.5, -2.7, -3.5, 1.5, 3.5 ]
     np.testing.assert_allclose( calRst, expectedRst )
 
 
@@ -225,10 +323,18 @@ def test_astmPeakCounting_normalTrivialCase_pass():
     expectedRst = [ [ ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
+    calRst = lcc.astmPeakCounting( data, aggregate=False )
+    expectedRst = [ ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
     # Trivial case 2
     data = [ 0.0, 1.0, 0.0 ]
     calRst = lcc.astmPeakCounting( data )
     expectedRst = [ [ 1.0, 1.0 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    calRst = lcc.astmPeakCounting( data, aggregate=False )
+    expectedRst = [ 1.0 ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     # Trivial case 3
@@ -237,16 +343,28 @@ def test_astmPeakCounting_normalTrivialCase_pass():
     expectedRst = [ [ 1.0, 1.0 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
+    calRst = lcc.astmPeakCounting( data, aggregate=False )
+    expectedRst = [ 1.0 ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
     # Trivial case 4
     data = [ 0.5, -1.5, 1.0 ]
     calRst = lcc.astmPeakCounting( data )
     expectedRst = [ [ -1.5, 1.0 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
+    calRst = lcc.astmPeakCounting( data, aggregate=False )
+    expectedRst = [ -1.5 ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
     # Trivial case 4
     data = [ 0.5, -1.5, 1.0, -0.5 ]
     calRst = lcc.astmPeakCounting( data )
     expectedRst = [ [ -1.5, 1.0 ], [ 1.0, 1.0 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    calRst = lcc.astmPeakCounting( data, aggregate=False )
+    expectedRst = [ -1.5, 1.0 ]
     np.testing.assert_allclose( calRst, expectedRst )
 
 
@@ -261,6 +379,10 @@ def test_astmPeakCounting_withRefLevelCase_pass():
                     [ 0.5, 3.0], [ 1.5, 2.0 ], [ 2.5, 1.0 ], [ 3.5, 2.0 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
+    calRst = lcc.astmPeakCounting( data, aggregate=False )
+    expectedRst = [ 1.5, 3.5, 2.5, -1.5, -2.5, -2.7, -3.5, 1.5, 3.5 ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
     # Standard peak counting data from E1049-85(2017) Fig.3(a)
     data = [ 0.0, 1.5, 0.5, 3.5, 0.5, 2.5, -1.5, -0.5, -2.5, 
              -2.0, -2.7, -2.5, -3.5, 1.5, 0.5, 3.5, -0.5 ]
@@ -269,6 +391,10 @@ def test_astmPeakCounting_withRefLevelCase_pass():
     calRst = lcc.astmPeakCounting( data, refLevel=refLevel )
     expectedRst = [ [ -3.5, 1.0 ], [ -2.7, 1.0 ], [ -2.5, 1.0 ], [ -1.5, 1.0 ], 
                     [ 0.5, 3.0], [ 2.5, 1.0 ], [ 3.5, 2.0 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    calRst = lcc.astmPeakCounting( data, refLevel=refLevel, aggregate=False )
+    expectedRst = [ 0.5, 3.5, 0.5, 2.5, -1.5, -2.5, -2.7, -3.5, 0.5, 3.5 ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     # Standard peak counting data from E1049-85(2017) Fig.3(a)
@@ -281,6 +407,10 @@ def test_astmPeakCounting_withRefLevelCase_pass():
                     [ -0.5, 1.0 ], [ 1.5, 2.0 ], [ 2.5, 1.0 ], [ 3.5, 2.0 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
+    calRst = lcc.astmPeakCounting( data, refLevel=refLevel, aggregate=False )
+    expectedRst = [ 1.5, 3.5, 2.5, -1.5, -0.5, -2.5, -2.7, -3.5, 1.5, 3.5 ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
     # Standard peak counting data from E1049-85(2017) Fig.3(a)
     data = [ 0.0, 1.5, 0.5, 3.5, 0.5, 2.5, -1.5, -0.5, -2.5, 
              -2.0, -2.7, -2.5, -3.5, 1.5, 0.5, 3.5, -0.5 ]
@@ -291,6 +421,10 @@ def test_astmPeakCounting_withRefLevelCase_pass():
                     [ 1.5, 2.0 ], [ 2.5, 1.0 ], [ 3.5, 2.0 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
+    calRst = lcc.astmPeakCounting( data, refLevel=refLevel, aggregate=False )
+    expectedRst = [ 1.5, 3.5, 2.5, -0.5, -2.5, -2.7, -3.5, 1.5, 3.5 ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
     # Trivial case 1
     data = [ 0.0, 2.0, -0.5 ]
     # Set level to 1.0
@@ -299,12 +433,20 @@ def test_astmPeakCounting_withRefLevelCase_pass():
     expectedRst = [ [ 2.0, 1.0 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
+    calRst = lcc.astmPeakCounting( data, refLevel=refLevel, aggregate=False )
+    expectedRst = [ 2.0 ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
     # Trivial case 2
     data = [ 0.5, -1.5, -0.5 ]
     # Set level to -1.0
     refLevel = -1.0
     calRst = lcc.astmPeakCounting( data, refLevel=refLevel )
     expectedRst = [ [ -1.5, 1.0 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    calRst = lcc.astmPeakCounting( data, refLevel=refLevel, aggregate=False )
+    expectedRst = [ -1.5 ]
     np.testing.assert_allclose( calRst, expectedRst )
 
 
@@ -342,6 +484,12 @@ def test_astmSimpleRangeCounting_normalUseCase_pass( mock_get ):
                     [ 7.0, 0.5 ], [ 8.0, 1.0 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
+    calRst = lcc.astmSimpleRangeCounting( data, aggregate=False )
+    expectedRst = [ [ -2.0, 1.0 ], [ 1.0, -3.0 ], [ -3.0, 5.0 ], 
+                    [ 5.0, -1.0 ], [ -1.0, 3.0 ], [ 3.0, -4.0 ],
+                    [ -4.0, 4.0 ], [ 4.0, -2.0 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
     # Adding extra data into the standard data without change the slope
     data = [ -2.0, -0.5, 1.0, 0.0, -1.5, -3.0, -1.0, 2.5, 5.0, 3.0, 1.0, -0.5, -1.0, 2.0, 
              3.0, -0.5, -3.5, -4.0, 2.0, 3.0, 4.0, 3.0, 1.0, -2.0 ]
@@ -349,6 +497,12 @@ def test_astmSimpleRangeCounting_normalUseCase_pass( mock_get ):
     calRst = lcc.astmSimpleRangeCounting( data )
     expectedRst = [ [ 3.0, 0.5 ], [ 4.0, 1.0 ], [ 6.0, 1.0 ], 
                     [ 7.0, 0.5 ], [ 8.0, 1.0 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    calRst = lcc.astmSimpleRangeCounting( data, aggregate=False )
+    expectedRst = [ [ -2.0, 1.0 ], [ 1.0, -3.0 ], [ -3.0, 5.0 ], 
+                    [ 5.0, -1.0 ], [ -1.0, 3.0 ], [ 3.0, -4.0 ],
+                    [ -4.0, 4.0 ], [ 4.0, -2.0 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
 
@@ -361,11 +515,19 @@ def test_astmSimpleRangeCounting_normalTrivialCase_pass( mock_get ):
     expectedRst = [ [ 1.5, 0.5 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
+    calRst = lcc.astmSimpleRangeCounting( data, aggregate=False )
+    expectedRst = [ [ 0.0, 1.5 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
     # Trivial case 2
     data = [ 1.5, 2.0 ]
     mock_get.return_value = [ 1.5, 2.0 ]
     calRst = lcc.astmSimpleRangeCounting( data )
     expectedRst = [ [ 0.5, 0.5 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    calRst = lcc.astmSimpleRangeCounting( data, aggregate=False )
+    expectedRst = [ [ 1.5, 2.0 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     # Trivial case 3
@@ -375,11 +537,19 @@ def test_astmSimpleRangeCounting_normalTrivialCase_pass( mock_get ):
     expectedRst = [ [ 2.0, 0.5 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
+    calRst = lcc.astmSimpleRangeCounting( data, aggregate=False )
+    expectedRst = [ [ 3.0, 1.0 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
     # Trivial case 4
     data = [ -0.5, -1.0 ]
     mock_get.return_value = [ -0.5, -1.0 ]
     calRst = lcc.astmSimpleRangeCounting( data )
     expectedRst = [ [ 0.5, 0.5 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    calRst = lcc.astmSimpleRangeCounting( data, aggregate=False )
+    expectedRst = [ [ -0.5, -1.0 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     # Trivial case 5
@@ -389,11 +559,19 @@ def test_astmSimpleRangeCounting_normalTrivialCase_pass( mock_get ):
     expectedRst = [ [ 1.5, 1.0 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
+    calRst = lcc.astmSimpleRangeCounting( data, aggregate=False )
+    expectedRst = [ [ 0.0, 1.5 ], [ 1.5, 0.0 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
     # Trivial case 6
     data = [ -1.0, -2.5, -1.0 ]
     mock_get.return_value = [ -1.0, -2.5, -1.0 ]
     calRst = lcc.astmSimpleRangeCounting( data )
     expectedRst = [ [ 1.5, 1.0 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    calRst = lcc.astmSimpleRangeCounting( data, aggregate=False )
+    expectedRst = [ [ -1.0, -2.5 ], [ -2.5, -1.0 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     # Trivial case 7
@@ -403,11 +581,19 @@ def test_astmSimpleRangeCounting_normalTrivialCase_pass( mock_get ):
     expectedRst = [ [ 0.5, 0.5 ], [ 1.5, 0.5 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
+    calRst = lcc.astmSimpleRangeCounting( data, aggregate=False )
+    expectedRst = [ [ 0.0, 1.5 ], [ 1.5, 1.0 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
     # Trivial case 8
     data = [ 0.0, -2.5, -1.0 ]
     mock_get.return_value = [ 0.0, -2.5, -1.0 ]
     calRst = lcc.astmSimpleRangeCounting( data )
     expectedRst = [ [ 1.5, 0.5 ], [ 2.5, 0.5 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    calRst = lcc.astmSimpleRangeCounting( data, aggregate=False )
+    expectedRst = [ [ 0.0, -2.5 ], [ -2.5, -1.0 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     # Trivial case 9
@@ -417,6 +603,10 @@ def test_astmSimpleRangeCounting_normalTrivialCase_pass( mock_get ):
     expectedRst = [ [ 2.5, 1.0 ], [ 3.0, 0.5 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
+    calRst = lcc.astmSimpleRangeCounting( data, aggregate=False )
+    expectedRst = [ [ 0.0, 2.5 ], [ 2.5, 0.0 ], [ 0.0, 3.0 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
     # Trivial case 10
     data = [ -1.0, 3.0, -0.5, 1.0, -2.0 ]
     mock_get.return_value = [ -1.0, 3.0, -0.5, 1.0, -2.0 ]
@@ -424,11 +614,19 @@ def test_astmSimpleRangeCounting_normalTrivialCase_pass( mock_get ):
     expectedRst = [ [ 1.5, 0.5 ], [ 3.0, 0.5 ], [ 3.5, 0.5 ], [ 4.0, 0.5 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
+    calRst = lcc.astmSimpleRangeCounting( data, aggregate=False )
+    expectedRst = [ [ -1.0, 3.0 ], [ 3.0, -0.5 ], [ -0.5, 1.0 ], [ 1.0, -2.0 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
     # Trivial case 11
     data = [ -1.0, 1.0, -3.0, 3.0, 2.0 ]
     mock_get.return_value = [ -1.0, 1.0, -3.0, 3.0, 2.0 ]
     calRst = lcc.astmSimpleRangeCounting( data )
     expectedRst = [ [ 1.0, 0.5 ], [ 2.0, 0.5 ], [ 4.0, 0.5 ], [ 6.0, 0.5 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    calRst = lcc.astmSimpleRangeCounting( data, aggregate=False )
+    expectedRst = [ [ -1.0, 1.0 ], [ 1.0, -3.0 ], [ -3.0, 3.0 ], [ 3.0, 2.0 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
 
@@ -466,12 +664,24 @@ def test_astmRainflowCounting_normalUseCase_pass( mock_get ):
     expectedRst = [ [ 3.0, 0.5 ], [ 4.0, 1.5 ], [ 6.0, 0.5 ], [ 8.0, 1.0 ], [ 9.0, 0.5 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
+    calRst = lcc.astmRainflowCounting( data, aggregate=False )
+    expectedRst = [ [ -2.0, 1.0, 0.5 ], [ 1.0, -3.0, 0.5 ], [ -1.0, 3.0, 1.0 ], 
+                    [ -3.0, 5.0, 0.5 ], [ 5.0, -4.0, 0.5 ], [ -4.0, 4.0, 0.5 ], 
+                    [ 4.0, -2.0, 0.5 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
     # Adding extra data into the standard data without change the slope
     data = [ -2.0, -0.5, 1.0, 0.0, -1.5, -3.0, -1.0, 2.5, 5.0, 3.0, 1.0, -0.5, -1.0, 2.0, 
              3.0, -0.5, -3.5, -4.0, 2.0, 3.0, 4.0, 3.0, 1.0, -2.0 ]
     mock_get.return_value = [ -2.0, 1.0, -3.0, 5.0, -1.0, 3.0, -4.0, 4.0, -2.0 ]
     calRst = lcc.astmRainflowCounting( data )
     expectedRst = [ [ 3.0, 0.5 ], [ 4.0, 1.5 ], [ 6.0, 0.5 ], [ 8.0, 1.0 ], [ 9.0, 0.5 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    calRst = lcc.astmRainflowCounting( data, aggregate=False )
+    expectedRst = [ [ -2.0, 1.0, 0.5 ], [ 1.0, -3.0, 0.5 ], [ -1.0, 3.0, 1.0 ], 
+                    [ -3.0, 5.0, 0.5 ], [ 5.0, -4.0, 0.5 ], [ -4.0, 4.0, 0.5 ], 
+                    [ 4.0, -2.0, 0.5 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
 
@@ -484,11 +694,19 @@ def test_astmRainflowCounting_normalTrivialCase_pass( mock_get ):
     expectedRst = [ [ 1.5, 0.5 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
+    calRst = lcc.astmRainflowCounting( data, aggregate=False )
+    expectedRst = [ [ 0.0, 1.5, 0.5 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
     # Trivial case 2
     data = [ 1.5, 2.0 ]
     mock_get.return_value = [ 1.5, 2.0 ]
     calRst = lcc.astmRainflowCounting( data )
     expectedRst = [ [ 0.5, 0.5 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    calRst = lcc.astmRainflowCounting( data, aggregate=False )
+    expectedRst = [ [ 1.5, 2.0, 0.5 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     # Trivial case 3
@@ -498,11 +716,19 @@ def test_astmRainflowCounting_normalTrivialCase_pass( mock_get ):
     expectedRst = [ [ 2.0, 0.5 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
+    calRst = lcc.astmRainflowCounting( data, aggregate=False )
+    expectedRst = [ [ 3.0, 1.0, 0.5 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
     # Trivial case 4
     data = [ -0.5, -1.0 ]
     mock_get.return_value = [ -0.5, -1.0 ]
     calRst = lcc.astmRainflowCounting( data )
     expectedRst = [ [ 0.5, 0.5 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    calRst = lcc.astmRainflowCounting( data, aggregate=False )
+    expectedRst = [ [ -0.5, -1.0, 0.5 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     # Trivial case 5
@@ -512,11 +738,19 @@ def test_astmRainflowCounting_normalTrivialCase_pass( mock_get ):
     expectedRst = [ [ 1.5, 1.0 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
+    calRst = lcc.astmRainflowCounting( data, aggregate=False )
+    expectedRst = [ [ 0.0, 1.5, 0.5 ], [ 1.5, 0.0, 0.5 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
     # Trivial case 6
     data = [ -1.0, -2.5, -1.0 ]
     mock_get.return_value = [ -1.0, -2.5, -1.0 ]
     calRst = lcc.astmRainflowCounting( data )
     expectedRst = [ [ 1.5, 1.0 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    calRst = lcc.astmRainflowCounting( data, aggregate=False )
+    expectedRst = [ [ -1.0, -2.5, 0.5 ], [ -2.5, -1.0, 0.5 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     # Trivial case 7
@@ -526,11 +760,19 @@ def test_astmRainflowCounting_normalTrivialCase_pass( mock_get ):
     expectedRst = [ [ 0.5, 0.5 ], [ 1.5, 0.5 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
+    calRst = lcc.astmRainflowCounting( data, aggregate=False )
+    expectedRst = [ [ 0.0, 1.5, 0.5 ], [ 1.5, 1.0, 0.5 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
     # Trivial case 8
     data = [ 0.0, -2.5, -1.0 ]
     mock_get.return_value = [ 0.0, -2.5, -1.0 ]
     calRst = lcc.astmRainflowCounting( data )
     expectedRst = [ [ 1.5, 0.5 ], [ 2.5, 0.5 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    calRst = lcc.astmRainflowCounting( data, aggregate=False )
+    expectedRst = [ [ 0.0, -2.5, 0.5 ], [ -2.5, -1.0, 0.5 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     # Trivial case 9
@@ -540,6 +782,10 @@ def test_astmRainflowCounting_normalTrivialCase_pass( mock_get ):
     expectedRst = [ [ 2.5, 1.0 ], [ 3, 0.5 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
+    calRst = lcc.astmRainflowCounting( data, aggregate=False )
+    expectedRst = [ [ 0.0, 2.5, 0.5 ], [ 2.5, 0.0, 0.5 ], [ 0.0, 3.0, 0.5 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
     # Trivial case 10
     data = [ -1.0, 3.0, -0.5, 1.0, -2.0 ]
     mock_get.return_value = [ -1.0, 3.0, -0.5, 1.0, -2.0 ]
@@ -547,11 +793,19 @@ def test_astmRainflowCounting_normalTrivialCase_pass( mock_get ):
     expectedRst = [ [ 1.5, 1.0 ], [ 4.0, 0.5 ], [ 5.0, 0.5 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
+    calRst = lcc.astmRainflowCounting( data, aggregate=False )
+    expectedRst = [ [ -0.5, 1.0, 1.0 ], [ -1.0, 3.0, 0.5 ], [ 3.0, -2.0, 0.5 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
     # Trivial case 11
     data = [ -1.0, 1.0, -3.0, 3.0, 2.0 ]
     mock_get.return_value = [ -1.0, 1.0, -3.0, 3.0, 2.0 ]
     calRst = lcc.astmRainflowCounting( data )
     expectedRst = [ [ 1.0, 0.5 ], [ 2.0, 0.5 ], [ 4.0, 0.5 ], [ 6.0, 0.5 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    calRst = lcc.astmRainflowCounting( data, aggregate=False )
+    expectedRst = [ [ -1.0, 1.0, 0.5 ], [ 1.0, -3.0, 0.5 ], [ -3.0, 3.0, 0.5 ], [ 3.0, 2.0, 0.5 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
 
