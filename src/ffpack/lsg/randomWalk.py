@@ -4,12 +4,12 @@ import numpy as np
 
 def randomWalkUniform( numSteps, dim=1 ):
     '''
-    Generate load sequence by random walk.
+    Generate load sequence by a random walk.
 
     Parameters
     ----------
     numSteps: integer 
-        Number of numSteps for generating.
+        Number of steps for generating.
     dim: scalar, optional
         Data dimension.
     

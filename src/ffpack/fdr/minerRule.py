@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 '''
-Palmgren-Miner damage rule is one of the famous fatigue damage rule for 
+Palmgren-Miner damage rule is one of the famous fatigue damage rules for 
 fatigue estimation. The rule is defined in a simple and intuitive way and
 it is very popular now.
 
@@ -33,8 +33,8 @@ def minerDamageRuleNaive( fatigueData ):
     ValueError
         If fatigueData length is less than 1.
         If counting cycles is less than 0.
-        If failure cycles is less than or equal 0.
-        If counting cycles is large than failure cycles.
+        If number of failure cycles is less than or equal 0.
+        If number of counting cycles is large than failure cycles.
 
     
     Examples
@@ -64,12 +64,12 @@ def minerDamageRuleNaive( fatigueData ):
 
 def minerDamageRuleClassic( lccData, snData, fatigueLimit ):
     '''
-    Classical Palmgren-miner damage rule calcuates the damage results based on SN curve.
+    Classical Palmgren-miner damage rule calculates the damage results based on the SN curve.
     
     Parameters
     ----------
     lccData: 2d array
-        Load cycle counting results in 2D matrix,
+        Load cycle counting results in a 2D matrix,
         e.g., [ [ value, count ], ... ]
     
     snData: 2d array

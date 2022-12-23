@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
 '''
-Rychlik proposed a topLevel up cycle conting method and proved that the propsed 
-method is equivalent to the classical rainflow rounting method. Compared to the
-classical rainflow counting method, the proposed method keep the original 
+Rychlik proposed a toplevel-up cycle conting method and proved that the proposed 
+method is equivalent to the classical rainflow counting method. Compared to the
+classical rainflow counting method, the proposed method keeps the original 
 sequence information which is quite useful if the sequence information is
 required for further analysis.
 
@@ -17,7 +17,7 @@ from collections import defaultdict
 
 def rychlikRainflowCounting( data, aggregate=True ):
     '''
-    Rychilk rainflow counting (topLevel-up cycle TUC)
+    Rychilk rainflow counting (toplevel-up cycle TUC)
 
     Parameters
     ----------
@@ -38,10 +38,6 @@ def rychlikRainflowCounting( data, aggregate=True ):
     ValueError
         If the data dimension is not 1
         If the data length is less than 2
-
-    Notes
-    -----
-    If aggregate is False, the original 1d counting results will be returned.
 
     Examples
     --------
