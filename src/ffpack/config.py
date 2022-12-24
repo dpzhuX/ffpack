@@ -4,7 +4,7 @@ import numpy as np
 
 class GlobalConfig:
     '''
-    Global config for ffpack
+    Global config for FFPACK
     '''
     def __init__( self ):
         '''
