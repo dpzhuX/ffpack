@@ -28,3 +28,10 @@ Module API
    :maxdepth: 2
 
    module/utils
+
+``config`` setting
+-------------------------
+.. automodule:: ffpack.config
+   :undoc-members:
+   :members:
+   :private-members:

@@ -13,6 +13,7 @@ International journal of fatigue, 9(2), pp.119-121.
 
 import numpy as np
 from ffpack.utils import generalUtils 
+from ffpack.config import globalConfig
 from collections import defaultdict 
 
 def rychlikRainflowCounting( data, aggregate=True ):
@@ -93,7 +94,7 @@ def rychlikRainflowCounting( data, aggregate=True ):
 
     rstDict = defaultdict( int )
     for lowHigh in rstSeq:
-        height = round( lowHigh[ 1 ] - lowHigh[ 0 ], 7 )
+        height = round( lowHigh[ 1 ] - lowHigh[ 0 ], globalConfig.atol )
         rstDict[ height ] += 1
 
     if len( rstDict ) == 0:
