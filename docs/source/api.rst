@@ -28,3 +28,10 @@ Module API
    :maxdepth: 2
 
    module/utils
+
+``config`` package setting
+--------------------------
+.. toctree::
+   :maxdepth: 2
+
+   module/config
