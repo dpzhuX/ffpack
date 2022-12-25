@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 
-from ffpack.utils import sequenceDigitization, cycleCountingAggregation
+from ffpack.utils import generalUtils 
 from ffpack.lcc import astmSimpleRangeCounting, astmRainflowCounting
 from ffpack.lcc import rychlikRainflowCounting
 import numpy as np
 
-def astmSimpleRangeCountingMatrix( data, digitization=True, resolution=0.5 ):
+def astmSimpleRangeCountingMatrix( data, resolution=0.5 ):
     '''
     Calculate simple range counting matrix
 
@@ -13,9 +13,6 @@ def astmSimpleRangeCountingMatrix( data, digitization=True, resolution=0.5 ):
     ----------
     data: 1d array
         Sequence data to calculate range counting matrix.
-    digitization: bool
-        Sequence digitization before the cycle counting.
-        Otherwise, the counting results are aggregated after cycle counting.
     resolution: bool, optional
         The desired resolution to round the data points.
     
@@ -47,18 +44,17 @@ def astmSimpleRangeCountingMatrix( data, digitization=True, resolution=0.5 ):
     if data.shape[0] <= 1:
         raise ValueError( "Input data length should be at least 2")
 
-    if digitization:
-        data = sequenceDigitization( data, resolution )
+    data = generalUtils.sequenceDigitization( data, resolution )
     
     countingRst = astmSimpleRangeCounting( data, aggregate=False )
 
-    if not digitization:
-        countingRst = cycleCountingAggregation( countingRst, binSize=resolution )
-    
     matrixIndexKey = np.unique( np.array( countingRst ).flatten() )
     matrixSize = len( matrixIndexKey )
     matrixIndexVal = np.array( [ i for i in range( matrixSize ) ] )
     matrixDict = { k: v for k, v in zip( matrixIndexKey, matrixIndexVal ) }
+    if not matrixSize:
+        return [ [ ] ], [ ]
+
     rst = np.zeros( ( matrixSize, matrixSize ) )
 
     for pair in countingRst:
@@ -66,7 +62,7 @@ def astmSimpleRangeCountingMatrix( data, digitization=True, resolution=0.5 ):
     return rst, matrixIndexKey
 
 
-def astmRainflowCountingMatrix( data, digitization=True, resolution=0.5 ):
+def astmRainflowCountingMatrix( data, resolution=0.5 ):
     '''
     Calculate ASTM rainflow counting matrix
 
@@ -74,9 +70,6 @@ def astmRainflowCountingMatrix( data, digitization=True, resolution=0.5 ):
     ----------
     data: 1d array
         Sequence data to calculate rainflow counting matrix.
-    digitization: bool
-        Sequence digitization before the cycle counting.
-        Otherwise, the counting results are aggregated after cycle counting.
     resolution: bool, optional
         The desired resolution to round the data points.
     
@@ -108,18 +101,17 @@ def astmRainflowCountingMatrix( data, digitization=True, resolution=0.5 ):
     if data.shape[0] <= 1:
         raise ValueError( "Input data length should be at least 2")
 
-    if digitization:
-        data = sequenceDigitization( data, resolution )
+    data = generalUtils.sequenceDigitization( data, resolution )
     
     countingRst = astmRainflowCounting( data, aggregate=False )
 
-    if not digitization:
-        countingRst = cycleCountingAggregation( countingRst, binSize=resolution )
-    
     matrixIndexKey = np.unique( np.array( countingRst )[ :, 0:-1 ].flatten() )
     matrixSize = len( matrixIndexKey )
     matrixIndexVal = np.array( [ i for i in range( matrixSize ) ] )
     matrixDict = { k: v for k, v in zip( matrixIndexKey, matrixIndexVal ) }
+    if not matrixSize:
+        return [ [ ] ], [ ]
+
     rst = np.zeros( ( matrixSize, matrixSize ) )
 
     for tuple in countingRst:
@@ -127,7 +119,7 @@ def astmRainflowCountingMatrix( data, digitization=True, resolution=0.5 ):
     return rst, matrixIndexKey
 
 
-def rychlikRainflowCountingmatrix( data, digitization=True, resolution=0.5 ):
+def rychlikRainflowCountingMatrix( data, resolution=0.5 ):
     '''
     Calculate Rychlik rainflow counting matrix
 
@@ -135,9 +127,6 @@ def rychlikRainflowCountingmatrix( data, digitization=True, resolution=0.5 ):
     ----------
     data: 1d array
         Sequence data to calculate rainflow counting matrix.
-    digitization: bool
-        Sequence digitization before the cycle counting.
-        Otherwise, the counting results are aggregated after cycle counting.
     resolution: bool, optional
         The desired resolution to round the data points.
     
@@ -169,18 +158,17 @@ def rychlikRainflowCountingmatrix( data, digitization=True, resolution=0.5 ):
     if data.shape[0] <= 1:
         raise ValueError( "Input data length should be at least 2")
 
-    if digitization:
-        data = sequenceDigitization( data, resolution )
+    data = generalUtils.sequenceDigitization( data, resolution )
     
     countingRst = rychlikRainflowCounting( data, aggregate=False )
 
-    if not digitization:
-        countingRst = cycleCountingAggregation( countingRst, binSize=resolution )
-    
     matrixIndexKey = np.unique( np.array( countingRst ).flatten() )
     matrixSize = len( matrixIndexKey )
     matrixIndexVal = np.array( [ i for i in range( matrixSize ) ] )
     matrixDict = { k: v for k, v in zip( matrixIndexKey, matrixIndexVal ) }
+    if not matrixSize:
+        return [ [ ] ], [ ]
+
     rst = np.zeros( ( matrixSize, matrixSize ) )
 
     for pair in countingRst:
