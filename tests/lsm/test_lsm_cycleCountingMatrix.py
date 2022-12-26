@@ -31,10 +31,17 @@ def test_astmSimpleRangeCountingMatrix_twoDimInputCase_valueError():
 
 
 @patch( "ffpack.utils.generalUtils.sequenceDigitization" )
-def test_astmSimpleRangeCountingMatrix_astmStandardPoints_matrix( mock_get ):
+@patch( "ffpack.lcc.astmCounting.astmSimpleRangeCounting" )
+def test_astmSimpleRangeCountingMatrix_astmStandardPoints_matrix( 
+        mock_astmSimpleRangeCounting, mock_sequenceDigitization ):
     data = [ -2.0, 1.0, -3.0, 5.0, -1.0, 3.0, -4.0, 4.0, -2.0 ]
-    mock_get.return_value = [ -2.0, 1.0, -3.0, 5.0, -1.0, 3.0, -4.0, 4.0, -2.0 ]
+    mock_sequenceDigitization.return_value = [ -2.0, 1.0, -3.0, 5.0, 
+                                               -1.0, 3.0, -4.0, 4.0, -2.0 ]
+    mock_astmSimpleRangeCounting.return_value = \
+        [ [ -2.0, 1.0 ], [ 1.0, -3.0 ], [ -3.0, 5.0 ], [ 5.0, -1.0 ], 
+          [ -1.0, 3.0 ], [ 3.0, -4.0 ], [ -4.0, 4.0 ], [ 4.0, -2.0 ] ]
     calMatrix, calKeys = lsm.astmSimpleRangeCountingMatrix( data, resolution=1.0 )
+    calKeys = [ float( i ) for i in calKeys ]
     expectedMatrix = [ [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.0 ],
                        [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5 ],
                        [ 0.0, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.0 ],
@@ -48,8 +55,13 @@ def test_astmSimpleRangeCountingMatrix_astmStandardPoints_matrix( mock_get ):
     np.testing.assert_allclose( calKeys, expectedKeys )
 
     data = [ -2.0, 1.0, -3.0, 5.0, -1.0, 3.0, -4.0, 4.0, -2.0 ]
-    mock_get.return_value = [ -2.0, 1.0, -3.0, 5.0, -1.0, 3.0, -4.0, 4.0, -2.0 ]
+    mock_sequenceDigitization.return_value = [ -2.0, 1.0, -3.0, 5.0, 
+                                               -1.0, 3.0, -4.0, 4.0, -2.0 ]
+    mock_astmSimpleRangeCounting.return_value = \
+        [ [ -2.0, 1.0 ], [ 1.0, -3.0 ], [ -3.0, 5.0 ], [ 5.0, -1.0 ], 
+          [ -1.0, 3.0 ], [ 3.0, -4.0 ], [ -4.0, 4.0 ], [ 4.0, -2.0 ] ]
     calMatrix, calKeys = lsm.astmSimpleRangeCountingMatrix( data, resolution=0.5 )
+    calKeys = [ float( i ) for i in calKeys ]
     expectedMatrix = [ [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.0 ],
                        [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5 ],
                        [ 0.0, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.0 ],
@@ -64,10 +76,17 @@ def test_astmSimpleRangeCountingMatrix_astmStandardPoints_matrix( mock_get ):
 
 
 @patch( "ffpack.utils.generalUtils.sequenceDigitization" )
-def test_astmSimpleRangeCountingMatrix_astmBiasedPoints_matrix( mock_get ):
+@patch( "ffpack.lcc.astmCounting.astmSimpleRangeCounting" )
+def test_astmSimpleRangeCountingMatrix_astmBiasedPoints_matrix( 
+        mock_astmSimpleRangeCounting, mock_sequenceDigitization ):
     data = [ -2.2, 0.8, -3.2, 4.9, -1.1, 3.2, -3.8, 4.1, -2.2 ]
-    mock_get.return_value = [ -2.0, 1.0, -3.0, 5.0, -1.0, 3.0, -4.0, 4.0, -2.0 ]
+    mock_sequenceDigitization.return_value = [ -2.0, 1.0, -3.0, 5.0, 
+                                               -1.0, 3.0, -4.0, 4.0, -2.0 ]
+    mock_astmSimpleRangeCounting.return_value = \
+        [ [ -2.0, 1.0 ], [ 1.0, -3.0 ], [ -3.0, 5.0 ], [ 5.0, -1.0 ], 
+          [ -1.0, 3.0 ], [ 3.0, -4.0 ], [ -4.0, 4.0 ], [ 4.0, -2.0 ] ]
     calMatrix, calKeys = lsm.astmSimpleRangeCountingMatrix( data, resolution=1.0 )
+    calKeys = [ float( i ) for i in calKeys ]
     expectedMatrix = [ [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.0 ],
                        [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5 ],
                        [ 0.0, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.0 ],
@@ -81,8 +100,13 @@ def test_astmSimpleRangeCountingMatrix_astmBiasedPoints_matrix( mock_get ):
     np.testing.assert_allclose( calKeys, expectedKeys )
 
     data = [ -2.2, 0.8, -3.2, 4.9, -1.1, 3.2, -3.8, 4.1, -2.2 ]
-    mock_get.return_value = [ -2.0, 1.0, -3.0, 5.0, -1.0, 3.0, -4.0, 4.0, -2.0 ]
+    mock_sequenceDigitization.return_value = [ -2.0, 1.0, -3.0, 5.0, 
+                                               -1.0, 3.0, -4.0, 4.0, -2.0 ]
+    mock_astmSimpleRangeCounting.return_value = \
+        [ [ -2.0, 1.0 ], [ 1.0, -3.0 ], [ -3.0, 5.0 ], [ 5.0, -1.0 ], 
+          [ -1.0, 3.0 ], [ 3.0, -4.0 ], [ -4.0, 4.0 ], [ 4.0, -2.0 ] ]
     calMatrix, calKeys = lsm.astmSimpleRangeCountingMatrix( data, resolution=0.5 )
+    calKeys = [ float( i ) for i in calKeys ]
     expectedMatrix = [ [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.0 ],
                        [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5 ],
                        [ 0.0, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.0 ],
@@ -97,11 +121,15 @@ def test_astmSimpleRangeCountingMatrix_astmBiasedPoints_matrix( mock_get ):
 
 
 @patch( "ffpack.utils.generalUtils.sequenceDigitization" )
-def test_astmSimpleRangeCountingMatrix_trivialCases_matrix( mock_get ):
+@patch( "ffpack.lcc.astmCounting.astmSimpleRangeCounting" )
+def test_astmSimpleRangeCountingMatrix_trivialCases_matrix( 
+        mock_astmSimpleRangeCounting, mock_sequenceDigitization ):
     # Trivial case 1
     data = [ 1.0, 3.0, 2.0 ]
-    mock_get.return_value = [ 1.0, 3.0, 2.0 ]
+    mock_sequenceDigitization.return_value = [ 1.0, 3.0, 2.0 ]
+    mock_astmSimpleRangeCounting.return_value = [ [ 1.0, 3.0 ], [ 3.0, 2.0 ] ]
     calMatrix, calKeys = lsm.astmSimpleRangeCountingMatrix( data, resolution=1.0 )
+    calKeys = [ float( i ) for i in calKeys ]
     expectedMatrix = [ [ 0.0, 0.0, 0.5 ],
                        [ 0.0, 0.0, 0.0 ],
                        [ 0.0, 0.5, 0.0 ] ]
@@ -111,8 +139,10 @@ def test_astmSimpleRangeCountingMatrix_trivialCases_matrix( mock_get ):
 
     # Trivial case 2
     data = [ -1.0, -3.0, -2.0 ]
-    mock_get.return_value = [ -1.0, -3.0, -2.0 ]
+    mock_sequenceDigitization.return_value = [ -1.0, -3.0, -2.0 ]
+    mock_astmSimpleRangeCounting.return_value = [ [ -1.0, -3.0 ], [ -3.0, -2.0 ] ]
     calMatrix, calKeys = lsm.astmSimpleRangeCountingMatrix( data, resolution=1.0 )
+    calKeys = [ float( i ) for i in calKeys ]
     expectedMatrix = [ [ 0.0, 0.5, 0.0 ],
                        [ 0.0, 0.0, 0.0 ],
                        [ 0.5, 0.0, 0.0 ] ]
@@ -122,8 +152,10 @@ def test_astmSimpleRangeCountingMatrix_trivialCases_matrix( mock_get ):
 
     # Trivial case 3
     data = [ 1.3, 2.6, 1.8 ]
-    mock_get.return_value = [ 1.5, 2.5, 2.0 ]
+    mock_sequenceDigitization.return_value = [ 1.5, 2.5, 2.0 ]
+    mock_astmSimpleRangeCounting.return_value = [ [ 1.5, 2.5 ], [ 2.5, 2.0 ] ]
     calMatrix, calKeys = lsm.astmSimpleRangeCountingMatrix( data, resolution=0.5)
+    calKeys = [ float( i ) for i in calKeys ]
     expectedMatrix = [ [ 0.0, 0.0, 0.5 ],
                        [ 0.0, 0.0, 0.0 ],
                        [ 0.0, 0.5, 0.0 ] ]
@@ -133,8 +165,10 @@ def test_astmSimpleRangeCountingMatrix_trivialCases_matrix( mock_get ):
 
     # Trivial case 4
     data = [ -1.3, -2.6, -1.8 ]
-    mock_get.return_value = [ -1.5, -2.5, -2.0 ]
+    mock_sequenceDigitization.return_value = [ -1.5, -2.5, -2.0 ]
+    mock_astmSimpleRangeCounting.return_value = [ [ -1.5, -2.5 ], [ -2.5, -2.0 ] ]
     calMatrix, calKeys = lsm.astmSimpleRangeCountingMatrix( data, resolution=0.5)
+    calKeys = [ float( i ) for i in calKeys ]
     expectedMatrix = [ [ 0.0, 0.5, 0.0 ],
                        [ 0.0, 0.0, 0.0 ],
                        [ 0.5, 0.0, 0.0 ] ]
@@ -169,10 +203,18 @@ def test_astmRainflowCountingMatrix_twoDimInputCase_valueError():
 
 
 @patch( "ffpack.utils.generalUtils.sequenceDigitization" )
-def test_astmRainflowCountingMatrix_astmStandardPoints_matrix( mock_get ):
+@patch( "ffpack.lcc.astmCounting.astmRainflowCounting" )
+def test_astmRainflowCountingMatrix_astmStandardPoints_matrix( 
+        mock_astmRainflowCounting, mock_sequenceDigitization ):
     data = [ -2.0, 1.0, -3.0, 5.0, -1.0, 3.0, -4.0, 4.0, -2.0 ]
-    mock_get.return_value = [ -2.0, 1.0, -3.0, 5.0, -1.0, 3.0, -4.0, 4.0, -2.0 ]
+    mock_sequenceDigitization.return_value = \
+        [ -2.0, 1.0, -3.0, 5.0, -1.0, 3.0, -4.0, 4.0, -2.0 ]
+    mock_astmRainflowCounting.return_value = \
+        [ [ -2.0, 1.0, 0.5 ], [ 1.0, -3.0, 0.5 ], [ -1.0, 3.0, 1.0 ],
+          [ -3.0, 5.0, 0.5 ], [ 5.0, -4.0, 0.5 ], [ -4.0, 4.0, 0.5 ],
+          [ 4.0, -2.0, 0.5 ] ]
     calMatrix, calKeys = lsm.astmRainflowCountingMatrix( data, resolution=1.0 )
+    calKeys = [ float( i ) for i in calKeys ]
     expectedMatrix = [ [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.0 ],
                        [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5 ],
                        [ 0.0, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.0 ],
@@ -186,8 +228,14 @@ def test_astmRainflowCountingMatrix_astmStandardPoints_matrix( mock_get ):
     np.testing.assert_allclose( calKeys, expectedKeys )
 
     data = [ -2.0, 1.0, -3.0, 5.0, -1.0, 3.0, -4.0, 4.0, -2.0 ]
-    mock_get.return_value = [ -2.0, 1.0, -3.0, 5.0, -1.0, 3.0, -4.0, 4.0, -2.0 ]
+    mock_sequenceDigitization.return_value = \
+        [ -2.0, 1.0, -3.0, 5.0, -1.0, 3.0, -4.0, 4.0, -2.0 ]
+    mock_astmRainflowCounting.return_value = \
+        [ [ -2.0, 1.0, 0.5 ], [ 1.0, -3.0, 0.5 ], [ -1.0, 3.0, 1.0 ],
+          [ -3.0, 5.0, 0.5 ], [ 5.0, -4.0, 0.5 ], [ -4.0, 4.0, 0.5 ],
+          [ 4.0, -2.0, 0.5 ] ]
     calMatrix, calKeys = lsm.astmRainflowCountingMatrix( data, resolution=0.5 )
+    calKeys = [ float( i ) for i in calKeys ]
     expectedMatrix = [ [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.0 ],
                        [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5 ],
                        [ 0.0, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.0 ],
@@ -202,10 +250,18 @@ def test_astmRainflowCountingMatrix_astmStandardPoints_matrix( mock_get ):
 
 
 @patch( "ffpack.utils.generalUtils.sequenceDigitization" )
-def test_astmRainflowCountingMatrix_astmBiasedPoints_matrix( mock_get ):
+@patch( "ffpack.lcc.astmCounting.astmRainflowCounting" )
+def test_astmRainflowCountingMatrix_astmBiasedPoints_matrix( 
+        mock_astmRainflowCounting, mock_sequenceDigitization ):
     data = [ -2.2, 0.8, -3.2, 4.9, -1.1, 3.2, -3.8, 4.1, -2.2 ]
-    mock_get.return_value = [ -2.0, 1.0, -3.0, 5.0, -1.0, 3.0, -4.0, 4.0, -2.0 ]
+    mock_sequenceDigitization.return_value = \
+        [ -2.0, 1.0, -3.0, 5.0, -1.0, 3.0, -4.0, 4.0, -2.0 ]
+    mock_astmRainflowCounting.return_value = \
+        [ [ -2.0, 1.0, 0.5 ], [ 1.0, -3.0, 0.5 ], [ -1.0, 3.0, 1.0 ],
+          [ -3.0, 5.0, 0.5 ], [ 5.0, -4.0, 0.5 ], [ -4.0, 4.0, 0.5 ],
+          [ 4.0, -2.0, 0.5 ] ]
     calMatrix, calKeys = lsm.astmRainflowCountingMatrix( data, resolution=1.0 )
+    calKeys = [ float( i ) for i in calKeys ]
     expectedMatrix = [ [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.0 ],
                        [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5 ],
                        [ 0.0, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.0 ],
@@ -219,8 +275,14 @@ def test_astmRainflowCountingMatrix_astmBiasedPoints_matrix( mock_get ):
     np.testing.assert_allclose( calKeys, expectedKeys )
 
     data = [ -2.2, 0.8, -3.2, 4.9, -1.1, 3.2, -3.8, 4.1, -2.2 ]
-    mock_get.return_value = [ -2.0, 1.0, -3.0, 5.0, -1.0, 3.0, -4.0, 4.0, -2.0 ]
+    mock_sequenceDigitization.return_value = \
+        [ -2.0, 1.0, -3.0, 5.0, -1.0, 3.0, -4.0, 4.0, -2.0 ]
+    mock_astmRainflowCounting.return_value = \
+        [ [ -2.0, 1.0, 0.5 ], [ 1.0, -3.0, 0.5 ], [ -1.0, 3.0, 1.0 ],
+          [ -3.0, 5.0, 0.5 ], [ 5.0, -4.0, 0.5 ], [ -4.0, 4.0, 0.5 ],
+          [ 4.0, -2.0, 0.5 ] ]
     calMatrix, calKeys = lsm.astmRainflowCountingMatrix( data, resolution=0.5 )
+    calKeys = [ float( i ) for i in calKeys ]
     expectedMatrix = [ [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.0 ],
                        [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5 ],
                        [ 0.0, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.0 ],
@@ -234,11 +296,15 @@ def test_astmRainflowCountingMatrix_astmBiasedPoints_matrix( mock_get ):
     np.testing.assert_allclose( calKeys, expectedKeys )
 
 @patch( "ffpack.utils.generalUtils.sequenceDigitization" )
-def test_astmRainflowCountingMatrix_trivialCases_matrix( mock_get ):
+@patch( "ffpack.lcc.astmCounting.astmRainflowCounting" )
+def test_astmRainflowCountingMatrix_trivialCases_matrix( 
+        mock_astmRainflowCounting, mock_sequenceDigitization ):
     # Trivial case 1
     data = [ 1.0, 3.0, 2.0 ]
-    mock_get.return_value = [ 1.0, 3.0, 2.0 ]
+    mock_sequenceDigitization.return_value = [ 1.0, 3.0, 2.0 ]
+    mock_astmRainflowCounting.return_value = [ [ 1.0, 3.0, 0.5 ], [ 3.0, 2.0, 0.5 ] ]
     calMatrix, calKeys = lsm.astmRainflowCountingMatrix( data, resolution=1.0 )
+    calKeys = [ float( i ) for i in calKeys ]
     expectedMatrix = [ [ 0.0, 0.0, 0.5 ],
                        [ 0.0, 0.0, 0.0 ],
                        [ 0.0, 0.5, 0.0 ] ]
@@ -248,8 +314,10 @@ def test_astmRainflowCountingMatrix_trivialCases_matrix( mock_get ):
 
     # Trivial case 2
     data = [ -1.0, -3.0, -2.0 ]
-    mock_get.return_value = [ -1.0, -3.0, -2.0 ]
+    mock_sequenceDigitization.return_value = [ -1.0, -3.0, -2.0 ]
+    mock_astmRainflowCounting.return_value = [ [ -1.0, -3.0, 0.5 ], [ -3.0, -2.0, 0.5 ] ]
     calMatrix, calKeys = lsm.astmRainflowCountingMatrix( data, resolution=1.0 )
+    calKeys = [ float( i ) for i in calKeys ]
     expectedMatrix = [ [ 0.0, 0.5, 0.0 ],
                        [ 0.0, 0.0, 0.0 ],
                        [ 0.5, 0.0, 0.0 ] ]
@@ -259,8 +327,10 @@ def test_astmRainflowCountingMatrix_trivialCases_matrix( mock_get ):
 
     # Trivial case 3
     data = [ 1.3, 2.6, 1.8 ]
-    mock_get.return_value = [ 1.5, 2.5, 2.0 ]
+    mock_sequenceDigitization.return_value = [ 1.5, 2.5, 2.0 ]
+    mock_astmRainflowCounting.return_value = [ [ 1.5, 2.5, 0.5 ], [ 2.5, 2.0, 0.5 ] ]
     calMatrix, calKeys = lsm.astmRainflowCountingMatrix( data, resolution=0.5)
+    calKeys = [ float( i ) for i in calKeys ]
     expectedMatrix = [ [ 0.0, 0.0, 0.5 ],
                        [ 0.0, 0.0, 0.0 ],
                        [ 0.0, 0.5, 0.0 ] ]
@@ -270,8 +340,10 @@ def test_astmRainflowCountingMatrix_trivialCases_matrix( mock_get ):
 
     # Trivial case 4
     data = [ -1.3, -2.6, -1.8 ]
-    mock_get.return_value = [ -1.5, -2.5, -2.0 ]
+    mock_sequenceDigitization.return_value = [ -1.5, -2.5, -2.0 ]
+    mock_astmRainflowCounting.return_value = [ [ -1.5, -2.5, 0.5 ], [ -2.5, -2.0, 0.5 ] ]
     calMatrix, calKeys = lsm.astmRainflowCountingMatrix( data, resolution=0.5)
+    calKeys = [ float( i ) for i in calKeys ]
     expectedMatrix = [ [ 0.0, 0.5, 0.0 ],
                        [ 0.0, 0.0, 0.0 ],
                        [ 0.5, 0.0, 0.0 ] ]
@@ -306,10 +378,16 @@ def test_rychlikRainflowCountingMatrix_twoDimInputCase_valueError():
 
 
 @patch( "ffpack.utils.generalUtils.sequenceDigitization" )
-def test_rychlikRainflowCountingmatrix_astmStandardPoints_matrix( mock_get ):
+@patch( "ffpack.lcc.rychlikCounting.rychlikRainflowCounting" )
+def test_rychlikRainflowCountingmatrix_astmStandardPoints_matrix( 
+        mock_rychlikRainflowCounting, mock_sequenceDigitization ):
     data = [ -2.0, 1.0, -3.0, 5.0, -1.0, 3.0, -4.0, 4.0, -2.0 ]
-    mock_get.return_value = [ -2.0, 1.0, -3.0, 5.0, -1.0, 3.0, -4.0, 4.0, -2.0 ]
+    mock_sequenceDigitization.return_value = \
+        [ -2.0, 1.0, -3.0, 5.0, -1.0, 3.0, -4.0, 4.0, -2.0 ]
+    mock_rychlikRainflowCounting.return_value = \
+        [ [ -2.0, 1.0 ], [ -3.0, 5.0 ], [ -1.0, 3.0 ], [ -2.0, 4.0 ] ]
     calMatrix, calKeys = lsm.rychlikRainflowCountingMatrix( data, resolution=1.0 )
+    calKeys = [ float( i ) for i in calKeys ]
     expectedMatrix = [ [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0 ],
                        [ 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0 ],
                        [ 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0 ],
@@ -322,8 +400,12 @@ def test_rychlikRainflowCountingmatrix_astmStandardPoints_matrix( mock_get ):
     np.testing.assert_allclose( calKeys, expectedKeys )
 
     data = [ -2.0, 1.0, -3.0, 5.0, -1.0, 3.0, -4.0, 4.0, -2.0 ]
-    mock_get.return_value = [ -2.0, 1.0, -3.0, 5.0, -1.0, 3.0, -4.0, 4.0, -2.0 ]
+    mock_sequenceDigitization.return_value = \
+        [ -2.0, 1.0, -3.0, 5.0, -1.0, 3.0, -4.0, 4.0, -2.0 ]
+    mock_rychlikRainflowCounting.return_value = \
+        [ [ -2.0, 1.0 ], [ -3.0, 5.0 ], [ -1.0, 3.0 ], [ -2.0, 4.0 ] ]
     calMatrix, calKeys = lsm.rychlikRainflowCountingMatrix( data, resolution=0.5 )
+    calKeys = [ float( i ) for i in calKeys ]
     expectedMatrix = [ [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0 ],
                        [ 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0 ],
                        [ 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0 ],
@@ -337,10 +419,16 @@ def test_rychlikRainflowCountingmatrix_astmStandardPoints_matrix( mock_get ):
 
 
 @patch( "ffpack.utils.generalUtils.sequenceDigitization" )
-def test_rychlikRainflowCountingmatrix_astmBiasedPoints_matrix( mock_get ):
+@patch( "ffpack.lcc.rychlikCounting.rychlikRainflowCounting" )
+def test_rychlikRainflowCountingmatrix_astmBiasedPoints_matrix( 
+        mock_rychlikRainflowCounting, mock_sequenceDigitization ):
     data = [ -2.2, 0.8, -3.2, 4.9, -1.1, 3.2, -3.8, 4.1, -2.2 ]
-    mock_get.return_value = [ -2.0, 1.0, -3.0, 5.0, -1.0, 3.0, -4.0, 4.0, -2.0 ]
+    mock_sequenceDigitization.return_value = \
+        [ -2.0, 1.0, -3.0, 5.0, -1.0, 3.0, -4.0, 4.0, -2.0 ]
+    mock_rychlikRainflowCounting.return_value = \
+        [ [ -2.0, 1.0 ], [ -3.0, 5.0 ], [ -1.0, 3.0 ], [ -2.0, 4.0 ] ]
     calMatrix, calKeys = lsm.rychlikRainflowCountingMatrix( data, resolution=1.0 )
+    calKeys = [ float( i ) for i in calKeys ]
     expectedMatrix = [ [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0 ],
                        [ 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0 ],
                        [ 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0 ],
@@ -353,8 +441,12 @@ def test_rychlikRainflowCountingmatrix_astmBiasedPoints_matrix( mock_get ):
     np.testing.assert_allclose( calKeys, expectedKeys )
 
     data = [ -2.2, 0.8, -3.2, 4.9, -1.1, 3.2, -3.8, 4.1, -2.2 ]
-    mock_get.return_value = [ -2.0, 1.0, -3.0, 5.0, -1.0, 3.0, -4.0, 4.0, -2.0 ]
+    mock_sequenceDigitization.return_value = \
+        [ -2.0, 1.0, -3.0, 5.0, -1.0, 3.0, -4.0, 4.0, -2.0 ]
+    mock_rychlikRainflowCounting.return_value = \
+        [ [ -2.0, 1.0 ], [ -3.0, 5.0 ], [ -1.0, 3.0 ], [ -2.0, 4.0 ] ]
     calMatrix, calKeys = lsm.rychlikRainflowCountingMatrix( data, resolution=0.5 )
+    calKeys = [ float( i ) for i in calKeys ]
     expectedMatrix = [ [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0 ],
                        [ 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0 ],
                        [ 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0 ],
@@ -367,11 +459,15 @@ def test_rychlikRainflowCountingmatrix_astmBiasedPoints_matrix( mock_get ):
     np.testing.assert_allclose( calKeys, expectedKeys )
 
 @patch( "ffpack.utils.generalUtils.sequenceDigitization" )
-def test_rychlikRainflowCountingMatrix_trivialCases_matrix( mock_get ):
+@patch( "ffpack.lcc.rychlikCounting.rychlikRainflowCounting" )
+def test_rychlikRainflowCountingMatrix_trivialCases_matrix( 
+        mock_rychlikRainflowCounting, mock_sequenceDigitization ):
     # Trivial case 1
     data = [ 1.0, 3.0, 2.0 ]
-    mock_get.return_value = [ 1.0, 3.0, 2.0 ]
+    mock_sequenceDigitization.return_value = [ 1.0, 3.0, 2.0 ]
+    mock_rychlikRainflowCounting.return_value = [ [ 2.0, 3.0 ] ]
     calMatrix, calKeys = lsm.rychlikRainflowCountingMatrix( data, resolution=1.0 )
+    calKeys = [ float( i ) for i in calKeys ]
     expectedMatrix = [ [ 0.0, 1.0 ],
                        [ 0.0, 0.0 ] ]
     expectedKeys = [ 2.0, 3.0 ]
@@ -380,8 +476,10 @@ def test_rychlikRainflowCountingMatrix_trivialCases_matrix( mock_get ):
 
     # Trivial case 2
     data = [ -1.0, -3.0, -2.0 ]
-    mock_get.return_value = [ -1.0, -3.0, -2.0 ]
+    mock_sequenceDigitization.return_value = [ -1.0, -3.0, -2.0 ]
+    mock_rychlikRainflowCounting.return_value = [ [ ] ]
     calMatrix, calKeys = lsm.rychlikRainflowCountingMatrix( data, resolution=1.0 )
+    calKeys = [ float( i ) for i in calKeys ]
     expectedMatrix = [ [ ] ]
     expectedKeys = [ ]
     np.testing.assert_allclose( calMatrix, expectedMatrix )
@@ -389,8 +487,10 @@ def test_rychlikRainflowCountingMatrix_trivialCases_matrix( mock_get ):
 
     # Trivial case 3
     data = [ 1.3, 2.6, 1.8 ]
-    mock_get.return_value = [ 1.5, 2.5, 2.0 ]
+    mock_sequenceDigitization.return_value = [ 1.5, 2.5, 2.0 ]
+    mock_rychlikRainflowCounting.return_value = [ [ 2.0, 2.5 ] ]
     calMatrix, calKeys = lsm.rychlikRainflowCountingMatrix( data, resolution=0.5)
+    calKeys = [ float( i ) for i in calKeys ]
     expectedMatrix = [ [ 0.0, 1.0 ],
                        [ 0.0, 0.0 ] ]
     expectedKeys = [ 2.0, 2.5 ]
@@ -399,8 +499,10 @@ def test_rychlikRainflowCountingMatrix_trivialCases_matrix( mock_get ):
 
     # # Trivial case 4
     data = [ -1.3, -2.6, -1.8 ]
-    mock_get.return_value = [ -1.5, -2.5, -2.0 ]
+    mock_sequenceDigitization.return_value = [ -1.5, -2.5, -2.0 ]
+    mock_rychlikRainflowCounting.return_value = [ [ ] ]
     calMatrix, calKeys = lsm.rychlikRainflowCountingMatrix( data, resolution=0.5)
+    calKeys = [ float( i ) for i in calKeys ]
     expectedMatrix = [ [ ] ]
     expectedKeys = [ ]
     np.testing.assert_allclose( calMatrix, expectedMatrix )

@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 
 from ffpack.utils import generalUtils 
-from ffpack.lcc import astmSimpleRangeCounting, astmRainflowCounting
-from ffpack.lcc import rychlikRainflowCounting
+from ffpack.lcc import astmCounting
+from ffpack.lcc import rychlikCounting
+from ffpack.config import globalConfig
 import numpy as np
 
 def astmSimpleRangeCountingMatrix( data, resolution=0.5 ):
@@ -46,9 +47,10 @@ def astmSimpleRangeCountingMatrix( data, resolution=0.5 ):
 
     data = generalUtils.sequenceDigitization( data, resolution )
     
-    countingRst = astmSimpleRangeCounting( data, aggregate=False )
+    countingRst = astmCounting.astmSimpleRangeCounting( data, aggregate=False )
 
     matrixIndexKey = np.unique( np.array( countingRst ).flatten() )
+    matrixIndexKey = [ "{1:,.{0}f}".format( globalConfig.atol, key ) for key in matrixIndexKey ]
     matrixSize = len( matrixIndexKey )
     matrixIndexVal = np.array( [ i for i in range( matrixSize ) ] )
     matrixDict = { k: v for k, v in zip( matrixIndexKey, matrixIndexVal ) }
@@ -58,7 +60,8 @@ def astmSimpleRangeCountingMatrix( data, resolution=0.5 ):
     rst = np.zeros( ( matrixSize, matrixSize ) )
 
     for pair in countingRst:
-        rst[ matrixDict[ pair[ 0 ] ], matrixDict[ pair[ 1 ] ] ] += 0.5
+        rst[ matrixDict[ "{1:,.{0}f}".format( globalConfig.atol, pair[ 0 ] ) ], 
+             matrixDict[ "{1:,.{0}f}".format( globalConfig.atol, pair[ 1 ] ) ] ] += 0.5
     return rst, matrixIndexKey
 
 
@@ -103,9 +106,10 @@ def astmRainflowCountingMatrix( data, resolution=0.5 ):
 
     data = generalUtils.sequenceDigitization( data, resolution )
     
-    countingRst = astmRainflowCounting( data, aggregate=False )
+    countingRst = astmCounting.astmRainflowCounting( data, aggregate=False )
 
     matrixIndexKey = np.unique( np.array( countingRst )[ :, 0:-1 ].flatten() )
+    matrixIndexKey = [ "{1:,.{0}f}".format( globalConfig.atol, key ) for key in matrixIndexKey ]
     matrixSize = len( matrixIndexKey )
     matrixIndexVal = np.array( [ i for i in range( matrixSize ) ] )
     matrixDict = { k: v for k, v in zip( matrixIndexKey, matrixIndexVal ) }
@@ -115,7 +119,8 @@ def astmRainflowCountingMatrix( data, resolution=0.5 ):
     rst = np.zeros( ( matrixSize, matrixSize ) )
 
     for tuple in countingRst:
-        rst[ matrixDict[ tuple[ 0 ] ], matrixDict[ tuple[ 1 ] ] ] += tuple[ 2 ]
+        rst[ matrixDict[ "{1:,.{0}f}".format( globalConfig.atol, tuple[ 0 ] ) ], 
+             matrixDict[ "{1:,.{0}f}".format( globalConfig.atol, tuple[ 1 ] ) ] ] += tuple[ 2 ]
     return rst, matrixIndexKey
 
 
@@ -160,9 +165,10 @@ def rychlikRainflowCountingMatrix( data, resolution=0.5 ):
 
     data = generalUtils.sequenceDigitization( data, resolution )
     
-    countingRst = rychlikRainflowCounting( data, aggregate=False )
+    countingRst = rychlikCounting.rychlikRainflowCounting( data, aggregate=False )
 
     matrixIndexKey = np.unique( np.array( countingRst ).flatten() )
+    matrixIndexKey = [ "{1:,.{0}f}".format( globalConfig.atol, key ) for key in matrixIndexKey ]
     matrixSize = len( matrixIndexKey )
     matrixIndexVal = np.array( [ i for i in range( matrixSize ) ] )
     matrixDict = { k: v for k, v in zip( matrixIndexKey, matrixIndexVal ) }
@@ -172,5 +178,6 @@ def rychlikRainflowCountingMatrix( data, resolution=0.5 ):
     rst = np.zeros( ( matrixSize, matrixSize ) )
 
     for pair in countingRst:
-        rst[ matrixDict[ pair[ 0 ] ], matrixDict[ pair[ 1 ] ] ] += 1.0
+        rst[ matrixDict[ "{1:,.{0}f}".format( globalConfig.atol, pair[ 0 ] ) ], 
+             matrixDict[ "{1:,.{0}f}".format( globalConfig.atol, pair[ 1 ] ) ] ] += 1.0
     return rst, matrixIndexKey
