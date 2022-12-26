@@ -8,7 +8,7 @@ import numpy as np
 
 def astmSimpleRangeCountingMatrix( data, resolution=0.5 ):
     '''
-    Calculate simple range counting matrix
+    Calculate ASTM simple range counting matrix.
 
     Parameters
     ----------
@@ -38,7 +38,6 @@ def astmSimpleRangeCountingMatrix( data, resolution=0.5 ):
     >>> data = [ -2.0, 1.0, -3.0, 5.0, -1.0, 3.0, -4.0, 4.0, -2.0 ]
     >>> rst = astmSimpleRangeCountingMatrix( data )
     '''
-
     data = np.array( data )
     if len( data.shape ) != 1:
         raise ValueError( "Input data dimension should be 1" )
@@ -67,7 +66,7 @@ def astmSimpleRangeCountingMatrix( data, resolution=0.5 ):
 
 def astmRainflowCountingMatrix( data, resolution=0.5 ):
     '''
-    Calculate ASTM rainflow counting matrix
+    Calculate ASTM rainflow counting matrix.
 
     Parameters
     ----------
@@ -97,7 +96,6 @@ def astmRainflowCountingMatrix( data, resolution=0.5 ):
     >>> data = [ -2.0, 1.0, -3.0, 5.0, -1.0, 3.0, -4.0, 4.0, -2.0 ]
     >>> rst = astmRainflowCountingMatrix( data )
     '''
-
     data = np.array( data )
     if len( data.shape ) != 1:
         raise ValueError( "Input data dimension should be 1" )
@@ -126,7 +124,7 @@ def astmRainflowCountingMatrix( data, resolution=0.5 ):
 
 def rychlikRainflowCountingMatrix( data, resolution=0.5 ):
     '''
-    Calculate Rychlik rainflow counting matrix
+    Calculate Rychlik rainflow counting matrix.
 
     Parameters
     ----------
