@@ -1,20 +1,6 @@
-ASTM simple range counting matrix
----------------------------------
+Cycle counting matrix
+---------------------
 
-.. automodule:: ffpack.lsm.astmSimpleRangeCountingMatrix
-   :undoc-members:
-   :members:
-
-ASTM rainflow counting matrix
------------------------------
-
-.. automodule:: ffpack.lsm.astmRainflowCountingMatrix
-   :undoc-members:
-   :members:
-
-Rychlik rainflow counting matrix
---------------------------------
-
-.. automodule:: ffpack.lsm.rychlikRainflowCountingMatrix
+.. automodule:: ffpack.lsm.cycleCountingMatrix
    :undoc-members:
    :members:

@@ -154,7 +154,6 @@ def rychlikRainflowCountingMatrix( data, resolution=0.5 ):
     >>> data = [ -2.0, 1.0, -3.0, 5.0, -1.0, 3.0, -4.0, 4.0, -2.0 ]
     >>> rst = astmRainflowCountingMatrix( data )
     '''
-
     data = np.array( data )
     if len( data.shape ) != 1:
         raise ValueError( "Input data dimension should be 1" )
