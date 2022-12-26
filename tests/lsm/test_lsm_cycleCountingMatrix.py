@@ -295,6 +295,7 @@ def test_astmRainflowCountingMatrix_astmBiasedPoints_matrix(
     np.testing.assert_allclose( calMatrix, expectedMatrix )
     np.testing.assert_allclose( calKeys, expectedKeys )
 
+
 @patch( "ffpack.utils.generalUtils.sequenceDigitization" )
 @patch( "ffpack.lcc.astmCounting.astmRainflowCounting" )
 def test_astmRainflowCountingMatrix_trivialCases_matrix( 
@@ -458,6 +459,7 @@ def test_rychlikRainflowCountingmatrix_astmBiasedPoints_matrix(
     np.testing.assert_allclose( calMatrix, expectedMatrix )
     np.testing.assert_allclose( calKeys, expectedKeys )
 
+
 @patch( "ffpack.utils.generalUtils.sequenceDigitization" )
 @patch( "ffpack.lcc.rychlikCounting.rychlikRainflowCounting" )
 def test_rychlikRainflowCountingMatrix_trivialCases_matrix( 
@@ -497,7 +499,7 @@ def test_rychlikRainflowCountingMatrix_trivialCases_matrix(
     np.testing.assert_allclose( calMatrix, expectedMatrix )
     np.testing.assert_allclose( calKeys, expectedKeys )
 
-    # # Trivial case 4
+    # Trivial case 4
     data = [ -1.3, -2.6, -1.8 ]
     mock_sequenceDigitization.return_value = [ -1.5, -2.5, -2.0 ]
     mock_rychlikRainflowCounting.return_value = [ [ ] ]
