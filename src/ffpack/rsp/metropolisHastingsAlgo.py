@@ -3,11 +3,11 @@
 import numpy as np
 
 class MetropolisHastingsSampler:
-    def __init__( self, initialVal=None, targetPdf=None, proposalCpdf=None ):
+    def __init__( self, initialVal=None, targetPdf=None, proposalCSampler=None ):
         self.cur = initialVal
         self.nxt = initialVal
         self.targetPdf = targetPdf
-        self.proposalCpdf = proposalCpdf
+        self.proposalCSampler = proposalCSampler
     
     def getAcceptanceRatio( self, candi ):
         fcur = self.targetPdf( self.cur )
@@ -15,11 +15,11 @@ class MetropolisHastingsSampler:
         return fcandi / fcur
     
     def getCandidate( self ):
-        return self.proposalCpdf( self.cur )
+        return self.proposalCSampler( self.cur )
 
     def sample( self ):
         candi = self.getCandidate()
-        acceptanceRatio = self.getAcceptanceRatio()
+        acceptanceRatio = self.getAcceptanceRatio( candi )
         u = np.random.uniform()
         if u <= acceptanceRatio:
             self.nxt = candi
