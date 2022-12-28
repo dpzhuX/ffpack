@@ -22,6 +22,13 @@ Module API
 
    module/lsg
 
+``lsm`` load spectra and matrices
+---------------------------------
+.. toctree::
+   :maxdepth: 2
+
+   module/lsm
+
 ``utils`` utility methods 
 --------------------------
 .. toctree::
