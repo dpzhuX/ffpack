@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from ffpack import rsp
+from ffpack import rpm
 import numpy as np
 import pytest
 from unittest.mock import patch
@@ -31,13 +31,13 @@ def test_MetropolisHastingsSampler_normalUseCase_diffByOne(
     def proposalCSampler( x ):
         return np.random.normal( x, 1 )
     
-    mhSampler = rsp.MetropolisHastingsSampler( initialVal=initialVal, 
+    mhSampler = rpm.MetropolisHastingsSampler( initialVal=initialVal, 
                                                targetPdf=targetPdf, 
                                                proposalCSampler=proposalCSampler )
     
     candi = mhSampler.getCandidate()
     acceptanceRatio = mhSampler.getAcceptanceRatio( candi )
-    sampleRst = mhSampler.sample()
+    sampleRst = mhSampler.getSample()
     np.testing.assert_allclose( candi, pseudoNormalVal )
     np.testing.assert_allclose( acceptanceRatio, 
                                 targetPdf( candi ) / targetPdf( initialVal ) )
