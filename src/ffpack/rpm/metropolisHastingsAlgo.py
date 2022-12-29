@@ -16,19 +16,19 @@ class MetropolisHastingsSampler:
             Initial observed data point.
         targetPdf: function
             Target probability density function or target distribution function.
-            targetPdf take one input parameter and return the corrosponding 
+            targetPdf takes one input parameter and return the corresponding 
             probability.
         proposalCSampler: function
-            Proposal conditional sampler. proposalCSampler is a sampler will return
-            a sample for the given observed data point. A usual choice is to let
-            proposalCSampler be a Gaussian/normal distribution centered at the 
+            Proposal conditional sampler. proposalCSampler is a sampler that will 
+            return a sample for the given observed data point. A usual choice is to 
+            let proposalCSampler be a Gaussian/normal distribution centered at the 
             observed data point.
         
         Raises
         ------
         ValueError
             If any input parameter is None.
-            If targetPdf return negative value.
+            If targetPdf returns negative value.
 
         Examples
         --------
@@ -39,6 +39,12 @@ class MetropolisHastingsSampler:
         >>> mhSampler = MetropolisHastingsSampler( initialVal, targetPdf, 
                                                    proposalCsampler )
         '''
+        if initialVal is None:
+            raise ValueError( "initialVal cannot be None" )
+        if targetPdf is None:
+            raise ValueError( "targetPdf cannot be None" )
+        if proposalCSampler is None:
+            raise ValueError( "proposalCSampler cannot be None" )
         self.cur = initialVal
         self.nxt = initialVal
         self.targetPdf = targetPdf
@@ -47,6 +53,8 @@ class MetropolisHastingsSampler:
     def getAcceptanceRatio( self, candi ):
         fcur = self.targetPdf( self.cur )
         fcandi = self.targetPdf( candi )
+        if fcur < 0 or fcandi < 0:
+            raise ValueError( "targetPdf cannot return negative value" )
         return fcandi / fcur
     
     def getCandidate( self ):
@@ -54,7 +62,12 @@ class MetropolisHastingsSampler:
 
     def getSample( self ):
         '''
-        Sample a data point.
+        Get a sample.
+
+        Returns
+        -------
+        rst: scalar or array_like of scalar
+            Data point sample.
         
         Examples
         --------

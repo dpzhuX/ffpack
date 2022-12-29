@@ -9,6 +9,73 @@ from unittest.mock import patch
 ###############################################################################
 # Test MetropolisHastingsSampler
 ###############################################################################
+def test_MetropolisHastingsSampler_initialValNone_valueError():
+    initialVal = None
+
+    def targetPdf( x ):
+        if x < 0:
+            return 0
+        else:
+            return np.exp( -x )
+    
+    def proposalCSampler( x ):
+        return np.random.normal( x, 1 )
+    
+    with pytest.raises( ValueError ):
+        _ = rpm.MetropolisHastingsSampler( initialVal=initialVal, 
+                                           targetPdf=targetPdf, 
+                                           proposalCSampler=proposalCSampler )
+    
+
+def test_MetropolisHastingsSampler_targetPdfNone_valueError():
+    initialVal = 1
+
+    targetPdf = None
+
+    def proposalCSampler( x ):
+        return np.random.normal( x, 1 )
+    
+    with pytest.raises( ValueError ):
+        _ = rpm.MetropolisHastingsSampler( initialVal=initialVal, 
+                                           targetPdf=targetPdf, 
+                                           proposalCSampler=proposalCSampler )
+
+
+def test_MetropolisHastingsSampler_proposalCSamplerNone_valueError():
+    initialVal = 1
+
+    def targetPdf( x ):
+        if x < 0:
+            return 0
+        else:
+            return np.exp( -x )
+    
+    proposalCSampler = None
+    
+    with pytest.raises( ValueError ):
+        _ = rpm.MetropolisHastingsSampler( initialVal=initialVal, 
+                                           targetPdf=targetPdf, 
+                                           proposalCSampler=proposalCSampler )
+    
+
+@patch( "numpy.random.normal" )
+def test_MetropolisHastingsSampler_targetPdfNegativeReturn_valueError( mock_normal ):
+    mock_normal.return_value = 1
+    initialVal = 1
+
+    def targetPdf( x ):
+        return -1
+    
+    def proposalCSampler( x ):
+        return np.random.normal( x, 1 )
+    
+    with pytest.raises( ValueError ):
+        mhSampler = rpm.MetropolisHastingsSampler( initialVal=initialVal, 
+                                                   targetPdf=targetPdf, 
+                                                   proposalCSampler=proposalCSampler )
+        mhSampler.getSample()
+    
+
 @patch( "numpy.random.normal" )
 @patch( "numpy.random.uniform" )
 @pytest.mark.parametrize( "pseudoUniformVal, pseudoNormalVal", 
