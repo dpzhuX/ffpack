@@ -1,5 +1,5 @@
 Metropolis Hastings algorithm
 -----------------------------
 
-.. automodule:: ffpack.rpm.metropolisHastingsAlgo
+.. automodule:: ffpack.rpm.metropolisHastings
    :members:

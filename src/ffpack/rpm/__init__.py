@@ -1,1 +1,1 @@
-from .metropolisHastingsAlgo import *
+from .metropolisHastings import *
