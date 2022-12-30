@@ -29,6 +29,13 @@ Module API
 
    module/lsm
 
+``rpm`` random and probabilistic model
+--------------------------------------
+.. toctree::
+   :maxdepth: 2
+
+   module/rpm
+
 ``utils`` utility methods 
 --------------------------
 .. toctree::
