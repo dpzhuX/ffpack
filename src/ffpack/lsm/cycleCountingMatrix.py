@@ -61,7 +61,7 @@ def astmSimpleRangeCountingMatrix( data, resolution=0.5 ):
     for pair in countingRst:
         rst[ matrixDict[ "{1:,.{0}f}".format( globalConfig.atol, pair[ 0 ] ) ], 
              matrixDict[ "{1:,.{0}f}".format( globalConfig.atol, pair[ 1 ] ) ] ] += 0.5
-    return rst, matrixIndexKey
+    return rst.tolist(), matrixIndexKey
 
 
 def astmRainflowCountingMatrix( data, resolution=0.5 ):
@@ -119,7 +119,7 @@ def astmRainflowCountingMatrix( data, resolution=0.5 ):
     for tuple in countingRst:
         rst[ matrixDict[ "{1:,.{0}f}".format( globalConfig.atol, tuple[ 0 ] ) ], 
              matrixDict[ "{1:,.{0}f}".format( globalConfig.atol, tuple[ 1 ] ) ] ] += tuple[ 2 ]
-    return rst, matrixIndexKey
+    return rst.tolist(), matrixIndexKey
 
 
 def rychlikRainflowCountingMatrix( data, resolution=0.5 ):
@@ -177,4 +177,4 @@ def rychlikRainflowCountingMatrix( data, resolution=0.5 ):
     for pair in countingRst:
         rst[ matrixDict[ "{1:,.{0}f}".format( globalConfig.atol, pair[ 0 ] ) ], 
              matrixDict[ "{1:,.{0}f}".format( globalConfig.atol, pair[ 1 ] ) ] ] += 1.0
-    return rst, matrixIndexKey
+    return rst.tolist(), matrixIndexKey

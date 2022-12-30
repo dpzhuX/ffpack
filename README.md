@@ -27,19 +27,29 @@ pip install ffpack
         * Classic Palmgren-miner damage rule
 
 * Load cycle counting
-    * ASTM
+    * ASTM counting
         * ASTM level crossing counting
         * ASTM peak counting
         * ASTM simple range counting
         * ASTM rainflow counting
-    * Rychlik
-        * Rychlik rainflow Counting
+    * Rychlik counting
+        * Rychlik rainflow counting
 
 * Load sequence generator
     * Random walk
         * Uniform random walk
     * Autoregressive model
         * Normal autoregressive model
+
+* Load spectra and matrices
+    * Cycle counting matrix
+        * ASTM simple range counting matrix
+        * ASTM rainflow counting matrix
+        * Rychlik rainflow counting matrix
+
+* Random and probabilistic model
+    * Metropolis-Hastings algorithm
+        * Metropolis-Hastings sampler
 
 * Utility methods
     * Cycle counting aggregation

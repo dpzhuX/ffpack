@@ -51,6 +51,7 @@ Contents
    fatigue damage rule
    load cycle counting
    load sequence generator
+   load spectra and matrices
    random and probabilistic model
    utility methods
 
