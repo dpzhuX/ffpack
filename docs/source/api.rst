@@ -8,8 +8,8 @@ Module API
 
    module/fdr
 
-``lcc`` load cycle counting 
----------------------------
+``lcc`` load correction and counting 
+------------------------------------
 .. toctree::
    :maxdepth: 2
 
