@@ -10,7 +10,7 @@ def cycleCountingAggregation( data, binSize=1.0 ):
     Parameters
     ----------
     data: 2d array
-        Input load cycle counting data [ [ value, count ], ... ] for bin collection 
+        Input cycle counting data [ [ value, count ], ... ] for bin collection 
 
     binSize: scalar, optional
         bin size is the difference between each level, 

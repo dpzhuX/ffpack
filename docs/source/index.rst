@@ -49,7 +49,7 @@ Contents
    :caption: Cookbook:
 
    fatigue damage rule
-   load cycle counting
+   load correction and counting
    load sequence generator
    load spectra and matrices
    random and probabilistic model
