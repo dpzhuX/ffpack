@@ -21,13 +21,10 @@ pip install ffpack
 
 ## Contents
 
-* Fatigue damage rule
-* Load correction and counting
-* Load sequence generator
-* Load spectra and matrices
-* Random and probabilistic model
-* Risk and reliability model
-* Utility methods
+- Fatigue damage rule
+- Load correction and counting
+- Load sequence generator
+- Utility methods
 
 ## Document
 
