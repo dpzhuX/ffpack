@@ -33,6 +33,8 @@ class GlobalConfig:
         self.atol = 8
         # Relative tolerance in digits
         self.rtol = 5
+        # Derivative tolerance in digits
+        self.dtol = 6
     
     def setSeed( self, seed ):
         '''
