@@ -31,7 +31,7 @@ def test_arNormal_lengthsNotEqualCase_valueError():
         _ = lsg.arNormal( 500, obs, phis, 0, 0.5 )
 
 
-def test_arNormal_enptyObsAndPhisCase_valueError():
+def test_arNormal_emptyObsAndPhisCase_valueError():
     obs = [ ]
     phis = [ ]
     with pytest.raises( ValueError ):
@@ -197,4 +197,175 @@ def test_maNormal_fourStepCase_outputRelatedToThreeThetas( mock_get ):
     thetas = [ 0.8, 0.5, 0.2, 0.1 ]
     calRst = lsg.maNormal( 4, 0, thetas, 0, 0.5 )
     expectedRst = [ 1.0, 2.8, 5.1, 7.6 ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+
+
+###############################################################################
+# Test armaNormal
+###############################################################################
+def test_armaNormal_numStepsNotInt_valueError():
+    obs = [ 0, 0 ]
+    phis = [ 0.5, 0.3 ]
+    thetas = [ 0.5, 0.2 ]
+    with pytest.raises( ValueError ):
+        _ = lsg.armaNormal( 1.2, obs, phis, thetas, 0, 0.5 )
+
+
+def test_armaNormal_numStepsLessThanOneCase_valueError():
+    obs = [ 0, 0 ]
+    phis = [ 0.5, 0.3 ]
+    thetas = [ 0.5, 0.2 ]
+    with pytest.raises( ValueError ):
+        _ = lsg.armaNormal( -1, obs, phis, thetas, 0, 0.5 )
+
+    with pytest.raises( ValueError ):
+        _ = lsg.armaNormal( 0, obs, phis, thetas, 0, 0.5 )
+
+
+def test_armaNormal_PhisEmptyCase_valueError():
+    obs = [ ]
+    phis = [ ]
+    thetas = [ 0.5, 0.2 ]
+    with pytest.raises( ValueError ):
+        _ = lsg.armaNormal( 500, obs, phis, thetas, 0, 0.5 )
+
+
+def test_armaNormal_thetasEmptyCase_valueError():
+    obs = [ 0, 0 ]
+    phis = [ 0.5, 0.3 ]
+    thetas = [ ]
+    with pytest.raises( ValueError ):
+        _ = lsg.armaNormal( 0, obs, phis, thetas, 0, 0.5 )
+
+
+@patch( "numpy.random.normal" )
+def test_armaNormal_oneStepCase_outputNotRelatedToPhisAndThetas( mock_get ):
+    mock_get.return_value = [ 1.0 ]
+    
+    phis = [ 0.5, 0.3 ]
+    thetas = [ 0.8, 0.5 ]
+
+    # with obs
+    obs = [ 2.0, 3.0 ]
+    calRst = lsg.armaNormal( 1, obs, phis, thetas, 0, 0.5 )
+    expectedRst = [ 2.0 ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    # without obs
+    obs = [ ]
+    calRst = lsg.armaNormal( 1, obs, phis, thetas, 0, 0.5 )
+    expectedRst = [ 1.0 ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+
+@patch( "numpy.random.normal" )
+def test_armaNormal_twoStepCase_outputDepends( mock_get ):
+    mock_get.return_value = [ 1.0, 3.0 ]
+    
+    phis = [ 0.5, 0.3 ]
+    thetas = [ 0.8, 0.5 ]
+
+    # with two obs points
+    obs = [ 2.0, 3.0 ]
+    calRst = lsg.armaNormal( 2, obs, phis, thetas, 0, 0.5 )
+    expectedRst = [ 2.0, 3.0 ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    # with one obs point
+    obs = [ 2.0 ]
+    calRst = lsg.armaNormal( 2, obs, phis, thetas, 0, 0.5 )
+    expectedRst = [ 2.0, 4.8 ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    # without obs
+    obs = [ ]
+    calRst = lsg.armaNormal( 2, obs, phis, thetas, 0, 0.5 )
+    expectedRst = [ 1.0, 4.3 ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+
+@patch( "numpy.random.normal" )
+def test_armaNormal_threeStepCase_outputDepends( mock_get ):
+    mock_get.return_value = [ 1.0, 3.0, 4.0 ]
+    
+    # case 1: enough phis and thetas
+    phis = [ 0.5, 0.3, 0.2 ]
+    thetas = [ 0.8, 0.5, 0.4 ]
+    # with three obs points
+    obs = [ 2.0, 3.0, 4.0 ]
+    calRst = lsg.armaNormal( 3, obs, phis, thetas, 0, 0.5 )
+    expectedRst = [ 2.0, 3.0, 4.0 ]
+    np.testing.assert_allclose( calRst, expectedRst )
+    # with two obs points
+    obs = [ 2.0, 3.0 ]
+    calRst = lsg.armaNormal( 3, obs, phis, thetas, 0, 0.5 )
+    expectedRst = [ 2.0, 3.0, 9.0 ]
+    np.testing.assert_allclose( calRst, expectedRst )
+    # with one obs point
+    obs = [ 2.0 ]
+    calRst = lsg.armaNormal( 3, obs, phis, thetas, 0, 0.5 )
+    expectedRst = [ 2.0, 4.8, 9.9 ]
+    np.testing.assert_allclose( calRst, expectedRst )
+    # without obs
+    obs = [ ]
+    calRst = lsg.armaNormal( 3, obs, phis, thetas, 0, 0.5 )
+    expectedRst = [ 1.0, 4.3, 9.35 ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    # case 2: one phis and one thetas
+    phis = [ 0.5 ]
+    thetas = [ 0.8 ]
+    # with two obs points
+    obs = [ 2.0, 3.0 ]
+    calRst = lsg.armaNormal( 3, obs, phis, thetas, 0, 0.5 )
+    expectedRst = [ 2.0, 3.0, 7.9 ]
+    np.testing.assert_allclose( calRst, expectedRst )
+    # with one obs point
+    obs = [ 2.0 ]
+    calRst = lsg.armaNormal( 3, obs, phis, thetas, 0, 0.5 )
+    expectedRst = [ 2.0, 4.8, 8.8 ]
+    np.testing.assert_allclose( calRst, expectedRst )
+    # without obs
+    obs = [ ]
+    calRst = lsg.armaNormal( 3, obs, phis, thetas, 0, 0.5 )
+    expectedRst = [ 1.0, 4.3, 8.55 ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    # case 3: one phis and two thetas
+    phis = [ 0.5 ]
+    thetas = [ 0.8, 0.5 ]
+    # with two obs points
+    obs = [ 2.0, 3.0 ]
+    calRst = lsg.armaNormal( 3, obs, phis, thetas, 0, 0.5 )
+    expectedRst = [ 2.0, 3.0, 8.4 ]
+    np.testing.assert_allclose( calRst, expectedRst )
+    # with one obs point
+    obs = [ 2.0 ]
+    calRst = lsg.armaNormal( 3, obs, phis, thetas, 0, 0.5 )
+    expectedRst = [ 2.0, 4.8, 9.3 ]
+    np.testing.assert_allclose( calRst, expectedRst )
+    # without obs
+    obs = [ ]
+    calRst = lsg.armaNormal( 3, obs, phis, thetas, 0, 0.5 )
+    expectedRst = [ 1.0, 4.3, 9.05 ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    # case 3: two phis and one thetas
+    phis = [ 0.5, 0.3 ]
+    thetas = [ 0.8 ]
+    # with two obs points
+    obs = [ 2.0, 3.0 ]
+    calRst = lsg.armaNormal( 3, obs, phis, thetas, 0, 0.5 )
+    expectedRst = [ 2.0, 3.0, 8.5 ]
+    np.testing.assert_allclose( calRst, expectedRst )
+    # with one obs point
+    obs = [ 2.0 ]
+    calRst = lsg.armaNormal( 3, obs, phis, thetas, 0, 0.5 )
+    expectedRst = [ 2.0, 4.8, 9.4 ]
+    np.testing.assert_allclose( calRst, expectedRst )
+    # without obs
+    obs = [ ]
+    calRst = lsg.armaNormal( 3, obs, phis, thetas, 0, 0.5 )
+    expectedRst = [ 1.0, 4.3, 8.85 ]
     np.testing.assert_allclose( calRst, expectedRst )
