@@ -36,6 +36,13 @@ Module API
 
    module/rpm
 
+``rrm`` risk and reliability model
+----------------------------------
+.. toctree::
+   :maxdepth: 2
+
+   module/rrm
+
 ``utils`` utility methods 
 --------------------------
 .. toctree::
