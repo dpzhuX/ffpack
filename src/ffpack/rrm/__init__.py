@@ -1,1 +1,1 @@
-from .firstOriderSecondMoment import *
+from .firstOrderSecondMoment import *

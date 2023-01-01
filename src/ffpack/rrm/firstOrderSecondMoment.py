@@ -4,7 +4,7 @@ import numpy as np
 import scipy as sp
 from ffpack.config import globalConfig 
 
-def FOSM( dim, g, dg, mus, sigmas ):
+def fosm( dim, g, dg, mus, sigmas ):
     '''
     Relibility based on first order second moment method.
 
@@ -44,13 +44,13 @@ def FOSM( dim, g, dg, mus, sigmas ):
 
     Examples
     --------
-    >>> from ffpack.rrm import FOSM
+    >>> from ffpack.rrm import fosm
     >>> dim = 2
     >>> g = lambda X: 3 * X[ 0 ] - 2 * X[ 1 ]
     >>> dg = [ lambda X: 3, lambda X: -2 ]
     >>> mus = [ 1, 1 ]
     >>> sigmas = [ 3, 4 ]
-    >>> beta, pf = FOSM( dim, g, dg, mus, sigmas)
+    >>> beta, pf = fosm( dim, g, dg, mus, sigmas)
     '''
     if dim < 1:
         raise ValueError( "dim cannot be less than 1" )

@@ -51,6 +51,10 @@ pip install ffpack
     * Metropolis-Hastings algorithm
         * Metropolis-Hastings sampler
 
+* Risk and reliability model
+    * First order second moment
+        * fosm
+
 * Utility methods
     * Cycle counting aggregation
     * Fitter for SN curve
@@ -59,4 +63,4 @@ pip install ffpack
 
 ## Document
 
-You can find a complete documentation for setting up `FFPACK` at the [Read the Docs site](https://ffpack.readthedocs.io/en/latest/).
+You can find the latest documentation for setting up `FFPACK` at the [Read the Docs site](https://ffpack.readthedocs.io/en/latest/).
