@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 from ffpack import rpm
-from ffpack.config import globalConfig
 import numpy as np
 import scipy as sp
 import pytest
