@@ -64,6 +64,7 @@ class NatafDistribution:
         >>> corrMat = [ [ 1.0, 0.1 ], [ 0.1, 1.0 ] ]
         >>> natafDist = NatafDistribution( distObjs=distObjs, corrMat=corrMat )
         '''
+
         if len( distObjs ) == 0:
             raise ValueError( "distObjs cannot be empty" )
         
@@ -122,7 +123,6 @@ class NatafDistribution:
                 if self.rhoX[ i, j ] == 0:
                     continue
 
-
                 termI = ( self.distObjs[ i ].ppf( sp.stats.norm.cdf( intPointsXX ) ) - 
                           self.distObjs[ i ].mean() ) / self.distObjs[ i ].std()
                 termI[ termI == np.inf ] = np.sqrt( np.finfo(float).max ) - 1
@@ -154,6 +154,8 @@ class NatafDistribution:
                     self.rhoZ[ j, i ] = self.rhoZ[ i, j ]
                     continue
 
+                # If algorithm cannot determine the root with the previous two 
+                # starting points, try each starting point in ( -1.0, 1.0 ).
                 for k in np.linspace( -0.9, 0.9, 19 ):
                     rst = solve( func=func, x0=k )
                     if rst[ 2 ] == 1:
@@ -161,12 +163,12 @@ class NatafDistribution:
                         self.rhoZ[ j, i ] = self.rhoZ[ i, j ]
                         break
                 
-                raise ValueError( " Nataf transformation cannot be performed" )
+                raise ValueError( "Nataf transformation cannot be performed" )
 
         try:
             self.L = np.linalg.cholesky( self.rhoZ )
         except np.linalg.LinAlgError:
-            raise ValueError( " Nataf transformation cannot be performed" )
+            raise ValueError( "Nataf transformation cannot be performed" )
 
     def getU( self, X ):
         '''
