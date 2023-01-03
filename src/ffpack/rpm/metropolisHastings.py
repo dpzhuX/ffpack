@@ -32,7 +32,7 @@ class MetropolisHastingsSampler:
 
         Examples
         --------
-        >>> from ffpack.rsp import MetropolisHastingsSampler
+        >>> from ffpack.rpm import MetropolisHastingsSampler
         >>> initialVal = 1.0
         >>> targetPdf = lambda x : 0 if x < 0 else np.exp( -x )
         >>> proposalCSampler = lambda x : np.random.normal( x, 1 )

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 from ffpack import rpm
+from ffpack.config import globalConfig
 import numpy as np
 import pytest
 from unittest.mock import patch
