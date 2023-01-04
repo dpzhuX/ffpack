@@ -119,6 +119,12 @@ def test_maNormal_numStepsLessThanOneCase_valueError():
         _ = lsg.maNormal( 0, 0, thetas, 0, 0.5 )
 
 
+def test_maNormal_cNotScalarCase_valueError():
+    thetas = [ 0.5, 0.2 ]
+    with pytest.raises( ValueError ):
+        _ = lsg.maNormal( 500, [ ], thetas, 0, 0.5 )
+
+
 def test_maNormal_thetasEmptyCase_valueError():
     thetas = [  ]
     with pytest.raises( ValueError ):
@@ -368,4 +374,110 @@ def test_armaNormal_threeStepCase_outputDepends( mock_get ):
     obs = [ ]
     calRst = lsg.armaNormal( 3, obs, phis, thetas, 0, 0.5 )
     expectedRst = [ 1.0, 4.3, 8.85 ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+
+
+###############################################################################
+# Test arimaNormal
+###############################################################################
+def test_arimaNormal_numStepsNotInt_valueError():
+    phis = [ 0.5, 0.3 ]
+    thetas = [ 0.5, 0.2 ]
+    with pytest.raises( ValueError ):
+        _ = lsg.arimaNormal( 1.2, 0, phis, thetas, 0, 0.5 )
+
+
+def test_arimaNormal_numStepsLessThanOneCase_valueError():
+    phis = [ 0.5, 0.3 ]
+    thetas = [ 0.5, 0.2 ]
+    with pytest.raises( ValueError ):
+        _ = lsg.arimaNormal( -1, 0, phis, thetas, 0, 0.5 )
+
+    with pytest.raises( ValueError ):
+        _ = lsg.arimaNormal( 0, 0, phis, thetas, 0, 0.5 )
+
+
+def test_arimaNormal_cNotScalarCase_valueError():
+    phis = [ 0.5, 0.3 ]
+    thetas = [ 0.5, 0.2 ]
+    with pytest.raises( ValueError ):
+        _ = lsg.arimaNormal( 0, [ ], phis, thetas, 0, 0.5 )
+
+
+def test_arimaNormal_PhisEmptyCase_valueError():
+    phis = [ ]
+    thetas = [ 0.5, 0.2 ]
+    with pytest.raises( ValueError ):
+        _ = lsg.arimaNormal( 500, 0, phis, thetas, 0, 0.5 )
+
+
+def test_arimaNormal_thetasEmptyCase_valueError():
+    phis = [ 0.5, 0.3 ]
+    thetas = [ ]
+    with pytest.raises( ValueError ):
+        _ = lsg.arimaNormal( 0, 0, phis, thetas, 0, 0.5 )
+
+
+@patch( "numpy.random.normal" )
+def test_arimaNormal_oneStepCase_outputNotRelatedToPhisAndThetas( mock_get ):
+    mock_get.return_value = [ 1.0 ]
+    
+    phis = [ 0.5, 0.3 ]
+    thetas = [ 0.8, 0.5 ]
+    
+    calRst = lsg.arimaNormal( 1, 0, phis, thetas, 0, 0.5 )
+    expectedRst = [ 1.0 ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    calRst = lsg.arimaNormal( 1, 1.0, phis, thetas, 0, 0.5 )
+    expectedRst = [ 2.0 ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+
+@patch( "numpy.random.normal" )
+def test_arimaNormal_twoStepCase_outputNotRelatedToPhis( mock_get ):
+    mock_get.return_value = [ 1.0, 2.0 ]
+    
+    phis = [ 0.5, 0.3 ]
+    thetas = [ 0.8, 0.5 ]
+    
+    calRst = lsg.arimaNormal( 2, 0, phis, thetas, 0, 0.5 )
+    expectedRst = [ 1.0, 2.8 ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    calRst = lsg.arimaNormal( 2, 1.0, phis, thetas, 0, 0.5 )
+    expectedRst = [ 2.0, 3.8 ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+
+@patch( "numpy.random.normal" )
+def test_arimaNormal_threeStepCase_outputDepends( mock_get ):
+    mock_get.return_value = [ 1.0, 2.0, 3.0 ]
+    
+    phis = [ 0.5, 0.3 ]
+    thetas = [ 0.8, 0.5 ]
+    
+    calRst = lsg.arimaNormal( 3, 0, phis, thetas, 0, 0.5 )
+    expectedRst = [ 1.0, 2.8, 6.0 ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    calRst = lsg.arimaNormal( 3, 1.0, phis, thetas, 0, 0.5 )
+    expectedRst = [ 2.0, 3.8, 7.0 ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+
+@patch( "numpy.random.normal" )
+def test_arimaNormal_fourStepCase_outputDepends( mock_get ):
+    mock_get.return_value = [ 1.0, 2.0, 3.0, 4.0 ]
+    
+    phis = [ 0.5, 0.3 ]
+    thetas = [ 0.8, 0.5 ]
+    
+    calRst = lsg.arimaNormal( 4, 0, phis, thetas, 0, 0.5 )
+    expectedRst = [ 1.0, 2.8, 6.0, 9.54 ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    calRst = lsg.arimaNormal( 4, 1.0, phis, thetas, 0, 0.5 )
+    expectedRst = [ 2.0, 3.8, 7.0, 10.54 ]
     np.testing.assert_allclose( calRst, expectedRst )
