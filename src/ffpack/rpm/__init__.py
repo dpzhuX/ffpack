@@ -1,2 +1,2 @@
 from .metropolisHastings import *
-from .natafTransformation import *
+from .nataf import *

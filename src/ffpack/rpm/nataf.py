@@ -26,7 +26,7 @@ in reference [2]_.
 import numpy as np
 import scipy as sp
 
-class NatafDistribution:
+class NatafTransformation:
     '''
     Nataf distribution for correlated marginal distributions.
     '''
@@ -59,10 +59,10 @@ class NatafDistribution:
         
         Examples
         --------
-        >>> from ffpack.rpm import NatafDistribution
+        >>> from ffpack.rpm import NatafTransformation
         >>> distObjs = [ sp.stats.norm(), sp.stats.norm() ]
         >>> corrMat = [ [ 1.0, 0.1 ], [ 0.1, 1.0 ] ]
-        >>> natafDist = NatafDistribution( distObjs=distObjs, corrMat=corrMat )
+        >>> natafDist = NatafTransformation( distObjs=distObjs, corrMat=corrMat )
         '''
 
         if len( distObjs ) == 0:
