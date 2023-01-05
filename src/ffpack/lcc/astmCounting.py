@@ -7,6 +7,7 @@ ASTM E1049-85(2017) Standard Practices for Cycle Counting in Fatigue Analysis
 
 import numpy as np
 from ffpack.utils import generalUtils
+from ffpack.config import globalConfig
 from collections import defaultdict, deque
 
 def astmLevelCrossingCounting( data, refLevel=0.0, levels=None, aggregate=True ):
@@ -78,10 +79,11 @@ def astmLevelCrossingCounting( data, refLevel=0.0, levels=None, aggregate=True )
                 rstDict[ levels[ j ] ] += 1
                 rstSeq.append( levels[ j ] )
     if len( rstDict ) == 0:
-        return [ [] ] if aggregate else [ ]
+        return [ [ ] ] if aggregate else [ ]
     rst = np.array( [ [ key, val ] for key, val in rstDict.items() ] )
     rst = rst[ rst[ :, 0 ].argsort() ]
     return rst.tolist() if aggregate else rstSeq
+
 
 def astmPeakCounting( data, refLevel=None, aggregate=True ):
     '''
@@ -138,10 +140,11 @@ def astmPeakCounting( data, refLevel=None, aggregate=True ):
             rstSeq.append( cur )
 
     if len( rstDict ) == 0:
-        return [ [] ] if aggregate else [ ]
+        return [ [ ] ] if aggregate else [ ]
     rst = np.array( [ [ key, val ] for key, val in rstDict.items() ] )
     rst = rst[ rst[ :, 0 ].argsort() ]
     return rst.tolist() if aggregate else rstSeq
+
 
 def astmSimpleRangeCounting( data, aggregate=True ):
     '''
@@ -195,6 +198,7 @@ def astmSimpleRangeCounting( data, aggregate=True ):
     rst = np.array( [ [ key, val ] for key, val in rstDict.items() ] )
     rst = rst[ rst[ :, 0 ].argsort() ]
     return rst.tolist() if aggregate else rstSeq
+
 
 def astmRainflowCounting( data, aggregate=True ):
     '''
@@ -284,7 +288,105 @@ def astmRainflowCounting( data, aggregate=True ):
         A = B
 
     if len( rstDict ) == 0:
-        return [ [] ] 
+        return [ [ ] ] 
     rst = np.array( [ [ key, val ] for key, val in rstDict.items() ] )
     rst = rst[ rst[ :, 0 ].argsort() ]
     return rst.tolist() if aggregate else rstSeq
+
+
+def astmRangePairCounting( data, aggregate=True ):
+    '''
+    ASTM range pair counting in E1049-85: sec 5.4.3.
+
+    Parameters
+    ----------
+    data: 1d array
+        Load sequence data for counting.
+    aggragate: bool, optional
+        If aggregate is set to False, the original sequence for internal counting,
+        e.g., [ [ rangeStart1, rangeEnd1 ], [ rangeStart2, rangeEnd2 ], ... ], 
+        will be returned.
+    
+    Returns
+    -------
+    rst: 2d array
+        Sorted counting results.
+    
+    Raises
+    ------
+    ValueError
+        If the data length is less than 2 or the data dimension is not 1.
+
+    Examples
+    --------
+    >>> from ffpack.lcc import astmRangePairCounting
+    >>> data = [ -2.0, 1.0, -3.0, 5.0, -1.0, 3.0, -4.0, 4.0, -2.0 ]
+    >>> rst = astmRangePairCounting( data )
+    '''
+    data = np.array( data )
+    if len( data.shape ) != 1:
+        raise ValueError( "Input data dimension should be 1" )
+    if data.shape[0] <= 1:
+        raise ValueError( "Input data length should be at least 2")
+
+    # Remove the intermediate value first
+    data = np.array( generalUtils.sequencePeakAndValleys( data, keepEnds=True ) )
+    indices = np.array( range( -1, len( data ) - 1 ) )
+
+    def checkPreviousThree( indices, i ):
+        if ( indices[ i ] < 0 ):
+            return False
+        if ( indices[ indices[ i ] ] < 0 ):
+            return False
+        return True
+    
+    rstSeq = [ ]
+    # loop from left to right
+    i = 2
+    while i < len( data ):
+        if ( not checkPreviousThree( indices, i ) ): 
+            i += 1
+            continue
+        second = indices[ i ]
+        first = indices[ second ]
+        left = abs( data[ first ] - data[ second ] )
+        right = abs( data[ second ] - data[ i ] )
+        if ( left <= right ):
+            rstSeq.append( [ data[ first ], data[ second ] ] )
+            indices[ i ] = indices[ first ]
+            indices[ second ] = -2
+            indices[ first ] = -2
+        else: 
+            i += 1
+    
+    # loop from right to left
+    i = len( data ) - 1
+    while i > 1:
+        if ( not checkPreviousThree( indices, i ) ): 
+            i -= 1
+            continue
+        second = indices[ i ]
+        first = indices[ second ]
+        left = abs( data[ first ] - data[ second ] )
+        right = abs( data[ second ] - data[ i ] )
+        if ( right <= left ):
+            rstSeq.append( [ data[ second ], data[ i ] ] )
+            indices[ first ] = indices[ i ]
+            indices[ second ] = -2
+            indices[ i ] = -2
+        else: 
+            i -= 1
+
+    if ( not aggregate ): 
+        return rstSeq
+    
+    rstDict = defaultdict( int )
+    for leftRight in rstSeq:
+        height = round( abs( leftRight[ 1 ] - leftRight[ 0 ] ), globalConfig.atol )
+        rstDict[ height ] += 1
+
+    if len( rstDict ) == 0:
+        return [ [ ] ] 
+    rst = np.array( [ [ key, val ] for key, val in rstDict.items() ] )
+    rst = rst[ rst[ :, 0 ].argsort() ]
+    return rst.tolist()
