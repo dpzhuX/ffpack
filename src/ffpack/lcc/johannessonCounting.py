@@ -84,5 +84,4 @@ def johannessonMinMaxCounting( data, aggregate=True ):
         return [ [ ] ] 
     rst = np.array( [ [ key, val ] for key, val in rstDict.items() ] )
     rst = rst[ rst[ :, 0 ].argsort() ]
-    print( rst )
     return rst.tolist()
