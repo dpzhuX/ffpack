@@ -1,14 +1,11 @@
 #!/usr/bin/env python3
 
 '''
-Rychlik proposed a toplevel-up cycle conting method and proved that the proposed 
-method is equivalent to the classical rainflow counting method. Compared to the
-classical rainflow counting method, the proposed method keeps the original 
-sequence information which is quite useful if the sequence information is
-required for further analysis.
+Johannesson proposed a minMax cycle conting method.
 
-Reference: Rychlik, I., 1987. A new definition of the rainflow cycle counting method. 
-International journal of fatigue, 9(2), pp.119-121.
+Reference: 
+Johannesson, P., 1998. Rainflow cycles for switching processes with Markov structure. 
+Probability in the Engineering and Informational Sciences, 12(2), pp.143-175.
 '''
 
 import numpy as np
@@ -16,9 +13,9 @@ from ffpack.utils import generalUtils
 from ffpack.config import globalConfig
 from collections import defaultdict 
 
-def rychlikRainflowCounting( data, aggregate=True ):
+def johannessonMinMaxCounting( data, aggregate=True ):
     '''
-    Rychilk rainflow counting (toplevel-up cycle TUC)
+    Johannesson min-max counting 
 
     Parameters
     ----------
@@ -42,10 +39,10 @@ def rychlikRainflowCounting( data, aggregate=True ):
 
     Examples
     --------
-    >>> from ffpack.lcc import rychlikRainflowCycleCounting
+    >>> from ffpack.lcc import johannessonMinMaxCounting
     >>> data = [ -0.8, 1.3, 0.7, 3.4, 0.7, 2.5, -1.4, -0.5, -2.3, 
     >>>          -2.2, -2.6, -2.4, -3.3, 1.5, 0.6, 3.4, -0.5 ]
-    >>> rst = rychlikRainflowCycleCounting( data )
+    >>> rst = johannessonMinMaxCounting( data )
     '''
     # Egde cases
     data = np.array( data )
@@ -66,27 +63,14 @@ def rychlikRainflowCounting( data, aggregate=True ):
 
         return left
 
-    def getMinRight( data, i ):
-        if ( i == len( data ) - 2 ): 
-            return min( data[ len( data ) - 1 ], data[ len( data ) - 2 ] )
-        
-        right = data[ i + 1 ]
-        j = i + 2
-        while ( j < len( data ) and data[ j ] < data[ i ] ):
-            right = min( right, data[ j ] )
-            j += 1
-
-        return right 
-
-
     # we need to use this util function since it keeps one peak 
     # if there are two or more points together with the same peak value
     data = generalUtils.sequencePeakAndValleys( data, keepEnds=True )
     rstSeq = [ ]
     for i in range( 1, len( data ) - 1 ):
         if ( data[ i ] > data[ i - 1 ] and data[ i ] > data[ i + 1 ] ):
-            higher = max( getMinLeft( data, i ), getMinRight( data, i ) )
-            rstSeq.append( [ higher, data[ i ] ] )
+            left = getMinLeft( data, i )
+            rstSeq.append( [ left, data[ i ] ] )
     
     if ( not aggregate ): 
         return rstSeq
@@ -100,4 +84,5 @@ def rychlikRainflowCounting( data, aggregate=True ):
         return [ [ ] ] 
     rst = np.array( [ [ key, val ] for key, val in rstDict.items() ] )
     rst = rst[ rst[ :, 0 ].argsort() ]
+    print( rst )
     return rst.tolist()
