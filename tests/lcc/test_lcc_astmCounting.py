@@ -828,3 +828,188 @@ def test_astmRainflowCounting_normalTrivialCase_pass( mock_get ):
     calRst = lcc.astmRainflowCounting( data, aggregate=False )
     expectedRst = [ [ -1.0, 1.0, 0.5 ], [ 1.0, -3.0, 0.5 ], [ -3.0, 3.0, 0.5 ], [ 3.0, 2.0, 0.5 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
+
+
+
+###############################################################################
+# Test astmRangePairCounting function
+###############################################################################
+def test_astmRangePairCounting_emptyInputCase_valueError():
+    # Test edge cases for empty list
+    data = [ ]
+    with pytest.raises( ValueError ):
+        _ = lcc.astmRangePairCounting( data )
+
+
+def test_astmRangePairCounting_singleInputCase_valueError():
+    # Test edge cases for 1 element list
+    data = [ 1.0 ]
+    with pytest.raises( ValueError ):
+        _ = lcc.astmRangePairCounting( data )
+
+
+def test_astmRangePairCounting_twoDimInputCase_valueError():
+    # Test edge cases for 2D list
+    data = [ [ 1.0 ], [ 2.0 ] ]
+    with pytest.raises( ValueError ):
+        _ = lcc.astmRangePairCounting( data )
+
+
+@patch( "ffpack.utils.generalUtils.sequencePeakAndValleys" )
+def test_astmRangePairCounting_twoPoints_empty( mock_get ):
+    data = [ -2.0, 1.0 ]
+    mock_get.return_value = [ -2.0, 1.0 ]
+    calRst = lcc.astmRangePairCounting( data, aggregate=False )
+    expectedRst = [ ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    calRst = lcc.astmRangePairCounting( data, aggregate=True )
+    expectedRst = [ [ ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+
+@patch( "ffpack.utils.generalUtils.sequencePeakAndValleys" )
+def test_astmRangePairCounting_threePoints_oneCount( mock_get ):
+    # case 1: same left and right height
+    data = [ -2.0, 1.0, -2.0 ]
+    mock_get.return_value = [ -2.0, 1.0, -2.0 ]
+    calRst = lcc.astmRangePairCounting( data, aggregate=False )
+    expectedRst = [ [ -2.0, 1.0 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    calRst = lcc.astmRangePairCounting( data, aggregate=True )
+    expectedRst = [ [ 3.0, 1 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    # case 2: left height < right height
+    data = [ -2.0, 1.0, -3.0 ]
+    mock_get.return_value = [ -2.0, 1.0, -3.0 ]
+    calRst = lcc.astmRangePairCounting( data, aggregate=False )
+    expectedRst = [ [ -2.0, 1.0 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    calRst = lcc.astmRangePairCounting( data, aggregate=True )
+    expectedRst = [ [ 3.0, 1 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    # case 3: right height < left height
+    data = [ -3.0, 1.0, -2.0 ]
+    mock_get.return_value = [ -3.0, 1.0, -2.0 ]
+    calRst = lcc.astmRangePairCounting( data, aggregate=False )
+    expectedRst = [ [ 1.0, -2.0 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    calRst = lcc.astmRangePairCounting( data, aggregate=True )
+    expectedRst = [ [ 3.0, 1 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+
+@patch( "ffpack.utils.generalUtils.sequencePeakAndValleys" )
+def test_astmRangePairCounting_fourPoints_oneCount( mock_get ):
+    # case 1: same left and right height
+    data = [ -2.0, 1.0, -2.0, 1.0 ]
+    mock_get.return_value = [ -2.0, 1.0, -2.0, 1.0 ]
+    calRst = lcc.astmRangePairCounting( data, aggregate=False )
+    expectedRst = [ [ -2.0, 1.0 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    calRst = lcc.astmRangePairCounting( data, aggregate=True )
+    expectedRst = [ [ 3.0, 1 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    # case 2: high - low - low
+    data = [ -2.0, 1.0, -1.0, 1.0 ]
+    mock_get.return_value = [ -2.0, 1.0, -1.0, 1.0 ]
+    calRst = lcc.astmRangePairCounting( data, aggregate=False )
+    expectedRst = [ [ 1.0, -1.0 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    calRst = lcc.astmRangePairCounting( data, aggregate=True )
+    expectedRst = [ [ 2.0, 1 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    # case 3: high - low - lower
+    data = [ -2.0, 1.0, -1.0, 0.0 ]
+    mock_get.return_value = [ -2.0, 1.0, -1.0, 0.0 ]
+    calRst = lcc.astmRangePairCounting( data, aggregate=False )
+    expectedRst = [ [ -1.0, 0.0 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    calRst = lcc.astmRangePairCounting( data, aggregate=True )
+    expectedRst = [ [ 1.0, 1 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+
+@patch( "ffpack.utils.generalUtils.sequencePeakAndValleys" )
+def test_astmRangePairCounting_fivePoints_depends( mock_get ):
+    # case 1: same left and right height
+    data = [ -2.0, 1.0, -2.0, 1.0, -2.0 ]
+    mock_get.return_value = [ -2.0, 1.0, -2.0, 1.0, -2.0 ]
+    calRst = lcc.astmRangePairCounting( data, aggregate=False )
+    expectedRst = [ [ -2.0, 1.0 ], [ -2.0, 1.0 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    calRst = lcc.astmRangePairCounting( data, aggregate=True )
+    expectedRst = [ [ 3.0, 2 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    # case 2: one from left and one from right
+    data = [ -2.0, 1.0, -2.0, 2.0, -1.0 ]
+    mock_get.return_value = [ -2.0, 1.0, -2.0, 2.0, -1.0 ]
+    calRst = lcc.astmRangePairCounting( data, aggregate=False )
+    expectedRst = [ [ -2.0, 1.0 ], [ 2.0, -1.0 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    calRst = lcc.astmRangePairCounting( data, aggregate=True )
+    expectedRst = [ [ 3.0, 2 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    # case 3: w shape - all from left
+    data = [ 2.0, -2.0, 1.0, -1.0, 2.0 ]
+    mock_get.return_value = [ 2.0, -2.0, 1.0, -1.0, 2.0 ]
+    calRst = lcc.astmRangePairCounting( data, aggregate=False )
+    expectedRst = [ [ 1.0, -1.0 ], [ 2.0, -2.0 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    calRst = lcc.astmRangePairCounting( data, aggregate=True )
+    expectedRst = [ [ 2.0, 1 ], [ 4.0, 1 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    # case 4: w shape - one from left one from right
+    data = [ 2.0, -2.0, 1.0, -1.0, 1.0 ]
+    mock_get.return_value = [ 2.0, -2.0, 1.0, -1.0, 1.0 ]
+    calRst = lcc.astmRangePairCounting( data, aggregate=False )
+    expectedRst = [ [ 1.0, -1.0 ], [ -2.0, 1.0 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    calRst = lcc.astmRangePairCounting( data, aggregate=True )
+    expectedRst = [ [ 2.0, 1 ], [ 3.0, 1 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+
+@patch( "ffpack.utils.generalUtils.sequencePeakAndValleys" )
+def test_astmRangePairCounting_normalUseCase_pass( mock_get ):
+    # range pair counting data from E1049-85(2017) Fig.5
+    data = [ -2.0, 1.0, -3.0, 5.0, -1.0, 3.0, -4.0, 4.0, -2.0 ]
+    mock_get.return_value = [ -2.0, 1.0, -3.0, 5.0, -1.0, 3.0, -4.0, 4.0, -2.0 ]
+    calRst = lcc.astmRangePairCounting( data, aggregate=False )
+    expectedRst = [ [ -2.0, 1.0 ], [ -1.0, 3.0 ], [ -3.0, 5.0 ], [ 4.0, -2.0 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    calRst = lcc.astmRangePairCounting( data, aggregate=True )
+    expectedRst = [ [ 3.0, 1 ], [ 4.0, 1 ], [ 6.0, 1 ], [ 8.0, 1 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+
+@patch( "ffpack.utils.generalUtils.sequencePeakAndValleys" )
+def test_astmRangePairCounting_duplicatedHeight_aggregated( mock_get ):
+    # modified range pair counting data from E1049-85(2017) Fig.5
+    data = [ -2.0, 1.0, -2.0, 5.0, -1.0, 2.0, -4.0, 4.0, -2.0 ]
+    mock_get.return_value = [ -2.0, 1.0, -2.0, 5.0, -1.0, 2.0, -4.0, 4.0, -2.0 ]
+    calRst = lcc.astmRangePairCounting( data, aggregate=False )
+    expectedRst = [ [ -2.0, 1.0 ], [ -1.0, 2.0 ], [ -2.0, 5.0 ], [ 4.0, -2.0 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    calRst = lcc.astmRangePairCounting( data, aggregate=True )
+    expectedRst = [ [ 3.0, 2 ], [ 6.0, 1 ], [ 7.0, 1 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
