@@ -9,8 +9,8 @@ project = 'FFPACK'
 copyright = '2022, Dongping Zhu'
 author = 'Dongping Zhu'
 
-release = '0.1.0'
-version = '0.1.0'
+release = '0.3.0'
+version = '0.3.0'
 
 # -- General configuration
 
@@ -26,7 +26,7 @@ extensions = [
     'nbsphinx',
 ]
 
-source_suffix = [".rst", ".md"]
+source_suffix = ['.rst', '.md']
 
 intersphinx_mapping = {
     'python': ('https://docs.python.org/3/', None),
@@ -41,7 +41,7 @@ templates_path = ['_templates']
 html_theme = 'sphinx_rtd_theme'
 
 # -- Options for EPUB output
-epub_show_urls = 'footnote'
+epub_show_urls = "footnote"
 
 def skip(app, what, name, obj, would_skip, options):
     if name == "__init__":
