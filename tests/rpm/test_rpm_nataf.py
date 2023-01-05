@@ -17,7 +17,7 @@ def test_NatafTransformation_initWithDisObjsEmpty_valueError():
     corrMat = [ [ 1.0, rho ], [ rho, 1.0 ] ]
 
     with pytest.raises( ValueError ):
-        _ = rpm.NatafDistribution( distObjs=distObjs, corrMat=corrMat )
+        _ = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat )
 
 
 def test_NatafTransformation_initWithDisObjsDimMismatch_valueError():
@@ -29,7 +29,7 @@ def test_NatafTransformation_initWithDisObjsDimMismatch_valueError():
     corrMat = [ [ 1.0, rho ], [ rho, 1.0 ] ]
 
     with pytest.raises( ValueError ):
-        _ = rpm.NatafDistribution( distObjs=distObjs, corrMat=corrMat )
+        _ = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat )
 
 
 def test_NatafTransformation_initWithOneDimCorrMat_valueError():
@@ -42,7 +42,7 @@ def test_NatafTransformation_initWithOneDimCorrMat_valueError():
     corrMat = [ 1.0, rho ] 
 
     with pytest.raises( ValueError ):
-        _ = rpm.NatafDistribution( distObjs=distObjs, corrMat=corrMat )
+        _ = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat )
 
 
 def test_NatafTransformation_initWithCorrMatDiagNotOne_valueError():
@@ -55,7 +55,7 @@ def test_NatafTransformation_initWithCorrMatDiagNotOne_valueError():
     corrMat = [ [ 0.5, rho ], [ rho, 1.0 ] ]
 
     with pytest.raises( ValueError ):
-        _ = rpm.NatafDistribution( distObjs=distObjs, corrMat=corrMat )
+        _ = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat )
 
 
 def test_NatafTransformation_initWithCorrMatNotSymm_valueError():
@@ -68,7 +68,7 @@ def test_NatafTransformation_initWithCorrMatNotSymm_valueError():
     corrMat = [ [ 1.0, -rho ], [ rho, 1.0 ] ]
 
     with pytest.raises( ValueError ):
-        _ = rpm.NatafDistribution( distObjs=distObjs, corrMat=corrMat )
+        _ = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat )
 
 
 def test_NatafTransformation_initWithCorrMatNotPositiveDefinite_valueError():
@@ -81,7 +81,7 @@ def test_NatafTransformation_initWithCorrMatNotPositiveDefinite_valueError():
     corrMat = [ [ 1.0, rho ], [ rho, 1.0 ] ]
 
     with pytest.raises( ValueError ):
-        _ = rpm.NatafDistribution( distObjs=distObjs, corrMat=corrMat )
+        _ = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat )
 
 
 def test_NatafTransformation_getXWithULengthMismatch_valueError():
@@ -93,7 +93,7 @@ def test_NatafTransformation_getXWithULengthMismatch_valueError():
     distObjs = [ X1, X2 ]
     corrMat = [ [ 1.0, rho ], [ rho, 1.0 ] ]
 
-    natafDist = rpm.NatafDistribution( distObjs=distObjs, corrMat=corrMat )
+    natafDist = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat )
     with pytest.raises( ValueError ):
         _ = natafDist.getX( [ 1.0 ] )
 
@@ -107,7 +107,7 @@ def test_NatafTransformation_getXWithUDimMismatch_valueError():
     distObjs = [ X1, X2 ]
     corrMat = [ [ 1.0, rho ], [ rho, 1.0 ] ]
 
-    natafDist = rpm.NatafDistribution( distObjs=distObjs, corrMat=corrMat )
+    natafDist = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat )
     with pytest.raises( ValueError ):
         _ = natafDist.getX( [ [ 1.0, 2.0 ], [ 3.0, 4.0 ] ] )
 
@@ -121,7 +121,7 @@ def test_NatafTransformation_getUWithXLengthMismatch_valueError():
     distObjs = [ X1, X2 ]
     corrMat = [ [ 1.0, rho ], [ rho, 1.0 ] ]
 
-    natafDist = rpm.NatafDistribution( distObjs=distObjs, corrMat=corrMat )
+    natafDist = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat )
     with pytest.raises( ValueError ):
         _ = natafDist.getU( [ 1.0 ] )
 
@@ -135,7 +135,7 @@ def test_NatafTransformation_getUWithXDimMismatch_valueError():
     distObjs = [ X1, X2 ]
     corrMat = [ [ 1.0, rho ], [ rho, 1.0 ] ]
 
-    natafDist = rpm.NatafDistribution( distObjs=distObjs, corrMat=corrMat )
+    natafDist = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat )
     with pytest.raises( ValueError ):
         _ = natafDist.getU( [ [ 1.0, 2.0 ], [ 3.0, 4.0 ] ] )
 
@@ -149,7 +149,7 @@ def test_NatafTransformation_pdfWithXLengthMismatch_valueError():
     distObjs = [ X1, X2 ]
     corrMat = [ [ 1.0, rho ], [ rho, 1.0 ] ]
 
-    natafDist = rpm.NatafDistribution( distObjs=distObjs, corrMat=corrMat )
+    natafDist = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat )
     with pytest.raises( ValueError ):
         _ = natafDist.pdf( [ 1.0 ] )
 
@@ -163,7 +163,7 @@ def test_NatafTransformation_pdfWithXDimMismatch_valueError():
     distObjs = [ X1, X2 ]
     corrMat = [ [ 1.0, rho ], [ rho, 1.0 ] ]
 
-    natafDist = rpm.NatafDistribution( distObjs=distObjs, corrMat=corrMat )
+    natafDist = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat )
     with pytest.raises( ValueError ):
         _ = natafDist.pdf( [ [ 1.0, 2.0 ], [ 3.0, 4.0 ] ] )
 
@@ -177,7 +177,7 @@ def test_NatafTransformation_cdfWithXLengthMismatch_valueError():
     distObjs = [ X1, X2 ]
     corrMat = [ [ 1.0, rho ], [ rho, 1.0 ] ]
 
-    natafDist = rpm.NatafDistribution( distObjs=distObjs, corrMat=corrMat )
+    natafDist = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat )
     with pytest.raises( ValueError ):
         _ = natafDist.cdf( [ 1.0 ] )
 
@@ -191,7 +191,7 @@ def test_NatafTransformation_cdfWithXDimMismatch_valueError():
     distObjs = [ X1, X2 ]
     corrMat = [ [ 1.0, rho ], [ rho, 1.0 ] ]
 
-    natafDist = rpm.NatafDistribution( distObjs=distObjs, corrMat=corrMat )
+    natafDist = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat )
     with pytest.raises( ValueError ):
         _ = natafDist.cdf( [ [ 1.0, 2.0 ], [ 3.0, 4.0 ] ] )
 
@@ -209,7 +209,7 @@ def test_NatafTransformation_twoNormalVariablesCase_rhoZEqualCorrMat( rho ):
     distObjs = [ X1, X2 ]
     corrMat = [ [ 1.0, rho ], [ rho, 1.0 ] ]
 
-    natafDist = rpm.NatafDistribution( distObjs=distObjs, corrMat=corrMat )
+    natafDist = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat )
     np.testing.assert_allclose( corrMat, natafDist.rhoZ )
 
 
@@ -224,7 +224,7 @@ def test_NatafTransformation_threeNormalVariablesCase_rhoZEqualCorrMat( rho ):
     distObjs = [ X1, X2, X3 ]
     corrMat = [ [ 1.0, rho, rho ], [ rho, 1.0, rho ], [ rho, rho, 1.0 ] ]
 
-    natafDist = rpm.NatafDistribution( distObjs=distObjs, corrMat=corrMat )
+    natafDist = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat )
     np.testing.assert_allclose( corrMat, natafDist.rhoZ )
 
 
@@ -236,7 +236,7 @@ def test_NatafTransformation_normAndExpVariablesCase_2dRhoZ( ):
     rho = -0.8
     corrMat = [ [ 1.0, rho ], [ rho, 1.0 ] ]
 
-    natafDist = rpm.NatafDistribution( distObjs=distObjs, corrMat=corrMat )
+    natafDist = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat )
     expectedRhoZ = [ [ 1.0, -0.88574225 ], [ -0.88574225, 1.0 ] ]
     np.testing.assert_allclose( np.round( expectedRhoZ, 5 ), 
                                 np.round( natafDist.rhoZ, 5 ) )
@@ -244,7 +244,7 @@ def test_NatafTransformation_normAndExpVariablesCase_2dRhoZ( ):
     rho = -0.5
     corrMat = [ [ 1.0, rho ], [ rho, 1.0 ] ]
 
-    natafDist = rpm.NatafDistribution( distObjs=distObjs, corrMat=corrMat )
+    natafDist = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat )
     expectedRhoZ = [ [ 1.0, -0.55358891 ], [ -0.55358891, 1.0 ] ]
     np.testing.assert_allclose( np.round( expectedRhoZ, 5 ), 
                                 np.round( natafDist.rhoZ, 5 ) )
@@ -252,7 +252,7 @@ def test_NatafTransformation_normAndExpVariablesCase_2dRhoZ( ):
     rho = -0.2
     corrMat = [ [ 1.0, rho ], [ rho, 1.0 ] ]
 
-    natafDist = rpm.NatafDistribution( distObjs=distObjs, corrMat=corrMat )
+    natafDist = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat )
     expectedRhoZ = [ [ 1.0, -0.22143556], [ -0.22143556, 1.0 ] ]
     np.testing.assert_allclose( np.round( expectedRhoZ, 5 ), 
                                 np.round( natafDist.rhoZ, 5 ) )
@@ -260,7 +260,7 @@ def test_NatafTransformation_normAndExpVariablesCase_2dRhoZ( ):
     rho = 0.2
     corrMat = [ [ 1.0, rho ], [ rho, 1.0 ] ]
 
-    natafDist = rpm.NatafDistribution( distObjs=distObjs, corrMat=corrMat )
+    natafDist = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat )
     expectedRhoZ = [ [ 1.0, 0.22143556], [ 0.22143556, 1.0 ] ]
     np.testing.assert_allclose( np.round( expectedRhoZ, 5 ), 
                                 np.round( natafDist.rhoZ, 5 ) )
@@ -268,7 +268,7 @@ def test_NatafTransformation_normAndExpVariablesCase_2dRhoZ( ):
     rho = 0.5
     corrMat = [ [ 1.0, rho ], [ rho, 1.0 ] ]
 
-    natafDist = rpm.NatafDistribution( distObjs=distObjs, corrMat=corrMat )
+    natafDist = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat )
     expectedRhoZ = [ [ 1.0, 0.55358891 ], [ 0.55358891, 1.0 ] ]
     np.testing.assert_allclose( np.round( expectedRhoZ, 5 ), 
                                 np.round( natafDist.rhoZ, 5 ) )
@@ -276,7 +276,7 @@ def test_NatafTransformation_normAndExpVariablesCase_2dRhoZ( ):
     rho = 0.8
     corrMat = [ [ 1.0, rho ], [ rho, 1.0 ] ]
 
-    natafDist = rpm.NatafDistribution( distObjs=distObjs, corrMat=corrMat )
+    natafDist = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat )
     expectedRhoZ = [ [ 1.0, 0.88574225 ], [ 0.88574225, 1.0 ] ]
     np.testing.assert_allclose( np.round( expectedRhoZ, 5 ), 
                                 np.round( natafDist.rhoZ, 5 ) )
@@ -290,7 +290,7 @@ def test_NatafTransformation_normAndGammaVariablesCase_2dRhoZ( ):
     rho = -0.8
     corrMat = [ [ 1.0, rho ], [ rho, 1.0 ] ]
 
-    natafDist = rpm.NatafDistribution( distObjs=distObjs, corrMat=corrMat )
+    natafDist = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat )
     expectedRhoZ = [ [ 1.0, -0.84397443 ], [ -0.84397443, 1.0 ] ]
     np.testing.assert_allclose( np.round( expectedRhoZ, 5 ), 
                                 np.round( natafDist.rhoZ, 5 ) )
@@ -298,7 +298,7 @@ def test_NatafTransformation_normAndGammaVariablesCase_2dRhoZ( ):
     rho = -0.5
     corrMat = [ [ 1.0, rho ], [ rho, 1.0 ] ]
 
-    natafDist = rpm.NatafDistribution( distObjs=distObjs, corrMat=corrMat )
+    natafDist = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat )
     expectedRhoZ = [ [ 1.0, -0.52748402 ], [ -0.52748402, 1.0 ] ]
     np.testing.assert_allclose( np.round( expectedRhoZ, 5 ), 
                                 np.round( natafDist.rhoZ, 5 ) )
@@ -306,7 +306,7 @@ def test_NatafTransformation_normAndGammaVariablesCase_2dRhoZ( ):
     rho = -0.2
     corrMat = [ [ 1.0, rho ], [ rho, 1.0 ] ]
 
-    natafDist = rpm.NatafDistribution( distObjs=distObjs, corrMat=corrMat )
+    natafDist = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat )
     expectedRhoZ = [ [ 1.0, -0.21099361 ], [ -0.21099361, 1.0 ] ]
     np.testing.assert_allclose( np.round( expectedRhoZ, 5 ), 
                                 np.round( natafDist.rhoZ, 5 ) )
@@ -314,7 +314,7 @@ def test_NatafTransformation_normAndGammaVariablesCase_2dRhoZ( ):
     rho = 0.2
     corrMat = [ [ 1.0, rho ], [ rho, 1.0 ] ]
 
-    natafDist = rpm.NatafDistribution( distObjs=distObjs, corrMat=corrMat )
+    natafDist = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat )
     expectedRhoZ = [ [ 1.0, 0.21099361 ], [ 0.21099361, 1.0 ] ]
     np.testing.assert_allclose( np.round( expectedRhoZ, 5 ), 
                                 np.round( natafDist.rhoZ, 5 ) )
@@ -322,7 +322,7 @@ def test_NatafTransformation_normAndGammaVariablesCase_2dRhoZ( ):
     rho = 0.5
     corrMat = [ [ 1.0, rho ], [ rho, 1.0 ] ]
 
-    natafDist = rpm.NatafDistribution( distObjs=distObjs, corrMat=corrMat )
+    natafDist = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat )
     expectedRhoZ = [ [ 1.0, 0.52748402 ], [ 0.52748402, 1.0 ] ]
     np.testing.assert_allclose( np.round( expectedRhoZ, 5 ), 
                                 np.round( natafDist.rhoZ, 5 ) )
@@ -330,7 +330,7 @@ def test_NatafTransformation_normAndGammaVariablesCase_2dRhoZ( ):
     rho = 0.8
     corrMat = [ [ 1.0, rho ], [ rho, 1.0 ] ]
 
-    natafDist = rpm.NatafDistribution( distObjs=distObjs, corrMat=corrMat )
+    natafDist = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat )
     expectedRhoZ = [ [ 1.0, 0.84397443 ], [ 0.84397443, 1.0 ] ]
     np.testing.assert_allclose( np.round( expectedRhoZ, 5 ), 
                                 np.round( natafDist.rhoZ, 5 ) )
@@ -344,7 +344,7 @@ def test_NatafTransformation_expAndGammaVariablesCase_2dRhoZ( ):
     rho = -0.7
     corrMat = [ [ 1.0, rho ], [ rho, 1.0 ] ]
 
-    natafDist = rpm.NatafDistribution( distObjs=distObjs, corrMat=corrMat )
+    natafDist = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat )
     expectedRhoZ = [ [ 1.0, -0.95687299 ], [ -0.95687299, 1.0 ] ]
     np.testing.assert_allclose( np.round( expectedRhoZ, 5 ), 
                                 np.round( natafDist.rhoZ, 5 ) )
@@ -352,7 +352,7 @@ def test_NatafTransformation_expAndGammaVariablesCase_2dRhoZ( ):
     rho = -0.5
     corrMat = [ [ 1.0, rho ], [ rho, 1.0 ] ]
 
-    natafDist = rpm.NatafDistribution( distObjs=distObjs, corrMat=corrMat )
+    natafDist = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat )
     expectedRhoZ = [ [ 1.0, -0.64842439], [ -0.64842439, 1.0 ] ]
     np.testing.assert_allclose( np.round( expectedRhoZ, 5 ), 
                                 np.round( natafDist.rhoZ, 5 ) )
@@ -360,7 +360,7 @@ def test_NatafTransformation_expAndGammaVariablesCase_2dRhoZ( ):
     rho = -0.2
     corrMat = [ [ 1.0, rho ], [ rho, 1.0 ] ]
 
-    natafDist = rpm.NatafDistribution( distObjs=distObjs, corrMat=corrMat )
+    natafDist = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat )
     expectedRhoZ = [ [ 1.0, -0.24271826 ], [ -0.24271826, 1.0 ] ]
     np.testing.assert_allclose( np.round( expectedRhoZ, 5 ), 
                                 np.round( natafDist.rhoZ, 5 ) )
@@ -368,7 +368,7 @@ def test_NatafTransformation_expAndGammaVariablesCase_2dRhoZ( ):
     rho = 0.2
     corrMat = [ [ 1.0, rho ], [ rho, 1.0 ] ]
 
-    natafDist = rpm.NatafDistribution( distObjs=distObjs, corrMat=corrMat )
+    natafDist = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat )
     expectedRhoZ = [ [ 1.0, 0.22564528 ], [ 0.22564528, 1.0 ] ]
     np.testing.assert_allclose( np.round( expectedRhoZ, 5 ), 
                                 np.round( natafDist.rhoZ, 5 ) )
@@ -376,7 +376,7 @@ def test_NatafTransformation_expAndGammaVariablesCase_2dRhoZ( ):
     rho = 0.5
     corrMat = [ [ 1.0, rho ], [ rho, 1.0 ] ]
 
-    natafDist = rpm.NatafDistribution( distObjs=distObjs, corrMat=corrMat )
+    natafDist = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat )
     expectedRhoZ = [ [ 1.0, 0.53835575 ], [ 0.53835575, 1.0 ] ]
     np.testing.assert_allclose( np.round( expectedRhoZ, 5 ), 
                                 np.round( natafDist.rhoZ, 5 ) )
@@ -384,7 +384,7 @@ def test_NatafTransformation_expAndGammaVariablesCase_2dRhoZ( ):
     rho = 0.7
     corrMat = [ [ 1.0, rho ], [ rho, 1.0 ] ]
 
-    natafDist = rpm.NatafDistribution( distObjs=distObjs, corrMat=corrMat )
+    natafDist = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat )
     expectedRhoZ = [ [ 1.0, 0.7326582 ], [ 0.7326582, 1.0 ] ]
     np.testing.assert_allclose( np.round( expectedRhoZ, 5 ), 
                                 np.round( natafDist.rhoZ, 5 ) )
@@ -398,7 +398,7 @@ def test_NatafTransformation_normAndGumbelVariablesCase_2dRhoZ( ):
     rho = -0.7
     corrMat = [ [ 1.0, rho ], [ rho, 1.0 ] ]
 
-    natafDist = rpm.NatafDistribution( distObjs=distObjs, corrMat=corrMat )
+    natafDist = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat )
     expectedRhoZ = [ [ 1.0, -0.72204823 ], [ -0.72204823, 1.0 ] ]
     np.testing.assert_allclose( np.round( expectedRhoZ, 5 ), 
                                 np.round( natafDist.rhoZ, 5 ) )
@@ -406,7 +406,7 @@ def test_NatafTransformation_normAndGumbelVariablesCase_2dRhoZ( ):
     rho = -0.5
     corrMat = [ [ 1.0, rho ], [ rho, 1.0 ] ]
 
-    natafDist = rpm.NatafDistribution( distObjs=distObjs, corrMat=corrMat )
+    natafDist = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat )
     expectedRhoZ = [ [ 1.0, -0.51574873 ], [ -0.51574873, 1.0 ] ]
     np.testing.assert_allclose( np.round( expectedRhoZ, 5 ), 
                                 np.round( natafDist.rhoZ, 5 ) )
@@ -414,7 +414,7 @@ def test_NatafTransformation_normAndGumbelVariablesCase_2dRhoZ( ):
     rho = -0.2
     corrMat = [ [ 1.0, rho ], [ rho, 1.0 ] ]
 
-    natafDist = rpm.NatafDistribution( distObjs=distObjs, corrMat=corrMat )
+    natafDist = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat )
     expectedRhoZ = [ [ 1.0, -0.20629949 ], [ -0.20629949, 1.0 ] ]
     np.testing.assert_allclose( np.round( expectedRhoZ, 5 ), 
                                 np.round( natafDist.rhoZ, 5 ) )
@@ -422,7 +422,7 @@ def test_NatafTransformation_normAndGumbelVariablesCase_2dRhoZ( ):
     rho = 0.2
     corrMat = [ [ 1.0, rho ], [ rho, 1.0 ] ]
 
-    natafDist = rpm.NatafDistribution( distObjs=distObjs, corrMat=corrMat )
+    natafDist = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat )
     expectedRhoZ = [ [ 1.0, 0.20629949 ], [ 0.20629949, 1.0 ] ]
     np.testing.assert_allclose( np.round( expectedRhoZ, 5 ), 
                                 np.round( natafDist.rhoZ, 5 ) )
@@ -430,7 +430,7 @@ def test_NatafTransformation_normAndGumbelVariablesCase_2dRhoZ( ):
     rho = 0.5
     corrMat = [ [ 1.0, rho ], [ rho, 1.0 ] ]
 
-    natafDist = rpm.NatafDistribution( distObjs=distObjs, corrMat=corrMat )
+    natafDist = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat )
     expectedRhoZ = [ [ 1.0, 0.51574873 ], [ 0.51574873, 1.0 ] ]
     np.testing.assert_allclose( np.round( expectedRhoZ, 5 ), 
                                 np.round( natafDist.rhoZ, 5 ) )
@@ -438,7 +438,7 @@ def test_NatafTransformation_normAndGumbelVariablesCase_2dRhoZ( ):
     rho = 0.7
     corrMat = [ [ 1.0, rho ], [ rho, 1.0 ] ]
 
-    natafDist = rpm.NatafDistribution( distObjs=distObjs, corrMat=corrMat )
+    natafDist = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat )
     expectedRhoZ = [ [ 1.0, 0.72204823 ], [ 0.72204823, 1.0 ] ]
     np.testing.assert_allclose( np.round( expectedRhoZ, 5 ), 
                                 np.round( natafDist.rhoZ, 5 ) )
@@ -453,7 +453,7 @@ def test_NatafTransformation_normExpAndGumbelVariablesCase_2dRhoZ( ):
     rho = -0.2
     corrMat = [ [ 1.0, rho, rho ], [ rho, 1.0, rho], [ rho, rho, 1.0 ] ]
 
-    natafDist = rpm.NatafDistribution( distObjs=distObjs, corrMat=corrMat )
+    natafDist = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat )
     expectedRhoZ = [ [ 1.0, -0.20629949, -0.22143556 ], 
                      [ -0.20629949, 1.0, -0.23466674 ],
                      [ -0.22143556, -0.23466674, 1.0 ] ]
@@ -463,7 +463,7 @@ def test_NatafTransformation_normExpAndGumbelVariablesCase_2dRhoZ( ):
     rho = 0.2
     corrMat = [ [ 1.0, rho, rho ], [ rho, 1.0, rho], [ rho, rho, 1.0 ] ]
 
-    natafDist = rpm.NatafDistribution( distObjs=distObjs, corrMat=corrMat )
+    natafDist = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat )
     expectedRhoZ = [ [ 1.0, 0.20629949, 0.22143556 ], 
                      [ 0.20629949, 1.0, 0.22265972 ],
                      [ 0.22143556, 0.22265972, 1.0 ] ]
@@ -473,7 +473,7 @@ def test_NatafTransformation_normExpAndGumbelVariablesCase_2dRhoZ( ):
     rho = 0.5
     corrMat = [ [ 1.0, rho, rho ], [ rho, 1.0, rho], [ rho, rho, 1.0 ] ]
 
-    natafDist = rpm.NatafDistribution( distObjs=distObjs, corrMat=corrMat )
+    natafDist = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat )
     expectedRhoZ = [ [ 1.0, 0.51574873, 0.55358891 ], 
                      [ 0.51574873, 1.0, 0.53709868 ],
                      [ 0.55358891, 0.53709868, 1.0 ] ]
@@ -483,7 +483,7 @@ def test_NatafTransformation_normExpAndGumbelVariablesCase_2dRhoZ( ):
     rho = 0.7
     corrMat = [ [ 1.0, rho, rho ], [ rho, 1.0, rho], [ rho, rho, 1.0 ] ]
 
-    natafDist = rpm.NatafDistribution( distObjs=distObjs, corrMat=corrMat )
+    natafDist = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat )
     expectedRhoZ = [ [ 1.0, 0.72204823, 0.77502447 ], 
                      [ 0.72204823, 1.0, 0.73530146 ],
                      [ 0.77502447, 0.73530146, 1.0 ] ]
@@ -500,7 +500,7 @@ def test_NatafTransformation_expGammaAndGumbelVariablesCase_2dRhoZ( ):
     rho = -0.2
     corrMat = [ [ 1.0, rho, rho ], [ rho, 1.0, rho], [ rho, rho, 1.0 ] ]
 
-    natafDist = rpm.NatafDistribution( distObjs=distObjs, corrMat=corrMat )
+    natafDist = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat )
     expectedRhoZ = [ [ 1.0, -0.23466674, -0.2216493 ], 
                      [ -0.23466674, 1.0, -0.24271826 ],
                      [ -0.2216493, -0.24271826, 1.0 ] ]
@@ -510,7 +510,7 @@ def test_NatafTransformation_expGammaAndGumbelVariablesCase_2dRhoZ( ):
     rho = 0.2
     corrMat = [ [ 1.0, rho, rho ], [ rho, 1.0, rho], [ rho, rho, 1.0 ] ]
 
-    natafDist = rpm.NatafDistribution( distObjs=distObjs, corrMat=corrMat )
+    natafDist = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat )
     expectedRhoZ = [ [ 1.0, 0.22265972, 0.21385972 ], 
                      [ 0.22265972, 1.0, 0.22564528 ],
                      [ 0.21385972, 0.22564528, 1.0 ] ]
@@ -520,7 +520,7 @@ def test_NatafTransformation_expGammaAndGumbelVariablesCase_2dRhoZ( ):
     rho = 0.5
     corrMat = [ [ 1.0, rho, rho ], [ rho, 1.0, rho], [ rho, rho, 1.0 ] ]
 
-    natafDist = rpm.NatafDistribution( distObjs=distObjs, corrMat=corrMat )
+    natafDist = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat )
     expectedRhoZ = [ [ 1.0, 0.53709868, 0.52143531 ], 
                      [ 0.53709868, 1.0, 0.53835575 ],
                      [ 0.52143531, 0.53835575, 1.0 ] ]
@@ -530,7 +530,7 @@ def test_NatafTransformation_expGammaAndGumbelVariablesCase_2dRhoZ( ):
     rho = 0.7
     corrMat = [ [ 1.0, rho, rho ], [ rho, 1.0, rho], [ rho, rho, 1.0 ] ]
 
-    natafDist = rpm.NatafDistribution( distObjs=distObjs, corrMat=corrMat )
+    natafDist = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat )
     expectedRhoZ = [ [ 1.0, 0.73530146, 0.71847694 ], 
                      [ 0.73530146, 1.0, 0.7326582 ],
                      [ 0.71847694, 0.7326582, 1.0 ] ]
@@ -547,7 +547,7 @@ def test_NatafTransformation_normalExpAndGammaVariablesPositiveRho_outputScalar(
     rho = 0.5
     corrMat = [ [ 1.0, rho, rho ], [ rho, 1.0, rho], [ rho, rho, 1.0 ] ]
 
-    natafDist = rpm.NatafDistribution( distObjs=distObjs, corrMat=corrMat )
+    natafDist = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat )
     X = [ 2.64875507, 1.31376497, 3.17128283 ]
     calU, calJX2U = natafDist.getU( X )
     calX, calJU2X = natafDist.getX( calU )
@@ -580,7 +580,7 @@ def test_NatafTransformation_normalExpAndGammaVariablesNegativeRho_outputScalar(
     rho = -0.2
     corrMat = [ [ 1.0, rho, rho ], [ rho, 1.0, rho], [ rho, rho, 1.0 ] ]
 
-    natafDist = rpm.NatafDistribution( distObjs=distObjs, corrMat=corrMat )
+    natafDist = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat )
     X = [ 0.67601087, 1.77035951, 0.54476353 ]
     calU, calJX2U = natafDist.getU( X )
     calX, calJU2X = natafDist.getX( calU )
@@ -613,7 +613,7 @@ def test_NatafTransformation_normalExpAndGammaVariablesZeroRho_outputScalar( ):
     rho = 0.0
     corrMat = [ [ 1.0, rho, rho ], [ rho, 1.0, rho], [ rho, rho, 1.0 ] ]
 
-    natafDist = rpm.NatafDistribution( distObjs=distObjs, corrMat=corrMat )
+    natafDist = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat )
     X = [ 0.55587583, 0.95075328, 0.22449628 ]
     calU, calJX2U = natafDist.getU( X )
     calX, calJU2X = natafDist.getX( calU )
@@ -646,7 +646,7 @@ def test_NatafTransformation_sampleDataPoint_1dArray( mock_randn ):
     distObjs = [ X1, X2 ]
     corrMat = [ [ 1.0, 0.0 ], [ 0.0, 1.0 ] ]
 
-    natafDist = rpm.NatafDistribution( distObjs=distObjs, corrMat=corrMat )
+    natafDist = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat )
     calSample = natafDist.getSample()
     expectedSample = [ 1.0, 1.0 ]
     np.testing.assert_allclose( expectedSample, calSample )

@@ -35,7 +35,7 @@ def fosm( dim, g, dg, mus, sigmas ):
     ------
     ValueError
         If the dim is less than 1.
-        If the dim is not match the length of mus and sigmas.
+        If the dim does not match the length of mus and sigmas.
 
     Notes
     -----
