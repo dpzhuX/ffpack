@@ -3,6 +3,8 @@
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/dpzhuX/ffpack/python-package.yml?branch=main)
 ![GitHub](https://img.shields.io/github/license/dpzhuX/ffpack)
 [![DOI](https://zenodo.org/badge/575208693.svg)](https://zenodo.org/badge/latestdoi/575208693)
+[![Downloads](https://static.pepy.tech/badge/ffpack)](https://pepy.tech/project/ffpack)
+
 
 ## Purpose
 `FFPACK` ( Fatigue and Fracture PACKage ) is an open-source Python library for fatigue and fracture analysis. It supports cycle counting with ASTM methods, load sequence generators, fatigue damage evaluations, etc. A lot of features are under active development. `FFPACK` is designed to help engineers analyze fatigue and fracture behavior in engineering practice.
@@ -34,12 +36,17 @@ pip install ffpack
         * ASTM rainflow counting
     * Rychlik counting
         * Rychlik rainflow counting
+    * Johannesson counting
+        * Johannesson min max counting
 
 * Load sequence generator
     * Random walk
         * Uniform random walk
     * Autoregressive model
-        * Normal autoregressive model
+        * Normal autoregressive (AR) model
+        * Normal moving average (MA) model
+        * Normal ARMA model
+        * Normal ARIMA model
 
 * Load spectra and matrices
     * Cycle counting matrix
@@ -50,10 +57,14 @@ pip install ffpack
 * Random and probabilistic model
     * Metropolis-Hastings algorithm
         * Metropolis-Hastings sampler
+    * Nataf algorithm
+        * Nataf transformation
 
 * Risk and reliability model
     * First order second moment
         * fosm
+    * First order reliability method
+        * form
 
 * Utility methods
     * Cycle counting aggregation
