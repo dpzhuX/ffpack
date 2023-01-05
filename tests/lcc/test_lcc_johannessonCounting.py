@@ -125,7 +125,7 @@ def test_johannessonMinMaxCounting_threePointsUpward_leftDistance( mock_get ):
 
 
 @patch( "ffpack.utils.generalUtils.sequencePeakAndValleys" )
-def test_johannessonMinMaxCounting_fourPointsNoCrossing_smallerDistance( mock_get ):
+def test_johannessonMinMaxCounting_fourPointsNoCrossing_leftDistance( mock_get ):
     # case 1: higher valley in the right
     data = [ 0.0, 3.0, 1.0, 2.0 ]
     mock_get.return_value = [ 0.0, 3.0, 1.0, 2.0 ]
