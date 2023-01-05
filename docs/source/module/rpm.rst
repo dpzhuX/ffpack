@@ -7,5 +7,5 @@ Metropolis Hastings algorithm
 Nataf transformation
 -----------------------------
 
-.. automodule:: ffpack.rpm.natafTransformation
+.. automodule:: ffpack.rpm.nataf
    :members:

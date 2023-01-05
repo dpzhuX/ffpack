@@ -60,11 +60,11 @@ def form( dim, g, dg, distObjs, corrMat, iter=1000, tol=1e-6 ):
     --------
     >>> from ffpack.rrm import form
     >>> dim = 2
-    >>> g = lambda X: 3 * X[ 0 ] - 2 * X[ 1 ]
-    >>> dg = [ lambda X: 3, lambda X: -2 ]
-    >>> mus = [ 1, 1 ]
-    >>> sigmas = [ 3, 4 ]
-    >>> beta, pf = fosm( dim, g, dg, mus, sigmas)
+    >>> g = lambda X: -np.sum( X ) + 1
+    >>> dg = [ lambda X: -1, lambda X: -1 ]
+    >>> distObjs = [ sp.stats.norm(), sp.stats.norm() ]
+    >>> corrMat = np.eye( dim )
+    >>> beta, pf, uCoord, xCoord = rrm.form( dim, g, dg, distObjs, corrMat )
     '''
     if dim < 1:
         raise ValueError( "dim cannot be less than 1" )
