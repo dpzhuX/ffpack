@@ -1159,7 +1159,7 @@ def test_astmRainflowRepeatHistoryCounting_fiveDataPoint_depends( mock_get ):
 
 @patch( "ffpack.utils.generalUtils.sequencePeakAndValleys" )
 def test_astmRainflowRepeatHistoryCounting_normalUseCase_pass( mock_get ):
-    # range pair counting data from E1049-85(2017) Fig.5
+    # simplified rainflow counting data for repeating histories from E1049-85(2017) Fig.7
     data = [ -2.0, 1.0, -3.0, 5.0, -1.0, 3.0, -4.0, 4.0, -2.0 ]
     peakValley1 = [ -2.0, 1.0, -3.0, 5.0, -1.0, 3.0, -4.0, 4.0, -2.0 ]
     data2 = [ 5.0, -1.0, 3.0, -4.0, 4.0, -2.0, 1.0, -3.0, 5.0 ]

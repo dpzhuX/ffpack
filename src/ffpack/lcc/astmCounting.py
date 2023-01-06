@@ -394,7 +394,7 @@ def astmRangePairCounting( data, aggregate=True ):
 
 def astmRainflowRepeatHistoryCounting( data, aggregate=True ):
     '''
-    ASTM simplified rainflow Counting for repeating histories in E1049-85: sec 5.4.5.
+    ASTM simplified rainflow counting for repeating histories in E1049-85: sec 5.4.5.
 
     Parameters
     ----------
@@ -414,7 +414,7 @@ def astmRainflowRepeatHistoryCounting( data, aggregate=True ):
     ------
     ValueError
         If the data length is less than 2 or the data dimension is not 1.
-        If first data point is different from the last data point. 
+        If the data is not repeatable: first data point is different from the last data point. 
 
     Examples
     --------
