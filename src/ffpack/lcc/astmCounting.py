@@ -156,7 +156,7 @@ def astmSimpleRangeCounting( data, aggregate=True ):
         Load sequence data for counting.
     aggragate: bool, optional
         If aggregate is set to False, the original sequence for internal counting,
-        e.g., [ [ rangeStart1, rangeEnd1 ], [ rangeStart2, rangeEnd2 ], ... ], 
+        e.g., [ [ rangeStart1, rangeEnd1, count1 ], [ rangeStart2, rangeEnd2, count2 ], ... ], 
         will be returned.
     
     Returns
@@ -191,7 +191,7 @@ def astmSimpleRangeCounting( data, aggregate=True ):
             continue
         prev = data[ i - 1 ]
         rstDict[ abs( prev - cur ) ] += 0.5
-        rstSeq.append( [ prev, cur ] )
+        rstSeq.append( [ prev, cur, 0.5 ] )
 
     if len( rstDict ) == 0:
         return [ [] ] 
@@ -304,7 +304,7 @@ def astmRangePairCounting( data, aggregate=True ):
         Load sequence data for counting.
     aggragate: bool, optional
         If aggregate is set to False, the original sequence for internal counting,
-        e.g., [ [ rangeStart1, rangeEnd1 ], [ rangeStart2, rangeEnd2 ], ... ], 
+        e.g., [ [ rangeStart1, rangeEnd1, count1 ], [ rangeStart2, rangeEnd2, count2 ], ... ], 
         will be returned.
     
     Returns
@@ -352,7 +352,7 @@ def astmRangePairCounting( data, aggregate=True ):
         left = abs( data[ first ] - data[ second ] )
         right = abs( data[ second ] - data[ i ] )
         if ( left <= right ):
-            rstSeq.append( [ data[ first ], data[ second ] ] )
+            rstSeq.append( [ data[ first ], data[ second ], 1 ] )
             indices[ i ] = indices[ first ]
             indices[ second ] = -2
             indices[ first ] = -2
@@ -370,7 +370,7 @@ def astmRangePairCounting( data, aggregate=True ):
         left = abs( data[ first ] - data[ second ] )
         right = abs( data[ second ] - data[ i ] )
         if ( right <= left ):
-            rstSeq.append( [ data[ second ], data[ i ] ] )
+            rstSeq.append( [ data[ second ], data[ i ], 1 ] )
             indices[ first ] = indices[ i ]
             indices[ second ] = -2
             indices[ i ] = -2
@@ -402,7 +402,7 @@ def astmRainflowRepeatHistoryCounting( data, aggregate=True ):
         Load sequence data for counting.
     aggragate: bool, optional
         If aggregate is set to False, the original sequence for internal counting,
-        e.g., [ [ rangeStart1, rangeEnd1 ], [ rangeStart2, rangeEnd2 ], ... ], 
+        e.g., [ [ rangeStart1, rangeEnd1, count1 ], [ rangeStart2, rangeEnd2, count2 ], ... ], 
         will be returned.
     
     Returns
@@ -463,7 +463,7 @@ def astmRainflowRepeatHistoryCounting( data, aggregate=True ):
         left = abs( data[ first ] - data[ second ] )
         right = abs( data[ second ] - data[ i ] )
         if ( left <= right ):
-            rstSeq.append( [ data[ first ], data[ second ] ] )
+            rstSeq.append( [ data[ first ], data[ second ], 1 ] )
             indices[ i ] = indices[ first ]
             indices[ second ] = -2
             indices[ first ] = -2

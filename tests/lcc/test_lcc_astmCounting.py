@@ -506,9 +506,9 @@ def test_astmSimpleRangeCounting_normalUseCase_pass( mock_get ):
     np.testing.assert_allclose( calRst, expectedRst )
 
     calRst = lcc.astmSimpleRangeCounting( data, aggregate=False )
-    expectedRst = [ [ -2.0, 1.0 ], [ 1.0, -3.0 ], [ -3.0, 5.0 ], 
-                    [ 5.0, -1.0 ], [ -1.0, 3.0 ], [ 3.0, -4.0 ],
-                    [ -4.0, 4.0 ], [ 4.0, -2.0 ] ]
+    expectedRst = [ [ -2.0, 1.0, 0.5 ], [ 1.0, -3.0, 0.5 ], [ -3.0, 5.0, 0.5 ], 
+                    [ 5.0, -1.0, 0.5 ], [ -1.0, 3.0, 0.5 ], [ 3.0, -4.0, 0.5 ],
+                    [ -4.0, 4.0, 0.5 ], [ 4.0, -2.0, 0.5 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     # Adding extra data into the standard data without change the slope
@@ -521,9 +521,9 @@ def test_astmSimpleRangeCounting_normalUseCase_pass( mock_get ):
     np.testing.assert_allclose( calRst, expectedRst )
 
     calRst = lcc.astmSimpleRangeCounting( data, aggregate=False )
-    expectedRst = [ [ -2.0, 1.0 ], [ 1.0, -3.0 ], [ -3.0, 5.0 ], 
-                    [ 5.0, -1.0 ], [ -1.0, 3.0 ], [ 3.0, -4.0 ],
-                    [ -4.0, 4.0 ], [ 4.0, -2.0 ] ]
+    expectedRst = [ [ -2.0, 1.0, 0.5 ], [ 1.0, -3.0, 0.5 ], [ -3.0, 5.0, 0.5 ], 
+                    [ 5.0, -1.0, 0.5 ], [ -1.0, 3.0, 0.5 ], [ 3.0, -4.0, 0.5 ],
+                    [ -4.0, 4.0, 0.5 ], [ 4.0, -2.0, 0.5 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
 
@@ -537,7 +537,7 @@ def test_astmSimpleRangeCounting_normalTrivialCase_pass( mock_get ):
     np.testing.assert_allclose( calRst, expectedRst )
 
     calRst = lcc.astmSimpleRangeCounting( data, aggregate=False )
-    expectedRst = [ [ 0.0, 1.5 ] ]
+    expectedRst = [ [ 0.0, 1.5, 0.5 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     # Trivial case 2
@@ -548,7 +548,7 @@ def test_astmSimpleRangeCounting_normalTrivialCase_pass( mock_get ):
     np.testing.assert_allclose( calRst, expectedRst )
 
     calRst = lcc.astmSimpleRangeCounting( data, aggregate=False )
-    expectedRst = [ [ 1.5, 2.0 ] ]
+    expectedRst = [ [ 1.5, 2.0, 0.5 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     # Trivial case 3
@@ -559,7 +559,7 @@ def test_astmSimpleRangeCounting_normalTrivialCase_pass( mock_get ):
     np.testing.assert_allclose( calRst, expectedRst )
 
     calRst = lcc.astmSimpleRangeCounting( data, aggregate=False )
-    expectedRst = [ [ 3.0, 1.0 ] ]
+    expectedRst = [ [ 3.0, 1.0, 0.5 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     # Trivial case 4
@@ -570,7 +570,7 @@ def test_astmSimpleRangeCounting_normalTrivialCase_pass( mock_get ):
     np.testing.assert_allclose( calRst, expectedRst )
 
     calRst = lcc.astmSimpleRangeCounting( data, aggregate=False )
-    expectedRst = [ [ -0.5, -1.0 ] ]
+    expectedRst = [ [ -0.5, -1.0, 0.5 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     # Trivial case 5
@@ -581,7 +581,7 @@ def test_astmSimpleRangeCounting_normalTrivialCase_pass( mock_get ):
     np.testing.assert_allclose( calRst, expectedRst )
 
     calRst = lcc.astmSimpleRangeCounting( data, aggregate=False )
-    expectedRst = [ [ 0.0, 1.5 ], [ 1.5, 0.0 ] ]
+    expectedRst = [ [ 0.0, 1.5, 0.5 ], [ 1.5, 0.0, 0.5 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     # Trivial case 6
@@ -592,7 +592,7 @@ def test_astmSimpleRangeCounting_normalTrivialCase_pass( mock_get ):
     np.testing.assert_allclose( calRst, expectedRst )
 
     calRst = lcc.astmSimpleRangeCounting( data, aggregate=False )
-    expectedRst = [ [ -1.0, -2.5 ], [ -2.5, -1.0 ] ]
+    expectedRst = [ [ -1.0, -2.5, 0.5 ], [ -2.5, -1.0, 0.5 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     # Trivial case 7
@@ -603,7 +603,7 @@ def test_astmSimpleRangeCounting_normalTrivialCase_pass( mock_get ):
     np.testing.assert_allclose( calRst, expectedRst )
 
     calRst = lcc.astmSimpleRangeCounting( data, aggregate=False )
-    expectedRst = [ [ 0.0, 1.5 ], [ 1.5, 1.0 ] ]
+    expectedRst = [ [ 0.0, 1.5, 0.5 ], [ 1.5, 1.0, 0.5 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     # Trivial case 8
@@ -614,7 +614,7 @@ def test_astmSimpleRangeCounting_normalTrivialCase_pass( mock_get ):
     np.testing.assert_allclose( calRst, expectedRst )
 
     calRst = lcc.astmSimpleRangeCounting( data, aggregate=False )
-    expectedRst = [ [ 0.0, -2.5 ], [ -2.5, -1.0 ] ]
+    expectedRst = [ [ 0.0, -2.5, 0.5 ], [ -2.5, -1.0, 0.5 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     # Trivial case 9
@@ -625,7 +625,7 @@ def test_astmSimpleRangeCounting_normalTrivialCase_pass( mock_get ):
     np.testing.assert_allclose( calRst, expectedRst )
 
     calRst = lcc.astmSimpleRangeCounting( data, aggregate=False )
-    expectedRst = [ [ 0.0, 2.5 ], [ 2.5, 0.0 ], [ 0.0, 3.0 ] ]
+    expectedRst = [ [ 0.0, 2.5, 0.5 ], [ 2.5, 0.0, 0.5 ], [ 0.0, 3.0, 0.5 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     # Trivial case 10
@@ -636,7 +636,8 @@ def test_astmSimpleRangeCounting_normalTrivialCase_pass( mock_get ):
     np.testing.assert_allclose( calRst, expectedRst )
 
     calRst = lcc.astmSimpleRangeCounting( data, aggregate=False )
-    expectedRst = [ [ -1.0, 3.0 ], [ 3.0, -0.5 ], [ -0.5, 1.0 ], [ 1.0, -2.0 ] ]
+    expectedRst = [ [ -1.0, 3.0, 0.5 ], [ 3.0, -0.5, 0.5 ], [ -0.5, 1.0, 0.5 ], 
+                    [ 1.0, -2.0, 0.5 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     # Trivial case 11
@@ -647,7 +648,8 @@ def test_astmSimpleRangeCounting_normalTrivialCase_pass( mock_get ):
     np.testing.assert_allclose( calRst, expectedRst )
 
     calRst = lcc.astmSimpleRangeCounting( data, aggregate=False )
-    expectedRst = [ [ -1.0, 1.0 ], [ 1.0, -3.0 ], [ -3.0, 3.0 ], [ 3.0, 2.0 ] ]
+    expectedRst = [ [ -1.0, 1.0, 0.5 ], [ 1.0, -3.0, 0.5 ], [ -3.0, 3.0, 0.5 ], 
+                    [ 3.0, 2.0, 0.5 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
 
@@ -871,7 +873,7 @@ def test_astmRangePairCounting_threePoints_oneCount( mock_get ):
     data = [ -2.0, 1.0, -2.0 ]
     mock_get.return_value = [ -2.0, 1.0, -2.0 ]
     calRst = lcc.astmRangePairCounting( data, aggregate=False )
-    expectedRst = [ [ -2.0, 1.0 ] ]
+    expectedRst = [ [ -2.0, 1.0, 1 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     calRst = lcc.astmRangePairCounting( data, aggregate=True )
@@ -882,7 +884,7 @@ def test_astmRangePairCounting_threePoints_oneCount( mock_get ):
     data = [ -2.0, 1.0, -3.0 ]
     mock_get.return_value = [ -2.0, 1.0, -3.0 ]
     calRst = lcc.astmRangePairCounting( data, aggregate=False )
-    expectedRst = [ [ -2.0, 1.0 ] ]
+    expectedRst = [ [ -2.0, 1.0, 1 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     calRst = lcc.astmRangePairCounting( data, aggregate=True )
@@ -893,7 +895,7 @@ def test_astmRangePairCounting_threePoints_oneCount( mock_get ):
     data = [ -3.0, 1.0, -2.0 ]
     mock_get.return_value = [ -3.0, 1.0, -2.0 ]
     calRst = lcc.astmRangePairCounting( data, aggregate=False )
-    expectedRst = [ [ 1.0, -2.0 ] ]
+    expectedRst = [ [ 1.0, -2.0, 1 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     calRst = lcc.astmRangePairCounting( data, aggregate=True )
@@ -907,7 +909,7 @@ def test_astmRangePairCounting_fourPoints_oneCount( mock_get ):
     data = [ -2.0, 1.0, -2.0, 1.0 ]
     mock_get.return_value = [ -2.0, 1.0, -2.0, 1.0 ]
     calRst = lcc.astmRangePairCounting( data, aggregate=False )
-    expectedRst = [ [ -2.0, 1.0 ] ]
+    expectedRst = [ [ -2.0, 1.0, 1 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     calRst = lcc.astmRangePairCounting( data, aggregate=True )
@@ -918,7 +920,7 @@ def test_astmRangePairCounting_fourPoints_oneCount( mock_get ):
     data = [ -2.0, 1.0, -1.0, 1.0 ]
     mock_get.return_value = [ -2.0, 1.0, -1.0, 1.0 ]
     calRst = lcc.astmRangePairCounting( data, aggregate=False )
-    expectedRst = [ [ 1.0, -1.0 ] ]
+    expectedRst = [ [ 1.0, -1.0, 1 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     calRst = lcc.astmRangePairCounting( data, aggregate=True )
@@ -929,7 +931,7 @@ def test_astmRangePairCounting_fourPoints_oneCount( mock_get ):
     data = [ -2.0, 1.0, -1.0, 0.0 ]
     mock_get.return_value = [ -2.0, 1.0, -1.0, 0.0 ]
     calRst = lcc.astmRangePairCounting( data, aggregate=False )
-    expectedRst = [ [ -1.0, 0.0 ] ]
+    expectedRst = [ [ -1.0, 0.0, 1 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     calRst = lcc.astmRangePairCounting( data, aggregate=True )
@@ -943,7 +945,7 @@ def test_astmRangePairCounting_fivePoints_depends( mock_get ):
     data = [ -2.0, 1.0, -2.0, 1.0, -2.0 ]
     mock_get.return_value = [ -2.0, 1.0, -2.0, 1.0, -2.0 ]
     calRst = lcc.astmRangePairCounting( data, aggregate=False )
-    expectedRst = [ [ -2.0, 1.0 ], [ -2.0, 1.0 ] ]
+    expectedRst = [ [ -2.0, 1.0, 1 ], [ -2.0, 1.0, 1 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     calRst = lcc.astmRangePairCounting( data, aggregate=True )
@@ -954,7 +956,7 @@ def test_astmRangePairCounting_fivePoints_depends( mock_get ):
     data = [ -2.0, 1.0, -2.0, 2.0, -1.0 ]
     mock_get.return_value = [ -2.0, 1.0, -2.0, 2.0, -1.0 ]
     calRst = lcc.astmRangePairCounting( data, aggregate=False )
-    expectedRst = [ [ -2.0, 1.0 ], [ 2.0, -1.0 ] ]
+    expectedRst = [ [ -2.0, 1.0, 1 ], [ 2.0, -1.0, 1 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     calRst = lcc.astmRangePairCounting( data, aggregate=True )
@@ -965,7 +967,7 @@ def test_astmRangePairCounting_fivePoints_depends( mock_get ):
     data = [ 2.0, -2.0, 1.0, -1.0, 2.0 ]
     mock_get.return_value = [ 2.0, -2.0, 1.0, -1.0, 2.0 ]
     calRst = lcc.astmRangePairCounting( data, aggregate=False )
-    expectedRst = [ [ 1.0, -1.0 ], [ 2.0, -2.0 ] ]
+    expectedRst = [ [ 1.0, -1.0, 1 ], [ 2.0, -2.0, 1 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     calRst = lcc.astmRangePairCounting( data, aggregate=True )
@@ -976,7 +978,7 @@ def test_astmRangePairCounting_fivePoints_depends( mock_get ):
     data = [ 2.0, -2.0, 1.0, -1.0, 1.0 ]
     mock_get.return_value = [ 2.0, -2.0, 1.0, -1.0, 1.0 ]
     calRst = lcc.astmRangePairCounting( data, aggregate=False )
-    expectedRst = [ [ 1.0, -1.0 ], [ -2.0, 1.0 ] ]
+    expectedRst = [ [ 1.0, -1.0, 1 ], [ -2.0, 1.0, 1 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     calRst = lcc.astmRangePairCounting( data, aggregate=True )
@@ -990,7 +992,7 @@ def test_astmRangePairCounting_normalUseCase_pass( mock_get ):
     data = [ -2.0, 1.0, -3.0, 5.0, -1.0, 3.0, -4.0, 4.0, -2.0 ]
     mock_get.return_value = [ -2.0, 1.0, -3.0, 5.0, -1.0, 3.0, -4.0, 4.0, -2.0 ]
     calRst = lcc.astmRangePairCounting( data, aggregate=False )
-    expectedRst = [ [ -2.0, 1.0 ], [ -1.0, 3.0 ], [ -3.0, 5.0 ], [ 4.0, -2.0 ] ]
+    expectedRst = [ [ -2.0, 1.0, 1 ], [ -1.0, 3.0, 1 ], [ -3.0, 5.0, 1 ], [ 4.0, -2.0, 1 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     calRst = lcc.astmRangePairCounting( data, aggregate=True )
@@ -1004,7 +1006,7 @@ def test_astmRangePairCounting_duplicatedHeight_aggregated( mock_get ):
     data = [ -2.0, 1.0, -2.0, 5.0, -1.0, 2.0, -4.0, 4.0, -2.0 ]
     mock_get.return_value = [ -2.0, 1.0, -2.0, 5.0, -1.0, 2.0, -4.0, 4.0, -2.0 ]
     calRst = lcc.astmRangePairCounting( data, aggregate=False )
-    expectedRst = [ [ -2.0, 1.0 ], [ -1.0, 2.0 ], [ -2.0, 5.0 ], [ 4.0, -2.0 ] ]
+    expectedRst = [ [ -2.0, 1.0, 1 ], [ -1.0, 2.0, 1 ], [ -2.0, 5.0, 1 ], [ 4.0, -2.0, 1 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     calRst = lcc.astmRangePairCounting( data, aggregate=True )
@@ -1069,7 +1071,7 @@ def test_astmRainflowRepeatHistoryCounting_threeDataPoint_oneCount( mock_get ):
     mock_get.side_effect = sideEffect
 
     calRst = lcc.astmRainflowRepeatHistoryCounting( data, aggregate=False )
-    expectedRst = [ [ 2.0, 1.0 ] ]
+    expectedRst = [ [ 2.0, 1.0, 1 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     calRst = lcc.astmRainflowRepeatHistoryCounting( data, aggregate=True )
@@ -1094,7 +1096,7 @@ def test_astmRainflowRepeatHistoryCounting_fourDataPoint_depends( mock_get ):
     mock_get.side_effect = sideEffect
 
     calRst = lcc.astmRainflowRepeatHistoryCounting( data, aggregate=False )
-    expectedRst = [ [ 2.0, -1.0 ] ]
+    expectedRst = [ [ 2.0, -1.0, 1 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     calRst = lcc.astmRainflowRepeatHistoryCounting( data, aggregate=True )
@@ -1110,7 +1112,7 @@ def test_astmRainflowRepeatHistoryCounting_fourDataPoint_depends( mock_get ):
     mock_get.side_effect = sideEffect
 
     calRst = lcc.astmRainflowRepeatHistoryCounting( data, aggregate=False )
-    expectedRst = [ [ 2.0, -1.0 ] ]
+    expectedRst = [ [ 2.0, -1.0, 1 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     calRst = lcc.astmRainflowRepeatHistoryCounting( data, aggregate=True )
@@ -1135,7 +1137,7 @@ def test_astmRainflowRepeatHistoryCounting_fiveDataPoint_depends( mock_get ):
     mock_get.side_effect = sideEffect
 
     calRst = lcc.astmRainflowRepeatHistoryCounting( data, aggregate=False )
-    expectedRst = [ [ 2.0, -1.0 ], [ 2.0, 1.0 ] ]
+    expectedRst = [ [ 2.0, -1.0, 1 ], [ 2.0, 1.0, 1 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     calRst = lcc.astmRainflowRepeatHistoryCounting( data, aggregate=True )
@@ -1149,7 +1151,7 @@ def test_astmRainflowRepeatHistoryCounting_fiveDataPoint_depends( mock_get ):
     peakValley2 = [ 2.0, 1.0, 2.0, 1.0, 2.0 ]
 
     calRst = lcc.astmRainflowRepeatHistoryCounting( data, aggregate=False )
-    expectedRst = [ [ 2.0, 1.0 ], [ 2.0, 1.0 ] ]
+    expectedRst = [ [ 2.0, 1.0, 1 ], [ 2.0, 1.0, 1 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     calRst = lcc.astmRainflowRepeatHistoryCounting( data, aggregate=True )
@@ -1174,7 +1176,7 @@ def test_astmRainflowRepeatHistoryCounting_normalUseCase_pass( mock_get ):
     mock_get.side_effect = sideEffect
 
     calRst = lcc.astmRainflowRepeatHistoryCounting( data, aggregate=False )
-    expectedRst = [ [ -1.0, 3.0 ], [ -2.0, 1.0 ], [ 4.0, -3.0 ], [ 5.0, -4.0 ] ]
+    expectedRst = [ [ -1.0, 3.0, 1 ], [ -2.0, 1.0, 1 ], [ 4.0, -3.0, 1 ], [ 5.0, -4.0, 1 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     calRst = lcc.astmRainflowRepeatHistoryCounting( data, aggregate=True )
