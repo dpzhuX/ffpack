@@ -2,7 +2,7 @@
 
 from ffpack import rpm
 import numpy as np
-import scipy as sp
+from scipy import stats
 import pytest
 from unittest.mock import patch
 
@@ -21,7 +21,7 @@ def test_NatafTransformation_initWithDisObjsEmpty_valueError():
 
 
 def test_NatafTransformation_initWithDisObjsDimMismatch_valueError():
-    X1 = sp.stats.norm()
+    X1 = stats.norm()
 
     rho = 0.5
 
@@ -33,8 +33,8 @@ def test_NatafTransformation_initWithDisObjsDimMismatch_valueError():
 
 
 def test_NatafTransformation_initWithOneDimCorrMat_valueError():
-    X1 = sp.stats.norm()
-    X2 = sp.stats.norm()
+    X1 = stats.norm()
+    X2 = stats.norm()
 
     rho = 0.5
 
@@ -46,8 +46,8 @@ def test_NatafTransformation_initWithOneDimCorrMat_valueError():
 
 
 def test_NatafTransformation_initWithCorrMatDiagNotOne_valueError():
-    X1 = sp.stats.norm()
-    X2 = sp.stats.norm()
+    X1 = stats.norm()
+    X2 = stats.norm()
 
     rho = 0.5
 
@@ -59,8 +59,8 @@ def test_NatafTransformation_initWithCorrMatDiagNotOne_valueError():
 
 
 def test_NatafTransformation_initWithCorrMatNotSymm_valueError():
-    X1 = sp.stats.norm()
-    X2 = sp.stats.norm()
+    X1 = stats.norm()
+    X2 = stats.norm()
 
     rho = 0.5
 
@@ -72,8 +72,8 @@ def test_NatafTransformation_initWithCorrMatNotSymm_valueError():
 
 
 def test_NatafTransformation_initWithCorrMatNotPositiveDefinite_valueError():
-    X1 = sp.stats.norm()
-    X2 = sp.stats.norm()
+    X1 = stats.norm()
+    X2 = stats.norm()
 
     rho = -1.2
 
@@ -85,8 +85,8 @@ def test_NatafTransformation_initWithCorrMatNotPositiveDefinite_valueError():
 
 
 def test_NatafTransformation_getXWithULengthMismatch_valueError():
-    X1 = sp.stats.norm()
-    X2 = sp.stats.norm()
+    X1 = stats.norm()
+    X2 = stats.norm()
 
     rho = 0.5
 
@@ -99,8 +99,8 @@ def test_NatafTransformation_getXWithULengthMismatch_valueError():
 
 
 def test_NatafTransformation_getXWithUDimMismatch_valueError():
-    X1 = sp.stats.norm()
-    X2 = sp.stats.norm()
+    X1 = stats.norm()
+    X2 = stats.norm()
 
     rho = 0.5
 
@@ -113,8 +113,8 @@ def test_NatafTransformation_getXWithUDimMismatch_valueError():
 
 
 def test_NatafTransformation_getUWithXLengthMismatch_valueError():
-    X1 = sp.stats.norm()
-    X2 = sp.stats.norm()
+    X1 = stats.norm()
+    X2 = stats.norm()
 
     rho = 0.5
 
@@ -127,8 +127,8 @@ def test_NatafTransformation_getUWithXLengthMismatch_valueError():
 
 
 def test_NatafTransformation_getUWithXDimMismatch_valueError():
-    X1 = sp.stats.norm()
-    X2 = sp.stats.norm()
+    X1 = stats.norm()
+    X2 = stats.norm()
 
     rho = 0.5
 
@@ -141,8 +141,8 @@ def test_NatafTransformation_getUWithXDimMismatch_valueError():
 
 
 def test_NatafTransformation_pdfWithXLengthMismatch_valueError():
-    X1 = sp.stats.norm()
-    X2 = sp.stats.norm()
+    X1 = stats.norm()
+    X2 = stats.norm()
 
     rho = 0.5
 
@@ -155,8 +155,8 @@ def test_NatafTransformation_pdfWithXLengthMismatch_valueError():
 
 
 def test_NatafTransformation_pdfWithXDimMismatch_valueError():
-    X1 = sp.stats.norm()
-    X2 = sp.stats.norm()
+    X1 = stats.norm()
+    X2 = stats.norm()
 
     rho = 0.5
 
@@ -169,8 +169,8 @@ def test_NatafTransformation_pdfWithXDimMismatch_valueError():
 
 
 def test_NatafTransformation_cdfWithXLengthMismatch_valueError():
-    X1 = sp.stats.norm()
-    X2 = sp.stats.norm()
+    X1 = stats.norm()
+    X2 = stats.norm()
 
     rho = 0.5
 
@@ -183,8 +183,8 @@ def test_NatafTransformation_cdfWithXLengthMismatch_valueError():
 
 
 def test_NatafTransformation_cdfWithXDimMismatch_valueError():
-    X1 = sp.stats.norm()
-    X2 = sp.stats.norm()
+    X1 = stats.norm()
+    X2 = stats.norm()
 
     rho = 0.5
 
@@ -203,8 +203,8 @@ def test_NatafTransformation_cdfWithXDimMismatch_valueError():
                                    0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 
                                    0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95 ] )
 def test_NatafTransformation_twoNormalVariablesCase_rhoZEqualCorrMat( rho ):
-    X1 = sp.stats.norm()
-    X2 = sp.stats.norm()
+    X1 = stats.norm()
+    X2 = stats.norm()
 
     distObjs = [ X1, X2 ]
     corrMat = [ [ 1.0, rho ], [ rho, 1.0 ] ]
@@ -217,9 +217,9 @@ def test_NatafTransformation_twoNormalVariablesCase_rhoZEqualCorrMat( rho ):
                                    0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 
                                    0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95 ] )
 def test_NatafTransformation_threeNormalVariablesCase_rhoZEqualCorrMat( rho ):
-    X1 = sp.stats.norm()
-    X2 = sp.stats.norm()
-    X3 = sp.stats.norm()
+    X1 = stats.norm()
+    X2 = stats.norm()
+    X3 = stats.norm()
 
     distObjs = [ X1, X2, X3 ]
     corrMat = [ [ 1.0, rho, rho ], [ rho, 1.0, rho ], [ rho, rho, 1.0 ] ]
@@ -229,8 +229,8 @@ def test_NatafTransformation_threeNormalVariablesCase_rhoZEqualCorrMat( rho ):
 
 
 def test_NatafTransformation_normAndExpVariablesCase_2dRhoZ( ):
-    X1 = sp.stats.norm()
-    X2 = sp.stats.expon()
+    X1 = stats.norm()
+    X2 = stats.expon()
     distObjs = [ X1, X2 ]
 
     rho = -0.8
@@ -283,8 +283,8 @@ def test_NatafTransformation_normAndExpVariablesCase_2dRhoZ( ):
 
 
 def test_NatafTransformation_normAndGammaVariablesCase_2dRhoZ( ):
-    X1 = sp.stats.norm()
-    X2 = sp.stats.gamma( 2 )
+    X1 = stats.norm()
+    X2 = stats.gamma( 2 )
     distObjs = [ X1, X2 ]
 
     rho = -0.8
@@ -337,8 +337,8 @@ def test_NatafTransformation_normAndGammaVariablesCase_2dRhoZ( ):
 
 
 def test_NatafTransformation_expAndGammaVariablesCase_2dRhoZ( ):
-    X1 = sp.stats.expon()
-    X2 = sp.stats.gamma( 2 )
+    X1 = stats.expon()
+    X2 = stats.gamma( 2 )
     distObjs = [ X1, X2 ]
 
     rho = -0.7
@@ -391,8 +391,8 @@ def test_NatafTransformation_expAndGammaVariablesCase_2dRhoZ( ):
 
 
 def test_NatafTransformation_normAndGumbelVariablesCase_2dRhoZ( ):
-    X1 = sp.stats.norm()
-    X2 = sp.stats.gumbel_r( 2 )
+    X1 = stats.norm()
+    X2 = stats.gumbel_r( 2 )
     distObjs = [ X1, X2 ]
 
     rho = -0.7
@@ -445,9 +445,9 @@ def test_NatafTransformation_normAndGumbelVariablesCase_2dRhoZ( ):
 
 
 def test_NatafTransformation_normExpAndGumbelVariablesCase_2dRhoZ( ):
-    X1 = sp.stats.norm()
-    X2 = sp.stats.gumbel_r( 2 )
-    X3 = sp.stats.expon()
+    X1 = stats.norm()
+    X2 = stats.gumbel_r( 2 )
+    X3 = stats.expon()
     distObjs = [ X1, X2, X3 ]
 
     rho = -0.2
@@ -492,9 +492,9 @@ def test_NatafTransformation_normExpAndGumbelVariablesCase_2dRhoZ( ):
 
 
 def test_NatafTransformation_expGammaAndGumbelVariablesCase_2dRhoZ( ):
-    X1 = sp.stats.gumbel_r( 2 )
-    X2 = sp.stats.expon()
-    X3 = sp.stats.gamma( 2 )
+    X1 = stats.gumbel_r( 2 )
+    X2 = stats.expon()
+    X3 = stats.gamma( 2 )
     distObjs = [ X1, X2, X3 ]
 
     rho = -0.2
@@ -539,9 +539,9 @@ def test_NatafTransformation_expGammaAndGumbelVariablesCase_2dRhoZ( ):
 
 
 def test_NatafTransformation_normalExpAndGammaVariablesPositiveRho_outputScalar( ):
-    X1 = sp.stats.norm()
-    X2 = sp.stats.expon()
-    X3 = sp.stats.gamma( 2 )
+    X1 = stats.norm()
+    X2 = stats.expon()
+    X3 = stats.gamma( 2 )
     distObjs = [ X1, X2, X3 ]
 
     rho = 0.5
@@ -572,9 +572,9 @@ def test_NatafTransformation_normalExpAndGammaVariablesPositiveRho_outputScalar(
 
 
 def test_NatafTransformation_normalExpAndGammaVariablesNegativeRho_outputScalar( ):
-    X1 = sp.stats.norm()
-    X2 = sp.stats.expon()
-    X3 = sp.stats.gamma( 2 )
+    X1 = stats.norm()
+    X2 = stats.expon()
+    X3 = stats.gamma( 2 )
     distObjs = [ X1, X2, X3 ]
 
     rho = -0.2
@@ -605,9 +605,9 @@ def test_NatafTransformation_normalExpAndGammaVariablesNegativeRho_outputScalar(
 
 
 def test_NatafTransformation_normalExpAndGammaVariablesZeroRho_outputScalar( ):
-    X1 = sp.stats.norm()
-    X2 = sp.stats.expon()
-    X3 = sp.stats.gamma( 2 )
+    X1 = stats.norm()
+    X2 = stats.expon()
+    X3 = stats.gamma( 2 )
     distObjs = [ X1, X2, X3 ]
 
     rho = 0.0
@@ -640,8 +640,8 @@ def test_NatafTransformation_normalExpAndGammaVariablesZeroRho_outputScalar( ):
 @patch( "numpy.random.randn" )
 def test_NatafTransformation_sampleDataPoint_1dArray( mock_randn ):
     mock_randn.return_value = [ 1.0, 1.0 ]
-    X1 = sp.stats.norm()
-    X2 = sp.stats.norm()
+    X1 = stats.norm()
+    X2 = stats.norm()
 
     distObjs = [ X1, X2 ]
     corrMat = [ [ 1.0, 0.0 ], [ 0.0, 1.0 ] ]

@@ -24,7 +24,7 @@ in reference [2]_.
 '''
 
 import numpy as np
-import scipy as sp
+from scipy import stats, optimize
 
 class NatafTransformation:
     '''
@@ -113,9 +113,9 @@ class NatafTransformation:
                         ( x**2 - 2 * rho * x * y + y**2 ) )
         
         def solve( func, x0 ):
-            rst = sp.optimize.fsolve( func=func, 
-                                      x0=x0,
-                                      full_output=True )
+            rst = optimize.fsolve( func=func, 
+                                   x0=x0,
+                                   full_output=True )
             return rst
         
         for i in range( self.dim ):
@@ -123,12 +123,12 @@ class NatafTransformation:
                 if self.rhoX[ i, j ] == 0:
                     continue
 
-                termI = ( self.distObjs[ i ].ppf( sp.stats.norm.cdf( intPointsXX ) ) - 
+                termI = ( self.distObjs[ i ].ppf( stats.norm.cdf( intPointsXX ) ) - 
                           self.distObjs[ i ].mean() ) / self.distObjs[ i ].std()
                 termI[ termI == np.inf ] = np.sqrt( np.finfo(float).max ) - 1
                 termI[ termI == -np.inf ] = -np.sqrt( np.finfo(float).max ) + 1
 
-                termJ = ( self.distObjs[ j ].ppf( sp.stats.norm.cdf( intPointsYY ) ) - 
+                termJ = ( self.distObjs[ j ].ppf( stats.norm.cdf( intPointsYY ) ) - 
                           self.distObjs[ j ].mean() ) / self.distObjs[ j ].std()
                 termJ[ termJ == np.inf ] = np.sqrt( np.finfo(float).max ) - 1
                 termJ[ termJ == -np.inf ] = -np.sqrt( np.finfo(float).max ) + 1
@@ -211,7 +211,7 @@ class NatafTransformation:
         # X -> Z
         Z = np.zeros_like( X )
         for d in range( self.dim ):
-            Z[ d ] = sp.stats.norm.ppf( self.distObjs[ d ].cdf( X[ d ] ) )
+            Z[ d ] = stats.norm.ppf( self.distObjs[ d ].cdf( X[ d ] ) )
 
         # Z -> U
         U = np.linalg.solve( self.L, Z.T ).T
@@ -219,7 +219,7 @@ class NatafTransformation:
         # Jacobian = diag[ phi( y_i ) / f( x_i )] * L
         diagMat = np.zeros( ( self.dim, self.dim ) )
         for d in range( self.dim ):
-            diagMat[ d, d ] = sp.stats.norm.pdf( Z[ d ] ) / \
+            diagMat[ d, d ] = stats.norm.pdf( Z[ d ] ) / \
                 self.distObjs[ d ].pdf( X[ d ] )
         J = np.dot( diagMat, self.L )
         
@@ -269,13 +269,13 @@ class NatafTransformation:
         # Z -> X
         X = np.zeros_like( U )
         for d in range( self.dim ):
-            X[ d ] = self.distObjs[ d ].ppf( sp.stats.norm.cdf( Z[ d ] ) )
+            X[ d ] = self.distObjs[ d ].ppf( stats.norm.cdf( Z[ d ] ) )
 
         # Jacobina = L ^ ( -1 ) * diag[ f( x_i ) / phi( y_i ) ] 
         diagMat = np.zeros( ( self.dim, self.dim ) )
         for d in range( self.dim ):
             diagMat[ d, d ] = self.distObjs[ d ].pdf( X[ d ] ) / \
-                sp.stats.norm.pdf( Z[ d ] )
+                stats.norm.pdf( Z[ d ] )
         J = np.linalg.solve( self.L, diagMat )
 
         return X, J 
@@ -319,10 +319,10 @@ class NatafTransformation:
         mu = np.zeros( self.dim )
         std = np.array( [ dist.std() for dist in self.distObjs ] )
         cov = np.diag( std ) @ self.rhoZ @ np.diag( std )
-        mv = sp.stats.multivariate_normal( mean=mu, cov=cov )
+        mv = stats.multivariate_normal( mean=mu, cov=cov )
         for d in range( self.dim ):
-            Z[ d ] = sp.stats.norm.ppf( self.distObjs[ d ].cdf( X[ d ] ) )
-            phi[ d ] = sp.stats.norm.pdf( Z[ d ] )
+            Z[ d ] = stats.norm.ppf( self.distObjs[ d ].cdf( X[ d ] ) )
+            phi[ d ] = stats.norm.pdf( Z[ d ] )
             y[ d ] = self.distObjs[ d ].pdf( X[ d ] )
         rst = 0
         if not np.isclose( np.prod( phi ), 0 ):
@@ -366,9 +366,9 @@ class NatafTransformation:
         mu = np.zeros( self.dim )
         std = np.array( [ dist.std() for dist in self.distObjs ] )
         cov = np.diag( std ) @ self.rhoZ @ np.diag( std )
-        mv = sp.stats.multivariate_normal( mean=mu, cov=cov )
+        mv = stats.multivariate_normal( mean=mu, cov=cov )
         for d in range( self.dim ):
-            Z[ d ] = sp.stats.norm.ppf( self.distObjs[ d ].cdf( X[ d ] ) )
+            Z[ d ] = stats.norm.ppf( self.distObjs[ d ].cdf( X[ d ] ) )
 
         rst = mv.cdf( Z )
         return rst
