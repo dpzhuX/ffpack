@@ -4,6 +4,8 @@ from ffpack import rrm
 import numpy as np
 import scipy as sp
 import pytest
+from unittest.mock import patch
+from ffpack.rpm import NatafTransformation
 
 
 ###############################################################################
@@ -114,6 +116,94 @@ def test_formHLRF_corrMatDiagNotOneCase_valueError( ):
 
 
 @pytest.mark.parametrize( "dgExists", [ 0, 1 ] )
+@patch.object( NatafTransformation, 'getX' )
+def test_formHLRF_twoNormalLinearMockCase1_scalar( mock_getX, dgExists ):
+    dim = 2
+
+    def g( X ):
+        return -np.sum( X ) + 1
+
+    dg = [ lambda X: -1, lambda X: -1 ] if dgExists else None
+    X1 = sp.stats.norm()
+    X2 = sp.stats.norm()
+    distObjs = [ X1, X2 ]
+    corrMat = np.eye( dim )
+    mock_getX.return_value = ( np.array( [ 1.0, 1.0 ] ), 
+                               np.array( [ [ 1.0, 0.0 ], [ 0.0, 1.0 ] ] ) )
+    calBeta, calPf, calUCoord, calXCoord = rrm.formHLRF( dim, g, dg, distObjs, 
+                                                         corrMat, iter=1 )
+    expectedBeta = np.sqrt( 2 ) / 2
+    expectedPf = sp.stats.norm.cdf( -expectedBeta )
+    expectedUCoord = [ 0.5, 0.5 ]
+    expectedXCoord = [ 1.0, 1.0 ]
+    np.testing.assert_allclose( np.round( expectedBeta, 5 ), np.round( calBeta, 5 ) )
+    np.testing.assert_allclose( np.round( expectedPf, 5 ), np.round( calPf, 5 ) )
+    np.testing.assert_allclose( np.round( expectedUCoord, 4 ), 
+                                np.round( calUCoord, 4 ) )
+    np.testing.assert_allclose( np.round( expectedXCoord, 4 ), 
+                                np.round( calXCoord, 4 ) )
+
+
+
+@pytest.mark.parametrize( "dgExists", [ 0, 1 ] )
+@patch.object( NatafTransformation, 'getX' )
+def test_formHLRF_twoNormalLinearMockCase2_scalar( mock_getX, dgExists ):
+    dim = 2
+
+    def g( X ):
+        return -np.sum( X ) + 1
+
+    dg = [ lambda X: -1, lambda X: -1 ] if dgExists else None
+    X1 = sp.stats.norm()
+    X2 = sp.stats.norm()
+    distObjs = [ X1, X2 ]
+    corrMat = np.eye( dim )
+    mock_getX.return_value = ( np.array( [ 2.0, 2.0 ] ), 
+                               np.array( [ [ 1.0, 0.0 ], [ 0.0, 1.0 ] ] ) )
+    calBeta, calPf, calUCoord, calXCoord = rrm.formHLRF( dim, g, dg, distObjs, 
+                                                         corrMat, iter=1 )
+    expectedBeta = -1 * np.sqrt( 2 ) / 2
+    expectedPf = sp.stats.norm.cdf( -expectedBeta )
+    expectedUCoord = [ -0.5, -0.5 ]
+    expectedXCoord = [ 2.0, 2.0 ]
+    np.testing.assert_allclose( np.round( expectedBeta, 5 ), np.round( calBeta, 5 ) )
+    np.testing.assert_allclose( np.round( expectedPf, 5 ), np.round( calPf, 5 ) )
+    np.testing.assert_allclose( np.round( expectedUCoord, 4 ), 
+                                np.round( calUCoord, 4 ) )
+    np.testing.assert_allclose( np.round( expectedXCoord, 4 ), 
+                                np.round( calXCoord, 4 ) )
+
+
+@pytest.mark.parametrize( "dgExists", [ 0, 1 ] )
+@patch.object( NatafTransformation, 'getX' )
+def test_formHLRF_twoNormalNonLinearMockCase_scalar( mock_getX, dgExists ):
+    dim = 2
+
+    def g( X ):
+        return -1 * X[ 0 ] - 2 * X[ 1 ] * X[ 1 ] + 20
+
+    dg = [ lambda X: -1, lambda X: -4 * X[ 1 ] ] if dgExists else None
+    X1 = sp.stats.norm()
+    X2 = sp.stats.norm()
+    distObjs = [ X1, X2 ]
+    corrMat = np.eye( dim )
+    mock_getX.return_value = ( np.array( [ 1.0, 1.0 ] ), 
+                               np.array( [ [ 1.0, 0.0 ], [ 0.0, 1.0 ] ] ) )
+    calBeta, calPf, calUCoord, calXCoord = rrm.formHLRF( dim, g, dg, distObjs, 
+                                                         corrMat, iter=1 )
+    expectedBeta = 22 / np.sqrt( 17 )
+    expectedPf = sp.stats.norm.cdf( -expectedBeta )
+    expectedUCoord = [ 22 / 17, 88 / 17 ]
+    expectedXCoord = [ 1.0, 1.0 ]
+    np.testing.assert_allclose( np.round( expectedBeta, 5 ), np.round( calBeta, 5 ) )
+    np.testing.assert_allclose( np.round( expectedPf, 5 ), np.round( calPf, 5 ) )
+    np.testing.assert_allclose( np.round( expectedUCoord, 4 ), 
+                                np.round( calUCoord, 4 ) )
+    np.testing.assert_allclose( np.round( expectedXCoord, 4 ), 
+                                np.round( calXCoord, 4 ) )
+
+
+@pytest.mark.parametrize( "dgExists", [ 0, 1 ] )
 def test_formHLRF_twoNormalLinearCase_scalar( dgExists ):
     dim = 2
 
@@ -125,7 +215,8 @@ def test_formHLRF_twoNormalLinearCase_scalar( dgExists ):
     X2 = sp.stats.norm()
     distObjs = [ X1, X2 ]
     corrMat = np.eye( dim )
-    calBeta, calPf, calUCoord, calXCoord = rrm.formHLRF( dim, g, dg, distObjs, corrMat )
+    calBeta, calPf, calUCoord, calXCoord = rrm.formHLRF( dim, g, dg, 
+                                                         distObjs, corrMat )
     expectedBeta = np.sqrt( 2 ) / 2
     expectedPf = sp.stats.norm.cdf( -expectedBeta )
     expectedUCoord = [ 0.5, 0.5 ]
@@ -150,7 +241,8 @@ def test_formHLRF_twoNormalNonLinearCase1_scalar( dgExists ):
     X2 = sp.stats.norm()
     distObjs = [ X1, X2 ]
     corrMat = np.eye( dim )
-    calBeta, calPf, calUCoord, calXCoord = rrm.formHLRF( dim, g, dg, distObjs, corrMat )
+    calBeta, calPf, calUCoord, calXCoord = rrm.formHLRF( dim, g, dg, 
+                                                         distObjs, corrMat )
     expectedBeta = 3.152380053229633
     expectedPf = sp.stats.norm.cdf( -expectedBeta )
     expectedUCoord = [ 0.24999987, 3.14245128 ]
@@ -175,7 +267,8 @@ def test_formHLRF_twoNormalNonLinearCase2_scalar( dgExists ):
     X2 = sp.stats.norm()
     distObjs = [ X1, X2 ]
     corrMat = np.eye( dim )
-    calBeta, calPf, calUCoord, calXCoord = rrm.formHLRF( dim, g, dg, distObjs, corrMat )
+    calBeta, calPf, calUCoord, calXCoord = rrm.formHLRF( dim, g, dg, 
+                                                         distObjs, corrMat )
     expectedBeta = 2.23606797749979
     expectedPf = sp.stats.norm.cdf( -expectedBeta )
     expectedUCoord = [ 1.58113883, 1.58113883 ]
@@ -201,7 +294,8 @@ def test_formHLRF_threeExpLinearCase_scalar( dgExists ):
     X3 = sp.stats.expon()
     distObjs = [ X1, X2, X3 ]
     corrMat = np.eye( dim )
-    calBeta, calPf, calUCoord, calXCoord = rrm.formHLRF( dim, g, dg, distObjs, corrMat )
+    calBeta, calPf, calUCoord, calXCoord = rrm.formHLRF( dim, g, dg, 
+                                                         distObjs, corrMat )
     expectedBeta = 0.5845237835400737
     expectedPf = sp.stats.norm.cdf( -expectedBeta )
     expectedUCoord = [ 0.33748047, 0.33748047, 0.33748047 ]
@@ -228,7 +322,8 @@ def test_formHLRF_threeExpNonLinearCase_scalar( dgExists ):
     X3 = sp.stats.expon()
     distObjs = [ X1, X2, X3 ]
     corrMat = np.eye( dim )
-    calBeta, calPf, calUCoord, calXCoord = rrm.formHLRF( dim, g, dg, distObjs, corrMat )
+    calBeta, calPf, calUCoord, calXCoord = rrm.formHLRF( dim, g, dg, 
+                                                         distObjs, corrMat )
     expectedBeta = 0.5576668962820067
     expectedPf = sp.stats.norm.cdf( -expectedBeta )
     expectedUCoord = [ 0.1549542, 0.37880177, 0.37880177 ]
@@ -254,7 +349,8 @@ def test_formHLRF_twoExpOneNormalLinearCase_scalar( dgExists ):
     X3 = sp.stats.norm()
     distObjs = [ X1, X2, X3 ]
     corrMat = np.eye( dim )
-    calBeta, calPf, calUCoord, calXCoord = rrm.formHLRF( dim, g, dg, distObjs, corrMat )
+    calBeta, calPf, calUCoord, calXCoord = rrm.formHLRF( dim, g, dg, 
+                                                         distObjs, corrMat )
     expectedBeta = 0.9406456373861823
     expectedPf = sp.stats.norm.cdf( -expectedBeta )
     expectedUCoord = [ 0.57235988, 0.57235988, 0.47918946 ]
@@ -281,7 +377,8 @@ def test_formHLRF_twoExpOneNormalNonLinearCase_scalar( dgExists ):
     X3 = sp.stats.norm()
     distObjs = [ X1, X2, X3 ]
     corrMat = np.eye( dim )
-    calBeta, calPf, calUCoord, calXCoord = rrm.formHLRF( dim, g, dg, distObjs, corrMat )
+    calBeta, calPf, calUCoord, calXCoord = rrm.formHLRF( dim, g, dg, 
+                                                         distObjs, corrMat )
     expectedBeta = 0.758619677951736
     expectedPf = sp.stats.norm.cdf( -expectedBeta )
     expectedUCoord = [ 1.73566795e-01, 7.38497382e-01, 6.22122748e-06 ]
@@ -309,7 +406,8 @@ def test_formHLRF_twoExpOneNormalOneGammaLinearCase_scalar( dgExists ):
     X4 = sp.stats.gamma( 2 )
     distObjs = [ X1, X2, X3, X4 ]
     corrMat = np.eye( dim )
-    calBeta, calPf, calUCoord, calXCoord = rrm.formHLRF( dim, g, dg, distObjs, corrMat )
+    calBeta, calPf, calUCoord, calXCoord = rrm.formHLRF( dim, g, dg, 
+                                                         distObjs, corrMat )
     expectedBeta = 0.44811639358366484
     expectedPf = sp.stats.norm.cdf( -expectedBeta )
     expectedUCoord = [ 0.18690136, 0.18690136, 0.20303017, 0.29953768 ]
@@ -339,7 +437,8 @@ def test_formHLRF_twoExpOneNormalOneGammaNonLinearCase_scalar( dgExists ):
     X4 = sp.stats.gamma( 2 )
     distObjs = [ X1, X2, X3, X4 ]
     corrMat = np.eye( dim )
-    calBeta, calPf, calUCoord, calXCoord = rrm.formHLRF( dim, g, dg, distObjs, corrMat )
+    calBeta, calPf, calUCoord, calXCoord = rrm.formHLRF( dim, g, dg, 
+                                                         distObjs, corrMat )
     expectedBeta = 0.35867913670082807
     expectedPf = sp.stats.norm.cdf( -expectedBeta )
     expectedUCoord = [ 0.06679387, 0.04387002, 0.05311046, 0.34560672 ]
