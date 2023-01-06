@@ -835,21 +835,18 @@ def test_astmRainflowCounting_normalTrivialCase_pass( mock_get ):
 # Test astmRangePairCounting function
 ###############################################################################
 def test_astmRangePairCounting_emptyInputCase_valueError():
-    # Test edge cases for empty list
     data = [ ]
     with pytest.raises( ValueError ):
         _ = lcc.astmRangePairCounting( data )
 
 
 def test_astmRangePairCounting_singleInputCase_valueError():
-    # Test edge cases for 1 element list
     data = [ 1.0 ]
     with pytest.raises( ValueError ):
         _ = lcc.astmRangePairCounting( data )
 
 
 def test_astmRangePairCounting_twoDimInputCase_valueError():
-    # Test edge cases for 2D list
     data = [ [ 1.0 ], [ 2.0 ] ]
     with pytest.raises( ValueError ):
         _ = lcc.astmRangePairCounting( data )
@@ -1012,4 +1009,174 @@ def test_astmRangePairCounting_duplicatedHeight_aggregated( mock_get ):
 
     calRst = lcc.astmRangePairCounting( data, aggregate=True )
     expectedRst = [ [ 3.0, 2 ], [ 6.0, 1 ], [ 7.0, 1 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+
+
+###############################################################################
+# Test astmRainflowRepeatHistoryCounting function
+###############################################################################
+def test_astmRainflowRepeatHistoryCounting_emptyInputCase_valueError():
+    data = [ ]
+    with pytest.raises( ValueError ):
+        _ = lcc.astmRainflowRepeatHistoryCounting( data )
+
+
+def test_astmRainflowRepeatHistoryCounting_singleInputCase_valueError():
+    data = [ 1.0 ]
+    with pytest.raises( ValueError ):
+        _ = lcc.astmRainflowRepeatHistoryCounting( data )
+
+
+def test_astmRainflowRepeatHistoryCounting_twoDimInputCase_valueError():
+    data = [ [ 1.0 ], [ 2.0 ] ]
+    with pytest.raises( ValueError ):
+        _ = lcc.astmRainflowRepeatHistoryCounting( data )
+
+
+def test_astmRainflowRepeatHistoryCounting_dataNotRepeating_valueError():
+    data = [ 1.0, 2.0, 2.0 ]
+    with pytest.raises( ValueError ):
+        _ = lcc.astmRainflowRepeatHistoryCounting( data )
+
+
+@patch( "ffpack.utils.generalUtils.sequencePeakAndValleys" )
+def test_astmRainflowRepeatHistoryCounting_twoDataPoint_empty( mock_get ):
+    data = [ 1.0, 1.0 ]
+    mock_get.return_value = [ 1.0, 1.0 ]
+    calRst = lcc.astmRainflowRepeatHistoryCounting( data, aggregate=False )
+    expectedRst = [ ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    calRst = lcc.astmRainflowRepeatHistoryCounting( data, aggregate=True )
+    expectedRst = [ [ ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+
+@patch( "ffpack.utils.generalUtils.sequencePeakAndValleys" )
+def test_astmRainflowRepeatHistoryCounting_threeDataPoint_oneCount( mock_get ):
+    data = [ 1.0, 2.0, 1.0 ]
+    peakValley1 = [ 1.0, 2.0, 1.0 ]
+    data2 = [ 2.0, 1.0, 2.0 ]
+    peakValley2 = [  2.0, 1.0, 2.0 ] 
+
+    def sideEffect( *args, **kwargs ):
+        if ( args[ 0 ] == data ).all():
+            return peakValley1
+        if ( args[ 0 ] == data2 ).all():
+            return peakValley2
+        return args[ 0 ]
+    mock_get.side_effect = sideEffect
+
+    calRst = lcc.astmRainflowRepeatHistoryCounting( data, aggregate=False )
+    expectedRst = [ [ 2.0, 1.0 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    calRst = lcc.astmRainflowRepeatHistoryCounting( data, aggregate=True )
+    expectedRst = [ [ 1.0, 1 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+
+@patch( "ffpack.utils.generalUtils.sequencePeakAndValleys" )
+def test_astmRainflowRepeatHistoryCounting_fourDataPoint_depends( mock_get ):
+    # case 1: increase first - one point in the middle
+    data = [ 1.0, 2.0, -1.0, 1.0 ]
+    peakValley1 = [ 1.0, 2.0, -1.0, 1.0 ]
+    data2 = [ 2.0, -1.0, 1.0, 2.0 ]
+    peakValley2 = [ 2.0, -1.0, 2.0  ]
+
+    def sideEffect( *args, **kwargs ):
+        if ( args[ 0 ] == data ).all():
+            return peakValley1
+        if ( args[ 0 ] == data2 ).all():
+            return peakValley2
+        return args
+    mock_get.side_effect = sideEffect
+
+    calRst = lcc.astmRainflowRepeatHistoryCounting( data, aggregate=False )
+    expectedRst = [ [ 2.0, -1.0 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    calRst = lcc.astmRainflowRepeatHistoryCounting( data, aggregate=True )
+    expectedRst = [ [ 3.0, 1 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    # case 2: decrease first - one point in the middle
+    data = [ 1.0, -1.0, 2.0, 1.0 ]
+    peakValley1 = [ 1.0, -1.0, 2.0, 1.0 ]
+    data2 = [ 2.0, 1.0, -1.0, 2.0 ]
+    peakValley2 = [ 2.0, -1.0, 2.0  ]
+
+    mock_get.side_effect = sideEffect
+
+    calRst = lcc.astmRainflowRepeatHistoryCounting( data, aggregate=False )
+    expectedRst = [ [ 2.0, -1.0 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    calRst = lcc.astmRainflowRepeatHistoryCounting( data, aggregate=True )
+    expectedRst = [ [ 3.0, 1 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+
+@patch( "ffpack.utils.generalUtils.sequencePeakAndValleys" )
+def test_astmRainflowRepeatHistoryCounting_fiveDataPoint_depends( mock_get ):
+    # case 1: w final - different heights
+    data = [ 1.0, 2.0, -1.0, 2.0, 1.0 ]
+    peakValley1 = [ 1.0, 2.0, -1.0, 2.0, 1.0 ]
+    data2 = [ 2.0, -1.0, 2.0, 1.0, 2.0 ]
+    peakValley2 = [ 2.0, -1.0, 2.0, 1.0, 2.0 ]
+
+    def sideEffect( *args, **kwargs ):
+        if ( args[ 0 ] == data ).all():
+            return peakValley1
+        if ( args[ 0 ] == data2 ).all():
+            return peakValley2
+        return args
+    mock_get.side_effect = sideEffect
+
+    calRst = lcc.astmRainflowRepeatHistoryCounting( data, aggregate=False )
+    expectedRst = [ [ 2.0, -1.0 ], [ 2.0, 1.0 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    calRst = lcc.astmRainflowRepeatHistoryCounting( data, aggregate=True )
+    expectedRst = [ [ 1.0, 1 ], [ 3.0, 1 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    # case 2: w final - same heights
+    data = [ 1.0, 2.0, 1.0, 2.0, 1.0 ]
+    peakValley1 = [ 1.0, 2.0, 1.0, 2.0, 1.0 ]
+    data2 = [ 2.0, 1.0, 2.0, 1.0, 2.0 ]
+    peakValley2 = [ 2.0, 1.0, 2.0, 1.0, 2.0 ]
+
+    calRst = lcc.astmRainflowRepeatHistoryCounting( data, aggregate=False )
+    expectedRst = [ [ 2.0, 1.0 ], [ 2.0, 1.0 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    calRst = lcc.astmRainflowRepeatHistoryCounting( data, aggregate=True )
+    expectedRst = [ [ 1.0, 2 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+
+@patch( "ffpack.utils.generalUtils.sequencePeakAndValleys" )
+def test_astmRainflowRepeatHistoryCounting_normalUseCase_pass( mock_get ):
+    # simplified rainflow counting data for repeating histories from E1049-85(2017) Fig.7
+    data = [ -2.0, 1.0, -3.0, 5.0, -1.0, 3.0, -4.0, 4.0, -2.0 ]
+    peakValley1 = [ -2.0, 1.0, -3.0, 5.0, -1.0, 3.0, -4.0, 4.0, -2.0 ]
+    data2 = [ 5.0, -1.0, 3.0, -4.0, 4.0, -2.0, 1.0, -3.0, 5.0 ]
+    peakValley2 = [ 5.0, -1.0, 3.0, -4.0, 4.0, -2.0, 1.0, -3.0, 5.0 ]
+
+    def sideEffect( *args, **kwargs ):
+        if ( args[ 0 ] == data ).all():
+            return peakValley1
+        if ( args[ 0 ] == data2 ).all():
+            return peakValley2
+        return args
+    mock_get.side_effect = sideEffect
+
+    calRst = lcc.astmRainflowRepeatHistoryCounting( data, aggregate=False )
+    expectedRst = [ [ -1.0, 3.0 ], [ -2.0, 1.0 ], [ 4.0, -3.0 ], [ 5.0, -4.0 ] ]
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    calRst = lcc.astmRainflowRepeatHistoryCounting( data, aggregate=True )
+    expectedRst = [ [ 3.0, 1 ], [ 4.0, 1 ], [ 7.0, 1 ], [ 9.0, 1 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
