@@ -144,7 +144,6 @@ def test_formHLRF_twoNormalLinearMockCase1_scalar( mock_getX, dgExists ):
                                 np.round( calXCoord, 4 ) )
 
 
-
 @pytest.mark.parametrize( "dgExists", [ 0, 1 ] )
 @patch.object( NatafTransformation, 'getX' )
 def test_formHLRF_twoNormalLinearMockCase2_scalar( mock_getX, dgExists ):
@@ -451,6 +450,7 @@ def test_formHLRF_twoExpOneNormalOneGammaNonLinearCase_scalar( dgExists ):
                                 np.round( calXCoord, 4 ) )
 
 
+
 ###############################################################################
 # Test formHLRF
 ###############################################################################
@@ -595,6 +595,7 @@ def test_formCOPT_twoNormalNonLinearCase1_scalar():
                                 np.round( calUCoord, 3 ) )
     np.testing.assert_allclose( np.round( expectedXCoord, 3 ), 
                                 np.round( calXCoord, 3 ) )
+
 
 def test_formCOPT_twoNormalNonLinearCase2_scalar():
     dim = 2
