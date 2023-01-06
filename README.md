@@ -33,7 +33,9 @@ pip install ffpack
         * ASTM level crossing counting
         * ASTM peak counting
         * ASTM simple range counting
+        * ASTM range pair counting
         * ASTM rainflow counting
+        * ASTM rainflow counting for repeating history
     * Rychlik counting
         * Rychlik rainflow counting
     * Johannesson counting
@@ -64,7 +66,8 @@ pip install ffpack
     * First order second moment
         * fosm
     * First order reliability method
-        * form
+        * formHLRF
+        * formCOPT
 
 * Utility methods
     * Cycle counting aggregation
