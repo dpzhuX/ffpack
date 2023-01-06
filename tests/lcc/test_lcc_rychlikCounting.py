@@ -117,7 +117,7 @@ def test_rychlikRainflowCounting_threePointsUpward_smallerDistance( mock_get ):
     mock_get.return_value = [ 0.0, 2.0, 1.0 ]
 
     calRst = lcc.rychlikRainflowCounting( data, False )
-    expectedRst = [ [ 1.0, 2.0 ] ]
+    expectedRst = [ [ 1.0, 2.0, 1 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     calRst = lcc.rychlikRainflowCounting( data, True )
@@ -129,7 +129,7 @@ def test_rychlikRainflowCounting_threePointsUpward_smallerDistance( mock_get ):
     mock_get.return_value = [ 1.0, 2.0, 0.0 ]
 
     calRst = lcc.rychlikRainflowCounting( data, False )
-    expectedRst = [ [ 1.0, 2.0 ] ]
+    expectedRst = [ [ 1.0, 2.0, 1 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     calRst = lcc.rychlikRainflowCounting( data, True )
@@ -144,7 +144,7 @@ def test_rychlikRainflowCounting_fourPointsNoCrossing_smallerDistance( mock_get 
     mock_get.return_value = [ 0.0, 3.0, 1.0, 2.0 ]
     
     calRst = lcc.rychlikRainflowCounting( data, False )
-    expectedRst = [ [ 1.0, 3.0 ] ]
+    expectedRst = [ [ 1.0, 3.0, 1 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     calRst = lcc.rychlikRainflowCounting( data, True )
@@ -156,7 +156,7 @@ def test_rychlikRainflowCounting_fourPointsNoCrossing_smallerDistance( mock_get 
     mock_get.return_value = [ 1.0, 3.0, 0.0, 2.0 ]
 
     calRst = lcc.rychlikRainflowCounting( data, False )
-    expectedRst = [ [ 1.0, 3.0 ] ]
+    expectedRst = [ [ 1.0, 3.0, 1 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     calRst = lcc.rychlikRainflowCounting( data, True )
@@ -170,7 +170,7 @@ def test_rychlikRainflowCounting_fivePoints_aggrated( mock_get ):
     mock_get.return_value = [ 0.0, 3.0, 1.0, 4.0, 2.0 ]
 
     calRst = lcc.rychlikRainflowCounting( data, False )
-    expectedRst = [ [ 1.0, 3.0 ], [ 2.0, 4.0 ] ]
+    expectedRst = [ [ 1.0, 3.0, 1 ], [ 2.0, 4.0, 1 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     calRst = lcc.rychlikRainflowCounting( data, True )
@@ -184,7 +184,7 @@ def test_rychlikRainflowCounting_withRedundencePoints_aggrated( mock_get ):
     mock_get.return_value = [ 0.0, 3.0, 1.0, 4.0, 2.0 ]
 
     calRst = lcc.rychlikRainflowCounting( data, False )
-    expectedRst = [ [ 1.0, 3.0 ], [ 2.0, 4.0 ] ]
+    expectedRst = [ [ 1.0, 3.0, 1 ], [ 2.0, 4.0, 1 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     calRst = lcc.rychlikRainflowCounting( data, True )
@@ -198,7 +198,7 @@ def test_rychlikRainflowCounting_withSamePeakPoints_oneKept( mock_get ):
     mock_get.return_value = [ 0.0, 3.0, 1.0, 4.0, 2.0 ]
 
     calRst = lcc.rychlikRainflowCounting( data, False )
-    expectedRst = [ [ 1.0, 3.0 ], [ 2.0, 4.0 ] ]
+    expectedRst = [ [ 1.0, 3.0, 1 ], [ 2.0, 4.0, 1 ] ]
     np.testing.assert_allclose( calRst, expectedRst )
 
     calRst = lcc.rychlikRainflowCounting( data, True )
@@ -216,8 +216,9 @@ def test_rychlikRainflowCounting_normalUseCase_pass( mock_get ):
                               -2.2, -2.6, -2.4, -3.3, 1.5, 0.6, 3.4, -0.5 ]
 
     calRst = lcc.rychlikRainflowCounting( data, False )
-    expectedRst = [ [ 0.7, 1.3 ], [ -0.8, 3.4 ], [ 0.7, 2.5 ], [ -1.4, -0.5 ], 
-                    [ -2.3, -2.2 ], [ -2.6, -2.4 ], [ 0.6, 1.5 ], [ -0.5, 3.4 ] ] 
+    expectedRst = [ [ 0.7, 1.3, 1 ], [ -0.8, 3.4, 1 ], [ 0.7, 2.5, 1 ], 
+                    [ -1.4, -0.5, 1 ], [ -2.3, -2.2, 1 ], [ -2.6, -2.4, 1 ], 
+                    [ 0.6, 1.5, 1 ], [ -0.5, 3.4, 1 ] ] 
     np.testing.assert_allclose( calRst, expectedRst )
 
     calRst = lcc.rychlikRainflowCounting( data, True )
@@ -232,8 +233,9 @@ def test_rychlikRainflowCounting_normalUseCase_pass( mock_get ):
              -2.0, -1.0, 0.0, 1.0, 1.5, 0.6, 1.0, 2.0, 3.0, 3.4, 
              3.0, 2.0, 1.0, 0.0, -0.5 ]
     calRst = lcc.rychlikRainflowCounting( data, False )
-    expectedRst = [ [ 0.7, 1.3 ], [ -0.8, 3.4 ], [ 0.7, 2.5 ], [ -1.4, -0.5 ], 
-                    [ -2.3, -2.2 ], [ -2.6, -2.4 ], [ 0.6, 1.5 ], [ -0.5, 3.4 ] ] 
+    expectedRst = [ [ 0.7, 1.3, 1 ], [ -0.8, 3.4, 1 ], [ 0.7, 2.5, 1 ], 
+                    [ -1.4, -0.5, 1 ], [ -2.3, -2.2, 1 ], [ -2.6, -2.4, 1 ], 
+                    [ 0.6, 1.5, 1 ], [ -0.5, 3.4, 1 ] ] 
     np.testing.assert_allclose( calRst, expectedRst )
 
     calRst = lcc.rychlikRainflowCounting( data, True )
@@ -251,8 +253,9 @@ def test_rychlikRainflowCounting_normalUseCase_pass( mock_get ):
                               -2.2, -2.6, -2.4, -3.3, 1.5, 0.7, 3.4, -0.5 ]
     
     calRst = lcc.rychlikRainflowCounting( data, False )
-    expectedRst = [ [ 0.7, 1.3 ], [ -0.8, 3.4 ], [ 0.7, 2.5 ], [ -1.4, -0.5 ], 
-                    [ -2.3, -2.2 ], [ -2.6, -2.4 ], [ 0.7, 1.5 ], [ -0.5, 3.4 ] ] 
+    expectedRst = [ [ 0.7, 1.3, 1 ], [ -0.8, 3.4, 1 ], [ 0.7, 2.5, 1 ], 
+                    [ -1.4, -0.5, 1 ], [ -2.3, -2.2, 1 ], [ -2.6, -2.4, 1 ], 
+                    [ 0.7, 1.5, 1 ], [ -0.5, 3.4, 1 ] ] 
     np.testing.assert_allclose( calRst, expectedRst )
 
     calRst = lcc.rychlikRainflowCounting( data, True )
