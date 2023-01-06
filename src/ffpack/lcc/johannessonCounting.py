@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 '''
-Johannesson proposed a minMax cycle conting method.
+Johannesson proposed a minMax cycle counting method.
 
 Reference: 
 Johannesson, P., 1998. Rainflow cycles for switching processes with Markov structure. 

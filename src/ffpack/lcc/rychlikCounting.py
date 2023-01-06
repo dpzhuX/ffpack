@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 '''
-Rychlik proposed a toplevel-up cycle conting method and proved that the proposed 
+Rychlik proposed a toplevel-up cycle counting method and proved that the proposed 
 method is equivalent to the classical rainflow counting method. Compared to the
 classical rainflow counting method, the proposed method keeps the original 
 sequence information which is quite useful if the sequence information is
