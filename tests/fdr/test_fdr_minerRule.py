@@ -110,7 +110,7 @@ def test_minerDamageRuleClassic_irregularInput_valueError():
         _ = fdr.minerDamageRuleClassic( lccData, snData, fatigueLimit )
 
 
-@patch.object(FitterForSnCurve, 'getN')
+@patch.object( FitterForSnCurve, "getN" )
 def test_minerDamageRuleClassic_twoPairs_scalarOutput( mocker ):
 
     mocker.side_effect = lambda x: { 1: 1000, 2: 100 }[ x ]
@@ -124,7 +124,7 @@ def test_minerDamageRuleClassic_twoPairs_scalarOutput( mocker ):
     np.testing.assert_allclose( calRst, expectedRst )
 
 
-@patch.object(FitterForSnCurve, 'getN')
+@patch.object( FitterForSnCurve, "getN" )
 def test_minerDamageRuleClassic_threePairs_scalarOutput( mocker ):
 
     mocker.side_effect = lambda x: { 1: 100000, 2: 10000, 3: 1000, 4: 100 }[ x ]
@@ -152,7 +152,7 @@ def test_minerDamageRuleClassic_threePairs_scalarOutput( mocker ):
     np.testing.assert_allclose( calRst, expectedRst )
 
 
-@patch.object(FitterForSnCurve, 'getN')
+@patch.object( FitterForSnCurve, "getN" )
 def test_minerDamageRuleClassic_threePairsHighFatigueLimit_scalarOutput( mocker ):
     lccData = [ [ 1, 1000 ], [ 2, 100 ], [ 4, 10 ] ]
     snData = [ [ 10, 5 ], [ 100, 4 ], [ 100000, 1 ] ]
