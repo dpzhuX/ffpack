@@ -3,7 +3,7 @@
 from ffpack import fdr
 import numpy as np
 import pytest
-from unittest.mock import Mock
+from unittest.mock import patch
 from ffpack.utils import FitterForSnCurve
 
 
@@ -110,11 +110,10 @@ def test_minerDamageRuleClassic_irregularInput_valueError():
         _ = fdr.minerDamageRuleClassic( lccData, snData, fatigueLimit )
 
 
+@patch.object(FitterForSnCurve, 'getN')
 def test_minerDamageRuleClassic_twoPairs_scalarOutput( mocker ):
 
-    directory = "ffpack.utils.fdrUtils.FitterForSnCurve"
-    side_effect = lambda x: { 1: 1000, 2: 100 }[ x ]
-    mocker.patch( f"{directory}.getN", side_effect=side_effect )
+    mocker.side_effect = lambda x: { 1: 1000, 2: 100 }[ x ]
 
     lccData = [ [ 1, 100 ], [ 2, 10 ] ]
     snData = [ [ 10, 3 ], [ 1000, 1 ] ]
@@ -125,11 +124,10 @@ def test_minerDamageRuleClassic_twoPairs_scalarOutput( mocker ):
     np.testing.assert_allclose( calRst, expectedRst )
 
 
+@patch.object(FitterForSnCurve, 'getN')
 def test_minerDamageRuleClassic_threePairs_scalarOutput( mocker ):
 
-    directory = "ffpack.utils.fdrUtils.FitterForSnCurve"
-    side_effect = lambda x: { 1: 100000, 2: 10000, 3: 1000, 4: 100 }[ x ]
-    mocker.patch( f"{directory}.getN", side_effect=side_effect )
+    mocker.side_effect = lambda x: { 1: 100000, 2: 10000, 3: 1000, 4: 100 }[ x ]
 
     lccData = [ [ 1, 1000 ], [ 2, 100 ], [ 4, 10 ] ]
     snData = [ [ 10, 5 ], [ 100, 4 ], [ 100000, 1 ] ]
@@ -154,36 +152,31 @@ def test_minerDamageRuleClassic_threePairs_scalarOutput( mocker ):
     np.testing.assert_allclose( calRst, expectedRst )
 
 
+@patch.object(FitterForSnCurve, 'getN')
 def test_minerDamageRuleClassic_threePairsHighFatigueLimit_scalarOutput( mocker ):
-
-    directory = "ffpack.utils.fdrUtils.FitterForSnCurve"
-    
     lccData = [ [ 1, 1000 ], [ 2, 100 ], [ 4, 10 ] ]
     snData = [ [ 10, 5 ], [ 100, 4 ], [ 100000, 1 ] ]
+
     fatigueLimit = 1  
-    side_effect = lambda x: { 1: -1, 2: 10000, 4: 100 }[ x ]
-    mocker.patch( f"{directory}.getN", side_effect=side_effect )
+    mocker.side_effect = lambda x: { 1: -1, 2: 10000, 4: 100 }[ x ]
     calRst = fdr.minerDamageRuleClassic( lccData, snData, fatigueLimit )
     expectedRst = 0.11 
     np.testing.assert_allclose( calRst, expectedRst )
 
     fatigueLimit = 2
-    side_effect = lambda x: { 1: -1, 2: -1, 4: 100 }[ x ]
-    mocker.patch( f"{directory}.getN", side_effect=side_effect )
+    mocker.side_effect = lambda x: { 1: -1, 2: -1, 4: 100 }[ x ]
     calRst = fdr.minerDamageRuleClassic( lccData, snData, fatigueLimit )
     expectedRst = 0.1 
     np.testing.assert_allclose( calRst, expectedRst )
 
     fatigueLimit = 3
-    side_effect = lambda x: { 1: -1, 2: -1, 4: 100 }[ x ]
-    mocker.patch( f"{directory}.getN", side_effect=side_effect )
+    mocker.side_effect = lambda x: { 1: -1, 2: -1, 4: 100 }[ x ]
     calRst = fdr.minerDamageRuleClassic( lccData, snData, fatigueLimit )
     expectedRst = 0.1 
     np.testing.assert_allclose( calRst, expectedRst )
 
     fatigueLimit = 4
-    side_effect = lambda x: { 1: -1, 2: -1, 4: -1 }[ x ]
-    mocker.patch( f"{directory}.getN", side_effect=side_effect )
+    mocker.side_effect = lambda x: { 1: -1, 2: -1, 4: -1 }[ x ]
     calRst = fdr.minerDamageRuleClassic( lccData, snData, fatigueLimit )
     expectedRst = 0
     np.testing.assert_allclose( calRst, expectedRst )
