@@ -23,7 +23,7 @@ def johannessonMinMaxCounting( data, aggregate=True ):
         Load sequence data for counting.
     aggragate: bool, optional
         if aggregate is set to False, the original sequence for internal counting,
-        e.g., [ [ rangeStart1, rangeEnd1 ], [ rangeStart2, rangeEnd2 ], ... ], 
+        e.g., [ [ rangeStart1, rangeEnd1, count1 ], [ rangeStart2, rangeEnd2, count2 ], ... ], 
         will be returned.
     
     Returns
@@ -70,7 +70,7 @@ def johannessonMinMaxCounting( data, aggregate=True ):
     for i in range( 1, len( data ) - 1 ):
         if ( data[ i ] > data[ i - 1 ] and data[ i ] > data[ i + 1 ] ):
             left = getMinLeft( data, i )
-            rstSeq.append( [ left, data[ i ] ] )
+            rstSeq.append( [ left, data[ i ], 1 ] )
     
     if ( not aggregate ): 
         return rstSeq
