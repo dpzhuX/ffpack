@@ -55,6 +55,9 @@ pip install ffpack
         * ASTM simple range counting matrix
         * ASTM rainflow counting matrix
         * Rychlik rainflow counting matrix
+    * Wave Spectra
+        * Pierson Moskowitz spectrum
+        * Jonswap spectrum
 
 * Random and probabilistic model
     * Metropolis-Hastings algorithm
