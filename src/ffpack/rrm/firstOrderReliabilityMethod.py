@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import numpy as np
-import scipy as sp
+from scipy import misc, stats, optimize
 from ffpack.config import globalConfig 
 from ffpack import rpm
 
@@ -62,7 +62,7 @@ def formHLRF( dim, g, dg, distObjs, corrMat, iter=1000, tol=1e-6 ):
     >>> dim = 2
     >>> g = lambda X: -np.sum( X ) + 1
     >>> dg = [ lambda X: -1, lambda X: -1 ]
-    >>> distObjs = [ sp.stats.norm(), sp.stats.norm() ]
+    >>> distObjs = [ stats.norm(), stats.norm() ]
     >>> corrMat = np.eye( dim )
     >>> beta, pf, uCoord, xCoord = rrm.formHLRF( dim, g, dg, distObjs, corrMat )
     '''
@@ -95,8 +95,8 @@ def formHLRF( dim, g, dg, distObjs, corrMat, iter=1000, tol=1e-6 ):
         def wraps( x ):
             args[ var ] = x
             return func( args )
-        return sp.misc.derivative( wraps, points[ var ], 
-                                   dx=1 / np.power( 10, globalConfig.dtol ) )
+        return misc.derivative( wraps, points[ var ], 
+                                dx=1 / np.power( 10, globalConfig.dtol ) )
     
     def dgWrap( g, var=0 ):
         def dgi( mus ):
@@ -130,7 +130,7 @@ def formHLRF( dim, g, dg, distObjs, corrMat, iter=1000, tol=1e-6 ):
             break
     
     beta = betas[ idx ]
-    pf = sp.stats.norm.cdf( -beta )
+    pf = stats.norm.cdf( -beta )
     uCoord = Us[ idx ]
     xCoord, _ = natafTrans.getX( uCoord )
     return beta, pf, uCoord, xCoord
@@ -178,7 +178,7 @@ def formCOPT( dim, g, distObjs, corrMat ):
     >>> from ffpack.rrm import formCOPT
     >>> dim = 2
     >>> g = lambda X: -np.sum( X ) + 1
-    >>> distObjs = [ sp.stats.norm(), sp.stats.norm() ]
+    >>> distObjs = [ stats.norm(), stats.norm() ]
     >>> corrMat = np.eye( dim )
     >>> beta, pf, uCoord, xCoord = rrm.formCOPT( dim, g, distObjs, corrMat )
     '''
@@ -214,9 +214,9 @@ def formCOPT( dim, g, distObjs, corrMat ):
     cons = ( { "type": "eq",
                "fun": lambda U: g( natafTrans.getX( U )[ 0 ] ) } )
     
-    rst = sp.optimize.minimize( f, u, constraints=cons )
+    rst = optimize.minimize( f, u, constraints=cons )
     beta = rst.fun
-    pf = sp.stats.norm.cdf( -beta )
+    pf = stats.norm.cdf( -beta )
     uCoord = rst.x
     xCoord = natafTrans.getX( uCoord )[ 0 ]
     return beta, pf, uCoord, xCoord

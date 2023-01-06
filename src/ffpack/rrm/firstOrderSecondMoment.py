@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import numpy as np
-import scipy as sp
+from scipy import misc, stats
 from ffpack.config import globalConfig 
 
 def fosm( dim, g, dg, mus, sigmas ):
@@ -63,7 +63,7 @@ def fosm( dim, g, dg, mus, sigmas ):
         def wraps( x ):
             args[ var ] = x
             return func( args )
-        return sp.misc.derivative( wraps, points[ var ], 
+        return misc.derivative( wraps, points[ var ], 
                                    dx=1 / np.power( 10, globalConfig.dtol ) )
     
     def dgWrap( g, var=0 ):
@@ -78,6 +78,6 @@ def fosm( dim, g, dg, mus, sigmas ):
     a = np.array( [ dgi( mus ) for dgi in dg ] )
     aSigmas = np.multiply( a, sigmas )
     beta = lsfRst / np.sqrt( np.sum( np.square( aSigmas ) ) )
-    pf = sp.stats.norm.cdf( -beta )
+    pf = stats.norm.cdf( -beta )
 
     return beta, pf
