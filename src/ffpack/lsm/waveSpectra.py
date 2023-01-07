@@ -46,7 +46,6 @@ def piersonMoskowitzSpectrum( w, wp, alpha=0.0081, beta=1.25, g=9.81 ):
         raise ValueError( "wp should be a scalar")
 
     rst = alpha * g * g / np.power( w, 5 ) * np.exp( -beta * np.power( wp / w, 4 ) )
-    print( rst )
     return rst
 
 

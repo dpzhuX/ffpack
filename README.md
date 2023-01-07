@@ -36,10 +36,10 @@ pip install ffpack
         * ASTM range pair counting
         * ASTM rainflow counting
         * ASTM rainflow counting for repeating history
-    * Rychlik counting
-        * Rychlik rainflow counting
     * Johannesson counting
         * Johannesson min max counting
+    * Rychlik counting
+        * Rychlik rainflow counting
 
 * Load sequence generator
     * Random walk
@@ -53,7 +53,10 @@ pip install ffpack
 * Load spectra and matrices
     * Cycle counting matrix
         * ASTM simple range counting matrix
+        * ASTM range pair counting matrix
         * ASTM rainflow counting matrix
+        * ASTM rainflow counting matrix for repeating history
+        * Johannesson min max counting matrix
         * Rychlik rainflow counting matrix
     * Wave Spectra
         * Pierson Moskowitz spectrum
@@ -74,6 +77,7 @@ pip install ffpack
 
 * Utility methods
     * Cycle counting aggregation
+    * Counting results to counting matrix
     * Fitter for SN curve
     * Sequence peak and valleys
     * Sequence degitization
