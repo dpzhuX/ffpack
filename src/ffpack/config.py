@@ -21,6 +21,9 @@ class GlobalConfig:
         rtol: scalar
             Relative tolerance in digits.
             Default value is 5.
+        dtol: scalar
+            Derivative tolerance in digits.
+            Default value is 6.
 
         Examples
         --------

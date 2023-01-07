@@ -44,7 +44,7 @@ pip install ffpack
 * Load sequence generator
     * Random walk
         * Uniform random walk
-    * Autoregressive model
+    * Autoregressive Moving Averagemodel
         * Normal autoregressive (AR) model
         * Normal moving average (MA) model
         * Normal ARMA model

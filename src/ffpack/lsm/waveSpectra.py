@@ -3,7 +3,7 @@
 import numpy as np
 
 
-def piersonMoskowitzSpectrum( w, wp, alpha=0.0081, beta=1.25, g=9.81 ):
+def piersonMoskowitzSpectrum( w, Uw, alpha=0.0081, beta=0.74, g=9.81 ):
     '''
     Pierson Moskowitz spectra is an empirical relationship 
     that defines the distribution of energy with frequency within the ocean.
@@ -12,8 +12,8 @@ def piersonMoskowitzSpectrum( w, wp, alpha=0.0081, beta=1.25, g=9.81 ):
     ----------
     w: scalar
         Wave frequency.
-    wp: scalar
-        Peak wave frequency.
+    Uw: scalar
+        Wind speed at a height of 19.5m above the sea surface.
     alpha: scalar, optional
         Intensity of the Spectra.
     beta: scalar, optional
@@ -36,16 +36,17 @@ def piersonMoskowitzSpectrum( w, wp, alpha=0.0081, beta=1.25, g=9.81 ):
     Examples
     --------
     >>> from ffpack.lsm import piersonMoskowitzSpectrum
-    >>> w = 0.02
-    >>> wp = 0.04
-    >>> rst = piersonMoskowitzSpectrum( w, wp, alpha=0.0081, beta=1.25, gamma=3.3, g=9.81 )
+    >>> w = 0.51
+    >>> Uw = 20
+    >>> rst = piersonMoskowitzSpectrum( w, Uw, alpha=0.0081, beta=1.25, gamma=3.3, g=9.81 )
     '''
     if not isinstance( w, int ) and not isinstance( w, float ):
         raise ValueError( "w should be a scalar" )
-    if not isinstance( wp, int ) and not isinstance( wp, float ):
-        raise ValueError( "wp should be a scalar")
+    if not isinstance( Uw, int ) and not isinstance( Uw, float ):
+        raise ValueError( "Uw should be a scalar")
 
-    rst = alpha * g * g / np.power( w, 5 ) * np.exp( -beta * np.power( wp / w, 4 ) )
+    rst = alpha * g * g / np.power( w, 5 ) * np.exp( -beta * 
+                                                     np.power( ( g / Uw ) / w, 4 ) )
     return rst
 
 
@@ -86,7 +87,7 @@ def jonswapSpectrum( w, wp, alpha=0.0081, beta=1.25, gamma=3.3, g=9.81 ):
     --------
     >>> from ffpack.lsm import jonswapSpectrum
     >>> w = 0.02
-    >>> wp = 0.04
+    >>> wp = 0.51
     >>> rst = jonswapSpectrum( w, wp, alpha=0.0081, beta=1.25, gamma=3.3, g=9.81 )
     '''
     if not isinstance( w, int ) and not isinstance( w, float ):

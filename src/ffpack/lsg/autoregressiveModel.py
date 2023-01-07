@@ -100,7 +100,7 @@ def maNormal( numSteps, c, thetas, mu, sigma ):
     --------
     >>> from ffpack.lsg import maNormal
     >>> thetas = [ 0.8, 0.5 ]
-    >>> rst = maNormal( 500, 0, phis, 0, 0.5 )
+    >>> rst = maNormal( 500, 0, thetas, 0, 0.5 )
     '''
     # Edge case check
     if not isinstance( numSteps, int ):

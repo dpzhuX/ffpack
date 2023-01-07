@@ -1,3 +1,9 @@
+Wave spectra
+------------
+
+.. automodule:: ffpack.lsm.waveSpectra
+   :members:
+
 Cycle counting matrix
 ---------------------
 

@@ -60,8 +60,8 @@ class NatafTransformation:
         Examples
         --------
         >>> from ffpack.rpm import NatafTransformation
-        >>> distObjs = [ sp.stats.norm(), sp.stats.norm() ]
-        >>> corrMat = [ [ 1.0, 0.1 ], [ 0.1, 1.0 ] ]
+        >>> distObjs = [ stats.norm(), stats.norm() ]
+        >>> corrMat = [ [ 1.0, 0.5 ], [ 0.5, 1.0 ] ]
         >>> natafDist = NatafTransformation( distObjs=distObjs, corrMat=corrMat )
         '''
 
