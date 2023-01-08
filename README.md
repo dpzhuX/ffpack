@@ -44,7 +44,7 @@ pip install ffpack
 * Load sequence generator
     * Random walk
         * Uniform random walk
-    * Autoregressive Moving Averagemodel
+    * Autoregressive moving average model
         * Normal autoregressive (AR) model
         * Normal moving average (MA) model
         * Normal ARMA model
@@ -59,8 +59,8 @@ pip install ffpack
         * Johannesson min max counting matrix
         * Rychlik rainflow counting matrix
     * Wave Spectra
-        * Pierson Moskowitz spectrum
         * Jonswap spectrum
+        * Pierson Moskowitz spectrum
 
 * Random and probabilistic model
     * Metropolis-Hastings algorithm
@@ -70,7 +70,7 @@ pip install ffpack
 
 * Risk and reliability model
     * First order second moment
-        * fosm
+        * fosmMVAL
     * First order reliability method
         * formHLRF
         * formCOPT

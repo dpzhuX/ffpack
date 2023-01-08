@@ -53,6 +53,7 @@ Contents
    load sequence generator
    load spectra and matrices
    random and probabilistic model
+   risk and reliability model
    utility methods
 
 .. toctree::

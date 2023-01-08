@@ -4,9 +4,9 @@ import numpy as np
 from scipy import misc, stats
 from ffpack.config import globalConfig 
 
-def fosm( dim, g, dg, mus, sigmas ):
+def fosmMVAL( dim, g, dg, mus, sigmas ):
     '''
-    Relibility based on first order second moment method.
+    First order second moment method based on mean value algorithm.
 
     Parameters
     ----------
@@ -44,13 +44,13 @@ def fosm( dim, g, dg, mus, sigmas ):
 
     Examples
     --------
-    >>> from ffpack.rrm import fosm
+    >>> from ffpack.rrm import fosmMVAL
     >>> dim = 2
     >>> g = lambda X: 3 * X[ 0 ] - 2 * X[ 1 ]
     >>> dg = [ lambda X: 3, lambda X: -2 ]
     >>> mus = [ 1, 1 ]
     >>> sigmas = [ 3, 4 ]
-    >>> beta, pf = fosm( dim, g, dg, mus, sigmas)
+    >>> beta, pf = fosmMVAL( dim, g, dg, mus, sigmas)
     '''
     if dim < 1:
         raise ValueError( "dim cannot be less than 1" )
@@ -64,7 +64,7 @@ def fosm( dim, g, dg, mus, sigmas ):
             args[ var ] = x
             return func( args )
         return misc.derivative( wraps, points[ var ], 
-                                   dx=1 / np.power( 10, globalConfig.dtol ) )
+                                dx=1 / np.power( 10, globalConfig.dtol ) )
     
     def dgWrap( g, var=0 ):
         def dgi( mus ):

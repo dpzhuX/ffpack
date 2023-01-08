@@ -7,9 +7,9 @@ from unittest.mock import patch
 
 
 ###############################################################################
-# Test fosm
+# Test fosmMVAL
 ###############################################################################
-def test_fosm_dimLessThanOneCase_valueError():
+def test_fosmMVAL_dimLessThanOneCase_valueError():
     dim = 0
 
     def g( X ): 
@@ -20,10 +20,10 @@ def test_fosm_dimLessThanOneCase_valueError():
     sigmas = [ 3, 4 ]
 
     with pytest.raises( ValueError ):
-        _, _ = rrm.fosm( dim, g, dg, mus, sigmas )
+        _, _ = rrm.fosmMVAL( dim, g, dg, mus, sigmas )
 
 
-def test_fosm_musDimIncorrectCase_valueError():
+def test_fosmMVAL_musDimIncorrectCase_valueError():
     dim = 2
 
     def g( X ): 
@@ -34,10 +34,10 @@ def test_fosm_musDimIncorrectCase_valueError():
     sigmas = [ 3, 4 ]
 
     with pytest.raises( ValueError ):
-        _, _ = rrm.fosm( dim, g, dg, mus, sigmas )
+        _, _ = rrm.fosmMVAL( dim, g, dg, mus, sigmas )
 
 
-def test_fosm_sigmasDimIncorrectCase_valueError():
+def test_fosmMVAL_sigmasDimIncorrectCase_valueError():
     dim = 2
 
     def g( X ): 
@@ -48,11 +48,11 @@ def test_fosm_sigmasDimIncorrectCase_valueError():
     sigmas = [ 3 ]
 
     with pytest.raises( ValueError ):
-        _, _ = rrm.fosm( dim, g, dg, mus, sigmas )
+        _, _ = rrm.fosmMVAL( dim, g, dg, mus, sigmas )
 
 
 @pytest.mark.parametrize( "dgExists", [ 0, 1 ] )
-def test_fosm_twoVariablesCase_scalar( dgExists ):
+def test_fosmMVAL_twoVariablesCase_scalar( dgExists ):
     dim = 2
 
     def g( X ): 
@@ -62,13 +62,13 @@ def test_fosm_twoVariablesCase_scalar( dgExists ):
     mus = [ 1, 1 ]
     sigmas = [ 3, 4 ]
 
-    beta, pf = rrm.fosm( dim, g, dg, mus, sigmas )
+    beta, pf = rrm.fosmMVAL( dim, g, dg, mus, sigmas )
     np.testing.assert_allclose( beta, 1 / np.sqrt( 81 + 64 ) )
     np.testing.assert_allclose( np.round( pf, 4 ), np.round( 0.46692577, 4 ) )
 
 
 @pytest.mark.parametrize( "dgExists", [ 0, 1 ] )
-def test_fosm_threeVariablesCase_scalar( dgExists ):
+def test_fosmMVAL_threeVariablesCase_scalar( dgExists ):
     dim = 3
 
     def g( X ): 
@@ -78,13 +78,13 @@ def test_fosm_threeVariablesCase_scalar( dgExists ):
     mus = [ 10.2, 0.25, 40.3 ]
     sigmas = [ 1.12, 0.025, 4.64 ]
 
-    beta, pf = rrm.fosm( dim, g, dg, mus, sigmas )
+    beta, pf = rrm.fosmMVAL( dim, g, dg, mus, sigmas )
     np.testing.assert_allclose( np.round( beta, 2 ), 3.01 )
     np.testing.assert_allclose( np.round( pf, 4 ), np.round( 0.00130624, 4 ) )
 
 
 @pytest.mark.parametrize( "dgExists", [ 0, 1 ] )
-def test_fosm_fourVariablesCase_scalar( dgExists ):
+def test_fosmMVAL_fourVariablesCase_scalar( dgExists ):
     dim = 4
 
     def g( X ): 
@@ -99,6 +99,6 @@ def test_fosm_fourVariablesCase_scalar( dgExists ):
     mus = [ 4.08, 44, 3.12, 2052 ]
     sigmas = [ 0.08, 4.62, 0.44, 246 ] 
 
-    beta, pf = rrm.fosm( dim, g, dg, mus, sigmas )
+    beta, pf = rrm.fosmMVAL( dim, g, dg, mus, sigmas )
     np.testing.assert_allclose( np.round( beta, 2 ), 2.35 )
     np.testing.assert_allclose( np.round( pf, 4 ), np.round( 0.00938671, 4 ) )
