@@ -10,7 +10,7 @@ All notable changes to this project will be documented in this file.
  
 ### Fixed
  
-## [ 0.3.0 ] - Expected - 2023-01-15
+## [ 0.3.0 ] - 2023-01-08
  
 ### Added
 
