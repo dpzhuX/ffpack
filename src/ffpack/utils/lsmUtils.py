@@ -11,8 +11,8 @@ def countingRstToCountingMatrix( countingRst ):
     Parameters
     ----------
     countingRst: 2d array
-        Rainflow counting result in form of 
-        [ [ rangeStart1, rangeEnd1, count1 ], [ rangeStart2, rangeEnd2, count2 ], ... ].
+        Cycle counting result in form of [ [ rangeStart1, rangeEnd1, count1 ], 
+        [ rangeStart2, rangeEnd2, count2 ], ... ].
     
     Returns
     -------
