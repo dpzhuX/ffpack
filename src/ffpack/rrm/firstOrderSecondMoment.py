@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
 import numpy as np
-from scipy import misc, stats
+from scipy import stats
+from ffpack.utils import derivative
 from ffpack.config import globalConfig 
 
 def fosmMVAL( dim, g, dg, mus, sigmas ):
@@ -63,8 +64,8 @@ def fosmMVAL( dim, g, dg, mus, sigmas ):
         def wraps( x ):
             args[ var ] = x
             return func( args )
-        return misc.derivative( wraps, points[ var ], 
-                                dx=1 / np.power( 10, globalConfig.dtol ) )
+        return derivative( wraps, points[ var ], 
+                           dx=1 / np.power( 10, globalConfig.dtol ) )
     
     def dgWrap( g, var=0 ):
         def dgi( mus ):

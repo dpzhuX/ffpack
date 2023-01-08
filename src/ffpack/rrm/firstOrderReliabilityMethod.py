@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
 import numpy as np
-from scipy import misc, stats, optimize
+from scipy import stats, optimize
+from ffpack.utils import derivative
 from ffpack.config import globalConfig 
 from ffpack import rpm
 
@@ -101,8 +102,8 @@ def formHLRF( dim, g, dg, distObjs, corrMat, iter=1000, tol=1e-6,
         def wraps( x ):
             args[ var ] = x
             return func( args )
-        return misc.derivative( wraps, points[ var ], 
-                                dx=1 / np.power( 10, globalConfig.dtol ) )
+        return derivative( wraps, points[ var ], 
+                           dx=1 / np.power( 10, globalConfig.dtol ) )
     
     def dgWrap( g, var=0 ):
         def dgi( mus ):
