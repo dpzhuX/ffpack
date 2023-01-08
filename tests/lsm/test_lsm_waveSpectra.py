@@ -93,3 +93,117 @@ def test_jonswapSpectrum_normalUseCase_expectedRst():
     expectedRst = alpha * g * g / np.power( w, 5 ) * np.exp( -beta / 16 ) \
         * np.power( gamma, np.exp( -1 / 2.0 / ( 0.09 * 0.09 ) ) )
     np.testing.assert_allclose( np.round( calRst, 4 ), np.round( expectedRst, 4 ) )
+
+
+
+###############################################################################
+# Test isscSpectrum
+###############################################################################
+def test_isscSpectrum_inputNotScalarCase_valueError():
+    # case 1: w is not a scalar
+    w = [ ]
+    wp = 0.2
+    Hs = 20
+    with pytest.raises( ValueError ):
+        _ = lsm.isscSpectrum( w, wp, Hs )
+
+    # case 2: wp is not a scalar
+    w = 0.1
+    wp = [ ]
+    Hs = 20
+    with pytest.raises( ValueError ):
+        _ = lsm.isscSpectrum( w, wp, Hs )
+
+    # case 3: wp is not a scalar
+    w = 0.1
+    wp = 0.2
+    Hs = [ ]
+    with pytest.raises( ValueError ):
+        _ = lsm.isscSpectrum( w, wp, Hs )
+    
+
+def test_isscSpectrum_normalUseCase_expectedRst():
+    wp = 0.04
+    Hs = 20
+
+    # case 1: w = wp
+    w = wp
+    calRst = lsm.isscSpectrum( w, wp, Hs )
+    expectedRst = 5 / 16 * Hs * Hs / w * np.exp( -1.25 )
+    np.testing.assert_allclose( np.round( calRst, 4 ), np.round( expectedRst, 4 ) )
+
+    # case 2: w = 2 * wp
+    w = wp * 2
+    calRst = lsm.isscSpectrum( w, wp, Hs )
+    expectedRst = 5 / 16 * Hs * Hs / 16 / w * np.exp( -1.25 / 16 )
+    np.testing.assert_allclose( np.round( calRst, 4 ), np.round( expectedRst, 4 ) )
+
+    # case 3: w = wp / 2
+    w = wp / 2
+    calRst = lsm.isscSpectrum( w, wp, Hs )
+    expectedRst = 5 / 16 * Hs * Hs * 16 / w * np.exp( -1.25 * 16 )
+    np.testing.assert_allclose( np.round( calRst, 6 ), np.round( expectedRst, 6 ) )
+
+
+
+###############################################################################
+# Test gaussianSwellSpectrum
+###############################################################################
+def test_gaussianSwellSpectrum_inputNotScalarCase_valueError():
+    # case 1: w is not a scalar
+    w = [ ]
+    wp = 0.2
+    Hs = 20
+    sigma = 0.07
+    with pytest.raises( ValueError ):
+        _ = lsm.gaussianSwellSpectrum( w, wp, Hs, sigma )
+
+    # case 2: wp is not a scalar
+    w = 0.1
+    wp = [ ]
+    Hs = 20
+    sigma = 0.07
+    with pytest.raises( ValueError ):
+        _ = lsm.gaussianSwellSpectrum( w, wp, Hs, sigma )
+
+    # case 3: wp is not a scalar
+    w = 0.1
+    wp = 0.2
+    Hs = [ ]
+    sigma = 0.07
+    with pytest.raises( ValueError ):
+        _ = lsm.gaussianSwellSpectrum( w, wp, Hs, sigma )
+
+    # case 4: sigma is not a scalar
+    w = 0.1
+    wp = 0.2
+    Hs = 20
+    sigma = [ ]
+    with pytest.raises( ValueError ):
+        _ = lsm.gaussianSwellSpectrum( w, wp, Hs, sigma )
+
+
+def test_gaussianSwellSpectrum_normalUseCase_expectedRst():
+    wp = 0.04
+    Hs = 20
+    sigma = 0.07
+
+    # case 1: w = wp
+    w = wp
+    calRst = lsm.gaussianSwellSpectrum( w, wp, Hs, sigma )
+    expectedRst = Hs * Hs / ( 16 * sigma * np.power( 2 * np.pi, 1.5 ) )
+    np.testing.assert_allclose( np.round( calRst, 4 ), np.round( expectedRst, 4 ) )
+
+    # case 2: w = 2 * wp
+    w = wp * 2
+    calRst = lsm.gaussianSwellSpectrum( w, wp, Hs, sigma )
+    pexp = np.power( wp / ( 2 * np.pi * sigma ), 2 ) / 2
+    expectedRst = Hs * Hs / ( 16 * sigma * np.power( 2 * np.pi, 1.5 ) ) * np.exp( -pexp )
+    np.testing.assert_allclose( np.round( calRst, 4 ), np.round( expectedRst, 4 ) )
+
+    # case 3: w = wp / 2
+    w = wp / 2
+    calRst = lsm.gaussianSwellSpectrum( w, wp, Hs, sigma )
+    pexp = np.power( wp / ( 4 * np.pi * sigma), 2 ) / 2
+    expectedRst = Hs * Hs / ( 16 * sigma * np.power( 2 * np.pi, 1.5 ) ) * np.exp( -pexp )
+    np.testing.assert_allclose( np.round( calRst, 4 ), np.round( expectedRst, 4 ) )
