@@ -16,3 +16,9 @@ General utils
 
 .. automodule:: ffpack.utils.lccUtils
    :members:
+
+``lsm`` utils
+-------------
+
+.. automodule:: ffpack.utils.lsmUtils
+   :members:

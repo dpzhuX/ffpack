@@ -30,7 +30,7 @@ class NatafTransformation:
     '''
     Nataf distribution for correlated marginal distributions.
     '''
-    def __init__( self, distObjs, corrMat, intDeg=99, intRange=8 ):
+    def __init__( self, distObjs, corrMat, quadDeg=99, quadRange=8 ):
         '''
         Initialize the Nataf distribution.
         
@@ -41,11 +41,11 @@ class NatafTransformation:
             objects with pdf, cdf, ppf. We recommend to use scipy.stats functions.
         corrMat: 2d matrix
             Correlation matrix of the marginal distributions.
-        intDeg: int
+        quadDeg: integer
             Quadrature degree.
-        intRange: scalar
+        quadRange: scalar
             Quadrature range. The integral will be performed in the range
-            [ -intRange, intRange ].
+            [ -quadRange, quadRange ].
         
         Raises
         ------
@@ -60,8 +60,8 @@ class NatafTransformation:
         Examples
         --------
         >>> from ffpack.rpm import NatafTransformation
-        >>> distObjs = [ sp.stats.norm(), sp.stats.norm() ]
-        >>> corrMat = [ [ 1.0, 0.1 ], [ 0.1, 1.0 ] ]
+        >>> distObjs = [ stats.norm(), stats.norm() ]
+        >>> corrMat = [ [ 1.0, 0.5 ], [ 0.5, 1.0 ] ]
         >>> natafDist = NatafTransformation( distObjs=distObjs, corrMat=corrMat )
         '''
 
@@ -90,8 +90,8 @@ class NatafTransformation:
         self.distObjs = distObjs
         self.rhoX = np.array( corrMat )
         self.dim = len( distObjs )
-        self.deg = intDeg
-        self.ran = intRange
+        self.deg = quadDeg
+        self.ran = quadRange
 
         self.rhoZ = np.identity( self.dim )
 

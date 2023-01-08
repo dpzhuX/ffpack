@@ -5,7 +5,8 @@ from scipy import misc, stats, optimize
 from ffpack.config import globalConfig 
 from ffpack import rpm
 
-def formHLRF( dim, g, dg, distObjs, corrMat, iter=1000, tol=1e-6 ):
+def formHLRF( dim, g, dg, distObjs, corrMat, iter=1000, tol=1e-6, 
+              quadDeg=99, quadRange=8 ):
     '''
     First order reliability method based on Hasofer-Lind-Rackwitz-Fiessler algorithm.
 
@@ -29,6 +30,11 @@ def formHLRF( dim, g, dg, distObjs, corrMat, iter=1000, tol=1e-6 ):
         Maximum iteration steps.
     tol: scalar
         Tolerance to demtermine if the iteration converges.
+    quadDeg: integer
+        Quadrature degree for Nataf transformation
+    quadRange: scalar
+        Quadrature range for Nataf transformation. The integral will be performed 
+        in the range [ -quadRange, quadRange ].
     
     Returns
     -------
@@ -64,7 +70,7 @@ def formHLRF( dim, g, dg, distObjs, corrMat, iter=1000, tol=1e-6 ):
     >>> dg = [ lambda X: -1, lambda X: -1 ]
     >>> distObjs = [ stats.norm(), stats.norm() ]
     >>> corrMat = np.eye( dim )
-    >>> beta, pf, uCoord, xCoord = rrm.formHLRF( dim, g, dg, distObjs, corrMat )
+    >>> beta, pf, uCoord, xCoord = formHLRF( dim, g, dg, distObjs, corrMat )
     '''
     # Check edge cases
     if dim < 1:
@@ -106,7 +112,8 @@ def formHLRF( dim, g, dg, distObjs, corrMat, iter=1000, tol=1e-6 ):
     if dg is None:
         dg = [ dgWrap( g, i ) for i in range( dim ) ]
 
-    natafTrans = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat )
+    natafTrans = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat, 
+                                          quadDeg=quadDeg, quadRange=quadRange )
 
     Us = np.ones( [ iter + 1, dim ] )
     alphas = np.zeros_like( Us )
@@ -136,7 +143,7 @@ def formHLRF( dim, g, dg, distObjs, corrMat, iter=1000, tol=1e-6 ):
     return beta, pf, uCoord, xCoord
 
 
-def formCOPT( dim, g, distObjs, corrMat ):
+def formCOPT( dim, g, distObjs, corrMat, quadDeg=99, quadRange=8 ):
     '''
     First order reliability method based on constrained optimization.
 
@@ -151,6 +158,11 @@ def formCOPT( dim, g, distObjs, corrMat ):
         objects with pdf, cdf, ppf. We recommend to use scipy.stats functions.
     corrMat: 2d matrix
         Correlation matrix of the marginal distributions.
+    quadDeg: integer
+        Quadrature degree for Nataf transformation
+    quadRange: scalar
+        Quadrature range for Nataf transformation. The integral will be performed 
+        in the range [ -quadRange, quadRange ].
     
     Returns
     -------
@@ -180,7 +192,7 @@ def formCOPT( dim, g, distObjs, corrMat ):
     >>> g = lambda X: -np.sum( X ) + 1
     >>> distObjs = [ stats.norm(), stats.norm() ]
     >>> corrMat = np.eye( dim )
-    >>> beta, pf, uCoord, xCoord = rrm.formCOPT( dim, g, distObjs, corrMat )
+    >>> beta, pf, uCoord, xCoord = formCOPT( dim, g, distObjs, corrMat )
     '''
     # Check edge cases
     if dim < 1:
@@ -204,7 +216,8 @@ def formCOPT( dim, g, distObjs, corrMat ):
         _ = np.linalg.cholesky( corrMat )
     except np.linalg.LinAlgError:
         raise ValueError( "corrMat should be positive definite" )
-    natafTrans = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat )
+    natafTrans = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat,
+                                          quadDeg=quadDeg, quadRange=quadRange )
 
     u = np.ones( dim )
 

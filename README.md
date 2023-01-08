@@ -36,15 +36,15 @@ pip install ffpack
         * ASTM range pair counting
         * ASTM rainflow counting
         * ASTM rainflow counting for repeating history
-    * Rychlik counting
-        * Rychlik rainflow counting
     * Johannesson counting
         * Johannesson min max counting
+    * Rychlik counting
+        * Rychlik rainflow counting
 
 * Load sequence generator
     * Random walk
         * Uniform random walk
-    * Autoregressive model
+    * Autoregressive moving average model
         * Normal autoregressive (AR) model
         * Normal moving average (MA) model
         * Normal ARMA model
@@ -53,11 +53,14 @@ pip install ffpack
 * Load spectra and matrices
     * Cycle counting matrix
         * ASTM simple range counting matrix
+        * ASTM range pair counting matrix
         * ASTM rainflow counting matrix
+        * ASTM rainflow counting matrix for repeating history
+        * Johannesson min max counting matrix
         * Rychlik rainflow counting matrix
     * Wave Spectra
-        * Pierson Moskowitz spectrum
         * Jonswap spectrum
+        * Pierson Moskowitz spectrum
 
 * Random and probabilistic model
     * Metropolis-Hastings algorithm
@@ -67,13 +70,14 @@ pip install ffpack
 
 * Risk and reliability model
     * First order second moment
-        * fosm
+        * fosmMVAL
     * First order reliability method
         * formHLRF
         * formCOPT
 
 * Utility methods
     * Cycle counting aggregation
+    * Counting results to counting matrix
     * Fitter for SN curve
     * Sequence peak and valleys
     * Sequence degitization

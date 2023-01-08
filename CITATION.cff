@@ -8,7 +8,5 @@ authors:
 - family-names: "Huang"
   given-names: "Xiaogang"
 title: "FFPACK - Fatigue and Fracture PACKage"
-version: v0.2.0
-doi: 10.5281/zenodo.7478425
-date-released: 2022-12-23
+doi: 10.5281/zenodo.7478424
 url: "https://github.com/dpzhuX/ffpack"

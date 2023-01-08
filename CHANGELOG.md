@@ -2,7 +2,7 @@
 # Change Log
 All notable changes to this project will be documented in this file.
  
-## [ 0.3.0 ] - Unreleased
+## [ 0.4.0 ] - Unreleased
  
 ### Added
 
@@ -10,6 +10,31 @@ All notable changes to this project will be documented in this file.
  
 ### Fixed
  
+## [ 0.3.0 ] - 2023-01-08
+ 
+### Added
+
+- (lcc) ASTM range pair counting
+- (lcc) ASTM rainflow counting for repeating history
+- (lcc) Johannesson min max counting
+- (lsg) Normal moving average (MA) model
+- (lsg) Normal ARMA model
+- (lsg) Normal ARIMA model
+- (lsm) ASTM simple range counting matrix
+- (lsm) ASTM range pair counting matrix
+- (lsm) ASTM rainflow counting matrix
+- (lsm) ASTM rainflow counting matrix for repeating history
+- (lsm) Johannesson min max counting matrix
+- (lsm) Rychlik rainflow counting matrix
+- (lsm) Pierson Moskowitz spectrum
+- (lsm) Jonswap spectrum
+- (rpm) Metropolis-Hastings sampler
+- (rpm) Nataf transformation
+- (rrm) fosm
+- (rrm) formHLRF
+- (rrm) formCOPT
+- (utils) Counting results to counting matrix
+
 ## [ 0.2.0 ] - 2022-12-23
  
 ### Added

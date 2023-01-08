@@ -24,26 +24,26 @@ def test_piersonMoskowitzSpectrum_inputNotScalarCase_valueError():
 
 def test_piersonMoskowitzSpectrum_normalUseCase_expectedRst():
     alpha = 0.0081
-    beta = 1.25
+    beta = 0.74
     g = 9.81
 
-    wp = 0.04
+    Uw = 20
 
     # case 1: w = wp
-    w = wp
-    calRst = lsm.piersonMoskowitzSpectrum( w, wp, alpha, beta, g )
+    w = g / Uw
+    calRst = lsm.piersonMoskowitzSpectrum( w, Uw, alpha, beta, g )
     expectedRst = alpha * g * g / np.power( w, 5 ) * np.exp( -beta ) 
     np.testing.assert_allclose( np.round( calRst, 4 ), np.round( expectedRst, 4 ) )
 
     # case 2: w < wp
-    w = wp / 2
-    calRst = lsm.piersonMoskowitzSpectrum( w, wp, alpha, beta, g )
+    w = g / Uw / 2
+    calRst = lsm.piersonMoskowitzSpectrum( w, Uw, alpha, beta, g )
     expectedRst = alpha * g * g / np.power( w, 5 ) * np.exp( -beta * 16 ) 
     np.testing.assert_allclose( np.round( calRst, 4 ), np.round( expectedRst, 4 ) )
 
     # case 3: w > wp
-    w = wp * 2
-    calRst = lsm.piersonMoskowitzSpectrum( w, wp, alpha, beta, g )
+    w = g / Uw * 2
+    calRst = lsm.piersonMoskowitzSpectrum( w, Uw, alpha, beta, g )
     expectedRst = alpha * g * g / np.power( w, 5 ) * np.exp( -beta / 16 ) 
     np.testing.assert_allclose( np.round( calRst, 4 ), np.round( expectedRst, 4 ) )
 
