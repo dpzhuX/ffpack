@@ -369,6 +369,7 @@ def test_centralDiffWeights_ndivIsTwo_array( Np ):
                                 np.round( expectedWeights, 5 ) )
 
 
+
 ###############################################################################
 # Test derivative
 ###############################################################################
@@ -415,4 +416,3 @@ def test_derivative_nonLinearFunCase2_scalar( x0 ):
     calRst = utils.derivative( f, x0, dx=1e-6 )
     expectedRst = df( x0 )
     np.testing.assert_allclose( calRst, expectedRst )
-
