@@ -35,10 +35,6 @@ All notable changes to this project will be documented in this file.
 - (rrm) formCOPT
 - (utils) Counting results to counting matrix
 
-### Changed
- 
-### Fixed
- 
 ## [ 0.2.0 ] - 2022-12-23
  
 ### Added
