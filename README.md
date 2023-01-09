@@ -61,6 +61,9 @@ pip install ffpack
     * Wave Spectra
         * Jonswap spectrum
         * Pierson Moskowitz spectrum
+        * ISSC spectrum
+        * Gaussian Swell spectrum
+        * Ochi-Hubble spectrum
 
 * Random and probabilistic model
     * Metropolis-Hastings algorithm
