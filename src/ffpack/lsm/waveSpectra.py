@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import numpy as np
-
+from scipy import special
 
 def piersonMoskowitzSpectrum( w, Uw, alpha=0.0081, beta=0.74, g=9.81 ):
     '''
@@ -203,4 +203,84 @@ def gaussianSwellSpectrum( w, wp, Hs, sigma ):
     twoPi = 2 * np.pi
     pexp = np.power( ( w - wp ) / ( twoPi * sigma ), 2 ) / 2
     rst = Hs * Hs / ( 16 * sigma * np.power( twoPi, 1.5 ) ) * np.exp( -pexp )
+    return rst
+
+
+
+def ochiHubbleSpectrum( w, wp1, wp2, Hs1, Hs2, lambda1, lambda2 ):
+    '''
+    Ochi-Hubble spectrum covers shapes of wave spectra associated with the growth 
+    and decay of a storm, including swells. [1]_. 
+
+    Parameters
+    ----------
+    w: scalar
+        Wave frequency.
+    wp1, wp2: scalar
+        Peak wave frequency.
+    Hs1, Hs2: scalar
+        Significant wave height.
+    lambda1, lambda2: scalar
+    
+    Returns
+    -------
+    rst: scalar
+        The wave spectrum density value at wave frequency w.
+    
+    Raises
+    ------
+    ValueError
+        If w is not a scalar.
+        If wp1 or wp2 is not a scalar.
+        If Hs1 or Hs2 is not a scalar.
+        If lambda1 or lambda2 is not a scalar.
+        If wp1 is not smaller than wp2.
+
+    Notes
+    -----
+    Hs1 should normally be greater than Hs2 since most of the wave energy tends to 
+    be associated with the lower frequency component.
+
+    Examples
+    --------
+    >>> from ffpack.lsm import ochiHubbleSpectrum
+    >>> w = 0.02
+    >>> wp1 = 0.4
+    >>> wp2 = 0.51
+    >>> Hs1 = 20
+    >>> Hs2 = 15
+    >>> lambda1 = 7
+    >>> lambda2 = 10
+    >>> rst = ochiHubbleSpectrum( w, wp1, wp2, Hs1, Hs2, lambda1, lambda2 )
+
+    References
+    ----------
+    .. [1] Guidance Notes on Selecting Design Wave by Long Term Stochastic Method
+    '''
+    if not isinstance( w, int ) and not isinstance( w, float ):
+        raise ValueError( "w should be a scalar" )
+    if not isinstance( wp1, int ) and not isinstance( wp1, float ):
+        raise ValueError( "wp1 should be a scalar" )
+    if not isinstance( wp2, int ) and not isinstance( wp2, float ):
+        raise ValueError( "wp2 should be a scalar" )
+    if not isinstance( Hs1, int ) and not isinstance( Hs1, float ):
+        raise ValueError( "Hs1 should be a scalar" )
+    if not isinstance( Hs2, int ) and not isinstance( Hs2, float ):
+        raise ValueError( "Hs2 should be a scalar" )
+    if not isinstance( lambda1, int ) and not isinstance( lambda1, float ):
+        raise ValueError( "lambda1 should be a scalar" )
+    if not isinstance( lambda2, int ) and not isinstance( lambda2, float ):
+        raise ValueError( "lambda2 should be a scalar" )
+    if wp1 >= wp2:
+        raise ValueError( "wp1 must be less than wp2" )
+
+    
+    def oneTerm( w, wp, Hs, lambdaVal ):
+        fourLambda = ( 4 * lambdaVal + 1 ) / 4
+        firstPart = np.power( fourLambda * np.power( wp, 4 ), lambdaVal ) / special.gamma( lambdaVal )
+        expc = np.exp( -fourLambda * np.power( wp / w, 4 ) )
+        rst = firstPart * Hs * Hs / np.power( w, fourLambda * 4 ) * expc
+        return rst
+    
+    rst = ( oneTerm( w, wp1, Hs1, lambda1 ) + oneTerm( w, wp2, Hs2, lambda2 ) ) / 4
     return rst

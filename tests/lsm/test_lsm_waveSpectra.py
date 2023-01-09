@@ -114,7 +114,7 @@ def test_isscSpectrum_inputNotScalarCase_valueError():
     with pytest.raises( ValueError ):
         _ = lsm.isscSpectrum( w, wp, Hs )
 
-    # case 3: wp is not a scalar
+    # case 3: Hs is not a scalar
     w = 0.1
     wp = 0.2
     Hs = [ ]
@@ -166,7 +166,7 @@ def test_gaussianSwellSpectrum_inputNotScalarCase_valueError():
     with pytest.raises( ValueError ):
         _ = lsm.gaussianSwellSpectrum( w, wp, Hs, sigma )
 
-    # case 3: wp is not a scalar
+    # case 3: Hs is not a scalar
     w = 0.1
     wp = 0.2
     Hs = [ ]
@@ -206,4 +206,73 @@ def test_gaussianSwellSpectrum_normalUseCase_expectedRst():
     calRst = lsm.gaussianSwellSpectrum( w, wp, Hs, sigma )
     pexp = np.power( wp / ( 4 * np.pi * sigma), 2 ) / 2
     expectedRst = Hs * Hs / ( 16 * sigma * np.power( 2 * np.pi, 1.5 ) ) * np.exp( -pexp )
+    np.testing.assert_allclose( np.round( calRst, 4 ), np.round( expectedRst, 4 ) )
+
+
+
+###############################################################################
+# Test ochiHubbleSpectrum
+###############################################################################
+def test_ochiHubbleSpectrum_inputNotScalarCase_valueError():
+    w = 0.1
+    wp1 = 0.2
+    wp2 = 0.3
+    Hs1 = 20
+    Hs2 = 15
+    lambda1 = 1.5
+    lambda2 = 2.5
+
+    # case 1: w is not a scalar
+    with pytest.raises( ValueError ):
+        _ = lsm.ochiHubbleSpectrum( [ ], wp1, wp2, Hs1, Hs2, lambda1, lambda2 )
+
+    # case 2: wp1 or wp2 is not a scalar
+    with pytest.raises( ValueError ):
+        _ = lsm.ochiHubbleSpectrum( w, [ ], wp2, Hs1, Hs2, lambda1, lambda2 )
+    with pytest.raises( ValueError ):
+        _ = lsm.ochiHubbleSpectrum( w, wp1, [ ], Hs1, Hs2, lambda1, lambda2 )
+
+    # case 3: Hs1 or Hs2 is not a scalar
+    with pytest.raises( ValueError ):
+        _ = lsm.ochiHubbleSpectrum( w, wp1, wp2, [ ], Hs2, lambda1, lambda2 )
+    with pytest.raises( ValueError ):
+        _ = lsm.ochiHubbleSpectrum( w, wp1, wp2, Hs1, [ ], lambda1, lambda2 )
+
+    # case 4: lambda1 or lambda2 is not a scalar
+    with pytest.raises( ValueError ):
+        _ = lsm.ochiHubbleSpectrum( w, wp1, wp2, Hs1, Hs2, [ ], lambda2 )
+    with pytest.raises( ValueError ):
+        _ = lsm.ochiHubbleSpectrum( w, wp1, wp2, Hs1, Hs2, lambda1, [ ] )
+
+
+def test_ochiHubbleSpectrum_wp1NotSmallerThanwp2_valueError():
+    w = 0.1
+    wp2 = 0.3
+    Hs1 = 20
+    Hs2 = 15
+    lambda1 = 1.5
+    lambda2 = 2.5
+
+    # case 1: wp1 = wp2
+    wp1 = wp2
+    with pytest.raises( ValueError ):
+        _ = lsm.ochiHubbleSpectrum( w, wp1, wp2, Hs1, Hs2, lambda1, lambda2 )
+    
+    # case 2: wp1 > wp2
+    wp1 = wp2 * 2
+    with pytest.raises( ValueError ):
+        _ = lsm.ochiHubbleSpectrum( w, wp1, wp2, Hs1, Hs2, lambda1, lambda2 )
+
+
+def test_ochiHubbleSpectrum_normalUseCase_expectedRst():
+    w = 0.1
+    wp1 = 0.2
+    wp2 = 0.3
+    Hs1 = 20000
+    Hs2 = 15000
+    lambda1 = 1.5
+    lambda2 = 2.5
+
+    calRst = lsm.ochiHubbleSpectrum( w, wp1, wp2, Hs1, Hs2, lambda1, lambda2 )
+    expectedRst = 0.1156
     np.testing.assert_allclose( np.round( calRst, 4 ), np.round( expectedRst, 4 ) )

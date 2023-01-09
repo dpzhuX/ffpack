@@ -34,7 +34,7 @@ def astmSimpleRangeCountingMatrix( data, resolution=0.5 ):
 
     Notes
     -----
-    The default round function will round half to even: 1.5, 2.5 => 2.0:
+    The default round function will round half to even: 1.5, 2.5 => 2.0.
 
     Examples
     --------
