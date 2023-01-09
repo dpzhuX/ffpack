@@ -22,3 +22,9 @@ General utils
 
 .. automodule:: ffpack.utils.lsmUtils
    :members:
+
+``misc`` utils
+--------------
+
+.. automodule:: ffpack.utils.miscUtils
+   :members:
