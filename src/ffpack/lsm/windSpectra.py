@@ -70,13 +70,10 @@ def davenportSpectrumWithRoughnessLength( n, uz, z=10, z0=0.03, normalized=True 
         Frequency ( Hz ).
     uz: scalar
         Mean wind speed ( m/s ) measured at height z.
-    z: scalar
-        Height above the ground ( m ).
+    z: scalar, optional
+        Height above the ground ( m ), default to 10 m. 
     z0: scalar, optional
-        Roughness length to mean velocity at 10 m.
-        Default value 0.03 corresponding to open in NIST database [2]_.
-        The recommended value for heavilly built-up urban centers with tall buildings is 0.05.
-        The recommended value for country broken by low clustered obstructions is between 0.015 and 0.02. 
+        Roughness length ( m ), default to 0.03 m corresponding to open exposure case in [2]_.
     normalized: bool, optional
         If normalized is set to False, the power spectrum density will be returned.
     
@@ -90,14 +87,14 @@ def davenportSpectrumWithRoughnessLength( n, uz, z=10, z0=0.03, normalized=True 
     ------
     ValueError
         If n is not a scalar.
-        If delta1 is not a scalar.
+        If uz is not a scalar.
 
     Examples
     --------
     >>> from ffpack.lsm import davenportSpectrumWithRoughnessLength
     >>> n = 2
-    >>> delta1 = 10
-    >>> rst = davenportSpectrumWithRoughnessLength( n, delta1, kappa=0.005, normalized=True )
+    >>> uz = 10
+    >>> rst = davenportSpectrumWithRoughnessLength( n, uz, z=10, z0=0.03, normalized=True )
 
     References
     ----------
