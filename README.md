@@ -79,6 +79,9 @@ pip install ffpack
         * formCOPT
 
 * Utility methods
+    * Derivative
+    * All derivative
+    * Central derivative weights
     * Cycle counting aggregation
     * Counting results to counting matrix
     * Fitter for SN curve
