@@ -2,10 +2,9 @@
 
 import numpy as np
 from scipy import stats
-from ffpack.utils import derivative
-from ffpack.config import globalConfig 
+from ffpack.utils import allDerivative
 
-def fosmMVAL( dim, g, dg, mus, sigmas ):
+def fosmMVAL( dim, g, dg, mus, sigmas, dx=1e-6 ):
     '''
     First order second moment method based on mean value algorithm.
 
@@ -24,6 +23,8 @@ def fosmMVAL( dim, g, dg, mus, sigmas ):
         Mean of the random variables.
     sigmas: 1d array
         Variance of the random variables.
+    dx : scalar, optional
+        Spacing for auto differentiation. Not required if dg is provided.
     
     Returns
     -------
@@ -58,22 +59,8 @@ def fosmMVAL( dim, g, dg, mus, sigmas ):
     if len( mus ) != dim or len( sigmas ) != dim:
         raise ValueError( "length of mus and sigmas should be dim" )
 
-    def partialDerivative( func, var=0, points=[ ] ):
-        args = points[ : ]
-
-        def wraps( x ):
-            args[ var ] = x
-            return func( args )
-        return derivative( wraps, points[ var ], 
-                           dx=1 / np.power( 10, globalConfig.dtol ) )
-    
-    def dgWrap( g, var=0 ):
-        def dgi( mus ):
-            return partialDerivative( g, var=var, points=mus )
-        return dgi
-
     if dg is None:
-        dg = [ dgWrap( g, i ) for i in range( dim ) ]
+        dg = allDerivative( g, dim, n=1, dx=dx )
 
     lsfRst = g( mus )
     a = np.array( [ dgi( mus ) for dgi in dg ] )

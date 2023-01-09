@@ -2,12 +2,11 @@
 
 import numpy as np
 from scipy import stats, optimize
-from ffpack.utils import derivative
-from ffpack.config import globalConfig 
+from ffpack.utils import allDerivative
 from ffpack import rpm
 
 def formHLRF( dim, g, dg, distObjs, corrMat, iter=1000, tol=1e-6, 
-              quadDeg=99, quadRange=8 ):
+              quadDeg=99, quadRange=8, dx=1e-6 ):
     '''
     First order reliability method based on Hasofer-Lind-Rackwitz-Fiessler algorithm.
 
@@ -36,6 +35,8 @@ def formHLRF( dim, g, dg, distObjs, corrMat, iter=1000, tol=1e-6,
     quadRange: scalar
         Quadrature range for Nataf transformation. The integral will be performed 
         in the range [ -quadRange, quadRange ].
+    dx : scalar, optional
+        Spacing for auto differentiation. Not required if dg is provided.
     
     Returns
     -------
@@ -96,22 +97,8 @@ def formHLRF( dim, g, dg, distObjs, corrMat, iter=1000, tol=1e-6,
     except np.linalg.LinAlgError:
         raise ValueError( "corrMat should be positive definite" )
 
-    def partialDerivative( func, var=0, points=[ ] ):
-        args = points[ : ]
-
-        def wraps( x ):
-            args[ var ] = x
-            return func( args )
-        return derivative( wraps, points[ var ], 
-                           dx=1 / np.power( 10, globalConfig.dtol ) )
-    
-    def dgWrap( g, var=0 ):
-        def dgi( mus ):
-            return partialDerivative( g, var=var, points=mus )
-        return dgi
-
     if dg is None:
-        dg = [ dgWrap( g, i ) for i in range( dim ) ]
+        dg = allDerivative( g, dim, n=1, dx=dx )
 
     natafTrans = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat, 
                                           quadDeg=quadDeg, quadRange=quadRange )
