@@ -63,7 +63,7 @@ pip install ffpack
         * Pierson Moskowitz spectrum
         * ISSC spectrum
         * Gaussian Swell spectrum
-        * Ochi-Hubble 
+        * Ochi-Hubble spectrum
     * Wind spectra
         * Davenport spectrum with drag coefficient
         * Davenport spectrum with roughness length
