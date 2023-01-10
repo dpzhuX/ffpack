@@ -80,11 +80,12 @@ pip install ffpack
 
 * Utility methods
     * Derivative
-    * All derivative
     * Central derivative weights
     * Cycle counting aggregation
     * Counting results to counting matrix
     * Fitter for SN curve
+    * Gradient
+    * Hessian matrix
     * Sequence peak and valleys
     * Sequence degitization
 

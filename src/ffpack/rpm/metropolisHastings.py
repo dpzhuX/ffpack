@@ -37,7 +37,7 @@ class MetropolisHastingsSampler:
         >>> targetPdf = lambda x : 0 if x < 0 else np.exp( -x )
         >>> proposalCSampler = lambda x : np.random.normal( x, 1 )
         >>> mhSampler = MetropolisHastingsSampler( initialVal, targetPdf, 
-        >>>                                        proposalCsampler )
+        ...                                        proposalCsampler )
         '''
         if initialVal is None:
             raise ValueError( "initialVal cannot be None" )
