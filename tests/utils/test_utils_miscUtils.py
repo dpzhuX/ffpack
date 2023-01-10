@@ -116,39 +116,39 @@ def test_derivative_nonLinearFunCase2_scalar( x0 ):
 
 
 ###############################################################################
-# Test allDerivative
+# Test gradient
 ###############################################################################
-def test_allDerivative_nvarFloat_valueError():
+def test_gradient_nvarFloat_valueError():
     f = lambda x: 2 * x 
     with pytest.raises( ValueError ):
-        _ = utils.allDerivative( f, 1.0, n=1, dx=1e-6, order=1 )
+        _ = utils.gradient( f, 1.0, n=1, dx=1e-6, order=1 )
 
 
-def test_allDerivative_nFloat_valueError():
+def test_gradient_nFloat_valueError():
     f = lambda x: 2 * x 
     with pytest.raises( ValueError ):
-        _ = utils.allDerivative( f, 1, n=1.0, dx=1e-6, order=1 )
+        _ = utils.gradient( f, 1, n=1.0, dx=1e-6, order=1 )
 
 
-def test_allDerivative_orderFloat_valueError():
+def test_gradient_orderFloat_valueError():
     f = lambda x: 2 * x 
     with pytest.raises( ValueError ):
-        _ = utils.allDerivative( f, 1, n=1, dx=1e-6, order=1.0 )
+        _ = utils.gradient( f, 1, n=1, dx=1e-6, order=1.0 )
 
 
-def test_allDerivative_orderLeNPlusOne_valueError():
+def test_gradient_orderLeNPlusOne_valueError():
     f = lambda x: 2 * x 
     with pytest.raises( ValueError ):
-        _ = utils.allDerivative( f, 1, n=1, dx=1e-6, order=1 )
+        _ = utils.gradient( f, 1, n=1, dx=1e-6, order=1 )
 
     with pytest.raises( ValueError ):
-        _ = utils.allDerivative( f, 1, n=3, dx=1e-6, order=3 )
+        _ = utils.gradient( f, 1, n=3, dx=1e-6, order=3 )
 
 
-def test_allDerivative_orderIsEven_valueError():
+def test_gradient_orderIsEven_valueError():
     f = lambda x: 2 * x 
     with pytest.raises( ValueError ):
-        _ = utils.allDerivative( f, 1, n=1, dx=1e-6, order=4 )
+        _ = utils.gradient( f, 1, n=1, dx=1e-6, order=4 )
 
 
 @pytest.mark.parametrize( "X0", [ [  0.54243825, 3.58920411 ],
@@ -161,11 +161,11 @@ def test_allDerivative_orderIsEven_valueError():
                                   [  4.6750192, 1.74839702 ],
                                   [  2.05152893, -2.28757323 ],
                                   [ -3.41602264, 4.17722564 ] ] )
-def test_allDerivative_firstDerivativeCase1_funcList( X0 ):
+def test_gradient_firstDerivativeCase1_funcList( X0 ):
     nvar = 2
     func = lambda X: X[ 0 ] ** 3 + 2 * X[ 1 ] ** 2
 
-    calRst = utils.allDerivative( func, nvar, n=1 )
+    calRst = utils.gradient( func, nvar, n=1 )
     expectedRst = [ lambda X: 3 * X[ 0 ] ** 2,
                     lambda X: 4 * X[ 1 ] ]
     for i in range( nvar ):
@@ -183,11 +183,11 @@ def test_allDerivative_firstDerivativeCase1_funcList( X0 ):
                                   [  4.6750192, 1.74839702 ],
                                   [  2.05152893, -2.28757323 ],
                                   [ -3.41602264, 4.17722564 ] ] )
-def test_allDerivative_firstDerivativeCase2_funcList( X0 ):
+def test_gradient_firstDerivativeCase2_funcList( X0 ):
     nvar = 2
     func = lambda X: X[ 0 ] * X[ 1 ]
 
-    calRst = utils.allDerivative( func, nvar, n=1 )
+    calRst = utils.gradient( func, nvar, n=1 )
     expectedRst = [ lambda X: X[ 1 ],
                     lambda X: X[ 0 ] ]
     for i in range( nvar ):
@@ -205,11 +205,11 @@ def test_allDerivative_firstDerivativeCase2_funcList( X0 ):
                                   [  4.6750192, 1.74839702 ],
                                   [  2.05152893, -2.28757323 ],
                                   [ -3.41602264, 4.17722564 ] ] )
-def test_allDerivative_secondDerivativeCase_funcList( X0 ):
+def test_gradient_secondDerivativeCase_funcList( X0 ):
     nvar = 2
     func = lambda X: np.sin( X[ 0 ] ) + np.cos( X[ 1 ] )
 
-    calRst = utils.allDerivative( func, nvar, n=2 )
+    calRst = utils.gradient( func, nvar, n=2 )
     expectedRst = [ lambda X: -np.sin( X[ 0 ] ),
                     lambda X: -np.cos( X[ 1 ] ) ]
     for i in range( nvar ):
@@ -227,13 +227,115 @@ def test_allDerivative_secondDerivativeCase_funcList( X0 ):
                                   [  4.6750192, 1.74839702 ],
                                   [  2.05152893, -2.28757323 ],
                                   [ -3.41602264, 4.17722564 ] ] )
-def test_allDerivative_thirdDerivativeCase_funcList( X0 ):
+def test_gradient_thirdDerivativeCase_funcList( X0 ):
     nvar = 2
     func = lambda X: np.sin( X[ 0 ] ) + np.cos( X[ 1 ] )
 
-    calRst = utils.allDerivative( func, nvar, n=3, order=5 )
+    calRst = utils.gradient( func, nvar, n=3, order=5 )
     expectedRst = [ lambda X: -np.cos( X[ 0 ] ),
                     lambda X: np.sin( X[ 1 ] ) ]
     for i in range( nvar ):
         np.testing.assert_array_almost_equal( np.round( calRst[ i ]( X0 ), 4 ), 
                                               np.round( expectedRst[ i ]( X0 ), 4 ) )
+
+
+
+###############################################################################
+# Test hessianMatrix
+###############################################################################
+def test_hessianMatrix_nvarFloat_valueError():
+    f = lambda x: 2 * x 
+    with pytest.raises( ValueError ):
+        _ = utils.hessianMatrix( f, 1.0, order=1 )
+
+
+def test_hessianMatrix_orderFloat_valueError():
+    f = lambda x: 2 * x 
+    with pytest.raises( ValueError ):
+        _ = utils.hessianMatrix( f, 1, order=1.0 )
+
+
+def test_hessianMatrix_orderLessThanTwo_valueError():
+    f = lambda x: 2 * x 
+    with pytest.raises( ValueError ):
+        _ = utils.hessianMatrix( f, 1, order=1 )
+
+
+def test_hessianMatrix_orderIsEven_valueError():
+    f = lambda x: 2 * x 
+    with pytest.raises( ValueError ):
+        _ = utils.hessianMatrix( f, 1, order=4 )
+
+
+@pytest.mark.parametrize( "X0", [ [ 1.61602378, -4.94116864 ],
+                                  [ 4.0033936, 3.12173675 ],
+                                  [ -1.51312699, 3.51727796 ],
+                                  [ 0.71862666, -2.12548495 ],
+                                  [ -0.74387206, -0.8112535 ],
+                                  [ -3.27601503, -4.70943603 ],
+                                  [ -2.85804114, 1.21872224 ],
+                                  [ 3.28061154, 2.99846638 ],
+                                  [ -0.9939455, -1.19581386 ],
+                                  [ 2.64081875, 4.84766039 ] ] )
+def test_hessianMatrix_linearCase_funcList( X0 ):
+    nvar = 2
+    func = lambda X: X[ 0 ] ** 3 + 2 * X[ 1 ] ** 2
+
+    calRst = utils.hessianMatrix( func, nvar )
+    expectedRst = [ [ lambda X: 6 * X[ 0 ], lambda X: 0 ],
+                    [ lambda X: 0, lambda X: 4 ] ]
+    for i in range( nvar ):
+        for j in range( nvar ):
+            np.testing.assert_array_almost_equal( 
+                np.round( calRst[ i ][ j ]( X0 ), 4 ), 
+                np.round( expectedRst[ i ][ j ]( X0 ), 4 ) )
+
+
+@pytest.mark.parametrize( "X0", [ [ 1.61602378, -4.94116864 ],
+                                  [ 4.0033936, 3.12173675 ],
+                                  [ -1.51312699, 3.51727796 ],
+                                  [ 0.71862666, -2.12548495 ],
+                                  [ -0.74387206, -0.8112535 ],
+                                  [ -3.27601503, -4.70943603 ],
+                                  [ -2.85804114, 1.21872224 ],
+                                  [ 3.28061154, 2.99846638 ],
+                                  [ -0.9939455, -1.19581386 ],
+                                  [ 2.64081875, 4.84766039 ] ] )
+def test_hessianMatrix_nonLinearCase_funcList( X0 ):
+    nvar = 2
+    func = lambda X: ( X[ 0 ] ** 2 ) * ( X[ 1 ] ** 2 )
+
+    calRst = utils.hessianMatrix( func, nvar )
+    expectedRst = [ [ lambda X: 2 * X[ 1 ] ** 2, lambda X: 4 * X[ 0 ] * X[ 1 ] ],
+                    [ lambda X: 4 * X[ 0 ] * X[ 1 ], lambda X: 2 * X[ 0 ] ** 2 ] ]
+    for i in range( nvar ):
+        for j in range( nvar ):
+            np.testing.assert_array_almost_equal( 
+                np.round( calRst[ i ][ j ]( X0 ), 4 ), 
+                np.round( expectedRst[ i ][ j ]( X0 ), 4 ) )
+
+
+@pytest.mark.parametrize( "X0", [ [ 1.61602378, -4.94116864 ],
+                                  [ 4.0033936, 3.12173675 ],
+                                  [ -1.51312699, 3.51727796 ],
+                                  [ 0.71862666, -2.12548495 ],
+                                  [ -0.74387206, -0.8112535 ],
+                                  [ -3.27601503, -4.70943603 ],
+                                  [ -2.85804114, 1.21872224 ],
+                                  [ 3.28061154, 2.99846638 ],
+                                  [ -0.9939455, -1.19581386 ],
+                                  [ 2.64081875, 4.84766039 ] ] )
+def test_hessianMatrix_trigonometricCase_funcList( X0 ):
+    nvar = 2
+    func = lambda X: np.sin( X[ 0 ] ) * np.cos( X[ 1 ] )
+
+    calRst = utils.hessianMatrix( func, nvar )
+    expectedRst = [ [ lambda X: -np.sin( X[ 0 ] ) * np.cos( X[ 1 ] ), 
+                      lambda X: -np.cos( X[ 0 ] ) * np.sin( X[ 1 ] ) ],
+                    [ lambda X: -np.cos( X[ 0 ] ) * np.sin( X[ 1 ] ), 
+                      lambda X: -np.sin( X[ 0 ] ) * np.cos( X[ 1 ] ) ] ]
+    for i in range( nvar ):
+        for j in range( nvar ):
+            np.testing.assert_array_almost_equal( 
+                np.round( calRst[ i ][ j ]( X0 ), 4 ), 
+                np.round( expectedRst[ i ][ j ]( X0 ), 4 ) )

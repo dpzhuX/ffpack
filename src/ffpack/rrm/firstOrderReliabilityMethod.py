@@ -2,7 +2,7 @@
 
 import numpy as np
 from scipy import stats, optimize
-from ffpack.utils import allDerivative
+from ffpack.utils import gradient
 from ffpack import rpm
 
 def formHLRF( dim, g, dg, distObjs, corrMat, iter=1000, tol=1e-6, 
@@ -98,7 +98,7 @@ def formHLRF( dim, g, dg, distObjs, corrMat, iter=1000, tol=1e-6,
         raise ValueError( "corrMat should be positive definite" )
 
     if dg is None:
-        dg = allDerivative( g, dim, n=1, dx=dx )
+        dg = gradient( g, dim, n=1, dx=dx )
 
     natafTrans = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat, 
                                           quadDeg=quadDeg, quadRange=quadRange )

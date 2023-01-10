@@ -210,7 +210,7 @@ def gaussianSwellSpectrum( w, wp, Hs, sigma ):
 def ochiHubbleSpectrum( w, wp1, wp2, Hs1, Hs2, lambda1, lambda2 ):
     '''
     Ochi-Hubble spectrum covers shapes of wave spectra associated with the growth 
-    and decay of a storm, including swells. [1]_. 
+    and decay of a storm, including swells. [2]_. 
 
     Parameters
     ----------
@@ -255,7 +255,7 @@ def ochiHubbleSpectrum( w, wp1, wp2, Hs1, Hs2, lambda1, lambda2 ):
 
     References
     ----------
-    .. [1] Guidance Notes on Selecting Design Wave by Long Term Stochastic Method
+    .. [2] Guidance Notes on Selecting Design Wave by Long Term Stochastic Method
     '''
     if not isinstance( w, int ) and not isinstance( w, float ):
         raise ValueError( "w should be a scalar" )

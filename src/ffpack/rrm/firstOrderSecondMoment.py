@@ -2,7 +2,7 @@
 
 import numpy as np
 from scipy import stats
-from ffpack.utils import allDerivative
+from ffpack.utils import gradient
 
 def fosmMVAL( dim, g, dg, mus, sigmas, dx=1e-6 ):
     '''
@@ -60,7 +60,7 @@ def fosmMVAL( dim, g, dg, mus, sigmas, dx=1e-6 ):
         raise ValueError( "length of mus and sigmas should be dim" )
 
     if dg is None:
-        dg = allDerivative( g, dim, n=1, dx=dx )
+        dg = gradient( g, dim, n=1, dx=dx )
 
     lsfRst = g( mus )
     a = np.array( [ dgi( mus ) for dgi in dg ] )
