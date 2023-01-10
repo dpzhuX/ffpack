@@ -3,6 +3,7 @@
 import numpy as np
 from scipy import special
 
+
 def piersonMoskowitzSpectrum( w, Uw, alpha=0.0081, beta=0.74, g=9.81 ):
     '''
     Pierson Moskowitz spectrum is an empirical relationship 

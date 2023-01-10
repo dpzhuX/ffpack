@@ -58,12 +58,15 @@ pip install ffpack
         * ASTM rainflow counting matrix for repeating history
         * Johannesson min max counting matrix
         * Rychlik rainflow counting matrix
-    * Wave Spectra
+    * Wave spectra
         * Jonswap spectrum
         * Pierson Moskowitz spectrum
         * ISSC spectrum
         * Gaussian Swell spectrum
         * Ochi-Hubble spectrum
+    * Wind spectra
+        * Davenport spectrum with drag coefficient
+        * Davenport spectrum with roughness length
 
 * Random and probabilistic model
     * Metropolis-Hastings algorithm
