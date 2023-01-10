@@ -10,7 +10,8 @@ def davenportSpectrumWithDragCoef( n, delta1, kappa=0.005, normalized=True ):
     Parameters
     ----------
     n: scalar
-        Frequency ( Hz ).
+        Frequency ( Hz ) when normalized=False.
+        Normalized frequency when normalized=True.
     delta1: scalar
         Velocity ( m/s ) at standard reference height of 10 m.
     kappa: scalar, optional
@@ -50,12 +51,16 @@ def davenportSpectrumWithDragCoef( n, delta1, kappa=0.005, normalized=True ):
     if not isinstance( delta1, int ) and not isinstance( delta1, float ):
         raise ValueError( "Uw should be a scalar" )
 
-    x = 1200 * n / delta1
-    rst = 4.0 * x * x / np.power( 1 + x * x, 4 / 3 )
-    if normalized:
+    def rightPart( x ):
+        rst = 4.0 * x * x / np.power( 1 + x * x, 4 / 3 )
         return rst
+
+    if normalized:
+        x = 120 * n
+        return rightPart( x )
     
-    rst = rst * kappa * delta1 * delta1 / n
+    x = 1200 * n / delta1
+    rst = rightPart( x ) * kappa * delta1 * delta1 / n
     return rst
 
 
@@ -67,7 +72,8 @@ def davenportSpectrumWithRoughnessLength( n, uz, z=10, z0=0.03, normalized=True 
     Parameters
     ----------
     n: scalar
-        Frequency ( Hz ).
+        Frequency ( Hz ) when normalized=False.
+        Normalized frequency when normalized=True.
     uz: scalar
         Mean wind speed ( m/s ) measured at height z.
     z: scalar, optional
@@ -109,11 +115,15 @@ def davenportSpectrumWithRoughnessLength( n, uz, z=10, z0=0.03, normalized=True 
     if not isinstance( uz, int ) and not isinstance( uz, float ):
         raise ValueError( "uz should be a scalar" )
 
-    x = 1200 * n / uz
-    rst = 4.0 * x * x / np.power( 1 + x * x, 4 / 3 )
-    if normalized:
+    def rightPart( x ):
+        rst = 4.0 * x * x / np.power( 1 + x * x, 4 / 3 )
         return rst
     
+    if normalized:
+        x = 1200 / z * n
+        return rightPart( x )
+    
+    x = 1200 * n / uz
     uf = 0.4 * uz / np.log( z / z0 )
-    rst = rst * uf * uf / n
+    rst = rightPart( x ) * uf * uf / n
     return rst

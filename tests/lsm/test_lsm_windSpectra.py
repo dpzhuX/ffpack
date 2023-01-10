@@ -28,13 +28,15 @@ def test_davenportSpectrumWithDragCoef_normalUseCase_expectedRst():
 
     # case 1: normalized
     calRst = lsm.davenportSpectrumWithDragCoef( n, delta1 )
-    x = 1200 * n / delta1
+    x = 120 * n
     expectedRst = 4.0 * x * x / np.power( 1 + x * x, 4 / 3 )
     np.testing.assert_allclose( np.round( calRst, 4 ), np.round( expectedRst, 4 ) )
 
     # case 2: not normalized 
     calRst = lsm.davenportSpectrumWithDragCoef( n, delta1, normalized=False )
-    expectedRst = expectedRst * kappa * delta1 * delta1 / n
+    x = 1200 * n / delta1
+    right = 4.0 * x * x / np.power( 1 + x * x, 4 / 3 )
+    expectedRst = right * kappa * delta1 * delta1 / n
     np.testing.assert_allclose( np.round( calRst, 4 ), np.round( expectedRst, 4 ) )
 
 
@@ -69,8 +71,10 @@ def test_davenportSpectrumWithRoughnessLength_normalUseCase_expectedRst():
 
     # case 2: not normalized 
     calRst = lsm.davenportSpectrumWithRoughnessLength( n, uz, normalized=False )
+    x = 1200 * n / uz
+    right = 4.0 * x * x / np.power( 1 + x * x, 4 / 3 )
     uf = 0.4 * uz / np.log( z / z0 )
-    expectedRst = expectedRst * uf * uf / n
+    expectedRst = right * uf * uf / n
     np.testing.assert_allclose( np.round( calRst, 4 ), np.round( expectedRst, 4 ) )
 
 
