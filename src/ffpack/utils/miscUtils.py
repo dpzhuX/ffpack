@@ -58,11 +58,11 @@ def centralDiffWeights( Np, ndiv=1 ):
     from scipy import linalg
 
     ho = Np >> 1
-    x = np.arange(-ho, ho + 1.0)
+    x = np.arange( -ho, ho + 1.0 )
     x = x[ :, np.newaxis ]
     X = x**0.0
     for k in range( 1, Np ):
-        X = np.hstack( [ X, x**k ] )
+        X = np.hstack( [ X, x ** k ] )
     w = np.prod( np.arange( 1, ndiv + 1 ), axis=0 ) * linalg.inv( X )[ ndiv ]
     return w
 
@@ -194,13 +194,13 @@ def gradient( func, nvar, n=1, dx=1e-3, order=3 ):
     >>> [ lambda X: 6 * X[ 0 ], lambda X: 2 ]
     '''
     if not isinstance( nvar, int ):
-        raise ValueError( "nvar should be integer. ")
+        raise ValueError( "nvar should be integer. " )
 
     if not isinstance( n, int ):
-        raise ValueError( "n should be integer. ")
+        raise ValueError( "n should be integer. " )
 
     if not isinstance( order, int ):
-        raise ValueError( "order should be integer. ")
+        raise ValueError( "order should be integer. " )
 
     if order < n + 1:
         raise ValueError(
@@ -270,10 +270,10 @@ def hessianMatrix( func, nvar, dx=1e-3, order=3 ):
     '''
     # Check edge cases
     if not isinstance( nvar, int ):
-        raise ValueError( "nvar should be integer. ")
+        raise ValueError( "nvar should be integer. " )
 
     if not isinstance( order, int ):
-        raise ValueError( "order should be integer. ")
+        raise ValueError( "order should be integer. " )
 
     if order < 2:
         raise ValueError(
