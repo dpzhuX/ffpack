@@ -289,3 +289,51 @@ def iecSpectrum( f, vhub, sigma=0.03, z=10, k=1, normalized=True ):
     nf = f * lk / vhub
     rst = rightPart( nf ) * sigmak * sigmak / f
     return rst
+
+
+
+def apiSpectrum( f, u0, z=10 ):
+    '''
+    API spectrum is implemented according to [API2007]_.
+
+    Parameters
+    ----------
+    f: scalar
+        Frequency ( Hz ).
+    u0: scalar
+        1 hour mean wind speed ( m/s ) at 10 m above sea level.
+    
+    Returns
+    -------
+    rst: scalar
+        Power spectrum density ( m^2 s^-2 Hz^-1 ).
+    
+    Raises
+    ------
+    ValueError
+        If n is not a scalar.
+        If uz is not a scalar.
+
+    Examples
+    --------
+    >>> from ffpack.lsm import apiSpectrum
+    >>> n = 2
+    >>> uz = 10
+    >>> rst = apiSpectrum( n, uz )
+
+    References
+    ----------
+    .. [API2007] API, 2007. Recommended practice 2A-WSD (RP 2A-WSD): 
+       Recommnded practice for planning, designing and constructing fixed offshore 
+       platforms - working stress design.
+    '''
+    if not isinstance( f, int ) and not isinstance( f, float ):
+        raise ValueError( "f should be a scalar" )
+    if not isinstance( u0, int ) and not isinstance( u0, float ):
+        raise ValueError( "u0 should be a scalar" )
+
+    n = 0.468
+    ftilde = 172 * f * np.power( z / 10, 2 / 3 ) * np.power( u0 / 10, -0.75 )
+    rst = 320 * np.power( u0 / 10, 2 ) * np.power( z / 10, 0.45 ) 
+    rst = rst / np.power( 1 + np.power( ftilde, n ), 5 / ( 3 * n ) )
+    return rst

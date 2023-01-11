@@ -222,7 +222,7 @@ def test_ec1Spectrum_notNormalizedUseCase_expectedRst():
 # Test iecSpectrum
 ###############################################################################
 def test_iecSpectrum_inputNotScalarCase_valueError():
-    n = 2
+    f = 2
     vhub = 10
 
     # case 1: n is not a scalar
@@ -231,7 +231,7 @@ def test_iecSpectrum_inputNotScalarCase_valueError():
 
     # case 2: vhub is not a scalar
     with pytest.raises( ValueError ):
-        _ = lsm.iecSpectrum( n, [ ] )
+        _ = lsm.iecSpectrum( f, [ ] )
 
 
 def test_iecSpectrum_kIncorrect_valueError():
@@ -307,4 +307,33 @@ def test_iecSpectrum_notNormalizedUseCase_expectedRst():
     z = 40
     calRst = lsm.iecSpectrum( f, vhub, sigma=sigma, z=z, k=k, normalized=False )
     expectedRst = rstCalc( sigma * 0.5, 0.7 * z * 0.66 )
+    np.testing.assert_allclose( np.round( calRst, 4 ), np.round( expectedRst, 4 ) )
+
+
+
+###############################################################################
+# Test apiSpectrum
+###############################################################################
+def test_apiSpectrum_inputNotScalarCase_valueError():
+    f = 2
+    u0 = 10
+
+    # case 1: f is not a scalar
+    with pytest.raises( ValueError ):
+        _ = lsm.apiSpectrum( [ ], u0 )
+
+    # case 2: u0 is not a scalar
+    with pytest.raises( ValueError ):
+        _ = lsm.apiSpectrum( f, [ ] )
+
+
+def test_apiSpectrum_normalUseCase_expectedRst():
+    f = 2
+    u0 = 10
+    calRst = lsm.apiSpectrum( f, u0, z=10 )
+
+    n = 0.468
+    ftilde = 172 * f * np.power( u0 / 10, -0.75 )
+    expectedRst = 320 * np.power( u0 / 10, 2 ) 
+    expectedRst = expectedRst / np.power( 1 + np.power( ftilde, n ), 5 / ( 3 * n ) )
     np.testing.assert_allclose( np.round( calRst, 4 ), np.round( expectedRst, 4 ) )
