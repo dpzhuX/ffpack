@@ -50,9 +50,9 @@ def davenportSpectrumWithDragCoef( n, delta1, kappa=0.005, normalized=True ):
        Society, 87(372), pp.194-211.
     '''
     if not isinstance( n, int ) and not isinstance( n, float ):
-        raise ValueError( "w should be a scalar" )
+        raise ValueError( "n should be a scalar" )
     if not isinstance( delta1, int ) and not isinstance( delta1, float ):
-        raise ValueError( "Uw should be a scalar" )
+        raise ValueError( "delta1 should be a scalar" )
 
     def rightPart( x ):
         rst = 4.0 * x * x / np.power( 1 + x * x, 4 / 3 )
@@ -118,7 +118,7 @@ def davenportSpectrumWithRoughnessLength( n, uz, z=10, z0=0.03, normalized=True 
        Laboratory, Univ. of Western Ontario.
     '''
     if not isinstance( n, int ) and not isinstance( n, float ):
-        raise ValueError( "w should be a scalar" )
+        raise ValueError( "n should be a scalar" )
     if not isinstance( uz, int ) and not isinstance( uz, float ):
         raise ValueError( "uz should be a scalar" )
 
@@ -133,4 +133,159 @@ def davenportSpectrumWithRoughnessLength( n, uz, z=10, z0=0.03, normalized=True 
     x = 1200 * n / uz
     uf = 0.4 * uz / np.log( z / z0 )
     rst = rightPart( x ) * uf * uf / n
+    return rst
+
+
+
+def ec1Spectrum( n, uz, sigma=0.03, z=10, tcat=0, normalized=True ):
+    '''
+    EC1 spectrum is implemented according to Annex B [EN1991-1-42005]_.
+
+    Parameters
+    ----------
+    n: scalar
+        Frequency ( Hz ) when normalized=False.
+        Normalized frequency when normalized=True.
+    uz: scalar
+        Mean wind speed ( m/s ) measured at height z.
+    sigma: scalar, optional
+        Standard derivation of wind.  
+    z: scalar, optional
+        Height above the ground ( m ), default to 10 m. 
+    tcat: scalar, optional
+        Terrain category, could be 0, 1, 2, 3, 4
+        Default to 0 (sea or coastal area exposed to the open sea) in EC1 Table 4.1.
+    normalized: bool, optional
+        If normalized is set to False, the power spectrum density will be returned.
+    
+    Returns
+    -------
+    rst: scalar
+        Power spectrum density ( m^2 s^-2 Hz^-1 ) when normalized=False.
+        Normalized power spectrum density when normalized=True.
+    
+    Raises
+    ------
+    ValueError
+        If n is not a scalar.
+        If uz is not a scalar.
+        If tcat is not int or not within range of 0 to 4
+
+    Examples
+    --------
+    >>> from ffpack.lsm import ec1Spectrum
+    >>> n = 2
+    >>> uz = 10
+    >>> rst = ec1Spectrum( n, uz, sigma=0.03, z=10, tcat=0, normalized=True )
+
+    References
+    ----------
+    .. [EN1991-1-42005] EN1991-1-4, 2005. Eurocode 1: Actions on structures.
+    '''
+    if not isinstance( n, int ) and not isinstance( n, float ):
+        raise ValueError( "n should be a scalar" )
+    if not isinstance( uz, int ) and not isinstance( uz, float ):
+        raise ValueError( "uz should be a scalar" )
+    if not isinstance( tcat, int ):
+        raise ValueError( "tcat should be an integer" )
+    if tcat < 0 or tcat > 4:
+        raise ValueError( "tcat could only be 0, 1, 2, 3, or 4" )
+
+    def rightPart( x ):
+        rst = 6.8 * x / np.power( 1 + 10.2 * x, 5 / 3 )
+        return rst
+    
+    if normalized:
+        return rightPart( n )
+    
+    options = { 0: [ 0.003, 1 ], 
+                1: [ 0.01, 1 ],
+                2: [ 0.05, 2 ],
+                3: [ 0.3, 5 ],
+                4: [ 1.0, 10 ] }
+    [ z0, zmin ] = options[ tcat ]
+
+    alpha = 0.67 + 0.05 * np.log( z0 )
+    lz = 300 * np.power( max( z, zmin ) / 200, alpha )
+    f = n * lz / uz
+    rst = rightPart( f ) * sigma * sigma / n
+    return rst
+
+
+
+def iecSpectrum( f, vhub, sigma=0.03, z=10, k=1, normalized=True ):
+    '''
+    IEC spectrum is implemented according to [IEC2005]_.
+
+    Parameters
+    ----------
+    f: scalar
+        Frequency ( Hz ) when normalized=False.
+        Normalized frequency when normalized=True.
+    vhub: scalar
+        Mean wind speed ( m/s ).
+    sigma: scalar, optional
+        Standard derivation of the turblent wind speed component.  
+    z: scalar, optional
+        Height above the ground ( m ), default to 10 m. 
+    k: scalar, optional
+        Wind speed direction, could be 1, 2, 3
+        ( 1 = longitudinal, 2 = lateral, and 3 = upward )
+        Default to 1 (longitudinal).
+    normalized: bool, optional
+        If normalized is set to False, the power spectrum density will be returned.
+    
+    Returns
+    -------
+    rst: scalar
+        Single-sided velocity component power spectrum density ( m^2 s^-2 Hz^-1 ) 
+        when normalized=False.
+        Normalized single-sided velocity component power spectrum density 
+        when normalized=True.
+    
+    Raises
+    ------
+    ValueError
+        If n is not a scalar.
+        If uz is not a scalar.
+        If k is not int or not within range of 1 to 3
+
+    Examples
+    --------
+    >>> from ffpack.lsm import iecSpectrum
+    >>> n = 2
+    >>> vhub = 10
+    >>> rst = iecSpectrum( n, vhub, sigma=0.03, z=10, k=1, normalized=True )
+
+    References
+    ----------
+    .. [IEC2005] IEC, 2005. IEC 61400-1, Wind turbines - Part 1: Design requirements.
+    '''
+    if not isinstance( f, int ) and not isinstance( f, float ):
+        raise ValueError( "f should be a scalar" )
+    if not isinstance( vhub, int ) and not isinstance( vhub, float ):
+        raise ValueError( "vhub should be a scalar" )
+    if not isinstance( k, int ):
+        raise ValueError( "k should be an integer" )
+    if k < 1 or k > 3:
+        raise ValueError( "k could only be 1, 2, or 3" )
+
+    def rightPart( f ):
+        rst = 4 * f / np.power( 1 + 6 * f, 5 / 3 ) 
+        return rst 
+
+    if normalized:
+        return rightPart( f )
+
+    lambda1 = 0.7 * z
+    if z >= 60:
+        lambda1 = 42
+    
+    factors = { 1: [ 1, 8.1 ],
+                2: [ 0.8, 2.7 ],
+                3: [ 0.5, 0.66 ] }[ k ]
+    sigmak = factors[ 0 ] * sigma
+    lk = factors[ 1 ] * lambda1
+    nf = f * lk / vhub
+    rst = rightPart( nf ) * sigmak * sigmak / f
     return rst

@@ -87,3 +87,224 @@ def test_davenportSpectrum_normalized_sameRst():
     calDrag = lsm.davenportSpectrumWithDragCoef( n, delta1 )
     calRoughness = lsm.davenportSpectrumWithRoughnessLength( n, uz )
     np.testing.assert_allclose( calDrag, calRoughness )
+
+
+
+###############################################################################
+# Test ec1Spectrum
+###############################################################################
+def test_ec1Spectrum_inputNotScalarCase_valueError():
+    n = 2
+    uz = 10
+
+    # case 1: n is not a scalar
+    with pytest.raises( ValueError ):
+        _ = lsm.ec1Spectrum( [ ], uz )
+
+    # case 2: uz is not a scalar
+    with pytest.raises( ValueError ):
+        _ = lsm.ec1Spectrum( n, [ ] )
+
+
+def test_ec1Spectrum_tcatIncorrect_valueError():
+    n = 2
+    uz = 10
+
+    # case 1: tcat is not a scalar
+    with pytest.raises( ValueError ):
+        _ = lsm.ec1Spectrum( n, uz, tcat=[ ] )
+
+    # case 2: tcat < 0
+    with pytest.raises( ValueError ):
+        _ = lsm.ec1Spectrum( n, uz, tcat=-1 )
+
+    # case 3: tcat > 4
+    with pytest.raises( ValueError ):
+        _ = lsm.ec1Spectrum( n, uz, tcat=5 )
+
+
+def test_ec1Spectrum_normalizedUseCase_expectedRst():
+    n = 2
+    uz = 10
+    calRst = lsm.ec1Spectrum( n, uz )
+    expectedRst = 6.8 * n / np.power( 1 + 10.2 * n, 5 / 3 )
+    np.testing.assert_allclose( np.round( calRst, 4 ), np.round( expectedRst, 4 ) )
+
+
+def test_ec1Spectrum_notNormalizedUseCase_expectedRst():
+    n = 2
+    uz = 10
+    sigma = 5
+
+    def lzCalc( z0, zmin, z ):
+        alpha = 0.67 + 0.05 * np.log( z0 )
+        if z < zmin:
+            rst = 300 * np.power( zmin / 200, alpha )
+            return rst
+        
+        rst = 300 * np.power( z / 200, alpha )
+        return rst
+    
+    def rstCalc( lz ):
+        fl = n * lz / uz
+        right = 6.8 * fl / np.power( 1 + 10.2 * fl, 5 / 3 )
+        rst = right * sigma * sigma / n
+        return rst
+
+    # case 1: tcat = 0 
+    tcat = 0
+    # z > zmin
+    z = 20
+    calRst = lsm.ec1Spectrum( n, uz, sigma=sigma, z=z, tcat=tcat, normalized=False )
+    expectedRst = rstCalc( lzCalc( 0.003, 1, z ) )
+    np.testing.assert_allclose( np.round( calRst, 4 ), np.round( expectedRst, 4 ) )
+    # z < zmin
+    z = 0.8
+    calRst = lsm.ec1Spectrum( n, uz, sigma=sigma, z=z, tcat=tcat, normalized=False )
+    expectedRst = rstCalc( lzCalc( 0.003, 1, z ) )
+    np.testing.assert_allclose( np.round( calRst, 4 ), np.round( expectedRst, 4 ) )
+
+    # case 2: tcat = 1
+    tcat = 1
+    # z > zmin
+    z = 20
+    calRst = lsm.ec1Spectrum( n, uz, sigma=sigma, z=z, tcat=tcat, normalized=False )
+    expectedRst = rstCalc( lzCalc( 0.01, 1, z ) )
+    np.testing.assert_allclose( np.round( calRst, 4 ), np.round( expectedRst, 4 ) )
+    # z < zmin
+    z = 0.8
+    calRst = lsm.ec1Spectrum( n, uz, sigma=sigma, z=z, tcat=tcat, normalized=False )
+    expectedRst = rstCalc( lzCalc( 0.01, 1, z ) )
+    np.testing.assert_allclose( np.round( calRst, 4 ), np.round( expectedRst, 4 ) )
+
+    # case 3: tcat = 2
+    tcat = 2
+    # z > zmin
+    z = 20
+    calRst = lsm.ec1Spectrum( n, uz, sigma=sigma, z=z, tcat=tcat, normalized=False )
+    expectedRst = rstCalc( lzCalc( 0.05, 2, z ) )
+    np.testing.assert_allclose( np.round( calRst, 4 ), np.round( expectedRst, 4 ) )
+    # z < zmin
+    z = 0.8
+    calRst = lsm.ec1Spectrum( n, uz, sigma=sigma, z=z, tcat=tcat, normalized=False )
+    expectedRst = rstCalc( lzCalc( 0.05, 2, z ) )
+    np.testing.assert_allclose( np.round( calRst, 4 ), np.round( expectedRst, 4 ) )
+
+    # case 4: tcat = 3
+    tcat = 3
+    # z > zmin
+    z = 20
+    calRst = lsm.ec1Spectrum( n, uz, sigma=sigma, z=z, tcat=tcat, normalized=False )
+    expectedRst = rstCalc( lzCalc( 0.3, 5, z ) )
+    np.testing.assert_allclose( np.round( calRst, 4 ), np.round( expectedRst, 4 ) )
+    # z < zmin
+    z = 0.8
+    calRst = lsm.ec1Spectrum( n, uz, sigma=sigma, z=z, tcat=tcat, normalized=False )
+    expectedRst = rstCalc( lzCalc( 0.3, 5, z ) )
+    np.testing.assert_allclose( np.round( calRst, 4 ), np.round( expectedRst, 4 ) )
+
+    # case 5: tcat = 4
+    tcat = 4
+    # z > zmin
+    z = 20
+    calRst = lsm.ec1Spectrum( n, uz, sigma=sigma, z=z, tcat=tcat, normalized=False )
+    expectedRst = rstCalc( lzCalc( 1.0, 10, z ) )
+    np.testing.assert_allclose( np.round( calRst, 4 ), np.round( expectedRst, 4 ) )
+    # z < zmin
+    z = 0.8
+    calRst = lsm.ec1Spectrum( n, uz, sigma=sigma, z=z, tcat=tcat, normalized=False )
+    expectedRst = rstCalc( lzCalc( 1.0, 10, z ) )
+    np.testing.assert_allclose( np.round( calRst, 4 ), np.round( expectedRst, 4 ) )
+
+
+
+###############################################################################
+# Test iecSpectrum
+###############################################################################
+def test_iecSpectrum_inputNotScalarCase_valueError():
+    n = 2
+    vhub = 10
+
+    # case 1: n is not a scalar
+    with pytest.raises( ValueError ):
+        _ = lsm.iecSpectrum( [ ], vhub )
+
+    # case 2: vhub is not a scalar
+    with pytest.raises( ValueError ):
+        _ = lsm.iecSpectrum( n, [ ] )
+
+
+def test_iecSpectrum_kIncorrect_valueError():
+    f = 2
+    vhub = 10
+
+    # case 1: k is not a scalar
+    with pytest.raises( ValueError ):
+        _ = lsm.iecSpectrum( f, vhub, k=[ ] )
+
+    # case 2: k < 1
+    with pytest.raises( ValueError ):
+        _ = lsm.iecSpectrum( f, vhub, k=0 )
+
+    # case 3: k > 3
+    with pytest.raises( ValueError ):
+        _ = lsm.iecSpectrum( f, vhub, k=4 )
+
+
+def test_iecSpectrum_normalizedUseCase_expectedRst():
+    f = 2
+    vhub = 100
+    calRst = lsm.iecSpectrum( f, vhub )
+    expectedRst = 4 * f / np.power( 1 + 6 * f, 5 / 3 )
+    np.testing.assert_allclose( np.round( calRst, 4 ), np.round( expectedRst, 4 ) )
+
+
+def test_iecSpectrum_notNormalizedUseCase_expectedRst():
+    f = 2
+    vhub = 10
+    sigma = 5
+    
+    def rstCalc( sigmak, lk ):
+        nf = f * lk / vhub
+        right = 4 * nf / np.power( 1 + 6 * nf, 5 / 3 )
+        rst = right * sigmak * sigmak / f
+        return rst
+
+    # case 1: k = 1
+    k = 1
+    # z > 60
+    z = 80
+    calRst = lsm.iecSpectrum( f, vhub, sigma=sigma, z=z, k=k, normalized=False )
+    expectedRst = rstCalc( sigma, 42 * 8.1 )
+    np.testing.assert_allclose( np.round( calRst, 4 ), np.round( expectedRst, 4 ) )
+    # z < 60
+    z = 40
+    calRst = lsm.iecSpectrum( f, vhub, sigma=sigma, z=z, k=k, normalized=False )
+    expectedRst = rstCalc( sigma, 0.7 * z * 8.1 )
+    np.testing.assert_allclose( np.round( calRst, 4 ), np.round( expectedRst, 4 ) )
+
+    # case 2: k = 2
+    k = 2
+    # z > 60
+    z = 80
+    calRst = lsm.iecSpectrum( f, vhub, sigma=sigma, z=z, k=k, normalized=False )
+    expectedRst = rstCalc( sigma * 0.8, 42 * 2.7 )
+    np.testing.assert_allclose( np.round( calRst, 4 ), np.round( expectedRst, 4 ) )
+    # z < 60
+    z = 40
+    calRst = lsm.iecSpectrum( f, vhub, sigma=sigma, z=z, k=k, normalized=False )
+    expectedRst = rstCalc( sigma * 0.8, 0.7 * z * 2.7 )
+    np.testing.assert_allclose( np.round( calRst, 4 ), np.round( expectedRst, 4 ) )
+
+    # case 3: k = 3
+    k = 3
+    # z > 60
+    z = 80
+    calRst = lsm.iecSpectrum( f, vhub, sigma=sigma, z=z, k=k, normalized=False )
+    expectedRst = rstCalc( sigma * 0.5, 42 * 0.66 )
+    np.testing.assert_allclose( np.round( calRst, 4 ), np.round( expectedRst, 4 ) )
+    # z < 60
+    z = 40
+    calRst = lsm.iecSpectrum( f, vhub, sigma=sigma, z=z, k=k, normalized=False )
+    expectedRst = rstCalc( sigma * 0.5, 0.7 * z * 0.66 )
+    np.testing.assert_allclose( np.round( calRst, 4 ), np.round( expectedRst, 4 ) )
