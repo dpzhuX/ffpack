@@ -113,8 +113,8 @@ def davenportSpectrumWithRoughnessLength( n, uz, z=10, z0=0.03, normalized=True 
        spectrum measured at the San Pedro Mártir Sierra. Revista Mexicana de 
        Astronomia y Astrofisica, 37(2), pp.213-220.
     .. [Ho2003] Ho, T.C.E., Surry, D. and Morrish, D.P., 2003. NIST/TTU cooperative 
-       agreement–windstorm mitigation initiative: Wind tunnel experiments on generic 
-       low buildings. London, Canada: BLWTSS20–2003, Boundary-Layer Wind Tunnel 
+       agreement-windstorm mitigation initiative: Wind tunnel experiments on generic 
+       low buildings. London, Canada: BLWTSS20-2003, Boundary-Layer Wind Tunnel 
        Laboratory, Univ. of Western Ontario.
     '''
     if not isinstance( n, int ) and not isinstance( n, float ):
