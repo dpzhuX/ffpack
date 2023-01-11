@@ -291,3 +291,43 @@ def hessianMatrix( func, nvar, dx=1e-3, order=3 ):
     for i in range( nvar ):
         rst.append( gradient( grad[ i ], nvar=nvar, n=1, dx=dx, order=order ) )
     return rst
+
+def gramSchmid( A, alighVec=None, reverse=False ):
+
+    A = np.array( A, dtype=float )
+    # Check edge case
+    if A.ndim != 2:
+        raise ValueError( "A should be a 2d matrix." )
+
+    if A.shape[ 0 ] != A.shape[ 1 ]:
+        raise ValueError( "A should be a square matrix." )
+
+    dim = A.shape[ 0 ]
+    if alighVec is None:
+        alighVec = A[ :, 0 ]
+    B = np.copy( A )
+    # Check if alighVec coincides with one direction in A
+    for i in range( 1, dim ):
+        curVec = A[ :, i ]
+        normCurVec = np.linalg.norm( curVec )
+        normAlignVec = np.linalg.norm( alighVec )
+        if np.allclose( np.dot( curVec, alighVec ), normCurVec * normAlignVec ):
+            B[ :, : dim - i ] = np.copy( A[ :, i: ] )
+            B[ :, i: ] = np.copy( A[ :, : dim - i ])
+    
+    B[ :, 0 ] = alighVec / np.linalg.norm( alighVec )
+
+    for i in range( 1, dim ):
+        curVec = np.copy( B[ :, i ] )
+        for j in range( 0, i ):
+            projVec = B[ :, j ]
+            curVec = curVec - np.dot( projVec, curVec ) / \
+                np.dot( projVec, projVec ) * projVec
+        
+        B[ :, i ] = np.copy( curVec / np.linalg.norm( curVec ) )
+    
+    if reverse:
+        B = np.fliplr( B )
+    
+    J = np.linalg.solve( A.T, B.T ).T
+    return B, J

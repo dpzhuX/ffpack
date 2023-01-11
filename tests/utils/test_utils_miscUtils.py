@@ -339,3 +339,15 @@ def test_hessianMatrix_trigonometricCase_funcList( X0 ):
             np.testing.assert_array_almost_equal( 
                 np.round( calRst[ i ][ j ]( X0 ), 4 ), 
                 np.round( expectedRst[ i ][ j ]( X0 ), 4 ) )
+
+
+
+###############################################################################
+# Test gramSchmid
+###############################################################################
+def test_gramSchmid_2dCase_2dMatrix():
+    A = [ [ 0, 1 ], [ 1, 0 ] ]
+    alignVec = np.array( [ 0.5, 0.5 ] )
+
+    B, J = utils.gramSchmid( A, alighVec=alignVec )
+    np.testing.assert_allclose( np.dot( J, A ), B )
