@@ -39,7 +39,8 @@ def piersonMoskowitzSpectrum( w, Uw, alpha=0.0081, beta=0.74, g=9.81 ):
     >>> from ffpack.lsm import piersonMoskowitzSpectrum
     >>> w = 0.51
     >>> Uw = 20
-    >>> rst = piersonMoskowitzSpectrum( w, Uw, alpha=0.0081, beta=1.25, gamma=3.3, g=9.81 )
+    >>> rst = piersonMoskowitzSpectrum( w, Uw, alpha=0.0081, 
+    ...                                 beta=1.25, gamma=3.3, g=9.81 )
     '''
     if not isinstance( w, int ) and not isinstance( w, float ):
         raise ValueError( "w should be a scalar" )
@@ -100,7 +101,8 @@ def jonswapSpectrum( w, wp, alpha=0.0081, beta=1.25, gamma=3.3, g=9.81 ):
     if ( w > wp ):
         sigma = 0.09
     r = np.exp( -( w - wp ) * ( w - wp ) / ( 2 * wp * wp * sigma * sigma ) )
-    rst = alpha * g * g / np.power( w, 5 ) * np.exp( -beta * np.power( wp / w, 4 ) ) * np.power( gamma, r )
+    rst = alpha * g * g / np.power( w, 5 ) * \
+        np.exp( -beta * np.power( wp / w, 4 ) ) * np.power( gamma, r )
     return rst
 
 
@@ -153,7 +155,8 @@ def isscSpectrum( w, wp, Hs ):
 
 def gaussianSwellSpectrum( w, wp, Hs, sigma ):
     '''
-    Gaussian Swell spectrum, typically used to model long period swell seas [1]_. 
+    Gaussian Swell spectrum, typically used to model long period 
+    swell seas [Guidance2016A]_. 
 
     Parameters
     ----------
@@ -190,7 +193,8 @@ def gaussianSwellSpectrum( w, wp, Hs, sigma ):
 
     References
     ----------
-    .. [1] Guidance Notes on Selecting Design Wave by Long Term Stochastic Method
+    .. [Guidance2016A] Guidance Notes on Selecting Design Wave by Long 
+       Term Stochastic Method
     '''
     if not isinstance( w, int ) and not isinstance( w, float ):
         raise ValueError( "w should be a scalar" )
@@ -211,7 +215,7 @@ def gaussianSwellSpectrum( w, wp, Hs, sigma ):
 def ochiHubbleSpectrum( w, wp1, wp2, Hs1, Hs2, lambda1, lambda2 ):
     '''
     Ochi-Hubble spectrum covers shapes of wave spectra associated with the growth 
-    and decay of a storm, including swells. [2]_. 
+    and decay of a storm, including swells. [Guidance2016B]_. 
 
     Parameters
     ----------
@@ -256,7 +260,8 @@ def ochiHubbleSpectrum( w, wp1, wp2, Hs1, Hs2, lambda1, lambda2 ):
 
     References
     ----------
-    .. [2] Guidance Notes on Selecting Design Wave by Long Term Stochastic Method
+    .. [Guidance2016B] Guidance Notes on Selecting Design Wave by Long 
+       Term Stochastic Method
     '''
     if not isinstance( w, int ) and not isinstance( w, float ):
         raise ValueError( "w should be a scalar" )
@@ -278,7 +283,8 @@ def ochiHubbleSpectrum( w, wp1, wp2, Hs1, Hs2, lambda1, lambda2 ):
     
     def oneTerm( w, wp, Hs, lambdaVal ):
         fourLambda = ( 4 * lambdaVal + 1 ) / 4
-        firstPart = np.power( fourLambda * np.power( wp, 4 ), lambdaVal ) / special.gamma( lambdaVal )
+        firstPart = np.power( fourLambda * np.power( wp, 4 ), lambdaVal ) / \
+            special.gamma( lambdaVal )
         expc = np.exp( -fourLambda * np.power( wp / w, 4 ) )
         rst = firstPart * Hs * Hs / np.power( w, fourLambda * 4 ) * expc
         return rst
