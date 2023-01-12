@@ -339,3 +339,118 @@ def test_hessianMatrix_trigonometricCase_funcList( X0 ):
             np.testing.assert_array_almost_equal( 
                 np.round( calRst[ i ][ j ]( X0 ), 4 ), 
                 np.round( expectedRst[ i ][ j ]( X0 ), 4 ) )
+
+
+
+###############################################################################
+# Test gramSchmidOrth
+###############################################################################
+def test_gramSchmidOrth_1dArray_valueError():
+    A = [ 0, 1 ]
+
+    with pytest.raises( ValueError ):
+        _, _ = utils.gramSchmidOrth( A )
+
+
+def test_gramSchmidOrth_matrixNotSquare_valueError():
+    A = [ [ 0, 1 ], [ 1, 2 ], [ 2, 3 ] ]
+
+    with pytest.raises( ValueError ):
+        _, _ = utils.gramSchmidOrth( A )
+
+
+@pytest.mark.parametrize( "vec", [ [ 0.1, 0.9 ],
+                                   [ 0.2, 0.8 ],
+                                   [ 0.3, 0.7 ],
+                                   [ 0.4, 0.6 ],
+                                   [ 0.5, 0.5 ],
+                                   [ 0.6, 0.4 ],
+                                   [ 0.7, 0.3 ],
+                                   [ 0.8, 0.2 ],
+                                   [ 0.9, 0.1 ] ] )
+def test_gramSchmidOrth_2dMatrixCase_2dMatrix( vec ):
+    A = [ vec, [ 1, 0 ] ]
+
+    B, J = utils.gramSchmidOrth( A )
+    for i in range( len( A ) ):
+        for j in range( i ):
+            np.testing.assert_allclose( np.dot( B[ :, i ], B[ :, j ] ), 0.0, 
+                                        atol=1e-07 )
+    np.testing.assert_allclose( np.dot( J, A ), B, atol=1e-07 )
+
+    A = [ [ 0, 1 ], vec ]
+
+    B, J = utils.gramSchmidOrth( A )
+    for i in range( len( A ) ):
+        for j in range( i ):
+            np.testing.assert_allclose( np.dot( B[ :, i ], B[ :, j ] ), 0.0, 
+                                        atol=1e-07 )
+    np.testing.assert_allclose( np.dot( J, A ), B, atol=1e-07 )
+
+    A = [ [ 0, 1 ], [ 1, 0 ] ]
+    alignVec = np.array( vec )
+
+    B, J = utils.gramSchmidOrth( A, alignVec=alignVec )
+    for i in range( len( A ) ):
+        for j in range( i ):
+            np.testing.assert_allclose( np.dot( B[ :, i ], B[ :, j ] ), 0.0, 
+                                        atol=1e-07 )
+    np.testing.assert_allclose( np.dot( J, A ), B, atol=1e-07 )
+
+
+@pytest.mark.parametrize( "vec", [ [ 0.1, 0.2, 0.9 ],
+                                   [ 0.2, 0.3, 0.8 ],
+                                   [ 0.3, 0.4, 0.7 ],
+                                   [ 0.4, 0.5, 0.6 ],
+                                   [ 0.5, 0.6, 0.5 ],
+                                   [ 0.6, 0.5, 0.4 ],
+                                   [ 0.7, 0.6, 0.3 ],
+                                   [ 0.8, 0.7, 0.2 ],
+                                   [ 0.9, 0.8, 0.1 ] ] )
+def test_gramSchmidOrth_3dMatrixCase_3dMatrix( vec ):
+    A = [ vec, [ 0, 1, 0 ], [ 1, 0, 0] ]
+
+    B, J = utils.gramSchmidOrth( A )
+    for i in range( len( A ) ):
+        for j in range( i ):
+            np.testing.assert_allclose( np.dot( B[ :, i ], B[ :, j ] ), 0.0, 
+                                        atol=1e-07 )
+    np.testing.assert_allclose( np.dot( J, A ), B, atol=1e-07 )
+
+    A = [ [ 0, 0, 1 ], vec, [ 1, 0, 0] ]
+
+    B, J = utils.gramSchmidOrth( A )
+    for i in range( len( A ) ):
+        for j in range( i ):
+            np.testing.assert_allclose( np.dot( B[ :, i ], B[ :, j ] ), 0.0, 
+                                        atol=1e-07 )
+    np.testing.assert_allclose( np.dot( J, A ), B, atol=1e-07 )
+
+    A = [ [ 0, 0, 1 ], [ 0, 1, 0 ], vec ]
+
+    B, J = utils.gramSchmidOrth( A )
+    for i in range( len( A ) ):
+        for j in range( i ):
+            np.testing.assert_allclose( np.dot( B[ :, i ], B[ :, j ] ), 0.0, 
+                                        atol=1e-07 )
+    np.testing.assert_allclose( np.dot( J, A ), B, atol=1e-07 )
+
+    A = [ [ 0, 0, 1 ], vec, [ 1, 0, 0] ]
+    alignVec = np.array( vec )
+
+    B, J = utils.gramSchmidOrth( A )
+    for i in range( len( A ) ):
+        for j in range( i ):
+            np.testing.assert_allclose( np.dot( B[ :, i ], B[ :, j ] ), 0.0, 
+                                        atol=1e-07 )
+    np.testing.assert_allclose( np.dot( J, A ), B, atol=1e-07 )
+
+    A = [ [ 0, 0, 1 ], [ 0, 1, 0 ], [ 1, 0, 0 ] ]
+    alignVec = np.array( vec )
+
+    B, J = utils.gramSchmidOrth( A, alignVec=alignVec )
+    for i in range( len( A ) ):
+        for j in range( i ):
+            np.testing.assert_allclose( np.dot( B[ :, i ], B[ :, j ] ), 0.0, 
+                                        atol=1e-07 )
+    np.testing.assert_allclose( np.dot( J, A ), B, atol=1e-07 )
