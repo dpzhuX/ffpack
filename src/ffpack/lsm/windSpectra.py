@@ -317,9 +317,9 @@ def apiSpectrum( f, u0, z=10 ):
     Examples
     --------
     >>> from ffpack.lsm import apiSpectrum
-    >>> n = 2
-    >>> uz = 10
-    >>> rst = apiSpectrum( n, uz )
+    >>> f = 2
+    >>> u0 = 10
+    >>> rst = apiSpectrum( f, u0 )
 
     References
     ----------
