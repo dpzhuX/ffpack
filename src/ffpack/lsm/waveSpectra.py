@@ -40,15 +40,15 @@ def piersonMoskowitzSpectrum( w, Uw, alpha=0.0081, beta=0.74, g=9.81 ):
     >>> w = 0.51
     >>> Uw = 20
     >>> rst = piersonMoskowitzSpectrum( w, Uw, alpha=0.0081, 
-    ...                                 beta=1.25, gamma=3.3, g=9.81 )
+    ...                                 beta=1.25, g=9.81 )
     '''
     if not isinstance( w, int ) and not isinstance( w, float ):
         raise ValueError( "w should be a scalar" )
     if not isinstance( Uw, int ) and not isinstance( Uw, float ):
         raise ValueError( "Uw should be a scalar" )
 
-    rst = alpha * g * g / np.power( w, 5 ) * np.exp( -beta * 
-                                                     np.power( ( g / Uw ) / w, 4 ) )
+    rst = alpha * g * g / np.power( w, 5 ) * \
+        np.exp( -beta * np.power( ( g / Uw ) / w, 4 ) )
     return rst
 
 

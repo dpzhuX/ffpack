@@ -69,6 +69,9 @@ pip install ffpack
     * Wind spectra
         * Davenport spectrum with drag coefficient
         * Davenport spectrum with roughness length
+        * EC1 spectrum
+        * IEC spectrum
+        * API spectrum
 
 * Random and probabilistic model
     * Metropolis-Hastings algorithm
