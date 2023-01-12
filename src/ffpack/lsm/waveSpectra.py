@@ -47,8 +47,8 @@ def piersonMoskowitzSpectrum( w, Uw, alpha=0.0081, beta=0.74, g=9.81 ):
     if not isinstance( Uw, int ) and not isinstance( Uw, float ):
         raise ValueError( "Uw should be a scalar" )
 
-    rst = alpha * g * g / np.power( w, 5 ) * np.exp( -beta * 
-                                                     np.power( ( g / Uw ) / w, 4 ) )
+    rst = alpha * g * g / np.power( w, 5 ) * \
+        np.exp( -beta * np.power( ( g / Uw ) / w, 4 ) )
     return rst
 
 
