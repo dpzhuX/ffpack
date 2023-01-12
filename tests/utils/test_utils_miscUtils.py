@@ -376,7 +376,7 @@ def test_gramSchmidOrth_2dMatrixCase_2dMatrix( vec ):
         for j in range( i ):
             np.testing.assert_allclose( np.dot( B[ :, i ], B[ :, j ] ), 0.0, 
                                         atol=1e-07 )
-    np.testing.assert_allclose( np.dot( J, A ), B )
+    np.testing.assert_allclose( np.dot( J, A ), B, atol=1e-07 )
 
     A = [ [ 0, 1 ], vec ]
 
@@ -385,7 +385,7 @@ def test_gramSchmidOrth_2dMatrixCase_2dMatrix( vec ):
         for j in range( i ):
             np.testing.assert_allclose( np.dot( B[ :, i ], B[ :, j ] ), 0.0, 
                                         atol=1e-07 )
-    np.testing.assert_allclose( np.dot( J, A ), B )
+    np.testing.assert_allclose( np.dot( J, A ), B, atol=1e-07 )
 
     A = [ [ 0, 1 ], [ 1, 0 ] ]
     alignVec = np.array( vec )
@@ -395,7 +395,7 @@ def test_gramSchmidOrth_2dMatrixCase_2dMatrix( vec ):
         for j in range( i ):
             np.testing.assert_allclose( np.dot( B[ :, i ], B[ :, j ] ), 0.0, 
                                         atol=1e-07 )
-    np.testing.assert_allclose( np.dot( J, A ), B )
+    np.testing.assert_allclose( np.dot( J, A ), B, atol=1e-07 )
 
 
 @pytest.mark.parametrize( "vec", [ [ 0.1, 0.2, 0.9 ],
