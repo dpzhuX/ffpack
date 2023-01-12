@@ -292,8 +292,37 @@ def hessianMatrix( func, nvar, dx=1e-3, order=3 ):
         rst.append( gradient( grad[ i ], nvar=nvar, n=1, dx=dx, order=order ) )
     return rst
 
-def gramSchmid( A, alighVec=None, reverse=False ):
+def gramSchmidOrth( A, alignVec=None ):
+    r'''
+    Perform Gram-Schmidt orthogonization to matrix.
 
+    Parameters
+    ----------
+    A : 2d matrix
+        Input matrix. The orthogonization is performed w.r.t. each column vector.
+        The input matrix must be a square matrix.
+    alignVec : 1d array
+        If alignVec exists, the alignVec will be the first vector for 
+        orthogonization. 
+
+    Returns
+    -------
+    B : 2d matrix
+        The matrix in which each column vector is orthogonized. 
+    J : 2d matrix
+        The transformation matrix to perform the orthogonization, e.g., JA = B
+
+    Notes
+    -----
+    A must be square and of full-rank, i.e., all rows (or, equivalently, columns) 
+    must be linearly independent.
+
+    Examples
+    --------
+    >>> A = [ [ 1, 0 ], [ 0, 1 ] ]
+    >>> alignVec = [ 0.5, 0.5 ]
+    >>> B, J = gramSchmidOrth( A, alignVec )
+    '''
     A = np.array( A, dtype=float )
     # Check edge case
     if A.ndim != 2:
@@ -303,19 +332,19 @@ def gramSchmid( A, alighVec=None, reverse=False ):
         raise ValueError( "A should be a square matrix." )
 
     dim = A.shape[ 0 ]
-    if alighVec is None:
-        alighVec = A[ :, 0 ]
+    if alignVec is None:
+        alignVec = A[ :, 0 ]
     B = np.copy( A )
-    # Check if alighVec coincides with one direction in A
+    # Check if alignVec coincides with one direction in A
     for i in range( 1, dim ):
         curVec = A[ :, i ]
         normCurVec = np.linalg.norm( curVec )
-        normAlignVec = np.linalg.norm( alighVec )
-        if np.allclose( np.dot( curVec, alighVec ), normCurVec * normAlignVec ):
+        normAlignVec = np.linalg.norm( alignVec )
+        if np.allclose( np.dot( curVec, alignVec ), normCurVec * normAlignVec ):
             B[ :, : dim - i ] = np.copy( A[ :, i: ] )
             B[ :, i: ] = np.copy( A[ :, : dim - i ])
     
-    B[ :, 0 ] = alighVec / np.linalg.norm( alighVec )
+    B[ :, 0 ] = alignVec / np.linalg.norm( alignVec )
 
     for i in range( 1, dim ):
         curVec = np.copy( B[ :, i ] )
@@ -324,10 +353,7 @@ def gramSchmid( A, alighVec=None, reverse=False ):
             curVec = curVec - np.dot( projVec, curVec ) / \
                 np.dot( projVec, projVec ) * projVec
         
-        B[ :, i ] = np.copy( curVec / np.linalg.norm( curVec ) )
-    
-    if reverse:
-        B = np.fliplr( B )
+        B[ :, i ] = curVec / np.linalg.norm( curVec )
     
     J = np.linalg.solve( A.T, B.T ).T
     return B, J
