@@ -292,6 +292,7 @@ def hessianMatrix( func, nvar, dx=1e-3, order=3 ):
         rst.append( gradient( grad[ i ], nvar=nvar, n=1, dx=dx, order=order ) )
     return rst
 
+
 def gramSchmidOrth( A, alignVec=None ):
     r'''
     Perform Gram-Schmidt orthogonization to matrix.
