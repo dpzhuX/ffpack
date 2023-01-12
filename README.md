@@ -78,10 +78,12 @@ pip install ffpack
 
 * Risk and reliability model
     * First order second moment
-        * fosmMVAL
+        * fosm with mean value method
     * First order reliability method
-        * formHLRF
-        * formCOPT
+        * form with Hasofer-Lind-Rackwitz-Fiessler method
+        * form with constrained optimization method
+    * Second order reliability method
+        * sorm with Breitung method
 
 * Utility methods
     * Derivative
