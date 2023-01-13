@@ -99,9 +99,8 @@ def sormBreitung( dim, g, dg, distObjs, corrMat, iter=1000, tol=1e-6,
     except np.linalg.LinAlgError:
         raise ValueError( "corrMat should be positive definite" )
 
-    beta, _, uCoord, xCoord = firstOrderReliabilityMethod.formHLRF( dim, g, dg, 
-                                                                    distObjs, 
-                                                                    corrMat )
+    beta, _, uCoord, xCoord = firstOrderReliabilityMethod.\
+        formHLRF( dim, g, dg, distObjs, corrMat, iter, tol, quadDeg, quadRange, dx )
 
     natafTrans = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat, 
                                           quadDeg=quadDeg, quadRange=quadRange )

@@ -130,7 +130,7 @@ def test_sormBreitung_twoNormalLinearCase_scalar( dgExists ):
     distObjs = [ X1, X2 ]
     corrMat = np.eye( dim )
     calBeta, calPf, calUCoord, calXCoord = rrm.sormBreitung( dim, g, dg, distObjs, 
-                                                             corrMat, iter=1 )
+                                                             corrMat )
     expectedBeta = np.sqrt( 2 ) / 2
     expectedPf = stats.norm.cdf( -expectedBeta )
     expectedUCoord = [ 0.5, 0.5 ]
@@ -174,8 +174,7 @@ def test_sormBreitung_twoNormalNonLinearCase_scalar( mock_formHLRF, dgExists ):
     corrMat = np.eye( dim )
     mock_formHLRF.return_value = [ 2.3654, stats.norm.cdf( -2.3654 ),
                                    [ -1.6368, -1.7077 ], [ 1.8162, 1.4613 ] ]
-    calBeta, calPf, calUCoord, calXCoord = rrm.sormBreitung( dim, g, dg, distObjs, 
-                                                             corrMat, iter=1 )
+    calBeta, calPf, _, _ = rrm.sormBreitung( dim, g, dg, distObjs, corrMat )
     expectedBeta = 2.3654
     expectedPf = 0.00222059
     np.testing.assert_allclose( np.round( expectedBeta, 4 ), np.round( calBeta, 4 ) )
