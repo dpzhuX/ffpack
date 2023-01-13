@@ -124,11 +124,15 @@ def formHLRF( dim, g, dg, distObjs, corrMat, iter=1000, tol=1e-6,
         if np.linalg.norm( Us[ idx ] - Us[ idx - 1 ] ) < tol:
             break
     
+    # We do not expect convergence with iter == 1
+    if iter != 1 and np.linalg.norm( Us[ idx ] - Us[ idx - 1 ] ) >= tol:
+        raise ValueError( "formHLRF does not converge with current parameters.")
+
     beta = betas[ idx ]
     pf = stats.norm.cdf( -beta )
     uCoord = Us[ idx ]
     xCoord, _ = natafTrans.getX( uCoord )
-    return beta, pf, uCoord, xCoord
+    return beta, pf, uCoord.tolist(), xCoord.tolist()
 
 
 def formCOPT( dim, g, distObjs, corrMat, quadDeg=99, quadRange=8 ):
@@ -220,4 +224,4 @@ def formCOPT( dim, g, distObjs, corrMat, quadDeg=99, quadRange=8 ):
     pf = stats.norm.cdf( -beta )
     uCoord = rst.x
     xCoord = natafTrans.getX( uCoord )[ 0 ]
-    return beta, pf, uCoord, xCoord
+    return beta, pf, uCoord.tolist(), xCoord.tolist()

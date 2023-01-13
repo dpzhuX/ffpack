@@ -7,8 +7,7 @@ from ffpack.rrm import firstOrderReliabilityMethod
 from ffpack import rpm
 
 
-def sormBreitung( dim, g, dg, distObjs, corrMat, iter=1000, tol=1e-6, 
-                  quadDeg=99, quadRange=8, dx=1e-6 ):
+def sormBreitung( dim, g, dg, distObjs, corrMat, quadDeg=99, quadRange=8, dx=1e-6 ):
     '''
     First order reliability method based on Breitung algorithm.
 
@@ -28,10 +27,6 @@ def sormBreitung( dim, g, dg, distObjs, corrMat, iter=1000, tol=1e-6,
         objects with pdf, cdf, ppf. We recommend to use scipy.stats functions.
     corrMat: 2d matrix
         Correlation matrix of the marginal distributions.
-    iter: integer
-        Maximum iteration steps.
-    tol: scalar
-        Tolerance to demtermine if the iteration converges.
     quadDeg: integer
         Quadrature degree for Nataf transformation
     quadRange: scalar
@@ -100,7 +95,7 @@ def sormBreitung( dim, g, dg, distObjs, corrMat, iter=1000, tol=1e-6,
         raise ValueError( "corrMat should be positive definite" )
 
     beta, _, uCoord, xCoord = firstOrderReliabilityMethod.\
-        formHLRF( dim, g, dg, distObjs, corrMat, iter, tol, quadDeg, quadRange, dx )
+        formCOPT( dim, g, distObjs, corrMat, quadDeg, quadRange )
 
     natafTrans = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat, 
                                           quadDeg=quadDeg, quadRange=quadRange )
