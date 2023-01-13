@@ -124,6 +124,10 @@ def formHLRF( dim, g, dg, distObjs, corrMat, iter=1000, tol=1e-6,
         if np.linalg.norm( Us[ idx ] - Us[ idx - 1 ] ) < tol:
             break
     
+    # We do not expect convergence with iter == 1
+    if iter != 1 and np.linalg.norm( Us[ idx ] - Us[ idx - 1 ] ) >= tol:
+        raise ValueError( "formHLRF does not converge with current parameters.")
+
     beta = betas[ idx ]
     pf = stats.norm.cdf( -beta )
     uCoord = Us[ idx ]

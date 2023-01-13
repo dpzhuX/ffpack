@@ -115,6 +115,21 @@ def test_formHLRF_corrMatDiagNotOneCase_valueError( ):
         _, _, _, _ = rrm.formHLRF( dim, g, dg, distObjs, corrMat )
 
 
+def test_formHLRF_notConverge_valueError():
+    dim = 2
+
+    def g( X ):
+        return X[ 0 ] ** 4 + 2 * X[ 1 ] ** 4 - 20
+
+    dg = [ lambda X: 4 * X[ 0 ] ** 3, lambda X: 8 * X[ 1 ] ** 3 ] 
+    X1 = stats.norm( loc=10.0, scale=5.0 )
+    X2 = stats.norm( loc=10.0, scale=5.0 )
+    distObjs = [ X1, X2 ]
+    corrMat = np.eye( dim )
+    with pytest.raises( ValueError ):
+        _, _, _, _ = rrm.formHLRF( dim, g, dg, distObjs, corrMat, iter=100 )
+
+
 @pytest.mark.parametrize( "dgExists", [ 0, 1 ] )
 @patch.object( NatafTransformation, 'getX' )
 def test_formHLRF_twoNormalLinearMockCase1_scalar( mock_getX, dgExists ):
@@ -278,6 +293,58 @@ def test_formHLRF_twoNormalNonLinearCase2_scalar( dgExists ):
                                 np.round( calUCoord, 4 ) )
     np.testing.assert_allclose( np.round( expectedXCoord, 4 ), 
                                 np.round( calXCoord, 4 ) )
+
+
+@pytest.mark.parametrize( "dgExists", [ 0, 1 ] )
+def test_formHLRF_twoNormalNonLinearCase3_scalar( dgExists ):
+    dim = 2
+
+    def g( X ):
+        return X[ 0 ] ** 2 + 2 * X[ 1 ] ** 2 - 20
+
+    dg = [ lambda X: 2 * X[ 0 ], lambda X: 4 * X[ 1 ] ] if dgExists else None
+    X1 = stats.norm( loc=5.0, scale=5.0 )
+    X2 = stats.norm( loc=5.0, scale=5.0 )
+    distObjs = [ X1, X2 ]
+    corrMat = np.eye( dim )
+    calBeta, calPf, calUCoord, calXCoord = rrm.formHLRF( dim, g, dg, 
+                                                         distObjs, corrMat )
+    expectedBeta = 0.6636720072645971
+    expectedPf = stats.norm.cdf( -expectedBeta )
+    expectedUCoord = [ -0.37621928, -0.54673539 ]
+    expectedXCoord = [ 3.11890359, 2.26632306 ]
+    np.testing.assert_allclose( np.round( expectedBeta, 5 ), np.round( calBeta, 5 ) )
+    np.testing.assert_allclose( np.round( expectedPf, 5 ), np.round( calPf, 5 ) )
+    np.testing.assert_allclose( np.round( expectedUCoord, 4 ), 
+                                np.round( calUCoord, 4 ) )
+    np.testing.assert_allclose( np.round( expectedXCoord, 4 ), 
+                                np.round( calXCoord, 4 ) )
+
+
+@pytest.mark.parametrize( "dgExists", [ 0, 1 ] )
+def test_formHLRF_twoNormalNonLinearCase4_scalar( dgExists ):
+    dim = 2
+
+    def g( X ):
+        return X[ 0 ] ** 2 + 2 * X[ 1 ] ** 2 - 20
+
+    dg = [ lambda X: 2 * X[ 0 ], lambda X: 4 * X[ 1 ] ] if dgExists else None
+    X1 = stats.norm( loc=3.0, scale=6.0 )
+    X2 = stats.norm( loc=4.0, scale=5.0 )
+    distObjs = [ X1, X2 ]
+    corrMat = np.eye( dim )
+    calBeta, calPf, calUCoord, calXCoord = rrm.formHLRF( dim, g, dg, 
+                                                         distObjs, corrMat )
+    expectedBeta = 0.28257129279933346
+    expectedPf = stats.norm.cdf( -expectedBeta )
+    expectedUCoord = [ -0.12510462, -0.25336805 ]
+    expectedXCoord = [ 2.2493723, 2.73315974 ]
+    np.testing.assert_allclose( np.round( expectedBeta, 5 ), np.round( calBeta, 5 ) )
+    np.testing.assert_allclose( np.round( expectedPf, 5 ), np.round( calPf, 5 ) )
+    np.testing.assert_allclose( np.round( expectedUCoord, 3 ), 
+                                np.round( calUCoord, 3 ) )
+    np.testing.assert_allclose( np.round( expectedXCoord, 3 ), 
+                                np.round( calXCoord, 3 ) )
 
 
 @pytest.mark.parametrize( "dgExists", [ 0, 1 ] )
@@ -620,6 +687,52 @@ def test_formCOPT_twoNormalNonLinearCase2_scalar():
                                 np.round( calXCoord, 3 ) )
 
 
+def test_formCOPT_twoNormalNonLinearCase3_scalar():
+    dim = 2
+
+    def g( X ):
+        return X[ 0 ] ** 2 + 2 * X[ 1 ] ** 2 - 20
+
+    X1 = stats.norm( loc=5.0, scale=5.0 )
+    X2 = stats.norm( loc=5.0, scale=5.0 )
+    distObjs = [ X1, X2 ]
+    corrMat = np.eye( dim )
+    calBeta, calPf, calUCoord, calXCoord = rrm.formCOPT( dim, g, distObjs, corrMat )
+    expectedBeta = 0.6636720072645971
+    expectedPf = stats.norm.cdf( -expectedBeta )
+    expectedUCoord = [ -0.37621928, -0.54673539 ]
+    expectedXCoord = [ 3.11890359, 2.26632306 ]
+    np.testing.assert_allclose( np.round( expectedBeta, 5 ), np.round( calBeta, 5 ) )
+    np.testing.assert_allclose( np.round( expectedPf, 5 ), np.round( calPf, 5 ) )
+    np.testing.assert_allclose( np.round( expectedUCoord, 4 ), 
+                                np.round( calUCoord, 4 ) )
+    np.testing.assert_allclose( np.round( expectedXCoord, 4 ), 
+                                np.round( calXCoord, 4 ) )
+
+
+def test_formCOPT_twoNormalNonLinearCase4_scalar():
+    dim = 2
+
+    def g( X ):
+        return X[ 0 ] ** 2 + 2 * X[ 1 ] ** 2 - 20
+
+    X1 = stats.norm( loc=3.0, scale=6.0 )
+    X2 = stats.norm( loc=4.0, scale=5.0 )
+    distObjs = [ X1, X2 ]
+    corrMat = np.eye( dim )
+    calBeta, calPf, calUCoord, calXCoord = rrm.formCOPT( dim, g, distObjs, corrMat )
+    expectedBeta = 0.28257129279933346
+    expectedPf = stats.norm.cdf( -expectedBeta )
+    expectedUCoord = [ -0.12510462, -0.25336805 ]
+    expectedXCoord = [ 2.2493723, 2.73315974 ]
+    np.testing.assert_allclose( np.round( expectedBeta, 5 ), np.round( calBeta, 5 ) )
+    np.testing.assert_allclose( np.round( expectedPf, 5 ), np.round( calPf, 5 ) )
+    np.testing.assert_allclose( np.round( expectedUCoord, 3 ), 
+                                np.round( calUCoord, 3 ) )
+    np.testing.assert_allclose( np.round( expectedXCoord, 3 ), 
+                                np.round( calXCoord, 3 ) )
+
+
 def test_formCOPT_threeExpLinearCase_scalar():
     dim = 3
 
@@ -764,3 +877,4 @@ def test_formCOPT_twoExpOneNormalOneGammaNonLinearCase_scalar():
                                 np.round( calUCoord, 3 ) )
     np.testing.assert_allclose( np.round( expectedXCoord, 3 ), 
                                 np.round( calXCoord, 3 ) )
+
