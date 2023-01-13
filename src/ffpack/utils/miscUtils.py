@@ -176,7 +176,8 @@ def gradient( func, nvar, n=1, dx=1e-3, order=3 ):
         in the list is the n-th derivative of the func w.r.t. i-th input variable. 
         Therefore, rst[ i ] = :math:`\partial^n f / \partial X_i^n` and it can be
         called like rst[ i ]( X0 ) to evaluate the n-th derivative w.r.t. 
-        i-th variable at point X0.
+        i-th variable at point X0. It should be noted that X0 MUST be a list, NOT a
+        numpy array.
 
     Notes
     -----
@@ -253,7 +254,8 @@ def hessianMatrix( func, nvar, dx=1e-3, order=3 ):
     rst : 2d array
         Hessian matrix. rst[ i ][ j ] = :math:`\partial f / 
         ( \partial X_i \partial X_j )`.  It can be called like rst[ i ][ j ]( X0 ) 
-        to evaluate the value at point X0.
+        to evaluate the value at point X0. It should be noted that X0 MUST be a list, 
+        NOT a numpy array.
 
     Notes
     -----

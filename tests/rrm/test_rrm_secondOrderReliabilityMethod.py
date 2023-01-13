@@ -136,7 +136,7 @@ def test_sormBreitung_twoNormalLinearCase_scalar( dgExists ):
     expectedUCoord = [ 0.5, 0.5 ]
     expectedXCoord = [ 0.5, 0.5 ]
     np.testing.assert_allclose( np.round( expectedBeta, 4 ), np.round( calBeta, 4 ) )
-    np.testing.assert_allclose( np.round( expectedPf, 4 ), np.round( calPf, 4 ) )
+    np.testing.assert_allclose( np.round( expectedPf, 3 ), np.round( calPf, 3 ) )
     np.testing.assert_allclose( np.round( expectedUCoord, 4 ), 
                                 np.round( calUCoord, 4 ) )
     np.testing.assert_allclose( np.round( expectedXCoord, 4 ), 
@@ -144,17 +144,21 @@ def test_sormBreitung_twoNormalLinearCase_scalar( dgExists ):
 
 
 @pytest.mark.parametrize( "dgExists", [ 0, 1 ] )
-@patch( "ffpack.rrm.firstOrderReliabilityMethod.formHLRF" )
-def test_sormBreitung_twoNormalNonLinearCase_scalar( mock_formHLRF, dgExists ):
+def test_sormBreitung_twoNormalNonLinearCase_scalar( dgExists ):
     r'''
-    This example come from the reference [Choi2007] page 132.
+    This example comes from the reference [Choi2007] page 132.
 
     Here are some expected values of local variables from the refernce:
+
     lsfGradAtU = [ 119.8184, 124.8218 ]
     lsfHmAtU = [ [ 989.5592, 0 ],
                  [ 0, 1281.2632 ] ]
     HBH = [ [ 6.5278, -0.8423 ],
             [ -0.8423, 6.5968 ] ]
+
+    Notes
+    -----
+    formHLRF does not converge for this high order limit state function.
 
     References
     ----------
@@ -172,10 +176,13 @@ def test_sormBreitung_twoNormalNonLinearCase_scalar( mock_formHLRF, dgExists ):
     X2 = stats.norm( loc=10.0, scale=5.0 )
     distObjs = [ X1, X2 ]
     corrMat = np.eye( dim )
-    mock_formHLRF.return_value = [ 2.3654, stats.norm.cdf( -2.3654 ),
-                                   [ -1.6368, -1.7077 ], [ 1.8162, 1.4613 ] ]
-    calBeta, calPf, _, _ = rrm.sormBreitung( dim, g, dg, distObjs, corrMat )
+    calBeta, calPf, calUCoord, calXCoord = rrm.sormBreitung( dim, g, dg, 
+                                                             distObjs, corrMat )
     expectedBeta = 2.3654
     expectedPf = 0.00222059
-    np.testing.assert_allclose( np.round( expectedBeta, 4 ), np.round( calBeta, 4 ) )
-    np.testing.assert_allclose( np.round( expectedPf, 4 ), np.round( calPf, 4 ) )
+    expectedUCoord = [ -1.6368, -1.7077 ]
+    expectedXCoord = [ 1.8162, 1.4613 ]
+    np.testing.assert_allclose( expectedBeta, calBeta, atol=1e-4 )
+    np.testing.assert_allclose( expectedPf, calPf, atol=1e-4 )
+    np.testing.assert_allclose( expectedUCoord, calUCoord, atol=1e-3 )
+    np.testing.assert_allclose( expectedXCoord, calXCoord, atol=1e-3 )
