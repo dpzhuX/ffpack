@@ -3,7 +3,7 @@
 import numpy as np
 from scipy import stats
 from ffpack.utils import gradient, hessianMatrix, gramSchmidOrth
-from ffpack.rrm import formHLRF
+from ffpack.rrm import firstOrderReliabilityMethod
 from ffpack import rpm
 
 
@@ -74,14 +74,60 @@ def sormBreitung( dim, g, dg, distObjs, corrMat, iter=1000, tol=1e-6,
     >>> dg = [ lambda X: -1, lambda X: -1 ]
     >>> distObjs = [ stats.norm(), stats.norm() ]
     >>> corrMat = np.eye( dim )
-    >>> beta, pf, uCoord, xCoord = formHLRF( dim, g, dg, distObjs, corrMat )
+    >>> beta, pf, uCoord, xCoord = sormBreitung( dim, g, dg, distObjs, corrMat )
     '''
-    beta, pf, uCoord, xCoord = formHLRF( dim, g, dg, distObjs, corrMat )
+    # Check edge cases
+    if dim < 1:
+        raise ValueError( "dim cannot be less than 1" )
+
+    corrMat = np.array( corrMat )
+    if not np.all( np.diag( corrMat ) == 1 ):
+        raise ValueError( "diagonals of corrMat should be 1" )
+
+    if len( distObjs ) != dim or corrMat.shape[ 0 ] != dim \
+            or corrMat.shape[ 1 ] != dim: 
+        raise ValueError( "length of distObjs and corrMat should be dim" )
+
+    if corrMat.ndim != 2:
+        raise ValueError( "corrMat should be 2d matrix" )
+
+    if not np.array_equal( corrMat, corrMat.T ):
+        raise ValueError( "corrMat should be symmetric" )
+    
+    try:
+        _ = np.linalg.cholesky( corrMat )
+    except np.linalg.LinAlgError:
+        raise ValueError( "corrMat should be positive definite" )
+
+    beta, _, uCoord, xCoord = firstOrderReliabilityMethod.formHLRF( dim, g, dg, 
+                                                                    distObjs, 
+                                                                    corrMat )
+
+    natafTrans = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat, 
+                                          quadDeg=quadDeg, quadRange=quadRange )
+
+    _, J = natafTrans.getX( uCoord )
+    JInv = np.linalg.inv( J )
 
     if dg is None:
         dg = gradient( g, dim, n=1, dx=dx )
     
     lsfGradAtX = [ dgi( xCoord ) for dgi in dg ]
+    lsfGradAtU = np.dot( JInv, lsfGradAtX )
+    lsfGradNormAtU = np.linalg.norm( lsfGradAtU )
+
+    alignVec = -1 * lsfGradAtU / lsfGradNormAtU
+    A = np.eye( dim )
+    B, _ = gramSchmidOrth( A, alignVec=alignVec )
+    H = np.array( B[ :, [ idx for idx in range( 1, dim )] + [ 0 ] ] ).T
     
     hm = hessianMatrix( g, dim, dx=dx )
     lsfHmAtX = [ [ hmij( xCoord ) for hmij in hmi ] for hmi in hm ]
+    lsfHmAtU = np.dot( np.dot( JInv, lsfHmAtX ), JInv.T )
+
+    HBH = np.dot( np.dot( H, lsfHmAtU / lsfGradNormAtU ), H.T )
+    k = np.linalg.eig( HBH[ : dim - 1, : dim - 1 ] )
+
+    pf = stats.norm.cdf( -1 * beta) * np.prod( 1 / (1 + beta * k[ 0 ]) ** 0.5)
+
+    return beta, pf, uCoord, xCoord
