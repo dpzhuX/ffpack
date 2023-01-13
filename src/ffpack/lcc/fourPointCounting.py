@@ -1,18 +1,14 @@
 #!/usr/bin/env python3
 
-'''
-This module implements the standard cycle counting methods in 
-ASTM E1049-85(2017) Standard Practices for Cycle Counting in Fatigue Analysis
-'''
-
 import numpy as np
 from ffpack.utils import generalUtils
 from ffpack.config import globalConfig
 from collections import defaultdict
 
-def fourPointCounting( data, aggregate=True ):
+
+def fourPointRainflowCounting( data, aggregate=True ):
     '''
-    Four point counting in [Lee2011]_.
+    Four point rainflow counting in [Lee2011]_.
 
     Parameters
     ----------
@@ -35,9 +31,9 @@ def fourPointCounting( data, aggregate=True ):
 
     Examples
     --------
-    >>> from ffpack.lcc import fourPointCounting
+    >>> from ffpack.lcc import fourPointRainflowCounting
     >>> data = [ -2.0, 1.0, -3.0, 5.0, -1.0, 3.0, -4.0, 4.0, -2.0 ]
-    >>> rst = fourPointCounting( data )
+    >>> rst = fourPointRainflowCounting( data )
     
     References
     ----------
@@ -85,8 +81,6 @@ def fourPointCounting( data, aggregate=True ):
         [ first, second, third, fourth ] = oneRound( indices, data )
         if first == -1: 
             break
-        # print( indices )
-        # print( [ first, second, third, fourth ] )
         rstSeq.append( [ data[ second ], data[ third ], 1 ] )
         indices[ first ] = fourth
         indices[ second ] = -1

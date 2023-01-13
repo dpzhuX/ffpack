@@ -43,7 +43,7 @@ pip install ffpack
     * Rychlik counting
         * Rychlik rainflow counting
     * Four point counting
-        * Four point counting
+        * Four point rainflow counting
 
 * Load sequence generator
     * Random walk
