@@ -112,7 +112,7 @@ def formHLRF( dim, g, dg, distObjs, corrMat, iter=1000, tol=1e-6,
         X, J = natafTrans.getX( Us[ idx - 1 ] )
 
         a = np.array( [ dgi( X ) for dgi in dg ] )
-        gPrime = np.linalg.solve( J.T, a )
+        gPrime = np.linalg.solve( J.T, a.reshape( -1, 1) )
         gPrime = gPrime.T.flatten()
         gPrimeNorm = np.linalg.norm( gPrime )
 
