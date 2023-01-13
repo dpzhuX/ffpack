@@ -156,8 +156,8 @@ def astmSimpleRangeCounting( data, aggregate=True ):
         Load sequence data for counting.
     aggragate: bool, optional
         If aggregate is set to False, the original sequence for internal counting,
-        e.g., [ [ rangeStart1, rangeEnd1, count1 ], [ rangeStart2, rangeEnd2, count2 ], ... ], 
-        will be returned.
+        e.g., [ [ rangeStart1, rangeEnd1, count1 ], 
+        [ rangeStart2, rangeEnd2, count2 ], ... ], will be returned.
     
     Returns
     -------
@@ -304,8 +304,8 @@ def astmRangePairCounting( data, aggregate=True ):
         Load sequence data for counting.
     aggragate: bool, optional
         If aggregate is set to False, the original sequence for internal counting,
-        e.g., [ [ rangeStart1, rangeEnd1, count1 ], [ rangeStart2, rangeEnd2, count2 ], ... ], 
-        will be returned.
+        e.g., [ [ rangeStart1, rangeEnd1, count1 ], 
+        [ rangeStart2, rangeEnd2, count2 ], ... ], will be returned.
     
     Returns
     -------
@@ -402,8 +402,8 @@ def astmRainflowRepeatHistoryCounting( data, aggregate=True ):
         Load sequence data for counting.
     aggragate: bool, optional
         If aggregate is set to False, the original sequence for internal counting,
-        e.g., [ [ rangeStart1, rangeEnd1, count1 ], [ rangeStart2, rangeEnd2, count2 ], ... ], 
-        will be returned.
+        e.g., [ [ rangeStart1, rangeEnd1, count1 ], 
+        [ rangeStart2, rangeEnd2, count2 ], ... ], will be returned.
     
     Returns
     -------
@@ -414,7 +414,8 @@ def astmRainflowRepeatHistoryCounting( data, aggregate=True ):
     ------
     ValueError
         If the data length is less than 2 or the data dimension is not 1.
-        If the data is not repeatable: first data point is different from the last data point. 
+        If the data is not repeatable: first data point is different from the 
+        last data point. 
 
     Examples
     --------
