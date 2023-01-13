@@ -42,6 +42,8 @@ pip install ffpack
         * Johannesson min max counting
     * Rychlik counting
         * Rychlik rainflow counting
+    * Four point counting
+        * Four point counting
 
 * Load sequence generator
     * Random walk
