@@ -98,7 +98,8 @@ pip install ffpack
     * Fitter for SN curve
     * Gradient
     * Hessian matrix
-    * Sequence peak and valleys
+    * Sequence peakvalley filter
+    * Sequence hysteresis filter
     * Sequence degitization
 
 ## Document
