@@ -35,7 +35,7 @@ classifiers = [
 python = ">=3.7,<3.12"
 scipy = [
     {version = ">=1.2,<1.8", python = "3.7"},
-    {version = "^1.8", python = ">=3.9,<3.11"}
+    {version = "^1.8", python = ">=3.8,<3.11"}
 ]
 
 [tool.pytest.ini_options]
