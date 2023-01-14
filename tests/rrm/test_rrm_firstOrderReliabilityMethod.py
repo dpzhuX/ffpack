@@ -877,4 +877,3 @@ def test_formCOPT_twoExpOneNormalOneGammaNonLinearCase_scalar():
                                 np.round( calUCoord, 3 ) )
     np.testing.assert_allclose( np.round( expectedXCoord, 3 ), 
                                 np.round( calXCoord, 3 ) )
-
