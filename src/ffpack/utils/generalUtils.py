@@ -36,12 +36,12 @@ def sequencePeakValleyFilter( data, keepEnds=False ):
     >>> rst = sequencePeakValleyFilter( data )
     '''
     # Egde cases
-    data = np.array( data )
+    data = np.array( data, dtype=float )
     if len( data.shape ) != 1:
         raise ValueError( "Input data dimension should be 1" )
-    if data.shape[0] <= 1 and keepEnds:
+    if data.shape[ 0 ] <= 1 and keepEnds:
         raise ValueError( "Input data length should be at least 2" )
-    if data.shape[0] <= 2 and not keepEnds:
+    if data.shape[ 0 ] <= 2 and not keepEnds:
         raise ValueError( "Input data length should be at least 3" )
 
     rst = [ ]
@@ -93,13 +93,14 @@ def sequenceHysteresisFilter( data, gateSize ):
     --------
     >>> from ffpack.utils import sequenceHysteresisFilter
     >>> data = [ 2, 5, 3, 6, 2, 4, 1, 6, 1, 3, 1, 5, 3, 6, 3, 6, 4, 5, 2 ]
-    >>> rst = sequenceHysteresisFilter( data )
+    >>> gateSize = 3.0
+    >>> rst = sequenceHysteresisFilter( data, gateSize )
     '''
     # Egde cases
-    data = np.array( data )
+    data = np.array( data, dtype=float )
     if len( data.shape ) != 1:
         raise ValueError( "Input data dimension should be 1" )
-    if data.shape[0] < 2:
+    if data.shape[ 0 ] < 2:
         raise ValueError( "Input data length should be at least 2" )
     if not isinstance( gateSize, int ) and not isinstance( gateSize, float ):
         raise ValueError( "gateSize must be a scalar" )
@@ -210,11 +211,11 @@ def sequenceDigitization( data, resolution=1.0 ):
     >>> rst = sequenceDigitization( data )
     '''
     # Egde cases
-    data = np.array( data )
+    data = np.array( data, dtype=float )
     if len( data.shape ) != 1:
         raise ValueError( "Input data dimension should be 1" )
 
-    rst = []
+    rst = [ ]
     for d in data:
         rst.append( np.rint( d / resolution) * resolution )
     return rst
