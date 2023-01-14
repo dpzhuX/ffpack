@@ -6,3 +6,4 @@ Risk and reliability model ( rrm )
 
    moduleCookbook/rrmFirstOrderSecondMethod
    moduleCookbook/rrmFirstOrderReliabilityMethod
+   moduleCookbook/rrmSecondOrderReliabilityMethod
