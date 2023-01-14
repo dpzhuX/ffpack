@@ -15,3 +15,9 @@ Rychlik Counting
 
 .. automodule:: ffpack.lcc.rychlikCounting
    :members:
+
+Rychlik Counting
+----------------
+
+.. automodule:: ffpack.lcc.fourPointCounting
+   :members:

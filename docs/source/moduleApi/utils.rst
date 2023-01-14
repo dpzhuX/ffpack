@@ -4,27 +4,27 @@ General utils
 .. automodule:: ffpack.utils.generalUtils
    :members:
 
-``fdr`` utils
--------------
+fdr utils
+---------
 
 .. automodule:: ffpack.utils.fdrUtils
    :members:
    :private-members:
 
-``lcc`` utils
--------------
+lcc utils
+---------
 
 .. automodule:: ffpack.utils.lccUtils
    :members:
 
-``lsm`` utils
--------------
+lsm utils
+---------
 
 .. automodule:: ffpack.utils.lsmUtils
    :members:
 
-``misc`` utils
---------------
+misc utils
+----------
 
 .. automodule:: ffpack.utils.miscUtils
    :members:
