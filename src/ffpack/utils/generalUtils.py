@@ -67,8 +67,7 @@ def sequenceHysteresisFilter( data, gateSize ):
 
     Any cycle that has an amplitude smaller than the gate is removed from the data. 
     This is done by scan the data, i.e., point i, to check if the next points, 
-    i.e., i + 1, i + 2, ... are within the gate from point i. If the next point 
-    not within the gate, find and keep only the peak or valley. 
+    i.e., i + 1, i + 2, ... are within the gate from point i. 
 
     Parameters
     ----------
@@ -109,29 +108,6 @@ def sequenceHysteresisFilter( data, gateSize ):
 
     n = len( data )
     keep = [ 1 ] * n
-
-    def findPeak( i ):
-        # find the index after i that is the peak
-        # return last index if no peak is found
-        while ( i < n - 1 ):
-            if ( data[ i ] > data[ i + 1 ] ):
-                return i
-            else:
-                keep[ i ] = -1
-                i += 1
-        return n - 1
-
-    def findValley( i ):
-        # find the index after i that is the peak
-        # return last index if no peak is found
-        while ( i < n - 1 ):
-            if ( data[ i ] < data[ i + 1 ] ):
-                return i
-            else:
-                keep[ i ] = -1
-                i += 1
-        return n - 1
-
     i = 0
     while ( i < n - 1 ):
         cur = data[ i ]
@@ -150,9 +126,7 @@ def sequenceHysteresisFilter( data, gateSize ):
                     keep[ j ] = -1
                     j += 1
                 else:
-                    j = findPeak( j )
                     break
-            i = j
         else:
             while ( j < n - 1 ):
                 if ( data[ j ] > cur ):
@@ -161,9 +135,8 @@ def sequenceHysteresisFilter( data, gateSize ):
                     keep[ j ] = -1
                     j += 1
                 else:
-                    j = findValley( j )
                     break
-            i = j
+        i = j
     
     rst = [ ]
     for i in range( n ):
