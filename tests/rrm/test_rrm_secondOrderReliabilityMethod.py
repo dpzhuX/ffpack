@@ -306,3 +306,69 @@ def test_sormTvedt_twoNormalNonLinearCase_scalar( mock_curv ):
     _, calPf, _, _ = rrm.sormTvedt( dim, g, dg, distObjs, corrMat )
     expectedPf = 0.0022209354927 + ( -0.000114584867 ) + ( -0.0003856239105 )
     np.testing.assert_allclose( expectedPf, calPf, atol=1e-6 )
+
+
+###############################################################################
+# Test sormHRack
+###############################################################################
+@patch( "ffpack.rrm.secondOrderReliabilityMethod.mainCurvaturesAtDesignPoint" )
+def test_sormHRack_twoNormalLinearCase_scalar( mock_curv ):
+    # Linear case should have the same results as FORM.
+    dim = 2
+
+    def g( X ):
+        return -np.sum( X ) + 1
+
+    dg = [ lambda X: -1, lambda X: -1 ]
+    X1 = stats.norm()
+    X2 = stats.norm()
+    distObjs = [ X1, X2 ]
+    corrMat = np.eye( dim )
+    mock_curv.return_value = [ [ 0.0 ], np.sqrt( 2 ) / 2, 
+                               [ 0.5, 0.5 ], [ 0.5, 0.5 ] ]
+    _, calPf, _, _ = rrm.sormHRack( dim, g, dg, distObjs, corrMat )
+    expectedBeta = np.sqrt( 2 ) / 2
+    expectedPf = stats.norm.cdf( -expectedBeta )
+    np.testing.assert_allclose( expectedPf, calPf, atol=1e-6 )
+
+
+@patch( "ffpack.rrm.secondOrderReliabilityMethod.mainCurvaturesAtDesignPoint" )
+def test_sormHRack_twoNormalNonLinearCase_scalar( mock_curv ):
+    r'''
+    This data comes from the reference [Choi2007] page 135.
+
+    There is some errors in the reference. Here should be the correct value:
+    k = 6.5278
+    beta = 2.3654
+    cdf( beta ) = 0.99099470
+    cdf( -beta ) = 0.00900530
+    pdf( beta ) = 0.02431901
+
+
+    ( 1 + k * pdf( beta ) / cdf( beta ) ) ** -0.5 
+        = ( 1 + 6.5278 * 0.02431901 / 0.99099470 ) ** -0.5
+        = 0.928399776
+    
+    pf = 0.00900530 * 0.928399776 = 0.0083605185
+
+
+    References
+    ----------
+    .. [Choi2007] Choi, S.K., Canfield, R.A. and Grandhi, R.V., 2007. 
+       Reliability-based Structural Design. Springer London.
+    '''
+    dim = 2
+
+    def g( X ):
+        return X[ 0 ] ** 4 + 2 * X[ 1 ] ** 4 - 20
+
+    dg = [ lambda X: 4 * X[ 0 ] ** 3, lambda X: 8 * X[ 1 ] ** 3 ] 
+    X1 = stats.norm( loc=10.0, scale=5.0 )
+    X2 = stats.norm( loc=10.0, scale=5.0 )
+    distObjs = [ X1, X2 ]
+    corrMat = np.eye( dim )
+    mock_curv.return_value = [ [ 6.5278 ], 2.3654,
+                               [ -1.6368, -1.7077 ], [ 1.8162, 1.4613 ] ]
+    _, calPf, _, _ = rrm.sormHRack( dim, g, dg, distObjs, corrMat )
+    expectedPf = 0.0083605185
+    np.testing.assert_allclose( expectedPf, calPf, atol=1e-6 )

@@ -90,6 +90,7 @@ pip install ffpack
     * Second order reliability method
         * SORM with Breitung method
         * SORM with Tvedt method
+        * SORM with Hohenbichler and Rackwitz method
 
 * Utility methods
     * Derivative
