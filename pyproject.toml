@@ -33,7 +33,11 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = ">=3.8,<3.12"
-scipy = "^1.10"
+scipy = [
+    {version = "~1.8", python = ">=3.8,<3.11"},
+    {version = "~1.9", python = ">=3.8,<3.12"},
+    {version = "~1.10", python = ">=3.8,<3.12"}
+]
 
 [tool.pytest.ini_options]
 addopts = [

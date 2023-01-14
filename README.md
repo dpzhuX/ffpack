@@ -89,6 +89,7 @@ pip install ffpack
         * FORM with constrained optimization method
     * Second order reliability method
         * SORM with Breitung method
+        * SORM with Tvedt method
 
 * Utility methods
     * Derivative
