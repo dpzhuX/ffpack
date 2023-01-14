@@ -1,0 +1,9 @@
+Load spectra and matrices ( lsm )
+=================================
+
+.. toctree::
+   :maxdepth: 2
+
+   moduleCookbook/lsmWaveSpectra
+   moduleCookbook/lsmWindSpectra
+   moduleCookbook/lsmCycleCountingMatrix
