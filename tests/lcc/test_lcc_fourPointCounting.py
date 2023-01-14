@@ -31,7 +31,7 @@ def test_fourPointRainflowCounting_twoDimInputCase_valueError():
         _ = lcc.fourPointRainflowCounting( data )
 
 
-@patch( "ffpack.utils.generalUtils.sequencePeakAndValleys" )
+@patch( "ffpack.utils.generalUtils.sequencePeakValleyFilter" )
 def test_fourPointRainflowCounting_fourPoints_depends( mock_get ):
     # case 1: no cycle
     data = [ -1.0, 2.0, -2.0, 2.0 ]
@@ -56,7 +56,7 @@ def test_fourPointRainflowCounting_fourPoints_depends( mock_get ):
     np.testing.assert_allclose( calRst, expectedRst )
 
 
-@patch( "ffpack.utils.generalUtils.sequencePeakAndValleys" )
+@patch( "ffpack.utils.generalUtils.sequencePeakValleyFilter" )
 def test_fourPointRainflowCounting_book_aggregated( mock_get ):
     data = [ 2, -1, 3, -5, 1, -3, 4, -4, 2 ]
     mock_get.return_value = data
@@ -69,7 +69,7 @@ def test_fourPointRainflowCounting_book_aggregated( mock_get ):
     np.testing.assert_allclose( calRst, expectedRst )
 
 
-@patch( "ffpack.utils.generalUtils.sequencePeakAndValleys" )
+@patch( "ffpack.utils.generalUtils.sequencePeakValleyFilter" )
 def test_fourPointRainflowCounting_web_aggregated( mock_get ):
     data = [ 2, 5, 3, 6, 2, 4, 1, 6, 1, 4, 1, 5, 3, 6, 3, 6, 1, 5, 2 ]
     mock_get.return_value = data

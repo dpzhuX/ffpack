@@ -495,7 +495,7 @@ def test_astmSimpleRangeCounting_twoDimInputCase_valueError():
         _ = lcc.astmSimpleRangeCounting( data )
 
 
-@patch( "ffpack.utils.generalUtils.sequencePeakAndValleys" )
+@patch( "ffpack.utils.generalUtils.sequencePeakValleyFilter" )
 def test_astmSimpleRangeCounting_normalUseCase_pass( mock_get ):
     # Standard simple range counting data from E1049-85(2017) Fig.4(a)
     data = [ -2.0, 1.0, -3.0, 5.0, -1.0, 3.0, -4.0, 4.0, -2.0 ]
@@ -527,7 +527,7 @@ def test_astmSimpleRangeCounting_normalUseCase_pass( mock_get ):
     np.testing.assert_allclose( calRst, expectedRst )
 
 
-@patch( "ffpack.utils.generalUtils.sequencePeakAndValleys" )
+@patch( "ffpack.utils.generalUtils.sequencePeakValleyFilter" )
 def test_astmSimpleRangeCounting_normalTrivialCase_pass( mock_get ):
     # Trivial case 1
     data = [ 0.0, 1.5 ]
@@ -678,7 +678,7 @@ def test_astmRainflowCounting_twoDimInputCase_valueError():
         _ = lcc.astmRainflowCounting( data )
 
 
-@patch( "ffpack.utils.generalUtils.sequencePeakAndValleys" )
+@patch( "ffpack.utils.generalUtils.sequencePeakValleyFilter" )
 def test_astmRainflowCounting_normalUseCase_pass( mock_get ):
     # Standard rainflow counting data from E1049-85(2017) Fig.6(a)
     data = [ -2.0, 1.0, -3.0, 5.0, -1.0, 3.0, -4.0, 4.0, -2.0 ]
@@ -708,7 +708,7 @@ def test_astmRainflowCounting_normalUseCase_pass( mock_get ):
     np.testing.assert_allclose( calRst, expectedRst )
 
 
-@patch( "ffpack.utils.generalUtils.sequencePeakAndValleys" )
+@patch( "ffpack.utils.generalUtils.sequencePeakValleyFilter" )
 def test_astmRainflowCounting_normalTrivialCase_pass( mock_get ):
     # Trivial case 1
     data = [ 0.0, 1.5 ]
@@ -854,7 +854,7 @@ def test_astmRangePairCounting_twoDimInputCase_valueError():
         _ = lcc.astmRangePairCounting( data )
 
 
-@patch( "ffpack.utils.generalUtils.sequencePeakAndValleys" )
+@patch( "ffpack.utils.generalUtils.sequencePeakValleyFilter" )
 def test_astmRangePairCounting_twoPoints_empty( mock_get ):
     data = [ -2.0, 1.0 ]
     mock_get.return_value = [ -2.0, 1.0 ]
@@ -867,7 +867,7 @@ def test_astmRangePairCounting_twoPoints_empty( mock_get ):
     np.testing.assert_allclose( calRst, expectedRst )
 
 
-@patch( "ffpack.utils.generalUtils.sequencePeakAndValleys" )
+@patch( "ffpack.utils.generalUtils.sequencePeakValleyFilter" )
 def test_astmRangePairCounting_threePoints_oneCount( mock_get ):
     # case 1: same left and right height
     data = [ -2.0, 1.0, -2.0 ]
@@ -903,7 +903,7 @@ def test_astmRangePairCounting_threePoints_oneCount( mock_get ):
     np.testing.assert_allclose( calRst, expectedRst )
 
 
-@patch( "ffpack.utils.generalUtils.sequencePeakAndValleys" )
+@patch( "ffpack.utils.generalUtils.sequencePeakValleyFilter" )
 def test_astmRangePairCounting_fourPoints_oneCount( mock_get ):
     # case 1: same left and right height
     data = [ -2.0, 1.0, -2.0, 1.0 ]
@@ -939,7 +939,7 @@ def test_astmRangePairCounting_fourPoints_oneCount( mock_get ):
     np.testing.assert_allclose( calRst, expectedRst )
 
 
-@patch( "ffpack.utils.generalUtils.sequencePeakAndValleys" )
+@patch( "ffpack.utils.generalUtils.sequencePeakValleyFilter" )
 def test_astmRangePairCounting_fivePoints_depends( mock_get ):
     # case 1: same left and right height
     data = [ -2.0, 1.0, -2.0, 1.0, -2.0 ]
@@ -986,7 +986,7 @@ def test_astmRangePairCounting_fivePoints_depends( mock_get ):
     np.testing.assert_allclose( calRst, expectedRst )
 
 
-@patch( "ffpack.utils.generalUtils.sequencePeakAndValleys" )
+@patch( "ffpack.utils.generalUtils.sequencePeakValleyFilter" )
 def test_astmRangePairCounting_normalUseCase_pass( mock_get ):
     # range pair counting data from E1049-85(2017) Fig.5
     data = [ -2.0, 1.0, -3.0, 5.0, -1.0, 3.0, -4.0, 4.0, -2.0 ]
@@ -1000,7 +1000,7 @@ def test_astmRangePairCounting_normalUseCase_pass( mock_get ):
     np.testing.assert_allclose( calRst, expectedRst )
 
 
-@patch( "ffpack.utils.generalUtils.sequencePeakAndValleys" )
+@patch( "ffpack.utils.generalUtils.sequencePeakValleyFilter" )
 def test_astmRangePairCounting_duplicatedHeight_aggregated( mock_get ):
     # modified range pair counting data from E1049-85(2017) Fig.5
     data = [ -2.0, 1.0, -2.0, 5.0, -1.0, 2.0, -4.0, 4.0, -2.0 ]
@@ -1042,7 +1042,7 @@ def test_astmRainflowRepeatHistoryCounting_dataNotRepeating_valueError():
         _ = lcc.astmRainflowRepeatHistoryCounting( data )
 
 
-@patch( "ffpack.utils.generalUtils.sequencePeakAndValleys" )
+@patch( "ffpack.utils.generalUtils.sequencePeakValleyFilter" )
 def test_astmRainflowRepeatHistoryCounting_twoDataPoint_empty( mock_get ):
     data = [ 1.0, 1.0 ]
     mock_get.return_value = [ 1.0, 1.0 ]
@@ -1055,7 +1055,7 @@ def test_astmRainflowRepeatHistoryCounting_twoDataPoint_empty( mock_get ):
     np.testing.assert_allclose( calRst, expectedRst )
 
 
-@patch( "ffpack.utils.generalUtils.sequencePeakAndValleys" )
+@patch( "ffpack.utils.generalUtils.sequencePeakValleyFilter" )
 def test_astmRainflowRepeatHistoryCounting_threeDataPoint_oneCount( mock_get ):
     data = [ 1.0, 2.0, 1.0 ]
     peakValley1 = [ 1.0, 2.0, 1.0 ]
@@ -1079,7 +1079,7 @@ def test_astmRainflowRepeatHistoryCounting_threeDataPoint_oneCount( mock_get ):
     np.testing.assert_allclose( calRst, expectedRst )
 
 
-@patch( "ffpack.utils.generalUtils.sequencePeakAndValleys" )
+@patch( "ffpack.utils.generalUtils.sequencePeakValleyFilter" )
 def test_astmRainflowRepeatHistoryCounting_fourDataPoint_depends( mock_get ):
     # case 1: increase first - one point in the middle
     data = [ 1.0, 2.0, -1.0, 1.0 ]
@@ -1120,7 +1120,7 @@ def test_astmRainflowRepeatHistoryCounting_fourDataPoint_depends( mock_get ):
     np.testing.assert_allclose( calRst, expectedRst )
 
 
-@patch( "ffpack.utils.generalUtils.sequencePeakAndValleys" )
+@patch( "ffpack.utils.generalUtils.sequencePeakValleyFilter" )
 def test_astmRainflowRepeatHistoryCounting_fiveDataPoint_depends( mock_get ):
     # case 1: w final - different heights
     data = [ 1.0, 2.0, -1.0, 2.0, 1.0 ]
@@ -1159,7 +1159,7 @@ def test_astmRainflowRepeatHistoryCounting_fiveDataPoint_depends( mock_get ):
     np.testing.assert_allclose( calRst, expectedRst )
 
 
-@patch( "ffpack.utils.generalUtils.sequencePeakAndValleys" )
+@patch( "ffpack.utils.generalUtils.sequencePeakValleyFilter" )
 def test_astmRainflowRepeatHistoryCounting_normalUseCase_pass( mock_get ):
     # simplified rainflow counting data for repeating histories from E1049-85(2017) Fig.7
     data = [ -2.0, 1.0, -3.0, 5.0, -1.0, 3.0, -4.0, 4.0, -2.0 ]

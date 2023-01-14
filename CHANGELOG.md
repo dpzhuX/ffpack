@@ -48,7 +48,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
-- (utils) `getSequencePeakAndValleys` was changed to `sequencePeakAndValleys`
+- (utils) `getSequencePeakAndValleys` was changed to `sequencePeakValleyFilter`
  
 ## [ 0.1.0 ] - 2022-12-11
  

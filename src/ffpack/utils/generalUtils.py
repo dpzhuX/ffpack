@@ -2,7 +2,7 @@
 
 import numpy as np
 
-def sequencePeakAndValleys( data, keepEnds=False ):
+def sequencePeakValleyFilter( data, keepEnds=False ):
     '''
     Remove the intermediate value and only get the peaks and valleys of the data
 
@@ -31,9 +31,9 @@ def sequencePeakAndValleys( data, keepEnds=False ):
 
     Examples
     --------
-    >>> from ffpack.utils import sequencePeakAndValleys
+    >>> from ffpack.utils import sequencePeakValleyFilter
     >>> data = [ -0.5, 1.0, -2.0, 3.0, -1.0, 4.5, -2.5, 3.5, -1.5, 1.0 ]
-    >>> rst = sequencePeakAndValleys( data )
+    >>> rst = sequencePeakValleyFilter( data )
     '''
     # Egde cases
     data = np.array( data )

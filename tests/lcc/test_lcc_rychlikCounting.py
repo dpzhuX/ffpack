@@ -41,7 +41,7 @@ def test_rychlikRainflowCounting_incorrectDataDim_valueError():
         _ = lcc.rychlikRainflowCounting( data, True )
 
 
-@patch( "ffpack.utils.generalUtils.sequencePeakAndValleys" )
+@patch( "ffpack.utils.generalUtils.sequencePeakValleyFilter" )
 def test_rychlikRainflowCounting_twoPoints_empty( mock_get ):
     data = [ 0.0, 2.0 ]
     mock_get.return_value = [ 0.0, 2.0 ]
@@ -55,7 +55,7 @@ def test_rychlikRainflowCounting_twoPoints_empty( mock_get ):
     np.testing.assert_allclose( calRst, expectedRst )
 
 
-@patch( "ffpack.utils.generalUtils.sequencePeakAndValleys" )
+@patch( "ffpack.utils.generalUtils.sequencePeakValleyFilter" )
 def test_rychlikRainflowCounting_threePointsIncreasing_empty( mock_get ):
     data = [ 0.0, 2.0, 3.0 ]
     mock_get.return_value = [ 0.0, 2.0 ]
@@ -69,7 +69,7 @@ def test_rychlikRainflowCounting_threePointsIncreasing_empty( mock_get ):
     np.testing.assert_allclose( calRst, expectedRst )
 
 
-@patch( "ffpack.utils.generalUtils.sequencePeakAndValleys" )
+@patch( "ffpack.utils.generalUtils.sequencePeakValleyFilter" )
 def test_rychlikRainflowCounting_threePointsDecreasing_empty( mock_get ):
     data = [ 3.0, 2.0, 0.0 ]
     mock_get.return_value = [ 3.0, 0.0 ]
@@ -83,7 +83,7 @@ def test_rychlikRainflowCounting_threePointsDecreasing_empty( mock_get ):
     np.testing.assert_allclose( calRst, expectedRst )
 
 
-@patch( "ffpack.utils.generalUtils.sequencePeakAndValleys" )
+@patch( "ffpack.utils.generalUtils.sequencePeakValleyFilter" )
 def test_rychlikRainflowCounting_threePointsDownward_empty( mock_get ):
     # case 1: left is lower
     data = [ 1.0, 0.0, 2.0 ]
@@ -110,7 +110,7 @@ def test_rychlikRainflowCounting_threePointsDownward_empty( mock_get ):
     np.testing.assert_allclose( calRst, expectedRst )
 
 
-@patch( "ffpack.utils.generalUtils.sequencePeakAndValleys" )
+@patch( "ffpack.utils.generalUtils.sequencePeakValleyFilter" )
 def test_rychlikRainflowCounting_threePointsUpward_smallerDistance( mock_get ):
     # case 1: right is higher
     data = [ 0.0, 2.0, 1.0 ]
@@ -137,7 +137,7 @@ def test_rychlikRainflowCounting_threePointsUpward_smallerDistance( mock_get ):
     np.testing.assert_allclose( calRst, expectedRst )
 
 
-@patch( "ffpack.utils.generalUtils.sequencePeakAndValleys" )
+@patch( "ffpack.utils.generalUtils.sequencePeakValleyFilter" )
 def test_rychlikRainflowCounting_fourPointsNoCrossing_smallerDistance( mock_get ):
     # case 1: higher valley in the right
     data = [ 0.0, 3.0, 1.0, 2.0 ]
@@ -164,7 +164,7 @@ def test_rychlikRainflowCounting_fourPointsNoCrossing_smallerDistance( mock_get 
     np.testing.assert_allclose( calRst, expectedRst )
 
 
-@patch( "ffpack.utils.generalUtils.sequencePeakAndValleys" )
+@patch( "ffpack.utils.generalUtils.sequencePeakValleyFilter" )
 def test_rychlikRainflowCounting_fivePoints_aggrated( mock_get ):
     data = [ 0.0, 3.0, 1.0, 4.0, 2.0 ]
     mock_get.return_value = [ 0.0, 3.0, 1.0, 4.0, 2.0 ]
@@ -178,7 +178,7 @@ def test_rychlikRainflowCounting_fivePoints_aggrated( mock_get ):
     np.testing.assert_allclose( calRst, expectedRst )
 
 
-@patch( "ffpack.utils.generalUtils.sequencePeakAndValleys" )
+@patch( "ffpack.utils.generalUtils.sequencePeakValleyFilter" )
 def test_rychlikRainflowCounting_withRedundencePoints_aggrated( mock_get ):
     data = [ 0.0, 1.0, 3.0, 2.0, 1.0, 2.0, 3.0, 4.0, 3.0, 2.0 ]
     mock_get.return_value = [ 0.0, 3.0, 1.0, 4.0, 2.0 ]
@@ -192,7 +192,7 @@ def test_rychlikRainflowCounting_withRedundencePoints_aggrated( mock_get ):
     np.testing.assert_allclose( calRst, expectedRst )
 
 
-@patch( "ffpack.utils.generalUtils.sequencePeakAndValleys" )
+@patch( "ffpack.utils.generalUtils.sequencePeakValleyFilter" )
 def test_rychlikRainflowCounting_withSamePeakPoints_oneKept( mock_get ):
     data = [ 0.0, 3.0, 3.0, 2.0, 1.0, 2.0, 3.0, 4.0, 4.0, 4.0, 2.0 ]
     mock_get.return_value = [ 0.0, 3.0, 1.0, 4.0, 2.0 ]
@@ -206,7 +206,7 @@ def test_rychlikRainflowCounting_withSamePeakPoints_oneKept( mock_get ):
     np.testing.assert_allclose( calRst, expectedRst )
 
 
-@patch( "ffpack.utils.generalUtils.sequencePeakAndValleys" )
+@patch( "ffpack.utils.generalUtils.sequencePeakValleyFilter" )
 def test_rychlikRainflowCounting_normalUseCase_pass( mock_get ):
     # Standard level corssing counting data from E1049-85(2017) Fig.2(a)
     # No levels for this test case
