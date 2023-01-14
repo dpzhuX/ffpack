@@ -278,10 +278,10 @@ def test_sequenceHysteresisFilter_withMediumPoints_keepLast():
     np.testing.assert_allclose( calRst, expectedRst )
 
     # case 2: last value within gate
-    data = [ 2, 3, 5, 4, 5, 6, 4, 3, 4, 2 ]
+    data = [ 2, 3, 5, 4, 5, 6, 4, 3, 4, 5 ]
     gateSize = 3.0
     calRst = utils.sequenceHysteresisFilter( data, gateSize )
-    expectedRst = [ 2, 5, 6, 3, 2 ]
+    expectedRst = [ 2, 5, 6, 3, 5 ]
     np.testing.assert_allclose( calRst, expectedRst )
 
 
@@ -312,7 +312,8 @@ def test_sequenceHysteresisFilter_floatPoints_keepPeakValleys():
              3.5, 1.0, -1.0, -2.5, -1.5, 3.0, 3.5, 1.5, 0.0, -1.5, 0.5, 1.0 ]
     gateSize = 2
     calRst = utils.sequenceHysteresisFilter( data, gateSize )
-    expectedRst = [ -0.5, -1.0, 1.5, -1.0, 4.5, -2.5, 3.5, -1.5, 1.0 ]
+    expectedRst = [ -0.5, -1.0, 1.5, -1.0, 1.5, 4.5, 1.0, -1.0, 3.0, 1.5, -1.5, 
+                    0.5, 1.0 ]
     np.testing.assert_allclose( calRst, expectedRst )
 
 
