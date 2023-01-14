@@ -48,7 +48,7 @@ def fourPointRainflowCounting( data, aggregate=True ):
         raise ValueError( "Input data length should be at least 4")
 
     # Remove the intermediate value first
-    data = np.array( generalUtils.sequencePeakAndValleys( data, keepEnds=True ) )
+    data = np.array( generalUtils.sequencePeakValleyFilter( data, keepEnds=True ) )
     n = len( data )
     indices = np.array( range( 1, n + 1 ) )
     indices[ n - 1 ] = -1

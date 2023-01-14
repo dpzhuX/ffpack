@@ -41,7 +41,7 @@ def test_johannessonMinMaxCounting_incorrectDataDim_valueError():
         _ = lcc.johannessonMinMaxCounting( data, True )
 
 
-@patch( "ffpack.utils.generalUtils.sequencePeakAndValleys" )
+@patch( "ffpack.utils.generalUtils.sequencePeakValleyFilter" )
 def test_johannessonMinMaxCounting_twoPoints_empty( mock_get ):
     data = [ 0.0, 2.0 ]
     mock_get.return_value = [ 0.0, 2.0 ]
@@ -55,7 +55,7 @@ def test_johannessonMinMaxCounting_twoPoints_empty( mock_get ):
     np.testing.assert_allclose( calRst, expectedRst )
 
 
-@patch( "ffpack.utils.generalUtils.sequencePeakAndValleys" )
+@patch( "ffpack.utils.generalUtils.sequencePeakValleyFilter" )
 def test_johannessonMinMaxCounting_threePointsIncreasing_empty( mock_get ):
     data = [ 0.0, 2.0, 3.0 ]
     mock_get.return_value = [ 0.0, 2.0 ]
@@ -69,7 +69,7 @@ def test_johannessonMinMaxCounting_threePointsIncreasing_empty( mock_get ):
     np.testing.assert_allclose( calRst, expectedRst )
 
 
-@patch( "ffpack.utils.generalUtils.sequencePeakAndValleys" )
+@patch( "ffpack.utils.generalUtils.sequencePeakValleyFilter" )
 def test_johannessonMinMaxCounting_threePointsDecreasing_empty( mock_get ):
     data = [ 3.0, 2.0, 0.0 ]
     mock_get.return_value = [ 3.0, 0.0 ]
@@ -83,7 +83,7 @@ def test_johannessonMinMaxCounting_threePointsDecreasing_empty( mock_get ):
     np.testing.assert_allclose( calRst, expectedRst )
 
 
-@patch( "ffpack.utils.generalUtils.sequencePeakAndValleys" )
+@patch( "ffpack.utils.generalUtils.sequencePeakValleyFilter" )
 def test_johannessonMinMaxCounting_threePointsDownward_empty( mock_get ):
     # case 1: left is lower
     data = [ 1.0, 0.0, 2.0 ]
@@ -110,7 +110,7 @@ def test_johannessonMinMaxCounting_threePointsDownward_empty( mock_get ):
     np.testing.assert_allclose( calRst, expectedRst )
 
 
-@patch( "ffpack.utils.generalUtils.sequencePeakAndValleys" )
+@patch( "ffpack.utils.generalUtils.sequencePeakValleyFilter" )
 def test_johannessonMinMaxCounting_threePointsUpward_leftDistance( mock_get ):
     data = [ 0.0, 2.0, 1.0 ]
     mock_get.return_value = [ 0.0, 2.0, 1.0 ]
@@ -124,7 +124,7 @@ def test_johannessonMinMaxCounting_threePointsUpward_leftDistance( mock_get ):
     np.testing.assert_allclose( calRst, expectedRst )
 
 
-@patch( "ffpack.utils.generalUtils.sequencePeakAndValleys" )
+@patch( "ffpack.utils.generalUtils.sequencePeakValleyFilter" )
 def test_johannessonMinMaxCounting_fourPointsNoCrossing_leftDistance( mock_get ):
     # case 1: higher valley in the right
     data = [ 0.0, 3.0, 1.0, 2.0 ]
@@ -151,7 +151,7 @@ def test_johannessonMinMaxCounting_fourPointsNoCrossing_leftDistance( mock_get )
     np.testing.assert_allclose( calRst, expectedRst )
 
 
-@patch( "ffpack.utils.generalUtils.sequencePeakAndValleys" )
+@patch( "ffpack.utils.generalUtils.sequencePeakValleyFilter" )
 def test_johannessonMinMaxCounting_fivePoints_aggrated( mock_get ):
     data = [ 1.0, 4.0, 0.0, 3.0, 2.0 ]
     mock_get.return_value = [ 1.0, 4.0, 0.0, 3.0, 2.0 ]
@@ -165,7 +165,7 @@ def test_johannessonMinMaxCounting_fivePoints_aggrated( mock_get ):
     np.testing.assert_allclose( calRst, expectedRst )
 
 
-@patch( "ffpack.utils.generalUtils.sequencePeakAndValleys" )
+@patch( "ffpack.utils.generalUtils.sequencePeakValleyFilter" )
 def test_johannessonMinMaxCounting_withRedundencePoints_aggrated( mock_get ):
     data = [ 1.0, 2.0, 4.0, 3.0, 2.0, 0.0, 2.0, 3.0, 2.0 ]
     mock_get.return_value = [ 1.0, 4.0, 0.0, 3.0, 2.0 ]
@@ -180,7 +180,7 @@ def test_johannessonMinMaxCounting_withRedundencePoints_aggrated( mock_get ):
 
 
 
-@patch( "ffpack.utils.generalUtils.sequencePeakAndValleys" )
+@patch( "ffpack.utils.generalUtils.sequencePeakValleyFilter" )
 def test_johannessonMinMaxCounting_withSamePeakPoints_oneKept( mock_get ):
     data = [ 1.0, 2.0, 4.0, 4.0, 3.0, 2.0, 0.0, 2.0, 3.0, 3.0, 2.0 ]
     mock_get.return_value = [ 1.0, 4.0, 0.0, 3.0, 2.0 ]
@@ -194,7 +194,7 @@ def test_johannessonMinMaxCounting_withSamePeakPoints_oneKept( mock_get ):
     np.testing.assert_allclose( calRst, expectedRst )
 
 
-@patch( "ffpack.utils.generalUtils.sequencePeakAndValleys" )
+@patch( "ffpack.utils.generalUtils.sequencePeakValleyFilter" )
 def test_johannessonMinMaxCounting_normalUseCase_pass( mock_get ):
     # Standard level corssing counting data from E1049-85(2017) Fig.2(a)
     data = [ -0.8, 1.3, 0.7, 3.4, 0.7, 2.5, -1.4, -0.5, -2.3, 
