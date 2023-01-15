@@ -6,4 +6,5 @@ Load spectra and matrices ( lsm )
 
    moduleCookbook/lsmWaveSpectra
    moduleCookbook/lsmWindSpectra
+   moduleCookbook/lsmSequenceSpectra
    moduleCookbook/lsmCycleCountingMatrix
