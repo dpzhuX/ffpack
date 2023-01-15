@@ -78,6 +78,7 @@ pip install ffpack
 * Random and probabilistic model
     * Metropolis-Hastings algorithm
         * Metropolis-Hastings sampler
+        * Au modified Metropolis-Hastings sampler
     * Nataf algorithm
         * Nataf transformation
 
