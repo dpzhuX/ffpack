@@ -74,6 +74,8 @@ pip install ffpack
         * EC1 spectrum
         * IEC spectrum
         * API spectrum
+    * Sequence spectra
+        * Periodogram Spectrum
 
 * Random and probabilistic model
     * Metropolis-Hastings algorithm
@@ -92,17 +94,23 @@ pip install ffpack
         * SORM with Tvedt method
         * SORM with Hohenbichler and Rackwitz method
 
-* Utility methods
-    * Derivative
-    * Central derivative weights
-    * Cycle counting aggregation
-    * Counting results to counting matrix
-    * Fitter for SN curve
-    * Gradient
-    * Hessian matrix
-    * Sequence peakValley filter
-    * Sequence hysteresis filter
-    * Sequence degitization
+* Utility 
+    * Fitter
+        * Fitter for SN curve
+    * Counting matrix
+        * Counting results to counting matrix
+    * Aggregation
+        * Cycle counting aggregation
+    * Sequence filters
+        * Sequence peakValley filter
+        * Sequence hysteresis filter
+    * Degitization
+        * Sequence degitization
+    * Derivatives
+        * Derivative
+        * Central derivative weights
+        * Gradient
+        * Hessian matrix
 
 ## Document
 
