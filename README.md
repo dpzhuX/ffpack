@@ -75,7 +75,8 @@ pip install ffpack
         * IEC spectrum
         * API spectrum
     * Sequence spectra
-        * Periodogram Spectrum
+        * Periodogram spectrum
+        * Welch spectrum
 
 * Random and probabilistic model
     * Metropolis-Hastings algorithm
