@@ -6,3 +6,4 @@ Load sequence generator ( lsg )
 
    moduleCookbook/lsgRandomWalk
    moduleCookbook/lsgAutoregressiveMovingAverage
+   moduleCookbook/lsgSequenceFromSpectrum
