@@ -62,6 +62,7 @@ pip install ffpack
         * ASTM rainflow counting matrix for repeating history
         * Johannesson min max counting matrix
         * Rychlik rainflow counting matrix
+        * Four point rainflow counting matrix
     * Wave spectra
         * Jonswap spectrum
         * Pierson Moskowitz spectrum
@@ -97,13 +98,13 @@ pip install ffpack
         * SORM with Hohenbichler and Rackwitz method
 
 * Utility 
-    * Fitter
-        * Fitter for SN curve
-    * Counting matrix
-        * Counting results to counting matrix
     * Aggregation
         * Cycle counting aggregation
-    * Sequence filters
+    * Counting matrix
+        * Counting results to counting matrix
+    * Fitter
+        * Fitter for SN curve
+    * Sequence filter
         * Sequence peakValley filter
         * Sequence hysteresis filter
     * Degitization
