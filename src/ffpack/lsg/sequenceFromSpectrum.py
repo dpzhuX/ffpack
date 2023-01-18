@@ -1,39 +1,45 @@
 #!/usr/bin/env python3
 
 import numpy as np
+from ffpack.config import globalConfig
 
 
 def harmonicSuperposition( fs, time, freq, psd, freqBandwidth=None ):
     '''
-    Generate load sequence by a random walk.
+    Generate a sequence from a given power spectrum density with harmonic 
+    superposition method.
 
     Parameters
     ----------
     fs: scalar 
-        Sampling frequence.
+        Sampling frequency.
     time: scalar
         Total sampling time.
     freq: 1darray
-        Frequence array for psd
+        Frequency array for psd.
+        The freq array should be in equally spaced increasing. 
     psd: 1darray
         Power spectrum density array. 
     freqBandwidth: scalar, optional
-        Frequence bandwidth used to generate the time series from psd.
-        Default to None, every frequence in freq will be used. 
+        Frequency bandwidth used to generate the time series from psd.
+        Default to None, every frequency in freq will be used. 
     
     Returns
     -------
     ts: 1darray
         Array containing all the time data for the time series.
-    amp: 1darray
+    amps: 1darray
         Amplitude array containing the amplitudes of the time series 
         corresponding to ts.
 
-    
     Raises
     ------
     ValueError
-        If the numSteps is less than 1 or the dim is less than 1.
+        If the fs or time is not a scalar.
+        If freq or psd is not a 1darray or has less than 3 elements.
+        If freq and psd are in different lengths.
+        If freq contains negative elements.
+        If freq is not equally spaced increasing. 
 
     Examples
     --------
@@ -42,8 +48,7 @@ def harmonicSuperposition( fs, time, freq, psd, freqBandwidth=None ):
     >>> time = 10
     >>> freq = [ 0, 0.1, 0.2, 0.3, 0.4, 0.5 ]
     >>> psd = [ 0.01, 2, 0.05, 0.04, 0.01, 0.03 ]
-    >>> ts, amp = harmonicSuperposition( fs, time, freq, psd, freqBandwidth=None )
-
+    >>> ts, amps = harmonicSuperposition( fs, time, freq, psd, freqBandwidth=None )
     '''
     # edge case check for fs and time
     if not isinstance( fs, int ) and not isinstance( fs, float ):
@@ -55,24 +60,31 @@ def harmonicSuperposition( fs, time, freq, psd, freqBandwidth=None ):
     if time <= 0:
         raise ValueError( "time should be positive" )
     
-    # edge case check for freq and psd
+    # edge case check for freq
     freq = np.array( freq, dtype=float )
     if len( freq.shape ) != 1:
         raise ValueError( "freq dimension should be 1" )
-    if freq.shape[ 0 ] < 2:
-        raise ValueError( "freq length should be at least 2" )
+    if freq.shape[ 0 ] < 3:
+        raise ValueError( "freq length should be at least 3" )
+    if freq[ 0 ] < 0 or freq[ 1 ] < 0:
+        raise ValueError( " freq array should be non-negative" )
+    if freq[ 1 ] <= freq[ 0 ]:
+        raise ValueError( " freq array should be strictly increasing" )
+    diff = freq[ 1 ] - freq[ 0 ]
+    for i in range( 1, len( freq ) ):
+        if abs( freq[ i ] - freq[ i - 1 ] - diff ) > globalConfig.atol:
+            raise ValueError( " freq array should be equally spaced increasing" )
+    
+    # edge case check for psd
     psd = np.array( psd, dtype=float )
     if len( psd.shape ) != 1:
         raise ValueError( "psd dimension should be 1" )
-    if psd.shape[ 0 ] < 2:
-        raise ValueError( "psd length should be at least 2" )
+    if psd.shape[ 0 ] < 3:
+        raise ValueError( "psd length should be at least 3" )
+    
+    # edge case check for freq and psd length
     if len( freq ) != len( psd ):
         raise ValueError( "freq and psd should be in the same length" )
-    if freq[ 0 ] < 0:
-        raise ValueError( " freq array should be non-negative" )
-    for i in range( 1, len( freq ) ):
-        if freq[ i ] <= freq[ i - 1 ]:
-            raise ValueError( " freq array should be strictly increasing" )
 
     # edge case check for freqBandwidth
     if freqBandwidth is not None:
@@ -81,18 +93,20 @@ def harmonicSuperposition( fs, time, freq, psd, freqBandwidth=None ):
         if freqBandwidth <= 0:
             raise ValueError( "freqBandwidth should be positive" )
 
+    # deal with freqBandwidth
+    if freqBandwidth is None or freqBandwidth < freq[ 1 ] - freq[ 0 ]:
+        freqBandwidth = freq[ 1 ] - freq[ 0 ]
+    next = freqBandwidth / ( freq[ 1 ] - freq[ 0 ] ) 
+
     n = round( fs * time )
     ts = 1 / fs * np.arange( n, dtype=float )
-    amp = np.zeros( n )
+    amps = np.zeros( n )
     # generate phase angle
     phis = -np.pi + 2 * np.pi * np.random.randn( len( freq ) )
-    # deal with freqBandwidth
-    if freqBandwidth is None:
-        freqBandwidth = freq[ 1 ] - freq[ 0 ]
 
     for i in range( len( freq ) ):
         for j in range( n ):
-            amp[ j ] += np.sqrt( 2 * psd[ i ] * freqBandwidth ) * \
+            amps[ j ] += np.sqrt( 2 * psd[ i ] * freqBandwidth ) * \
                 np.sin( 2 * np.pi * freq[ i ] * ts[ j ] + phis[ i ] )
-
-    return ts, amp
+        i += next
+    return ts, amps

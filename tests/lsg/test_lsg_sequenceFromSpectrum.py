@@ -11,8 +11,8 @@ import pytest
 def test_harmonicSuperposition_fsOrTimeIncorrect_valueError():
     fs = 100
     time = 10
-    freq = [ 1, 2, 3, 4, 5 ]
-    psd = [ 1, 2, 5, 2, 1 ]
+    freq = [ 0, 0.1, 0.2, 0.3, 0.4, 0.5 ]
+    psd = [ 0.01, 2, 0.05, 0.04, 0.01, 0.03 ]
 
     # case 1: fs is incorrect
     with pytest.raises( ValueError ):
@@ -27,35 +27,59 @@ def test_harmonicSuperposition_fsOrTimeIncorrect_valueError():
         _ = lsg.harmonicSuperposition( fs, -1, freq, psd )
 
 
-def test_harmonicSuperposition_freqOrPsdIncorrect_valueError():
+def test_harmonicSuperposition_freqIncorrect_valueError():
     fs = 100
     time = 10
-    freq = [ 1, 2, 3, 4, 5 ]
-    psd = [ 1, 2, 5, 2, 1, 3 ]
+    psd = [ 0.01, 2, 0.05, 0.04, 0.01, 0.03 ]
 
-    # case 1: freq is incorrect
+    # case 1: dimemsion is incorrect
     with pytest.raises( ValueError ):
         _ = lsg.harmonicSuperposition( fs, time, 1.0, psd )
     with pytest.raises( ValueError ):
         _ = lsg.harmonicSuperposition( fs, time, [ [ ] ], psd )
 
-    # case 2: psd is incorrect
+    # case 2: less than 3 elements
+    with pytest.raises( ValueError ):
+        _ = lsg.harmonicSuperposition( fs, time, [ 1.0, 2.0 ], psd )
+
+    # case 3: freq contains negative elements
+    freq = [ -0.1, 0.2, 0.3, 0.4, 0.5 ]
+    with pytest.raises( ValueError ):
+        _ = lsg.harmonicSuperposition( fs, time, freq, psd )
+    freq = [ 0.1, -0.2, 0.3, 0.4, 0.5 ]
+    with pytest.raises( ValueError ):
+        _ = lsg.harmonicSuperposition( fs, time, freq, psd )
+    
+    # case 4: freq is not strictly increasing
+    freq = [ 0.2, 0.1, 0.2, 0.3, 0.4, 0.5 ]
+    with pytest.raises( ValueError ):
+        _ = lsg.harmonicSuperposition( fs, time, freq, psd )
+    freq = [ 0, 0.1, 0.2, 0.3, 0.5 ]
+    with pytest.raises( ValueError ):
+        _ = lsg.harmonicSuperposition( fs, time, freq, psd )
+
+
+def test_harmonicSuperposition_psdIncorrect_valueError():    
+    fs = 100
+    time = 10
+    freq = [ 0, 0.1, 0.2, 0.3, 0.4, 0.5 ]
+
+    # case 1: dimemsion is incorrect
     with pytest.raises( ValueError ):
         _ = lsg.harmonicSuperposition( fs, time, freq, 1.0 )
     with pytest.raises( ValueError ):
         _ = lsg.harmonicSuperposition( fs, time, freq, [ [ ] ] )
 
-    # case 3: freq and psd are in different lengths
+    # case 2: less than 3 elements
     with pytest.raises( ValueError ):
-        _ = lsg.harmonicSuperposition( fs, time, freq, psd )
+        _ = lsg.harmonicSuperposition( fs, time, freq, [ 1.0, 2.0 ] )
 
-    # case 4: freq contains negative elements
-    freq = [ -1, 2, 3, 4, 5 ]
-    with pytest.raises( ValueError ):
-        _ = lsg.harmonicSuperposition( fs, time, freq, psd )
-    
-    # case 5: freq is not strictly increasing
-    freq = [ 1, 2, 5, 4, 5 ]
+
+def test_harmonicSuperposition_freqAndPsdDifferentLength_valueError(): 
+    fs = 100
+    time = 10
+    freq = [ 0, 0.1, 0.2, 0.3, 0.4, 0.5 ]
+    psd = [ 0.01, 2, 0.05 ]
     with pytest.raises( ValueError ):
         _ = lsg.harmonicSuperposition( fs, time, freq, psd )
     
