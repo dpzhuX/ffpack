@@ -96,7 +96,7 @@ def harmonicSuperposition( fs, time, freq, psd, freqBandwidth=None ):
     # deal with freqBandwidth
     if freqBandwidth is None or freqBandwidth < freq[ 1 ] - freq[ 0 ]:
         freqBandwidth = freq[ 1 ] - freq[ 0 ]
-    next = freqBandwidth / ( freq[ 1 ] - freq[ 0 ] ) 
+    next = round( freqBandwidth / ( freq[ 1 ] - freq[ 0 ] ) )
 
     n = round( fs * time )
     ts = 1 / fs * np.arange( n, dtype=float )
@@ -104,7 +104,8 @@ def harmonicSuperposition( fs, time, freq, psd, freqBandwidth=None ):
     # generate phase angle
     phis = -np.pi + 2 * np.pi * np.random.randn( len( freq ) )
 
-    for i in range( len( freq ) ):
+    i = 0
+    while i < len( freq ):
         for j in range( n ):
             amps[ j ] += np.sqrt( 2 * psd[ i ] * freqBandwidth ) * \
                 np.sin( 2 * np.pi * freq[ i ] * ts[ j ] + phis[ i ] )

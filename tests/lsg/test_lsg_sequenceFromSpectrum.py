@@ -90,4 +90,10 @@ def test_randomWalkUniform_normalUseCase_diffByOne():
     freq = [ 0, 0.1, 0.2, 0.3, 0.4, 0.5 ]
     psd = [ 0.01, 2, 0.05, 0.04, 0.01, 0.03 ]
 
+    # case 1: freqBandwidth not defined
     ts, rst = lsg.harmonicSuperposition( fs, time, freq, psd )
+    np.testing.assert_allclose( len( ts ), fs * time )
+
+    # case 2: user defined freqBandwidth
+    ts, rst = lsg.harmonicSuperposition( fs, time, freq, psd, freqBandwidth=0.2 )
+    np.testing.assert_allclose( len( ts ), fs * time )
