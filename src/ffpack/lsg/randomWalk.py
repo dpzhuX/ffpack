@@ -2,6 +2,7 @@
 
 import numpy as np
 
+
 def randomWalkUniform( numSteps, dim=1 ):
     '''
     Generate load sequence by a random walk.

@@ -53,6 +53,8 @@ pip install ffpack
         * Normal moving average (MA) model
         * Normal ARMA model
         * Normal ARIMA model
+    * Sequence from spectrum
+        * Harmonic superposition
 
 * Load spectra and matrices
     * Cycle counting matrix
