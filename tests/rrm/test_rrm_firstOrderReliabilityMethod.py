@@ -519,7 +519,7 @@ def test_formHLRF_twoExpOneNormalOneGammaNonLinearCase_scalar( dgExists ):
 
 
 ###############################################################################
-# Test formHLRF
+# Test formCOPT
 ###############################################################################
 def test_formCOPT_dimLessOneCase_valueError( ):
     dim = 0

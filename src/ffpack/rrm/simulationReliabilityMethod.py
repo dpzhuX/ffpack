@@ -72,25 +72,31 @@ def subsetSimulation( dim, g, distObjs, corrMat, numSamples,
     # We create each chain for each remained sample
     numSamplesEachChain = int( numSamples / numChains )
     
-    numSteps = 0
     # Use curde Monte Carlo to run the first iteration 
-    numSteps += 1
-    samples = np.random.normal( loc=0, scale=1.0, size=( numSamples, dim ) )
+    numSteps = 1
+    samples = np.random.normal( loc=0, scale=1.0, size=( numSamples, dim  ) )
     lsfValues = np.zeros( numSamples )
     for idx, U in enumerate( samples ):
         X, _ = natafTrans.getX( U )
         lsfValues[ idx ] = g( X )
     
     lsfIdx = np.argsort( lsfValues )
-    lsfLimit = lsfValues[ lsfIdx[ numSamplesRemained - 1 ] ]
 
-    while lsfLimit > 0 and numSteps < numSubsets:
+    curSamples = samples[ lsfIdx[ : numSamplesRemained ] ]
+    curLsfValues = lsfValues[ lsfIdx[ : numSamplesRemained ] ]
+    lsfLevel = curLsfValues[ -1 ]
+    if lsfLevel < 0:
+        lsfLevel = 0
+        probLevel = ( lsfValues < 0 ).sum() / numSamples
+    nxtLsfValues = lsfValues
+
+    while lsfLevel >= 0 and numSteps < numSubsets:
         numSteps += 1
-        curSamples = samples
-        nxtSamples = [ ]
+        nxtSamples = curSamples
+        nxtLsfValues = curLsfValues
         # Sample each chain
         for i in range( numChains ):
-            initialVal = curSamples[ lsfIdx[ i ] ].tolist()
+            initialVal = curSamples[ i ].tolist()
 
             def tpdf( x ):
                 return stats.norm().pdf( x )
@@ -98,27 +104,34 @@ def subsetSimulation( dim, g, distObjs, corrMat, numSamples,
             targetPdf = [ tpdf ] * dim
             
             def pcs( x ):
-                return np.random.uniform( x - 0.5, 1 )
+                return np.random.uniform( x - 0.5, x + 0.5 )
             
             proposalCSampler = [ pcs ] * dim 
+
+            def sampleDomainFunc( X, **kwargs ):
+                lsfFunc = kwargs[ 'lsfFunc' ]
+                lsfLevel = kwargs[ 'lsfLevel' ]
+                return lsfFunc( X ) < lsfLevel
             
             auMMHSampler = metropolisHastings.\
                 AuModifiedMHSampler( initialVal=initialVal, 
                                      targetPdf=targetPdf, 
-                                     proposalCSampler=proposalCSampler )
-            for _ in range( numSamplesEachChain ):
-                nxtSamples.append( auMMHSampler.getSample() )
-        curSamples = np.copy( nxtSamples )
-        lsfValues = np.zeros( numSamples )
-        for idx, U in enumerate( curSamples ):
-            X, _ = natafTrans.getX( U )
-            lsfValues[ idx ] = g( X )
+                                     proposalCSampler=proposalCSampler,
+                                     sampleDomain=sampleDomainFunc,
+                                     lsfFunc=g,
+                                     lsfLevel=lsfLevel )
+            for _ in range( numSamplesEachChain - 1 ):
+                nxtU = auMMHSampler.getSample()
+                nxtX, _ = natafTrans.getX( nxtU )
+                nxtSamples = np.append( nxtSamples, np.array( [ nxtU ] ), axis=0 )
+                nxtLsfValues = np.append( nxtLsfValues, g( nxtX ) )
         
-        lsfIdx = np.argsort( lsfValues )
-        lsfLimit = lsfValues[ lsfIdx[ numSamplesRemained - 1 ] ]
+        lsfIdx = np.argsort( nxtLsfValues )
+        curSamples = nxtSamples[ lsfIdx[ : numSamplesRemained ] ]
+        curLsfValues = nxtLsfValues[ lsfIdx[ : numSamplesRemained ] ]
+        lsfLevel = curLsfValues[ -1 ]
 
-    pfLastSubset = ( lsfValues < 0 ).sum() / numSamples
-    pf = probLevel ** numSteps * pfLastSubset
-    print( numSteps )
-    print( pf )
-    
+    pfLastSubset = ( nxtLsfValues < 0 ).sum() / numSamples
+    print(( nxtLsfValues < 0).sum() )
+    pf = probLevel ** ( numSteps - 1 ) * pfLastSubset
+    print( f"{pf:.8f}" )

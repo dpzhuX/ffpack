@@ -116,7 +116,7 @@ class AuModifiedMHSampler:
        engineering mechanics, 16(4), pp.263-277.
     '''
     def __init__( self, initialVal=None, targetPdf=None, proposalCSampler=None, 
-                  sampleDomain=None ):
+                  sampleDomain=None, **sampleDomainKwargs ):
         '''
         Initialize the Au modified Metropolis-Hastings sampler
         
@@ -145,9 +145,9 @@ class AuModifiedMHSampler:
             sample is in the sample domain. For example, it the sample doamin is 
             [ 0, inf ] and the sample is -2, the sample will be rejected. For the 
             sampling on field of real numbers, it should return True regardless of 
-            the sample value. It called as sampleDomain( X ) where X is a list in 
-            which each element is the same type as initivalVal[ i ], and a boolean
-            value should be returned.
+            the sample value. It called as sampleDomain( X, **sampleDomainKwargs ) 
+            where X is a list in which each element is the same type as 
+            initivalVal[ i ], and a boolean value should be returned.
         
         Raises
         ------
@@ -175,8 +175,9 @@ class AuModifiedMHSampler:
         if proposalCSampler is None or not isinstance( proposalCSampler, list ):
             raise ValueError( "proposalCSampler should be a list of "
                               "conditional samplers." )
+        self.sampleDomainKwargs = sampleDomainKwargs
         if sampleDomain is None:
-            sampleDomain = lambda X: True
+            sampleDomain = lambda X, **sampleDomainKwargs: True
         self.dim = len( initialVal )
         if self.dim != len( targetPdf ) or self.dim != len( proposalCSampler ):
             raise ValueError( "dimensions of initialVal, targetPdf, and "
@@ -218,6 +219,6 @@ class AuModifiedMHSampler:
                 self.nxt[ i ] = candi
             else:
                 self.nxt[ i ] = self.cur[ i ]
-        if self.sampleDomain( self.nxt ):
+        if self.sampleDomain( self.nxt, **self.sampleDomainKwargs ):
             self.cur = self.nxt
         return self.cur
