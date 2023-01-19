@@ -67,13 +67,14 @@ def harmonicSuperposition( fs, time, freq, psd, freqBandwidth=None ):
     if freq.shape[ 0 ] < 3:
         raise ValueError( "freq length should be at least 3" )
     if freq[ 0 ] < 0 or freq[ 1 ] < 0:
-        raise ValueError( " freq array should be non-negative" )
+        raise ValueError( "freq array should be non-negative" )
     if freq[ 1 ] <= freq[ 0 ]:
-        raise ValueError( " freq array should be strictly increasing" )
+        raise ValueError( "freq array should be strictly increasing" )
     diff = freq[ 1 ] - freq[ 0 ]
+    tolerance = np.power( 10.0, -4 )
     for i in range( 1, len( freq ) ):
-        if abs( freq[ i ] - freq[ i - 1 ] - diff ) > globalConfig.atol:
-            raise ValueError( " freq array should be equally spaced increasing" )
+        if abs( freq[ i ] - freq[ i - 1 ] - diff ) > tolerance:
+            raise ValueError( "freq array should be equally spaced increasing" )
     
     # edge case check for psd
     psd = np.array( psd, dtype=float )
