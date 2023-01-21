@@ -78,7 +78,7 @@ def formHLRF( dim, g, dg, distObjs, corrMat, iter=1000, tol=1e-6,
     if dim < 1:
         raise ValueError( "dim cannot be less than 1" )
 
-    corrMat = np.array( corrMat )
+    corrMat = np.array( corrMat, dtype=float )
     if not np.all( np.diag( corrMat ) == 1 ):
         raise ValueError( "diagonals of corrMat should be 1" )
 
@@ -111,7 +111,7 @@ def formHLRF( dim, g, dg, distObjs, corrMat, iter=1000, tol=1e-6,
         # J: U -> X is partialX / partialU
         X, J = natafTrans.getX( Us[ idx - 1 ] )
 
-        a = np.array( [ dgi( X ) for dgi in dg ] )
+        a = np.array( [ dgi( X ) for dgi in dg ], dtype=float )
         gPrime = np.linalg.solve( J.T, a.reshape( -1, 1) )
         gPrime = gPrime.T.flatten()
         gPrimeNorm = np.linalg.norm( gPrime )
@@ -190,7 +190,7 @@ def formCOPT( dim, g, distObjs, corrMat, quadDeg=99, quadRange=8 ):
     if dim < 1:
         raise ValueError( "dim cannot be less than 1" )
 
-    corrMat = np.array( corrMat )
+    corrMat = np.array( corrMat, dtype=float )
     if not np.all( np.diag( corrMat ) == 1 ):
         raise ValueError( "diagonals of corrMat should be 1" )
 

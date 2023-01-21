@@ -63,7 +63,7 @@ def fosmMVAL( dim, g, dg, mus, sigmas, dx=1e-6 ):
         dg = gradient( g, dim, n=1, dx=dx )
 
     lsfRst = g( mus )
-    a = np.array( [ dgi( mus ) for dgi in dg ] )
+    a = np.array( [ dgi( mus ) for dgi in dg ], dtype=float )
     aSigmas = np.multiply( a, sigmas )
     beta = lsfRst / np.sqrt( np.sum( np.square( aSigmas ) ) )
     pf = stats.norm.cdf( -beta )

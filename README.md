@@ -98,6 +98,8 @@ pip install ffpack
         * SORM with Breitung method
         * SORM with Tvedt method
         * SORM with Hohenbichler and Rackwitz method
+    * Simulation based reliability method
+        * Subset simulation
 
 * Utility 
     * Aggregation

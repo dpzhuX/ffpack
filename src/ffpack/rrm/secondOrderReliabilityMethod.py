@@ -14,7 +14,7 @@ def mainCurvaturesAtDesignPoint( dim, g, dg, distObjs, corrMat,
     if dim < 1:
         raise ValueError( "dim cannot be less than 1" )
 
-    corrMat = np.array( corrMat )
+    corrMat = np.array( corrMat, dtype=float )
     if not np.all( np.diag( corrMat ) == 1 ):
         raise ValueError( "diagonals of corrMat should be 1" )
 
@@ -52,7 +52,7 @@ def mainCurvaturesAtDesignPoint( dim, g, dg, distObjs, corrMat,
     alignVec = -1 * lsfGradAtU / lsfGradNormAtU
     A = np.eye( dim )
     B, _ = gramSchmidOrth( A, alignVec=alignVec )
-    H = np.array( B[ :, [ idx for idx in range( 1, dim )] + [ 0 ] ] ).T
+    H = np.array( B[ :, [ idx for idx in range( 1, dim )] + [ 0 ] ], dtype=float ).T
     
     hm = hessianMatrix( g, dim, dx=dx )
     lsfHmAtX = [ [ hmij( xCoord ) for hmij in hmi ] for hmi in hm ]
@@ -133,7 +133,7 @@ def sormBreitung( dim, g, dg, distObjs, corrMat, quadDeg=99, quadRange=8, dx=1e-
                                                             distObjs, corrMat, 
                                                             quadDeg, quadRange, dx )
 
-    ks = np.array( ks )
+    ks = np.array( ks, dtype=float )
     pf = stats.norm.cdf( -1 * beta) * np.prod( np.power( 1 + beta * ks, -0.5 ) )
 
     return beta, pf, uCoord, xCoord
@@ -208,7 +208,7 @@ def sormTvedt( dim, g, dg, distObjs, corrMat, quadDeg=99, quadRange=8, dx=1e-6 )
                                                             distObjs, corrMat, 
                                                             quadDeg, quadRange, dx )
 
-    ks = np.array( ks )
+    ks = np.array( ks, dtype=float )
     formPf = stats.norm.cdf( -1 * beta)
 
     A1 = formPf * np.prod( np.power( 1 + beta * ks, -0.5 ) )
@@ -293,7 +293,7 @@ def sormHRack( dim, g, dg, distObjs, corrMat, quadDeg=99, quadRange=8, dx=1e-6 )
                                                             distObjs, corrMat, 
                                                             quadDeg, quadRange, dx )
 
-    ks = np.array( ks )
+    ks = np.array( ks, dtype=float )
 
     pf = stats.norm.cdf( -1 * beta) * \
         np.prod( np.power( 1 + stats.norm.pdf( beta ) / stats.norm.cdf( beta ) * ks, 
