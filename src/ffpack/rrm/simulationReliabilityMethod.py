@@ -36,6 +36,12 @@ def subsetSimulation( dim, g, distObjs, corrMat, numSamples,
     -------
     pf: scalar
         Probability of failure.
+    allLsfValue: array_like
+        Values of limit state function in each subset.
+    allUSamples: array_like
+        Samples of U space in each subset.
+    allXSamples: array_like
+        Samples of X space in each subset.
     
     Raises
     ------
@@ -49,8 +55,8 @@ def subsetSimulation( dim, g, distObjs, corrMat, numSamples,
 
     Notes
     -----
-    If dg is None, the numerical differentiation will be used. The tolerance of the 
-    numerical differentiation can be changed in globalConfig.
+    Nataf transformation is used for the marginal distributions.
+    
 
     Examples
     --------
@@ -63,6 +69,27 @@ def subsetSimulation( dim, g, distObjs, corrMat, numSamples,
     >>> pf = subsetSimulation( dim, g, distObjs, corrMat, numSamples, maxSubsets )
     '''
     # Check edge cases
+    if dim < 1:
+        raise ValueError( "dim cannot be less than 1" )
+
+    corrMat = np.array( corrMat, dtype=float )
+    if not np.all( np.diag( corrMat ) == 1 ):
+        raise ValueError( "diagonals of corrMat should be 1" )
+
+    if len( distObjs ) != dim or corrMat.shape[ 0 ] != dim \
+            or corrMat.shape[ 1 ] != dim: 
+        raise ValueError( "length of distObjs and corrMat should be dim" )
+
+    if corrMat.ndim != 2:
+        raise ValueError( "corrMat should be 2d matrix" )
+
+    if not np.array_equal( corrMat, corrMat.T ):
+        raise ValueError( "corrMat should be symmetric" )
+    
+    try:
+        _ = np.linalg.cholesky( corrMat )
+    except np.linalg.LinAlgError:
+        raise ValueError( "corrMat should be positive definite" )
 
     # Perform Nataf transformation
     natafTrans = nataf.NatafTransformation( distObjs=distObjs, corrMat=corrMat,
@@ -94,29 +121,35 @@ def subsetSimulation( dim, g, distObjs, corrMat, numSamples,
     numSamplesEachChain = int( 1.0 / probLevel )
 
     # Allocate space
-    curSamples = np.zeros( [ numSamples, dim ] )
+    curUSamples = np.zeros( [ numSamples, dim ] )
+    curXSamples = np.zeros( [ numSamples, dim ] )
     curLsfValues = np.zeros( numSamples )
     allProbs = np.zeros( maxSubsets )
+    allUSamples = np.zeros( [ maxSubsets, numSamples, dim ])
+    allXSamples = np.zeros( [ maxSubsets, numSamples, dim ])
+    allLsfValues = np.zeros( [ maxSubsets, numSamples ] )
     
     # Use curde Monte Carlo to run the first iteration 
-    curSamples[ : ] = np.random.normal( loc=0, scale=1.0, size=( numSamples, dim  ) )
-    for idx, U in enumerate( curSamples ):
-        X, _ = natafTrans.getX( U )
-        # X = U
-        curLsfValues[ idx ] = g( X )
+    curUSamples[ : ] = np.random.normal( loc=0, scale=1.0, size=( numSamples, dim  ) )
+    for idx, curU in enumerate( curUSamples ):
+        curX, _ = natafTrans.getX( curU )
+        curXSamples[ idx ] = curX
+        curLsfValues[ idx ] = g( curX )
 
     numSteps = 0
     while numSteps < maxSubsets:
-        print(" each loop ")
-
         lsfIdx = np.argsort( curLsfValues )
-        curSamples[ : ] = curSamples[ lsfIdx[ : ] ]
+        curUSamples[ : ] = curUSamples[ lsfIdx[ : ] ]
+        curXSamples[ : ] = curXSamples[ lsfIdx[ : ] ]
         curLsfValues[ : ] = curLsfValues[ lsfIdx[ : ] ]
+        
+        # Save sample and values in each subset
+        allUSamples[ numSteps, :, : ] = curUSamples
+        allXSamples[ numSteps, :, : ] = curXSamples
+        allLsfValues[ numSteps, : ] = curLsfValues
 
-        # intermediate level
+        # Intermediate level
         lsfLevel = curLsfValues[ numSamplesRemained - 1 ]
-
-        print( lsfLevel )
         if lsfLevel <= 0:
             lsfLevel = 0
             allProbs[ numSteps ] = ( curLsfValues <= 0 ).sum() / numSamples
@@ -126,7 +159,7 @@ def subsetSimulation( dim, g, distObjs, corrMat, numSamples,
         curIdx = numSamplesRemained
         # Sample each chain
         for i in range( numChains ):
-            curU = curSamples[ i ].tolist()
+            curU = curUSamples[ i ].tolist()
 
             auMMHSampler = metropolisHastings.\
                 AuModifiedMHSampler( initialVal=curU, 
@@ -139,22 +172,9 @@ def subsetSimulation( dim, g, distObjs, corrMat, numSamples,
 
             for _ in range( numSamplesEachChain - 1 ):
                 curU = auMMHSampler.getSample()
-                # nxtU = np.zeros( dim )
-                # for d in range( dim ):
-                #     nxtU[ d ] = proposalCSampler[ d ]( curU[ d ] )
-                #     fcur = targetPdf[ d ]( curU[ d ] )
-                #     fcandi = targetPdf[ d ]( nxtU[ d ] )
-                #     u = np.random.uniform()
-                #     if u > min( 1, fcandi / fcur ):
-                #         nxtU[ d ] = curU[ d ]
-
-                # if not np.allclose( nxtU, curU ):
-                #     nxtX, _ = natafTrans.getX( nxtU )
-                #     if g( nxtX ) < lsfLevel:
-                #         curU = nxtU
-
                 curX, _ = natafTrans.getX( curU )
-                curSamples[ curIdx ] = curU
+                curUSamples[ curIdx ] = curU
+                curXSamples[ curIdx ] = curX
                 curLsfValues[ curIdx ] = g( curX )
                 curIdx += 1
 
@@ -162,6 +182,12 @@ def subsetSimulation( dim, g, distObjs, corrMat, numSamples,
         if lsfLevel <= 0:
             break
 
+    # Save sample and values in the last subset if break 
+    if numSteps < maxSubsets:
+        allUSamples[ numSteps, :, : ] = curUSamples
+        allXSamples[ numSteps, :, : ] = curXSamples
+        allLsfValues[ numSteps, : ] = curLsfValues
+
     pf = np.prod( allProbs[ : numSteps ] )
-    print( allProbs )
-    print( f"{pf:.8f}" )
+    return pf, allLsfValues[ : numSteps ], \
+        allUSamples[ : numSteps ], allXSamples[ : numSteps ]
