@@ -56,7 +56,6 @@ def subsetSimulation( dim, g, distObjs, corrMat, numSamples,
     Notes
     -----
     Nataf transformation is used for the marginal distributions.
-    
 
     Examples
     --------

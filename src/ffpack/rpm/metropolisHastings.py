@@ -14,7 +14,7 @@ class MetropolisHastingsSampler:
        dissertation, Université Clermont Auvergne).
     '''
     def __init__( self, initialVal=None, targetPdf=None, proposalCSampler=None, 
-                  sampleDomain=None, **sampleDomainKwargs ):
+                  sampleDomain=None, **sdKwargs ):
         '''
         Initialize the Metropolis-Hastings sampler
         
@@ -39,8 +39,9 @@ class MetropolisHastingsSampler:
             sample is in the sample domain. For example, it the sample doamin is 
             [ 0, inf ] and the sample is -2, the sample will be rejected. For the 
             sampling on field of real numbers, it should return True regardless of 
-            the sample value. It called as sampleDomain( X ) where X is the same 
-            type as initivalVal, and a boolean value should be returned.
+            the sample value. It called as sampleDomain( cur, nxt, **sdKwargs ) 
+            where cur, nxt are the same type as initivalVal, and a boolean value 
+            should be returned.
         
         Raises
         ------
@@ -63,9 +64,9 @@ class MetropolisHastingsSampler:
             raise ValueError( "targetPdf cannot be None" )
         if proposalCSampler is None:
             raise ValueError( "proposalCSampler cannot be None" )
-        self.sampleDomainKwargs = sampleDomainKwargs
+        self.sdKwargs = sdKwargs
         if sampleDomain is None:
-            sampleDomain = lambda cur, nxt, **sampleDomainKwargs: True
+            sampleDomain = lambda cur, nxt, **sdKwargs: True
         self.cur = np.copy( initialVal )
         self.nxt = np.copy( initialVal )
         self.isArray = len( self.cur.shape ) != 0
@@ -109,7 +110,7 @@ class MetropolisHastingsSampler:
                 self.nxt[ : ] = self.cur[ : ]
             else:
                 self.nxt = self.cur
-        if self.sampleDomain( self.cur, self.nxt, **self.sampleDomainKwargs ):
+        if self.sampleDomain( self.cur, self.nxt, **self.sdKwargs ):
             if self.isArray:
                 self.cur[ : ] = self.nxt[ : ]
             else:
@@ -128,7 +129,7 @@ class AuModifiedMHSampler:
        engineering mechanics, 16(4), pp.263-277.
     '''
     def __init__( self, initialVal=None, targetPdf=None, proposalCSampler=None, 
-                  sampleDomain=None, **sampleDomainKwargs ):
+                  sampleDomain=None, **sdKwargs ):
         '''
         Initialize the Au modified Metropolis-Hastings sampler
         
@@ -157,8 +158,8 @@ class AuModifiedMHSampler:
             sample is in the sample domain. For example, it the sample doamin is 
             [ 0, inf ] and the sample is -2, the sample will be rejected. For the 
             sampling on field of real numbers, it should return True regardless of 
-            the sample value. It called as sampleDomain( X, **sampleDomainKwargs ) 
-            where X is a list in which each element is the same type as 
+            the sample value. It called as sampleDomain( cur, nxt, **sdKwargs ) 
+            where cur, nxt are lists in which each element is the same type as 
             initivalVal[ i ], and a boolean value should be returned.
         
         Raises
@@ -187,9 +188,9 @@ class AuModifiedMHSampler:
         if proposalCSampler is None or not isinstance( proposalCSampler, list ):
             raise ValueError( "proposalCSampler should be a list of "
                               "conditional samplers." )
-        self.sampleDomainKwargs = sampleDomainKwargs
+        self.sdKwargs = sdKwargs
         if sampleDomain is None:
-            sampleDomain = lambda cur, nxt, **sampleDomainKwargs: True
+            sampleDomain = lambda cur, nxt, **sdKwargs: True
         self.dim = len( initialVal )
         if self.dim != len( targetPdf ) or self.dim != len( proposalCSampler ):
             raise ValueError( "dimensions of initialVal, targetPdf, and "
@@ -231,6 +232,6 @@ class AuModifiedMHSampler:
                 self.nxt[ i ] = candi
             else:
                 self.nxt[ i ] = self.cur[ i ]
-        if self.sampleDomain( self.cur, self.nxt, **self.sampleDomainKwargs ):
+        if self.sampleDomain( self.cur, self.nxt, **self.sdKwargs ):
             self.cur[ : ] = self.nxt[ : ]
         return self.cur
