@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 
 import numpy as np
-from scipy import stats
+from scipy.stats import norm
 from ffpack.rpm import metropolisHastings, nataf
 
 def subsetSimulation( dim, g, distObjs, corrMat, numSamples, 
-                      numSubsets, probLevel=0.1, quadDeg=99, quadRange=8 ):
+                      maxSubsets, probLevel=0.1, quadDeg=99, quadRange=8 ):
     '''
     Second order reliability method based on Breitung algorithm.
 
@@ -22,8 +22,8 @@ def subsetSimulation( dim, g, distObjs, corrMat, numSamples,
         Correlation matrix of the marginal distributions.
     numSamples: integer
         Number of samples in each subset.
-    numSubsets: scalar
-        Number of subsets used to compute the failure probability.
+    maxSubsets: scalar
+        Maximum number of subsets used to compute the failure probability.
     probLevel: scalar, optional
         Probability level for intermediate subsets.
     quadDeg: integer, optional
@@ -59,8 +59,8 @@ def subsetSimulation( dim, g, distObjs, corrMat, numSamples,
     >>> g = lambda X: -np.sum( X ) + 1
     >>> distObjs = [ stats.norm(), stats.norm() ]
     >>> corrMat = np.eye( dim )
-    >>> numSamples, numSubsets = 500, 10
-    >>> pf = subsetSimulation( dim, g, distObjs, corrMat, numSamples, numSubsets )
+    >>> numSamples, maxSubsets = 500, 10
+    >>> pf = subsetSimulation( dim, g, distObjs, corrMat, numSamples, maxSubsets )
     '''
     # Check edge cases
 
@@ -68,70 +68,100 @@ def subsetSimulation( dim, g, distObjs, corrMat, numSamples,
     natafTrans = nataf.NatafTransformation( distObjs=distObjs, corrMat=corrMat,
                                             quadDeg=quadDeg, quadRange=quadRange )
 
+    # Define paramters for MCMC sampling
+    def tpdf( x ):
+        return norm.pdf( x )
+    
+    targetPdf = [ tpdf ] * dim
+    
+    def pcs( x ):
+        return x - 0.5 + np.random.uniform()
+    
+    proposalCSampler = [ pcs ] * dim 
+
+    def sampleDomainFunc( curU, nxtU, **kwargs ):
+        lsfFunc = kwargs[ 'lsfFunc' ]
+        lsfLevel = kwargs[ 'lsfLevel' ]
+        natafTrans = kwargs[ 'natafTrans' ]           
+        if not np.allclose( curU, nxtU ):
+            nxtX, _ = natafTrans.getX( nxtU )
+            return lsfFunc( nxtX ) < lsfLevel
+        else:
+            return False
+
+    # Create each chain for each sample
     numChains = numSamplesRemained = int( probLevel * numSamples )
-    # We create each chain for each remained sample
-    numSamplesEachChain = int( numSamples / numChains )
+    numSamplesEachChain = int( 1.0 / probLevel )
+
+    # Allocate space
+    curSamples = np.zeros( [ numSamples, dim ] )
+    curLsfValues = np.zeros( numSamples )
+    allProbs = np.zeros( maxSubsets )
     
     # Use curde Monte Carlo to run the first iteration 
-    numSteps = 1
-    samples = np.random.normal( loc=0, scale=1.0, size=( numSamples, dim  ) )
-    lsfValues = np.zeros( numSamples )
-    for idx, U in enumerate( samples ):
+    curSamples[ : ] = np.random.normal( loc=0, scale=1.0, size=( numSamples, dim  ) )
+    for idx, U in enumerate( curSamples ):
         X, _ = natafTrans.getX( U )
-        lsfValues[ idx ] = g( X )
-    
-    lsfIdx = np.argsort( lsfValues )
+        # X = U
+        curLsfValues[ idx ] = g( X )
 
-    curSamples = samples[ lsfIdx[ : numSamplesRemained ] ]
-    curLsfValues = lsfValues[ lsfIdx[ : numSamplesRemained ] ]
-    lsfLevel = curLsfValues[ -1 ]
-    if lsfLevel < 0:
-        lsfLevel = 0
-        probLevel = ( lsfValues < 0 ).sum() / numSamples
-    nxtLsfValues = lsfValues
+    numSteps = 0
+    while numSteps < maxSubsets:
+        print(" each loop ")
 
-    while lsfLevel >= 0 and numSteps < numSubsets:
-        numSteps += 1
-        nxtSamples = curSamples
-        nxtLsfValues = curLsfValues
+        lsfIdx = np.argsort( curLsfValues )
+        curSamples[ : ] = curSamples[ lsfIdx[ : ] ]
+        curLsfValues[ : ] = curLsfValues[ lsfIdx[ : ] ]
+
+        # intermediate level
+        lsfLevel = curLsfValues[ numSamplesRemained - 1 ]
+
+        print( lsfLevel )
+        if lsfLevel <= 0:
+            lsfLevel = 0
+            allProbs[ numSteps ] = ( curLsfValues <= 0 ).sum() / numSamples
+        else:
+            allProbs[ numSteps ] = probLevel
+
+        curIdx = numSamplesRemained
         # Sample each chain
         for i in range( numChains ):
-            initialVal = curSamples[ i ].tolist()
+            curU = curSamples[ i ].tolist()
 
-            def tpdf( x ):
-                return stats.norm().pdf( x )
-            
-            targetPdf = [ tpdf ] * dim
-            
-            def pcs( x ):
-                return np.random.uniform( x - 0.5, x + 0.5 )
-            
-            proposalCSampler = [ pcs ] * dim 
-
-            def sampleDomainFunc( X, **kwargs ):
-                lsfFunc = kwargs[ 'lsfFunc' ]
-                lsfLevel = kwargs[ 'lsfLevel' ]
-                return lsfFunc( X ) < lsfLevel
-            
             auMMHSampler = metropolisHastings.\
-                AuModifiedMHSampler( initialVal=initialVal, 
+                AuModifiedMHSampler( initialVal=curU, 
                                      targetPdf=targetPdf, 
                                      proposalCSampler=proposalCSampler,
                                      sampleDomain=sampleDomainFunc,
                                      lsfFunc=g,
-                                     lsfLevel=lsfLevel )
-            for _ in range( numSamplesEachChain - 1 ):
-                nxtU = auMMHSampler.getSample()
-                nxtX, _ = natafTrans.getX( nxtU )
-                nxtSamples = np.append( nxtSamples, np.array( [ nxtU ] ), axis=0 )
-                nxtLsfValues = np.append( nxtLsfValues, g( nxtX ) )
-        
-        lsfIdx = np.argsort( nxtLsfValues )
-        curSamples = nxtSamples[ lsfIdx[ : numSamplesRemained ] ]
-        curLsfValues = nxtLsfValues[ lsfIdx[ : numSamplesRemained ] ]
-        lsfLevel = curLsfValues[ -1 ]
+                                     lsfLevel=lsfLevel,
+                                     natafTrans=natafTrans )
 
-    pfLastSubset = ( nxtLsfValues < 0 ).sum() / numSamples
-    print(( nxtLsfValues < 0).sum() )
-    pf = probLevel ** ( numSteps - 1 ) * pfLastSubset
+            for _ in range( numSamplesEachChain - 1 ):
+                curU = auMMHSampler.getSample()
+                # nxtU = np.zeros( dim )
+                # for d in range( dim ):
+                #     nxtU[ d ] = proposalCSampler[ d ]( curU[ d ] )
+                #     fcur = targetPdf[ d ]( curU[ d ] )
+                #     fcandi = targetPdf[ d ]( nxtU[ d ] )
+                #     u = np.random.uniform()
+                #     if u > min( 1, fcandi / fcur ):
+                #         nxtU[ d ] = curU[ d ]
+
+                # if not np.allclose( nxtU, curU ):
+                #     nxtX, _ = natafTrans.getX( nxtU )
+                #     if g( nxtX ) < lsfLevel:
+                #         curU = nxtU
+
+                curX, _ = natafTrans.getX( curU )
+                curSamples[ curIdx ] = curU
+                curLsfValues[ curIdx ] = g( curX )
+                curIdx += 1
+
+        numSteps += 1
+        if lsfLevel <= 0:
+            break
+
+    pf = np.prod( allProbs[ : numSteps ] )
+    print( allProbs )
     print( f"{pf:.8f}" )

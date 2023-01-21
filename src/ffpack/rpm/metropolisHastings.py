@@ -14,7 +14,7 @@ class MetropolisHastingsSampler:
        dissertation, Université Clermont Auvergne).
     '''
     def __init__( self, initialVal=None, targetPdf=None, proposalCSampler=None, 
-                  sampleDomain=None ):
+                  sampleDomain=None, **sampleDomainKwargs ):
         '''
         Initialize the Metropolis-Hastings sampler
         
@@ -63,10 +63,12 @@ class MetropolisHastingsSampler:
             raise ValueError( "targetPdf cannot be None" )
         if proposalCSampler is None:
             raise ValueError( "proposalCSampler cannot be None" )
+        self.sampleDomainKwargs = sampleDomainKwargs
         if sampleDomain is None:
-            sampleDomain = lambda X: True
-        self.cur = initialVal
-        self.nxt = initialVal
+            sampleDomain = lambda cur, nxt, **sampleDomainKwargs: True
+        self.cur = np.copy( initialVal )
+        self.nxt = np.copy( initialVal )
+        self.isArray = len( self.cur.shape ) != 0
         self.targetPdf = targetPdf
         self.proposalCSampler = proposalCSampler
         self.sampleDomain = sampleDomain
@@ -97,11 +99,21 @@ class MetropolisHastingsSampler:
         candi = self.getCandidate()
         acceptanceRatio = self.getAcceptanceRatio( candi )
         u = np.random.uniform()
-        if u <= acceptanceRatio and self.sampleDomain( candi ):
-            self.nxt = candi
+        if u <= acceptanceRatio:
+            if self.isArray:
+                self.nxt[ : ] = candi[ : ]
+            else:
+                self.nxt = candi
         else:
-            self.nxt = self.cur
-        self.cur = self.nxt
+            if self.isArray:
+                self.nxt[ : ] = self.cur[ : ]
+            else:
+                self.nxt = self.cur
+        if self.sampleDomain( self.cur, self.nxt, **self.sampleDomainKwargs ):
+            if self.isArray:
+                self.cur[ : ] = self.nxt[ : ]
+            else:
+                self.cur = self.nxt
         return self.cur
 
 
@@ -177,13 +189,13 @@ class AuModifiedMHSampler:
                               "conditional samplers." )
         self.sampleDomainKwargs = sampleDomainKwargs
         if sampleDomain is None:
-            sampleDomain = lambda X, **sampleDomainKwargs: True
+            sampleDomain = lambda cur, nxt, **sampleDomainKwargs: True
         self.dim = len( initialVal )
         if self.dim != len( targetPdf ) or self.dim != len( proposalCSampler ):
             raise ValueError( "dimensions of initialVal, targetPdf, and "
                               "proposalCSampler should be equal." )
-        self.cur = initialVal
-        self.nxt = initialVal
+        self.cur = np.copy( initialVal )
+        self.nxt = np.copy( initialVal )
         self.targetPdf = targetPdf
         self.proposalCSampler = proposalCSampler
         self.sampleDomain = sampleDomain
@@ -219,6 +231,6 @@ class AuModifiedMHSampler:
                 self.nxt[ i ] = candi
             else:
                 self.nxt[ i ] = self.cur[ i ]
-        if self.sampleDomain( self.nxt, **self.sampleDomainKwargs ):
-            self.cur = self.nxt
+        if self.sampleDomain( self.cur, self.nxt, **self.sampleDomainKwargs ):
+            self.cur[ : ] = self.nxt[ : ]
         return self.cur
