@@ -134,3 +134,25 @@ def test_johannessonMinMaxCountingMatrix_twoDimInputCase_valueError():
     data = [ [ 1.0 ], [ 2.0 ] ]
     with pytest.raises( ValueError ):
         _ = lsm.johannessonMinMaxCountingMatrix( data )
+
+
+
+###############################################################################
+# Test fourPointCountingMatrix
+###############################################################################
+def test_fourPointCountingMatrix_emptyInputCase_valueError():
+    data = [ ]
+    with pytest.raises( ValueError ):
+        _ = lsm.fourPointCountingMatrix( data )
+
+
+def test_fourPointCountingMatrix_singleInputCase_valueError():
+    data = [ 1.0 ]
+    with pytest.raises( ValueError ):
+        _ = lsm.fourPointCountingMatrix( data )
+
+
+def test_fourPointCountingMatrix_twoDimInputCase_valueError():
+    data = [ [ 1.0 ], [ 2.0 ] ]
+    with pytest.raises( ValueError ):
+        _ = lsm.fourPointCountingMatrix( data )
