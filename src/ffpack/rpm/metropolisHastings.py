@@ -6,7 +6,6 @@ class MetropolisHastingsSampler:
     '''
     Metropolis-Hastings sampler to sample data [Bourinet2018]_.
 
-
     References
     ----------
     .. [Bourinet2018] Bourinet, J.M., 2018. Reliability analysis and optimal design 
@@ -15,7 +14,7 @@ class MetropolisHastingsSampler:
     '''
     def __init__( self, initialVal=None, targetPdf=None, proposalCSampler=None, 
                   sampleDomain=None, **sdKwargs ):
-        '''
+        r'''
         Initialize the Metropolis-Hastings sampler
         
         Parameters
@@ -39,7 +38,7 @@ class MetropolisHastingsSampler:
             sample is in the sample domain. For example, it the sample doamin is 
             [ 0, inf ] and the sample is -2, the sample will be rejected. For the 
             sampling on field of real numbers, it should return True regardless of 
-            the sample value. It called as sampleDomain( cur, nxt, **sdKwargs ) 
+            the sample value. It called as sampleDomain( cur, nxt, \**sdKwargs ) 
             where cur, nxt are the same type as initivalVal, and a boolean value 
             should be returned.
         
@@ -67,9 +66,8 @@ class MetropolisHastingsSampler:
         self.sdKwargs = sdKwargs
         if sampleDomain is None:
             sampleDomain = lambda cur, nxt, **sdKwargs: True
-        self.cur = np.copy( initialVal )
-        self.nxt = np.copy( initialVal )
-        self.isArray = len( self.cur.shape ) != 0
+        self.cur = np.copy( initialVal ).astype( float )
+        self.nxt = np.copy( initialVal ).astype( float )
         self.targetPdf = targetPdf
         self.proposalCSampler = proposalCSampler
         self.sampleDomain = sampleDomain
@@ -95,27 +93,18 @@ class MetropolisHastingsSampler:
         
         Examples
         --------
-        >>> mhSampler.getSample()
+        >>> sample = mhSampler.getSample()
         '''
-        candi = self.getCandidate()
+        candi = np.array( self.getCandidate() )
         acceptanceRatio = self.getAcceptanceRatio( candi )
         u = np.random.uniform()
         if u <= acceptanceRatio:
-            if self.isArray:
-                self.nxt[ : ] = candi[ : ]
-            else:
-                self.nxt = candi
+            np.copyto( self.nxt, candi )
         else:
-            if self.isArray:
-                self.nxt[ : ] = self.cur[ : ]
-            else:
-                self.nxt = self.cur
+            np.copyto( self.nxt, self.cur )
         if self.sampleDomain( self.cur, self.nxt, **self.sdKwargs ):
-            if self.isArray:
-                self.cur[ : ] = self.nxt[ : ]
-            else:
-                self.cur = self.nxt
-        return self.cur
+            np.copyto( self.cur, self.nxt )
+        return self.cur.tolist()
 
 
 class AuModifiedMHSampler:
@@ -130,7 +119,7 @@ class AuModifiedMHSampler:
     '''
     def __init__( self, initialVal=None, targetPdf=None, proposalCSampler=None, 
                   sampleDomain=None, **sdKwargs ):
-        '''
+        r'''
         Initialize the Au modified Metropolis-Hastings sampler
         
         Parameters
@@ -158,7 +147,7 @@ class AuModifiedMHSampler:
             sample is in the sample domain. For example, it the sample doamin is 
             [ 0, inf ] and the sample is -2, the sample will be rejected. For the 
             sampling on field of real numbers, it should return True regardless of 
-            the sample value. It called as sampleDomain( cur, nxt, **sdKwargs ) 
+            the sample value. It called as sampleDomain( cur, nxt, \**sdKwargs ) 
             where cur, nxt are lists in which each element is the same type as 
             initivalVal[ i ], and a boolean value should be returned.
         
@@ -195,8 +184,8 @@ class AuModifiedMHSampler:
         if self.dim != len( targetPdf ) or self.dim != len( proposalCSampler ):
             raise ValueError( "dimensions of initialVal, targetPdf, and "
                               "proposalCSampler should be equal." )
-        self.cur = np.copy( initialVal )
-        self.nxt = np.copy( initialVal )
+        self.cur = np.copy( initialVal ).astype( float )
+        self.nxt = np.copy( initialVal ).astype( float )
         self.targetPdf = targetPdf
         self.proposalCSampler = proposalCSampler
         self.sampleDomain = sampleDomain
@@ -222,10 +211,10 @@ class AuModifiedMHSampler:
         
         Examples
         --------
-        >>> auMMHSampler.getSample()
+        >>> sample = auMMHSampler.getSample()
         '''
         for i in range( self.dim ):
-            candi = self.getCandidate( i )
+            candi = np.array( self.getCandidate( i ), dtype=float )
             acceptanceRatio = self.getAcceptanceRatio( candi, i )
             u = np.random.uniform()
             if u <= acceptanceRatio:
@@ -234,4 +223,4 @@ class AuModifiedMHSampler:
                 self.nxt[ i ] = self.cur[ i ]
         if self.sampleDomain( self.cur, self.nxt, **self.sdKwargs ):
             self.cur[ : ] = self.nxt[ : ]
-        return self.cur
+        return self.cur.tolist()
