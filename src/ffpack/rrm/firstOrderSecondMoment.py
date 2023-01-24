@@ -4,7 +4,7 @@ import numpy as np
 from scipy import stats
 from ffpack.utils import gradient
 
-def fosmMVAL( dim, g, dg, mus, sigmas, dx=1e-6 ):
+def mvalFOSM( dim, g, dg, mus, sigmas, dx=1e-6 ):
     '''
     First order second moment method based on mean value algorithm.
 
@@ -46,13 +46,13 @@ def fosmMVAL( dim, g, dg, mus, sigmas, dx=1e-6 ):
 
     Examples
     --------
-    >>> from ffpack.rrm import fosmMVAL
+    >>> from ffpack.rrm import mvalFOSM
     >>> dim = 2
     >>> g = lambda X: 3 * X[ 0 ] - 2 * X[ 1 ]
     >>> dg = [ lambda X: 3, lambda X: -2 ]
     >>> mus = [ 1, 1 ]
     >>> sigmas = [ 3, 4 ]
-    >>> beta, pf = fosmMVAL( dim, g, dg, mus, sigmas)
+    >>> beta, pf = mvalFOSM( dim, g, dg, mus, sigmas)
     '''
     if dim < 1:
         raise ValueError( "dim cannot be less than 1" )

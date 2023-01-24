@@ -34,7 +34,7 @@ def mainCurvaturesAtDesignPoint( dim, g, dg, distObjs, corrMat,
         raise ValueError( "corrMat should be positive definite" )
 
     beta, _, uCoord, xCoord = firstOrderReliabilityMethod.\
-        formCOPT( dim, g, distObjs, corrMat, quadDeg, quadRange )
+        coptFORM( dim, g, distObjs, corrMat, quadDeg, quadRange )
 
     natafTrans = rpm.NatafTransformation( distObjs=distObjs, corrMat=corrMat, 
                                           quadDeg=quadDeg, quadRange=quadRange )
@@ -64,7 +64,7 @@ def mainCurvaturesAtDesignPoint( dim, g, dg, distObjs, corrMat,
 
     return ks, beta, uCoord, xCoord
 
-def sormBreitung( dim, g, dg, distObjs, corrMat, quadDeg=99, quadRange=8, dx=1e-6 ):
+def breitungSORM( dim, g, dg, distObjs, corrMat, quadDeg=99, quadRange=8, dx=1e-6 ):
     '''
     Second order reliability method based on Breitung algorithm.
 
@@ -120,13 +120,13 @@ def sormBreitung( dim, g, dg, distObjs, corrMat, quadDeg=99, quadRange=8, dx=1e-
 
     Examples
     --------
-    >>> from ffpack.rrm import sormBreitung
+    >>> from ffpack.rrm import breitungSORM
     >>> dim = 2
     >>> g = lambda X: -np.sum( X ) + 1
     >>> dg = [ lambda X: -1, lambda X: -1 ]
     >>> distObjs = [ stats.norm(), stats.norm() ]
     >>> corrMat = np.eye( dim )
-    >>> beta, pf, uCoord, xCoord = sormBreitung( dim, g, dg, distObjs, corrMat )
+    >>> beta, pf, uCoord, xCoord = breitungSORM( dim, g, dg, distObjs, corrMat )
     '''
 
     ks, beta, uCoord, xCoord = mainCurvaturesAtDesignPoint( dim, g, dg, 
@@ -139,7 +139,7 @@ def sormBreitung( dim, g, dg, distObjs, corrMat, quadDeg=99, quadRange=8, dx=1e-
     return beta, pf, uCoord, xCoord
 
 
-def sormTvedt( dim, g, dg, distObjs, corrMat, quadDeg=99, quadRange=8, dx=1e-6 ):
+def tvedtSORM( dim, g, dg, distObjs, corrMat, quadDeg=99, quadRange=8, dx=1e-6 ):
     '''
     Second order reliability method based on Tvedt algorithm.
 
@@ -195,13 +195,13 @@ def sormTvedt( dim, g, dg, distObjs, corrMat, quadDeg=99, quadRange=8, dx=1e-6 )
 
     Examples
     --------
-    >>> from ffpack.rrm import sormTvedt
+    >>> from ffpack.rrm import tvedtSORM
     >>> dim = 2
     >>> g = lambda X: -np.sum( X ) + 1
     >>> dg = [ lambda X: -1, lambda X: -1 ]
     >>> distObjs = [ stats.norm(), stats.norm() ]
     >>> corrMat = np.eye( dim )
-    >>> beta, pf, uCoord, xCoord = sormTvedt( dim, g, dg, distObjs, corrMat )
+    >>> beta, pf, uCoord, xCoord = tvedtSORM( dim, g, dg, distObjs, corrMat )
     '''
 
     ks, beta, uCoord, xCoord = mainCurvaturesAtDesignPoint( dim, g, dg, 
@@ -224,7 +224,7 @@ def sormTvedt( dim, g, dg, distObjs, corrMat, quadDeg=99, quadRange=8, dx=1e-6 )
     return beta, pf, uCoord, xCoord
 
 
-def sormHRack( dim, g, dg, distObjs, corrMat, quadDeg=99, quadRange=8, dx=1e-6 ):
+def hrackSORM( dim, g, dg, distObjs, corrMat, quadDeg=99, quadRange=8, dx=1e-6 ):
     '''
     Second order reliability method based on Hohenbichler and Rackwitz algorithm.
 
@@ -280,13 +280,13 @@ def sormHRack( dim, g, dg, distObjs, corrMat, quadDeg=99, quadRange=8, dx=1e-6 )
 
     Examples
     --------
-    >>> from ffpack.rrm import sormTvedt
+    >>> from ffpack.rrm import tvedtSORM
     >>> dim = 2
     >>> g = lambda X: -np.sum( X ) + 1
     >>> dg = [ lambda X: -1, lambda X: -1 ]
     >>> distObjs = [ stats.norm(), stats.norm() ]
     >>> corrMat = np.eye( dim )
-    >>> beta, pf, uCoord, xCoord = sormHRack( dim, g, dg, distObjs, corrMat )
+    >>> beta, pf, uCoord, xCoord = hrackSORM( dim, g, dg, distObjs, corrMat )
     '''
 
     ks, beta, uCoord, xCoord = mainCurvaturesAtDesignPoint( dim, g, dg, 

@@ -154,7 +154,7 @@ def test_mainCurvaturesAtDesignPoint_twoNormalNonLinearCase_scalar( dgExists ):
 
     Notes
     -----
-    formHLRF does not converge for this high order limit state function.
+    hlrfFORM does not converge for this high order limit state function.
 
     References
     ----------
@@ -185,10 +185,10 @@ def test_mainCurvaturesAtDesignPoint_twoNormalNonLinearCase_scalar( dgExists ):
 
 
 ###############################################################################
-# Test sormBreitung
+# Test breitungSORM
 ###############################################################################
 @patch( "ffpack.rrm.secondOrderReliabilityMethod.mainCurvaturesAtDesignPoint" )
-def test_sormBreitung_twoNormalLinearCase_scalar( mock_curv ):
+def test_breitungSORM_twoNormalLinearCase_scalar( mock_curv ):
     # Linear case should have the same results as FORM.
     dim = 2
 
@@ -202,14 +202,14 @@ def test_sormBreitung_twoNormalLinearCase_scalar( mock_curv ):
     corrMat = np.eye( dim )
     mock_curv.return_value = [ [ 0.0 ], np.sqrt( 2 ) / 2, 
                                [ 0.5, 0.5 ], [ 0.5, 0.5 ] ]
-    _, calPf, _, _ = rrm.sormBreitung( dim, g, dg, distObjs, corrMat )
+    _, calPf, _, _ = rrm.breitungSORM( dim, g, dg, distObjs, corrMat )
     expectedBeta = np.sqrt( 2 ) / 2
     expectedPf = stats.norm.cdf( -expectedBeta )
     np.testing.assert_allclose( expectedPf, calPf, atol=1e-6 )
 
 
 @patch( "ffpack.rrm.secondOrderReliabilityMethod.mainCurvaturesAtDesignPoint" )
-def test_sormBreitung_twoNormalNonLinearCase_scalar( mock_curv ):
+def test_breitungSORM_twoNormalNonLinearCase_scalar( mock_curv ):
     r'''
     This example comes from the reference [Choi2007] page 132.
 
@@ -230,16 +230,16 @@ def test_sormBreitung_twoNormalNonLinearCase_scalar( mock_curv ):
     corrMat = np.eye( dim )
     mock_curv.return_value = [ [ 6.5278 ], 2.3654,
                                [ -1.6368, -1.7077 ], [ 1.8162, 1.4613 ] ]
-    _, calPf, _, _ = rrm.sormBreitung( dim, g, dg, distObjs, corrMat )
+    _, calPf, _, _ = rrm.breitungSORM( dim, g, dg, distObjs, corrMat )
     expectedPf = 0.00222059
     np.testing.assert_allclose( expectedPf, calPf, atol=1e-6 )
 
 
 ###############################################################################
-# Test sormTvedt
+# Test tvedtSORM
 ###############################################################################
 @patch( "ffpack.rrm.secondOrderReliabilityMethod.mainCurvaturesAtDesignPoint" )
-def test_sormTvedt_twoNormalLinearCase_scalar( mock_curv ):
+def test_tvedtSORM_twoNormalLinearCase_scalar( mock_curv ):
     # Linear case should have the same results as FORM.
     dim = 2
 
@@ -253,14 +253,14 @@ def test_sormTvedt_twoNormalLinearCase_scalar( mock_curv ):
     corrMat = np.eye( dim )
     mock_curv.return_value = [ [ 0.0 ], np.sqrt( 2 ) / 2, 
                                [ 0.5, 0.5 ], [ 0.5, 0.5 ] ]
-    _, calPf, _, _ = rrm.sormTvedt( dim, g, dg, distObjs, corrMat )
+    _, calPf, _, _ = rrm.tvedtSORM( dim, g, dg, distObjs, corrMat )
     expectedBeta = np.sqrt( 2 ) / 2
     expectedPf = stats.norm.cdf( -expectedBeta )
     np.testing.assert_allclose( expectedPf, calPf, atol=1e-6 )
 
 
 @patch( "ffpack.rrm.secondOrderReliabilityMethod.mainCurvaturesAtDesignPoint" )
-def test_sormTvedt_twoNormalNonLinearCase_scalar( mock_curv ):
+def test_tvedtSORM_twoNormalNonLinearCase_scalar( mock_curv ):
     r'''
     This example comes from the reference [Choi2007] page 135.
 
@@ -303,16 +303,16 @@ def test_sormTvedt_twoNormalNonLinearCase_scalar( mock_curv ):
     corrMat = np.eye( dim )
     mock_curv.return_value = [ [ 6.5278 ], 2.3654,
                                [ -1.6368, -1.7077 ], [ 1.8162, 1.4613 ] ]
-    _, calPf, _, _ = rrm.sormTvedt( dim, g, dg, distObjs, corrMat )
+    _, calPf, _, _ = rrm.tvedtSORM( dim, g, dg, distObjs, corrMat )
     expectedPf = 0.0022209354927 + ( -0.000114584867 ) + ( -0.0003856239105 )
     np.testing.assert_allclose( expectedPf, calPf, atol=1e-6 )
 
 
 ###############################################################################
-# Test sormHRack
+# Test hrackSORM
 ###############################################################################
 @patch( "ffpack.rrm.secondOrderReliabilityMethod.mainCurvaturesAtDesignPoint" )
-def test_sormHRack_twoNormalLinearCase_scalar( mock_curv ):
+def test_hrackSORM_twoNormalLinearCase_scalar( mock_curv ):
     # Linear case should have the same results as FORM.
     dim = 2
 
@@ -326,14 +326,14 @@ def test_sormHRack_twoNormalLinearCase_scalar( mock_curv ):
     corrMat = np.eye( dim )
     mock_curv.return_value = [ [ 0.0 ], np.sqrt( 2 ) / 2, 
                                [ 0.5, 0.5 ], [ 0.5, 0.5 ] ]
-    _, calPf, _, _ = rrm.sormHRack( dim, g, dg, distObjs, corrMat )
+    _, calPf, _, _ = rrm.hrackSORM( dim, g, dg, distObjs, corrMat )
     expectedBeta = np.sqrt( 2 ) / 2
     expectedPf = stats.norm.cdf( -expectedBeta )
     np.testing.assert_allclose( expectedPf, calPf, atol=1e-6 )
 
 
 @patch( "ffpack.rrm.secondOrderReliabilityMethod.mainCurvaturesAtDesignPoint" )
-def test_sormHRack_twoNormalNonLinearCase_scalar( mock_curv ):
+def test_hrackSORM_twoNormalNonLinearCase_scalar( mock_curv ):
     r'''
     This data comes from the reference [Choi2007] page 135.
 
@@ -369,6 +369,6 @@ def test_sormHRack_twoNormalNonLinearCase_scalar( mock_curv ):
     corrMat = np.eye( dim )
     mock_curv.return_value = [ [ 6.5278 ], 2.3654,
                                [ -1.6368, -1.7077 ], [ 1.8162, 1.4613 ] ]
-    _, calPf, _, _ = rrm.sormHRack( dim, g, dg, distObjs, corrMat )
+    _, calPf, _, _ = rrm.hrackSORM( dim, g, dg, distObjs, corrMat )
     expectedPf = 0.0083605185
     np.testing.assert_allclose( expectedPf, calPf, atol=1e-6 )
