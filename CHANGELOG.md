@@ -44,6 +44,7 @@ All notable changes to this project will be documented in this file.
 - (rrm) `formHLRF` was changed to `hlrfFORM`
 - (rrm) `formCOPT` was changed to `coptFORM`
 - (utils) `sequencePeakAndValleys` was changed to `sequencePeakValleyFilter`
+- (utils) `FitterForSnCurve` was changed to `SnCurveFitter`
  
 ### Fixed
  
