@@ -15,7 +15,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - (lcc) Four point rainflow counting
-- (lsg) Harmonic superposition
+- (lsg) Spectral representation
 - (lsm) ISSC spectrum
 - (lsm) Gaussian Swell spectrum
 - (lsm) Ochi-Hubble spectrum

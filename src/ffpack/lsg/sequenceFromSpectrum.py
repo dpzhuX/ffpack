@@ -4,10 +4,10 @@ import numpy as np
 from ffpack.config import globalConfig
 
 
-def harmonicSuperposition( fs, time, freq, psd, freqBandwidth=None ):
+def spectralRepresentation( fs, time, freq, psd, freqBandwidth=None ):
     '''
-    Generate a sequence from a given power spectrum density with harmonic 
-    superposition method.
+    Generate a sequence from a given power spectrum density with spectral
+    representation method.
 
     Parameters
     ----------
@@ -43,12 +43,12 @@ def harmonicSuperposition( fs, time, freq, psd, freqBandwidth=None ):
 
     Examples
     --------
-    >>> from ffpack.lsg import harmonicSuperposition
+    >>> from ffpack.lsg import spectralRepresentation
     >>> fs = 100
     >>> time = 10
     >>> freq = [ 0, 0.1, 0.2, 0.3, 0.4, 0.5 ]
     >>> psd = [ 0.01, 2, 0.05, 0.04, 0.01, 0.03 ]
-    >>> ts, amps = harmonicSuperposition( fs, time, freq, psd, freqBandwidth=None )
+    >>> ts, amps = spectralRepresentation( fs, time, freq, psd, freqBandwidth=None )
     '''
     # edge case check for fs and time
     if not isinstance( fs, int ) and not isinstance( fs, float ):
