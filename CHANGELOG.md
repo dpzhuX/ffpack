@@ -10,6 +10,44 @@ All notable changes to this project will be documented in this file.
  
 ### Fixed
  
+## [ 0.3.1 ] - Unreleased
+ 
+### Added
+
+- (lcc) Four point rainflow counting
+- (lsg) Spectral representation
+- (lsm) ISSC spectrum
+- (lsm) Gaussian Swell spectrum
+- (lsm) Ochi-Hubble spectrum
+- (lsm) Davenport spectrum with drag coefficient
+- (lsm) Davenport spectrum with roughness length
+- (lsm) EC1 spectrum
+- (lsm) IEC spectrum
+- (lsm) API spectrum
+- (lsm) Periodogram spectrum
+- (lsm) Welch spectrum
+- (rpm) Au modified Metropolis-Hastings sampler
+- (rrm) Breitung SORM
+- (rrm) Tvedt SORM
+- (rrm) Hohenbichler and Rackwitz SORM
+- (rrm) Subset simulation
+- (utils) Sequence hysteresis filter
+- (utils) Central difference weights
+- (utils) Derivative
+- (utils) Gradient
+- (utils) Hessian matrix
+- (utils) Gram-Schmidt orthogonization
+
+### Changed
+
+- (rrm) `fosm` was changed to `mvalFOSM`
+- (rrm) `formHLRF` was changed to `hlrfFORM`
+- (rrm) `formCOPT` was changed to `coptFORM`
+- (utils) `sequencePeakAndValleys` was changed to `sequencePeakValleyFilter`
+- (utils) `FitterForSnCurve` was changed to `SnCurveFitter`
+ 
+### Fixed
+ 
 ## [ 0.3.0 ] - 2023-01-08
  
 ### Added
@@ -48,7 +86,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
-- (utils) `getSequencePeakAndValleys` was changed to `sequencePeakValleyFilter`
+- (utils) `getSequencePeakAndValleys` was changed to `sequencePeakAndValleys`
  
 ## [ 0.1.0 ] - 2022-12-11
  

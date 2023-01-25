@@ -5,7 +5,7 @@ from scipy import stats, optimize
 from ffpack.utils import gradient
 from ffpack import rpm
 
-def formHLRF( dim, g, dg, distObjs, corrMat, iter=1000, tol=1e-6, 
+def hlrfFORM( dim, g, dg, distObjs, corrMat, iter=1000, tol=1e-6, 
               quadDeg=99, quadRange=8, dx=1e-6 ):
     '''
     First order reliability method based on Hasofer-Lind-Rackwitz-Fiessler algorithm.
@@ -66,13 +66,13 @@ def formHLRF( dim, g, dg, distObjs, corrMat, iter=1000, tol=1e-6,
 
     Examples
     --------
-    >>> from ffpack.rrm import formHLRF
+    >>> from ffpack.rrm import hlrfFORM
     >>> dim = 2
     >>> g = lambda X: -np.sum( X ) + 1
     >>> dg = [ lambda X: -1, lambda X: -1 ]
     >>> distObjs = [ stats.norm(), stats.norm() ]
     >>> corrMat = np.eye( dim )
-    >>> beta, pf, uCoord, xCoord = formHLRF( dim, g, dg, distObjs, corrMat )
+    >>> beta, pf, uCoord, xCoord = hlrfFORM( dim, g, dg, distObjs, corrMat )
     '''
     # Check edge cases
     if dim < 1:
@@ -126,7 +126,7 @@ def formHLRF( dim, g, dg, distObjs, corrMat, iter=1000, tol=1e-6,
     
     # We do not expect convergence with iter == 1
     if iter != 1 and np.linalg.norm( Us[ idx ] - Us[ idx - 1 ] ) >= tol:
-        raise ValueError( "formHLRF does not converge with current parameters.")
+        raise ValueError( "hlrfFORM does not converge with current parameters.")
 
     beta = betas[ idx ]
     pf = stats.norm.cdf( -beta )
@@ -135,7 +135,7 @@ def formHLRF( dim, g, dg, distObjs, corrMat, iter=1000, tol=1e-6,
     return beta, pf, uCoord.tolist(), xCoord.tolist()
 
 
-def formCOPT( dim, g, distObjs, corrMat, quadDeg=99, quadRange=8 ):
+def coptFORM( dim, g, distObjs, corrMat, quadDeg=99, quadRange=8 ):
     '''
     First order reliability method based on constrained optimization.
 
@@ -179,12 +179,12 @@ def formCOPT( dim, g, distObjs, corrMat, quadDeg=99, quadRange=8 ):
 
     Examples
     --------
-    >>> from ffpack.rrm import formCOPT
+    >>> from ffpack.rrm import coptFORM
     >>> dim = 2
     >>> g = lambda X: -np.sum( X ) + 1
     >>> distObjs = [ stats.norm(), stats.norm() ]
     >>> corrMat = np.eye( dim )
-    >>> beta, pf, uCoord, xCoord = formCOPT( dim, g, distObjs, corrMat )
+    >>> beta, pf, uCoord, xCoord = coptFORM( dim, g, distObjs, corrMat )
     '''
     # Check edge cases
     if dim < 1:

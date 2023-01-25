@@ -54,7 +54,7 @@ pip install ffpack
         * Normal ARMA model
         * Normal ARIMA model
     * Sequence from spectrum
-        * Harmonic superposition
+        * Spectral representation
 
 * Load spectra and matrices
     * Cycle counting matrix
@@ -90,14 +90,14 @@ pip install ffpack
 
 * Risk and reliability model
     * First order second moment
-        * FOSM with mean value method
+        * Mean value FOSM
     * First order reliability method
-        * FORM with Hasofer-Lind-Rackwitz-Fiessler method
-        * FORM with constrained optimization method
+        * Hasofer-Lind-Rackwitz-Fiessler FORM
+        * Constrained optimization FORM
     * Second order reliability method
-        * SORM with Breitung method
-        * SORM with Tvedt method
-        * SORM with Hohenbichler and Rackwitz method
+        * Breitung SORM
+        * Tvedt SORM
+        * Hohenbichler and Rackwitz SORM
     * Simulation based reliability method
         * Subset simulation
 
