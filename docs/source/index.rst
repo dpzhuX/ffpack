@@ -48,7 +48,7 @@ Contents
    :maxdepth: 2
    :caption: Cookbook:
 
-   fatigue damage rule
+   fatigue damage model
    load correction and counting
    load sequence generator
    load spectra and matrices

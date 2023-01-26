@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
 '''
-Palmgren-Miner damage rule is one of the famous fatigue damage rules for 
-fatigue estimation. The rule is defined in a simple and intuitive way and
+Palmgren-Miner damage model is one of the famous fatigue damage models for 
+fatigue estimation. The model is defined in a simple and intuitive way and
 it is very popular now.
 
 Reference: Miner, M.A., 1945. Cumulative damage in fatigue.
@@ -11,9 +11,9 @@ Reference: Miner, M.A., 1945. Cumulative damage in fatigue.
 import numpy as np
 from ffpack import utils
 
-def minerDamageRuleNaive( fatigueData ):
+def minerDamageModelNaive( fatigueData ):
     '''
-    Naive Palmgren-miner damage rule directly calcuates the damage results.
+    Naive Palmgren-miner damage model directly calcuates the damage results.
 
     Parameters
     ----------
@@ -26,7 +26,7 @@ def minerDamageRuleNaive( fatigueData ):
     Returns
     -------
     rst: scalar
-        Fatigue damage calculated based on the Palmgren-miner rule
+        Fatigue damage calculated based on the Palmgren-miner model
     
     Raises
     ------
@@ -39,9 +39,9 @@ def minerDamageRuleNaive( fatigueData ):
     
     Examples
     --------
-    >>> from ffpack.fdr import minerDamageRuleNaive
+    >>> from ffpack.fdm import minerDamageModelNaive
     >>> fatigueData = [ [ 10, 100 ], [ 200, 2000 ] ]
-    >>> rst = minerDamageRuleNaive( fatigueData )
+    >>> rst = minerDamageModelNaive( fatigueData )
     '''
     # Edge case check
     fatigueData = np.array( fatigueData )
@@ -57,14 +57,16 @@ def minerDamageRuleNaive( fatigueData ):
         if p[ 1 ] <= 0:
             raise ValueError( "Failure cycles should be larger than 0" )
         if p[ 0 ] > p[ 1 ]:
-            raise ValueError( "Failure cycles should be larger than or equal counting cycles" )
+            raise ValueError( "Failure cycles should be larger than "
+                              "or equal counting cycles" )
 
     return np.sum( fatigueData[ :, 0 ] / fatigueData[ :, 1 ] )
 
 
-def minerDamageRuleClassic( lccData, snData, fatigueLimit ):
+def minerDamageModelClassic( lccData, snData, fatigueLimit ):
     '''
-    Classical Palmgren-miner damage rule calculates the damage results based on the SN curve.
+    Classical Palmgren-miner damage model calculates the damage results 
+    based on the SN curve.
     
     Parameters
     ----------
@@ -82,7 +84,7 @@ def minerDamageRuleClassic( lccData, snData, fatigueLimit ):
     Returns
     -------
     rst: scalar
-        Fatigue damage calculated based on the Palmgren-miner rule
+        Fatigue damage calculated based on the Palmgren-miner model.
     
     Raises
     ------
@@ -92,11 +94,11 @@ def minerDamageRuleClassic( lccData, snData, fatigueLimit ):
 
     Examples
     --------
-    >>> from ffpack.fdr import minerDamageRuleClassic
+    >>> from ffpack.fdr import minerDamageModelClassic
     >>> lccData = [ [ 1, 100 ], [ 2, 10 ] ]
     >>> snData = [ [ 10, 3 ], [ 1000, 1 ] ]
     >>> fatigueLimit = 0.5
-    >>> rst = minerDamageRuleClassic( lccData, snData, fatigueLimit )
+    >>> rst = minerDamageModelClassic( lccData, snData, fatigueLimit )
     '''
     # Edge case check
     lccData = np.array( lccData )
