@@ -124,7 +124,7 @@ See the package document for more details and examples.
     * Counting matrix
         * Counting results to counting matrix
     * Fitter
-        * Fitter for SN curve
+        * SN curve fitter
     * Sequence filter
         * Sequence peakValley filter
         * Sequence hysteresis filter
