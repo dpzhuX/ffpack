@@ -42,10 +42,10 @@ See the package document for more details and examples.
 
 ## Contents
 
-* Fatigue damage rule
-    * Palmgren-miner damage rule
-        * Naive Palmgren-miner damage rule
-        * Classic Palmgren-miner damage rule
+* Fatigue damage model
+    * Palmgren-miner damage model
+        * Naive Palmgren-miner damage model
+        * Classic Palmgren-miner damage model
 
 * Load correction and counting
     * ASTM counting

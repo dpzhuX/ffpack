@@ -43,10 +43,9 @@ All notable changes to this project will be documented in this file.
 - (rrm) `fosm` was changed to `mvalFOSM`
 - (rrm) `formHLRF` was changed to `hlrfFORM`
 - (rrm) `formCOPT` was changed to `coptFORM`
+- (fdr)  fatigue damage rule was changed to (fdm) fatigue damage model 
 - (utils) `sequencePeakAndValleys` was changed to `sequencePeakValleyFilter`
 - (utils) `FitterForSnCurve` was changed to `SnCurveFitter`
- 
-### Fixed
  
 ## [ 0.3.0 ] - 2023-01-08
  

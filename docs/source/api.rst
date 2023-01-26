@@ -1,12 +1,12 @@
 Module API
 ==========
 
-``fdr`` fatigue damage rule 
----------------------------
+``fdm`` fatigue damage model
+----------------------------
 .. toctree::
    :maxdepth: 2
 
-   moduleApi/fdr
+   moduleApi/fdm
 
 ``lcc`` load correction and counting 
 ------------------------------------
