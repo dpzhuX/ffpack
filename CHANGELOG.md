@@ -10,7 +10,7 @@ All notable changes to this project will be documented in this file.
  
 ### Fixed
  
-## [ 0.3.1 ] - Unreleased
+## [ 0.3.1 ] - 2023-01-26
  
 ### Added
 
