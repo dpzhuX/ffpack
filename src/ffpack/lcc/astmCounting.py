@@ -10,6 +10,7 @@ from ffpack.utils import generalUtils
 from ffpack.config import globalConfig
 from collections import defaultdict, deque
 
+
 def astmLevelCrossingCounting( data, refLevel=0.0, levels=None, aggregate=True ):
     '''
     ASTM level crossing counting in E1049-85: sec 5.1.1.

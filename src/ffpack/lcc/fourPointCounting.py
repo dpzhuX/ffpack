@@ -31,7 +31,7 @@ def fourPointRainflowCounting( data, aggregate=True ):
 
     Examples
     --------
-    >>> from ffpack.lcc import fourPointRainflowCounting
+    >>> from ffpack.lcc import fourPointCounting
     >>> data = [ -2.0, 1.0, -3.0, 5.0, -1.0, 3.0, -4.0, 4.0, -2.0 ]
     >>> rst = fourPointRainflowCounting( data )
     
@@ -44,8 +44,8 @@ def fourPointRainflowCounting( data, aggregate=True ):
     data = np.array( data )
     if len( data.shape ) != 1:
         raise ValueError( "Input data dimension should be 1" )
-    if data.shape[0] < 4:
-        raise ValueError( "Input data length should be at least 4")
+    if data.shape[ 0 ] < 4:
+        raise ValueError( "Input data length should be at least 4" )
 
     # Remove the intermediate value first
     data = np.array( generalUtils.sequencePeakValleyFilter( data, keepEnds=True ) )

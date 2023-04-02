@@ -8,3 +8,4 @@ Load correction and counting ( lcc )
    moduleCookbook/lccJohannessonCountingMethod
    moduleCookbook/lccRychlikCountingMethod
    moduleCookbook/lccFourPointingCountingMethod
+   moduleCookbook/lccMeanStressCorrection
