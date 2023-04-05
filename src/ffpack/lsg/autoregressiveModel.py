@@ -2,6 +2,7 @@
 
 import numpy as np
 
+
 def arNormal( numSteps, obs, phis, mu, sigma ):
     '''
     Generate load sequence by an autoregressive model.

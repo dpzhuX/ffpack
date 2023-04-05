@@ -9,97 +9,297 @@ import pytest
 # Test goodmanCorrection function
 ###############################################################################
 def test_goodmanCorrection_incorrectStressRange_valueError():
-    sigma = 2.0
+    ultimateStrength = 2.0
     stressRange = 1
     with pytest.raises( ValueError ):
-        _ = lcc.goodmanCorrection( stressRange, sigma )
+        _ = lcc.goodmanCorrection( stressRange, ultimateStrength )
 
     stressRange = [ ]
     with pytest.raises( ValueError ):
-        _ = lcc.goodmanCorrection( stressRange, sigma )
+        _ = lcc.goodmanCorrection( stressRange, ultimateStrength )
 
     stressRange = [ [ ] ]
     with pytest.raises( ValueError ):
-        _ = lcc.goodmanCorrection( stressRange, sigma )
+        _ = lcc.goodmanCorrection( stressRange, ultimateStrength )
     
     stressRange = [ 1.0 ]
     with pytest.raises( ValueError ):
-        _ = lcc.goodmanCorrection( stressRange, sigma )
+        _ = lcc.goodmanCorrection( stressRange, ultimateStrength )
 
     stressRange = [ 1.0, 2.0, 3.0 ]
     with pytest.raises( ValueError ):
-        _ = lcc.goodmanCorrection( stressRange, sigma )
+        _ = lcc.goodmanCorrection( stressRange, ultimateStrength )
 
     stressRange = [ 1.0, 0.0 ]
     with pytest.raises( ValueError ):
-        _ = lcc.goodmanCorrection( stressRange, sigma )
+        _ = lcc.goodmanCorrection( stressRange, ultimateStrength )
 
     stressRange = [ -2.0, -1.0 ]
     with pytest.raises( ValueError ):
-        _ = lcc.goodmanCorrection( stressRange, sigma )
+        _ = lcc.goodmanCorrection( stressRange, ultimateStrength )
 
 
-def test_goodmanCorrection_incorrectSigma_valueError():
+def test_goodmanCorrection_incorrectUltimateStrength_valueError():
     data = [ 1.0, 2.0 ]
 
-    sigma = [ ]
+    ultimateStrength = [ ]
     with pytest.raises( ValueError ):
-        _ = lcc.goodmanCorrection( data, sigma )
+        _ = lcc.goodmanCorrection( data, ultimateStrength )
 
-    sigma = -1
+    ultimateStrength = -1
     with pytest.raises( ValueError ):
-        _ = lcc.goodmanCorrection( data, sigma )
+        _ = lcc.goodmanCorrection( data, ultimateStrength )
         
-    sigma = 0
+    ultimateStrength = 0
     with pytest.raises( ValueError ):
-        _ = lcc.goodmanCorrection( data, sigma )
+        _ = lcc.goodmanCorrection( data, ultimateStrength )
 
-    sigma = 1.8
+    ultimateStrength = 1.8
     with pytest.raises( ValueError ):
-        _ = lcc.goodmanCorrection( data, sigma )
+        _ = lcc.goodmanCorrection( data, ultimateStrength )
 
 
 def test_goodmanCorrection_stressRatioOutOfBound_valueError():
-    sigma = 2.0
+    ultimateStrength = 2.0
 
     # case 1: stress ratio R = -inf
     stressRange = [ -1.0, 0 ]
     with pytest.raises( ValueError ):
-        _ = lcc.goodmanCorrection( stressRange, sigma )
+        _ = lcc.goodmanCorrection( stressRange, ultimateStrength )
 
     # case 2: R < -1
     stressRange = [ -2.0, 1.0 ]
     with pytest.raises( ValueError ):
-        _ = lcc.goodmanCorrection( stressRange, sigma )  
+        _ = lcc.goodmanCorrection( stressRange, ultimateStrength )  
 
 
 def test_goodmanCorrection_invalidN_valueError():
     stressRange = [ 1.0, 2.0 ]
-    sigma = 2.0
+    ultimateStrength = 2.0
 
     n = 0.0
     with pytest.raises( ValueError ):
-        _ = lcc.goodmanCorrection( stressRange, sigma, n )
+        _ = lcc.goodmanCorrection( stressRange, ultimateStrength, n )
 
 
 def test_goodmanCorrection_normalCase_pass():
     # case 0: normal, all positive
     stressRange = [ 1.0, 2.0 ]
-    sigma = 2.0
-    calRst = lcc.goodmanCorrection( stressRange, sigma )
+    ultimateStrength = 2.0
+    calRst = lcc.goodmanCorrection( stressRange, ultimateStrength )
     expectedRst = 2.0
     np.testing.assert_allclose( calRst, expectedRst )
 
     # case 1: stress ratio R = -1 -> zero mean
     stressRange = [ -1.0, 1.0 ]
-    sigma = 2.0
-    calRst = lcc.goodmanCorrection( stressRange, sigma )
+    ultimateStrength = 2.0
+    calRst = lcc.goodmanCorrection( stressRange, ultimateStrength )
     expectedRst = 1.0
     np.testing.assert_allclose( calRst, expectedRst )
 
     # case 2: R = 0 -> lower stress = 0
     stressRange = [ 0, 2.0 ]
-    sigma = 2.0
-    calRst = lcc.goodmanCorrection( stressRange, sigma )
+    ultimateStrength = 2.0
+    calRst = lcc.goodmanCorrection( stressRange, ultimateStrength )
     expectedRst = 2.0
+    np.testing.assert_allclose( calRst, expectedRst )
+
+
+##############################################################################
+# Test soderbergCorrection function
+###############################################################################
+def test_soderbergCorrection_incorrectStressRange_valueError():
+    yieldStrength = 2.0
+    stressRange = 1
+    with pytest.raises( ValueError ):
+        _ = lcc.soderbergCorrection( stressRange, yieldStrength )
+
+    stressRange = [ ]
+    with pytest.raises( ValueError ):
+        _ = lcc.soderbergCorrection( stressRange, yieldStrength )
+
+    stressRange = [ [ ] ]
+    with pytest.raises( ValueError ):
+        _ = lcc.soderbergCorrection( stressRange, yieldStrength )
+    
+    stressRange = [ 1.0 ]
+    with pytest.raises( ValueError ):
+        _ = lcc.soderbergCorrection( stressRange, yieldStrength )
+
+    stressRange = [ 1.0, 2.0, 3.0 ]
+    with pytest.raises( ValueError ):
+        _ = lcc.soderbergCorrection( stressRange, yieldStrength )
+
+    stressRange = [ 1.0, 0.0 ]
+    with pytest.raises( ValueError ):
+        _ = lcc.soderbergCorrection( stressRange, yieldStrength )
+
+    stressRange = [ -2.0, -1.0 ]
+    with pytest.raises( ValueError ):
+        _ = lcc.soderbergCorrection( stressRange, yieldStrength )
+
+
+def test_soderbergCorrectionn_incorrectUltimateStrength_valueError():
+    data = [ 1.0, 2.0 ]
+
+    yieldStrength = [ ]
+    with pytest.raises( ValueError ):
+        _ = lcc.soderbergCorrection( data, yieldStrength )
+
+    yieldStrength = -1
+    with pytest.raises( ValueError ):
+        _ = lcc.soderbergCorrection( data, yieldStrength )
+        
+    yieldStrength = 0
+    with pytest.raises( ValueError ):
+        _ = lcc.soderbergCorrection( data, yieldStrength )
+
+    yieldStrength = 1.8
+    with pytest.raises( ValueError ):
+        _ = lcc.soderbergCorrection( data, yieldStrength )
+
+
+def test_soderbergCorrection_stressRatioOutOfBound_valueError():
+    yieldStrength = 2.0
+
+    # case 1: stress ratio R = -inf
+    stressRange = [ -1.0, 0 ]
+    with pytest.raises( ValueError ):
+        _ = lcc.soderbergCorrection( stressRange, yieldStrength )
+
+    # case 2: R < -1
+    stressRange = [ -2.0, 1.0 ]
+    with pytest.raises( ValueError ):
+        _ = lcc.soderbergCorrection( stressRange, yieldStrength )  
+
+
+def test_soderbergCorrection_invalidN_valueError():
+    stressRange = [ 1.0, 2.0 ]
+    yieldStrength = 2.0
+
+    n = 0.0
+    with pytest.raises( ValueError ):
+        _ = lcc.soderbergCorrection( stressRange, yieldStrength, n )
+
+
+def test_soderbergCorrection_normalCase_pass():
+    # case 0: normal, all positive
+    stressRange = [ 1.0, 2.0 ]
+    yieldStrength = 2.0
+    calRst = lcc.soderbergCorrection( stressRange, yieldStrength )
+    expectedRst = 2.0
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    # case 1: stress ratio R = -1 -> zero mean
+    stressRange = [ -1.0, 1.0 ]
+    yieldStrength = 2.0
+    calRst = lcc.soderbergCorrection( stressRange, yieldStrength )
+    expectedRst = 1.0
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    # case 2: R = 0 -> lower stress = 0
+    stressRange = [ 0, 2.0 ]
+    yieldStrength = 2.0
+    calRst = lcc.soderbergCorrection( stressRange, yieldStrength )
+    expectedRst = 2.0
+    np.testing.assert_allclose( calRst, expectedRst )
+
+
+##############################################################################
+# Test gerberCorrection function
+###############################################################################
+def test_gerberCorrection_incorrectStressRange_valueError():
+    yieldStrength = 2.0
+    stressRange = 1
+    with pytest.raises( ValueError ):
+        _ = lcc.gerberCorrection( stressRange, yieldStrength )
+
+    stressRange = [ ]
+    with pytest.raises( ValueError ):
+        _ = lcc.gerberCorrection( stressRange, yieldStrength )
+
+    stressRange = [ [ ] ]
+    with pytest.raises( ValueError ):
+        _ = lcc.gerberCorrection( stressRange, yieldStrength )
+    
+    stressRange = [ 1.0 ]
+    with pytest.raises( ValueError ):
+        _ = lcc.gerberCorrection( stressRange, yieldStrength )
+
+    stressRange = [ 1.0, 2.0, 3.0 ]
+    with pytest.raises( ValueError ):
+        _ = lcc.gerberCorrection( stressRange, yieldStrength )
+
+    stressRange = [ 1.0, 0.0 ]
+    with pytest.raises( ValueError ):
+        _ = lcc.gerberCorrection( stressRange, yieldStrength )
+
+    stressRange = [ -2.0, -1.0 ]
+    with pytest.raises( ValueError ):
+        _ = lcc.gerberCorrection( stressRange, yieldStrength )
+
+
+def test_gerberCorrection_incorrectUltimateStrength_valueError():
+    data = [ 1.0, 2.0 ]
+
+    yieldStrength = [ ]
+    with pytest.raises( ValueError ):
+        _ = lcc.gerberCorrection( data, yieldStrength )
+
+    yieldStrength = -1
+    with pytest.raises( ValueError ):
+        _ = lcc.gerberCorrection( data, yieldStrength )
+        
+    yieldStrength = 0
+    with pytest.raises( ValueError ):
+        _ = lcc.gerberCorrection( data, yieldStrength )
+
+    yieldStrength = 1.8
+    with pytest.raises( ValueError ):
+        _ = lcc.gerberCorrection( data, yieldStrength )
+
+
+def test_gerberCorrection_stressRatioOutOfBound_valueError():
+    yieldStrength = 2.0
+
+    # case 1: stress ratio R = -inf
+    stressRange = [ -1.0, 0 ]
+    with pytest.raises( ValueError ):
+        _ = lcc.soderbergCorrection( stressRange, yieldStrength )
+
+    # case 2: R < -1
+    stressRange = [ -2.0, 1.0 ]
+    with pytest.raises( ValueError ):
+        _ = lcc.soderbergCorrection( stressRange, yieldStrength )  
+
+
+def test_gerberCorrection_invalidN_valueError():
+    stressRange = [ 1.0, 2.0 ]
+    yieldStrength = 2.0
+
+    n = 0.0
+    with pytest.raises( ValueError ):
+        _ = lcc.gerberCorrection( stressRange, yieldStrength, n )
+
+
+def test_gerberCorrection_normalCase_pass():
+    # case 0: normal, all positive
+    stressRange = [ 1.0, 2.0 ]
+    yieldStrength = 4.5
+    calRst = lcc.gerberCorrection( stressRange, yieldStrength )
+    expectedRst = 0.5625
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    # case 1: stress ratio R = -1 -> zero mean
+    stressRange = [ -1.0, 1.0 ]
+    yieldStrength = 2.0
+    calRst = lcc.gerberCorrection( stressRange, yieldStrength )
+    expectedRst = 1.0
+    np.testing.assert_allclose( calRst, expectedRst )
+
+    # case 2: R = 0 -> lower stress = 0
+    stressRange = [ 0, 2.0 ]
+    yieldStrength = 3.0
+    calRst = lcc.gerberCorrection( stressRange, yieldStrength )
+    expectedRst = 1.125
     np.testing.assert_allclose( calRst, expectedRst )
