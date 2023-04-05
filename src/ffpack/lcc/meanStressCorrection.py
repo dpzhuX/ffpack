@@ -33,7 +33,7 @@ def goodmanCorrection( stressRange, ultimateStrength, n=1.0 ):
         If the stressRange dimension is not 1, or stressRange length is not 2.
         If stressRange[ 1 ] <= 0 or stressRange[ 0 ] >= stressRange[ 1 ].
         If ultimateStrength is not a scalar or ultimateStrength <= 0.
-        If ultimateStrength is smaller than upper stress stressRange[ 1 ].
+        If ultimateStrength is smaller than the mean stress.
         If n < 1.0.
 
     Examples
@@ -44,6 +44,7 @@ def goodmanCorrection( stressRange, ultimateStrength, n=1.0 ):
     >>> rst = goodmanCorrection( stressRange, ultimateStrength )
     '''
     stressRange = np.array( stressRange )
+    # check stressRange
     if len( stressRange.shape ) != 1:
         raise ValueError( "Input stressRange dimension should be 1" )
     if stressRange.shape[ 0 ] != 2:
@@ -53,21 +54,29 @@ def goodmanCorrection( stressRange, ultimateStrength, n=1.0 ):
     if stressRange[ 1 ] <= stressRange[ 0 ]:
         raise ValueError( 
             "Input stressRange should have lower stress stressRange[ 0 ] < upper stress stressRange[ 1 ]" )
+    # check ultimateStrength
     if not isinstance( ultimateStrength, int ) and not isinstance( ultimateStrength, float ):
         raise ValueError( "ultimateStrength should be a scalar" )
     if ultimateStrength <= 0:
         raise ValueError( "ultimateStrength should be positive" )
-    if ultimateStrength < stressRange[ 1 ]:
-        raise ValueError( "ultimateStrength should not be smaller than uppder stress" )
-
+    
+    # check stress ratio
     stressRatio = stressRange[ 0 ] / stressRange[ 1 ]
     if stressRatio < -1:
         raise ValueError( "Stress ratio should be no less than -1" )
     
+    # check safety factor
     if not isinstance( n, int ) and not isinstance( n, float ):
         raise ValueError( "n should be a scalar" )
     if n < 1.0:
         raise ValueError( "Safety factor should be no less than 1.0" )
+    
+    # consider the safety factor
+    if n != 1.0:
+        stressRange = stressRange * n
+
+    if ultimateStrength < np.mean( stressRange ):
+        raise ValueError( "ultimateStrength should not be smaller than the meam stress" )
     
     sigmaMean = ( stressRange[ 0 ] + stressRange[ 1 ] ) / 2.0
     sigmaAlt = ( stressRange[ 1 ] - stressRange[ 0 ] ) / 2.0
@@ -102,7 +111,7 @@ def soderbergCorrection( stressRange, yieldStrength, n=1.0 ):
         If the stressRange dimension is not 1, or stressRange length is not 2.
         If stressRange[ 1 ] <= 0 or stressRange[ 0 ] >= stressRange[ 1 ].
         If yieldStrength is not a scalar or yieldStrength <= 0.
-        If yieldStrength is smaller than upper stress stressRange[ 1 ].
+        If yieldStrength is smaller than the mean stress.
         If safety factor n < 1.0.
 
     Examples
@@ -113,6 +122,7 @@ def soderbergCorrection( stressRange, yieldStrength, n=1.0 ):
     >>> rst = soderbergCorrection( stressRange, yieldStrength )
     '''
     stressRange = np.array( stressRange )
+    # check stressRange
     if len( stressRange.shape ) != 1:
         raise ValueError( "Input stressRange dimension should be 1" )
     if stressRange.shape[ 0 ] != 2:
@@ -122,21 +132,29 @@ def soderbergCorrection( stressRange, yieldStrength, n=1.0 ):
     if stressRange[ 1 ] <= stressRange[ 0 ]:
         raise ValueError( 
             "Input stressRange should have lower stress stressRange[ 0 ] < upper stress stressRange[ 1 ]" )
+    # check yieldStrength
     if not isinstance( yieldStrength, int ) and not isinstance( yieldStrength, float ):
         raise ValueError( "yieldStrength should be a scalar" )
     if yieldStrength <= 0:
         raise ValueError( "yieldStrength should be positive" )
-    if yieldStrength < stressRange[ 1 ]:
-        raise ValueError( "yieldStrength should not be smaller than uppder stress" )
 
+    # check stress ratio
     stressRatio = stressRange[ 0 ] / stressRange[ 1 ]
     if stressRatio < -1:
         raise ValueError( "Stress ratio should be no less than -1" )
     
+    # check safety factor
     if not isinstance( n, int ) and not isinstance( n, float ):
         raise ValueError( "n should be a scalar" )
     if n < 1.0:
         raise ValueError( "Safety factor should be no less than 1.0" )
+    
+    # consider the safety factor
+    if n != 1.0:
+        stressRange = stressRange * n
+
+    if yieldStrength < np.mean( stressRange ):
+        raise ValueError( "yieldStrength should not be smaller than the mean stress" )
     
     sigmaMean = ( stressRange[ 0 ] + stressRange[ 1 ] ) / 2.0
     sigmaAlt = ( stressRange[ 1 ] - stressRange[ 0 ] ) / 2.0
@@ -146,7 +164,7 @@ def soderbergCorrection( stressRange, yieldStrength, n=1.0 ):
     return rst
 
 
-def gerberCorrection( stressRange, yieldStrength, n=1.0 ):
+def gerberCorrection( stressRange, ultimateStrength, n=1.0 ):
     '''
     The Gerber correction in this implementation is applicable to cases with stress 
     ratio no less than -1.
@@ -155,8 +173,8 @@ def gerberCorrection( stressRange, yieldStrength, n=1.0 ):
     ----------
     stressRange: 1d array
         Stress range, e.g., [ lowerStress, upperStress ].
-    yieldStrength: scalar
-        Yield strength.
+    ultimateStrength: scalar
+        Ultimate strength.
     n: scalar, optional
         Safety factor, default to 1.0.
     
@@ -170,18 +188,19 @@ def gerberCorrection( stressRange, yieldStrength, n=1.0 ):
     ValueError
         If the stressRange dimension is not 1, or stressRange length is not 2.
         If stressRange[ 1 ] <= 0 or stressRange[ 0 ] >= stressRange[ 1 ].
-        If yieldStrength is not a scalar or yieldStrength <= 0.
-        If yieldStrength is smaller than upper stress stressRange[ 1 ].
+        If ultimateStrength is not a scalar or ultimateStrength <= 0.
+        If ultimateStrength is smaller than the mean stress.
         If safety factor n < 1.0.
 
     Examples
     --------
     >>> from ffpack.lcc import gerberCorrection
     >>> stressRange = [ 1.0, 2.0 ]
-    >>> yieldStrength = 3.0
-    >>> rst = gerberCorrection( stressRange, yieldStrength )
+    >>> ultimateStrength = 3.0
+    >>> rst = gerberCorrection( stressRange, ultimateStrength )
     '''
     stressRange = np.array( stressRange )
+    # check stressRange
     if len( stressRange.shape ) != 1:
         raise ValueError( "Input stressRange dimension should be 1" )
     if stressRange.shape[ 0 ] != 2:
@@ -191,26 +210,34 @@ def gerberCorrection( stressRange, yieldStrength, n=1.0 ):
     if stressRange[ 1 ] <= stressRange[ 0 ]:
         raise ValueError( 
             "Input stressRange should have lower stress stressRange[ 0 ] < upper stress stressRange[ 1 ]" )
-    if not isinstance( yieldStrength, int ) and not isinstance( yieldStrength, float ):
-        raise ValueError( "yieldStrength should be a scalar" )
-    if yieldStrength <= 0:
-        raise ValueError( "yieldStrength should be positive" )
-    if yieldStrength < stressRange[ 1 ]:
-        raise ValueError( "yieldStrength should not be smaller than uppder stress" )
+    # check ultimateStrength
+    if not isinstance( ultimateStrength, int ) and not isinstance( ultimateStrength, float ):
+        raise ValueError( "ultimateStrength should be a scalar" )
+    if ultimateStrength <= 0:
+        raise ValueError( "ultimateStrength should be positive" )
 
+    # check stress ratio
     stressRatio = stressRange[ 0 ] / stressRange[ 1 ]
     if stressRatio < -1:
         raise ValueError( "Stress ratio should be no less than -1" )
     
+    # check safety factor
     if not isinstance( n, int ) and not isinstance( n, float ):
         raise ValueError( "n should be a scalar" )
     if n < 1.0:
         raise ValueError( "Safety factor should be no less than 1.0" )
+
+    # consider the safety factor
+    if n != 1.0:
+        stressRange = stressRange * n
+
+    if ultimateStrength < np.mean( stressRange ):
+        raise ValueError( "ultimateStrength should not be smaller than the mean stress" )
     
     sigmaMean = ( stressRange[ 0 ] + stressRange[ 1 ] ) / 2.0
     sigmaAlt = ( stressRange[ 1 ] - stressRange[ 0 ] ) / 2.0
 
-    rst = 1 - ( n * sigmaMean / yieldStrength) ** 2
+    rst = 1 - ( n * sigmaMean / ultimateStrength) ** 2
     rst = n * sigmaAlt / rst
 
     return rst
