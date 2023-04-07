@@ -31,7 +31,7 @@ def fourPointRainflowCounting( data, aggregate=True ):
 
     Examples
     --------
-    >>> from ffpack.lcc import fourPointCounting
+    >>> from ffpack.lcc import fourPointRainflowCounting
     >>> data = [ -2.0, 1.0, -3.0, 5.0, -1.0, 3.0, -4.0, 4.0, -2.0 ]
     >>> rst = fourPointRainflowCounting( data )
     
