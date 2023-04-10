@@ -61,6 +61,10 @@ See the package document for more details and examples.
         * Rychlik rainflow counting
     * Four point counting
         * Four point rainflow counting
+    * Mean stress correction
+        * Goodman correction
+        * Soderberg correction
+        * Gerber correction
 
 * Load sequence generator
     * Random walk
