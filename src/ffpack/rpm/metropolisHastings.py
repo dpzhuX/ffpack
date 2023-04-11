@@ -2,6 +2,7 @@
 
 import numpy as np
 
+
 class MetropolisHastingsSampler:
     '''
     Metropolis-Hastings sampler to sample data [Bourinet2018]_.
@@ -105,6 +106,7 @@ class MetropolisHastingsSampler:
         if self.sampleDomain( self.cur, self.nxt, **self.sdKwargs ):
             np.copyto( self.cur, self.nxt )
         return self.cur.tolist()
+
 
 
 class AuModifiedMHSampler:

@@ -16,6 +16,7 @@ from ffpack.utils import generalUtils
 from ffpack.config import globalConfig
 from collections import defaultdict 
 
+
 def rychlikRainflowCounting( data, aggregate=True ):
     '''
     Rychilk rainflow counting (toplevel-up cycle TUC)

@@ -8,7 +8,7 @@ Module API
 
    moduleApi/fdm
 
-``lcc`` load correction and counting 
+``lcc`` load counting and correction
 ------------------------------------
 .. toctree::
    :maxdepth: 2

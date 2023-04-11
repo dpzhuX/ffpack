@@ -21,3 +21,9 @@ Rychlik Counting
 
 .. automodule:: ffpack.lcc.fourPointCounting
    :members:
+
+Mean Stress Correction
+----------------
+
+.. automodule:: ffpack.lcc.meanStressCorrection
+   :members:

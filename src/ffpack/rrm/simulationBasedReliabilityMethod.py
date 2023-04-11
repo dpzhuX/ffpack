@@ -4,6 +4,7 @@ import numpy as np
 from scipy.stats import norm
 from ffpack.rpm import metropolisHastings, nataf
 
+
 def subsetSimulation( dim, g, distObjs, corrMat, numSamples, 
                       maxSubsets, probLevel=0.1, quadDeg=99, quadRange=8 ):
     '''

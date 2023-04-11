@@ -100,7 +100,6 @@ def test_arNormal_ar2FourStepsCase_threePointsOutput( mock_get ):
     np.testing.assert_allclose( calRst, expectedRst )
 
 
-
 ###############################################################################
 # Test maNormal
 ###############################################################################
@@ -204,7 +203,6 @@ def test_maNormal_fourStepCase_outputRelatedToThreeThetas( mock_get ):
     calRst = lsg.maNormal( 4, 0, thetas, 0, 0.5 )
     expectedRst = [ 1.0, 2.8, 5.1, 7.6 ]
     np.testing.assert_allclose( calRst, expectedRst )
-
 
 
 ###############################################################################
@@ -375,7 +373,6 @@ def test_armaNormal_threeStepCase_outputDepends( mock_get ):
     calRst = lsg.armaNormal( 3, obs, phis, thetas, 0, 0.5 )
     expectedRst = [ 1.0, 4.3, 8.85 ]
     np.testing.assert_allclose( calRst, expectedRst )
-
 
 
 ###############################################################################

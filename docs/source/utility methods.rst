@@ -4,8 +4,8 @@ Utility methods ( utils )
 .. toctree::
    :maxdepth: 2
 
-   moduleCookbook/utilsFitter
-   moduleCookbook/utilsCountingMatrix
    moduleCookbook/utilsAggregation
-   moduleCookbook/utilsSequenceFilters
+   moduleCookbook/utilsCountingMatrix
    moduleCookbook/utilsDegitization
+   moduleCookbook/utilsFitter
+   moduleCookbook/utilsSequenceFilters

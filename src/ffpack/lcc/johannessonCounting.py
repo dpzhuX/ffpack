@@ -13,6 +13,7 @@ from ffpack.utils import generalUtils
 from ffpack.config import globalConfig
 from collections import defaultdict 
 
+
 def johannessonMinMaxCounting( data, aggregate=True ):
     '''
     Johannesson min-max counting 

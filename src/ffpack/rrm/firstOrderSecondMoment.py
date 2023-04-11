@@ -4,6 +4,7 @@ import numpy as np
 from scipy import stats
 from ffpack.utils import gradient
 
+
 def mvalFOSM( dim, g, dg, mus, sigmas, dx=1e-6 ):
     '''
     First order second moment method based on mean value algorithm.

@@ -47,7 +47,7 @@ See the package document for more details and examples.
         * Naive Palmgren-miner damage model
         * Classic Palmgren-miner damage model
 
-* Load correction and counting
+* Load counting and correction
     * ASTM counting
         * ASTM level crossing counting
         * ASTM peak counting
@@ -127,11 +127,6 @@ See the package document for more details and examples.
         * Cycle counting aggregation
     * Counting matrix
         * Counting results to counting matrix
-    * Fitter
-        * SN curve fitter
-    * Sequence filter
-        * Sequence peakValley filter
-        * Sequence hysteresis filter
     * Degitization
         * Sequence degitization
     * Derivatives
@@ -139,7 +134,12 @@ See the package document for more details and examples.
         * Central derivative weights
         * Gradient
         * Hessian matrix
-
+    * Fitter
+        * SN curve fitter
+    * Sequence filter
+        * Sequence peakValley filter
+        * Sequence hysteresis filter
+    
 ## Document
 
 You can find the latest documentation for setting up `FFPACK` at the [Read the Docs site](https://ffpack.readthedocs.io/en/latest/).

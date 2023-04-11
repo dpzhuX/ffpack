@@ -207,7 +207,6 @@ def test_sequencePeakValleyFilter_normalUseExtraPointsInSequence_pass():
     np.testing.assert_allclose( calRst, expectedRst )
     
 
-
 ###############################################################################
 # Test sequenceHysteresisFilter
 ###############################################################################
@@ -315,7 +314,6 @@ def test_sequenceHysteresisFilter_floatPoints_keepPeakValleys():
     expectedRst = [ -0.5, -1.0, 1.5, -1.0, 1.5, 4.5, 1.0, -1.0, 3.0, 1.5, -1.5, 
                     0.5, 1.0 ]
     np.testing.assert_allclose( calRst, expectedRst )
-
 
 
 ###############################################################################

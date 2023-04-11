@@ -2,6 +2,7 @@
 
 import numpy as np
 
+
 class GlobalConfig:
     '''
     Global config for FFPACK

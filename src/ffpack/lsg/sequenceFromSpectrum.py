@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 import numpy as np
-from ffpack.config import globalConfig
 
 
 def spectralRepresentation( fs, time, freq, psd, freqBandwidth=None ):

@@ -1,3 +1,3 @@
 from .randomWalk import *
-from .autoregressiveModel import *
+from .autoregressiveMovingAverage import *
 from .sequenceFromSpectrum import *
