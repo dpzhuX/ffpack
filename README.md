@@ -127,13 +127,13 @@ See the package document for more details and examples.
         * Cycle counting aggregation
     * Counting matrix
         * Counting results to counting matrix
-    * Degitization
-        * Sequence degitization
     * Derivatives
         * Derivative
         * Central derivative weights
         * Gradient
         * Hessian matrix
+    * Digitization
+        * Sequence digitization
     * Fitter
         * SN curve fitter
     * Sequence filter

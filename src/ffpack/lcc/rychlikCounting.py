@@ -12,7 +12,7 @@ International journal of fatigue, 9(2), pp.119-121.
 '''
 
 import numpy as np
-from ffpack.utils import generalUtils 
+from ffpack.utils import sequenceFilter 
 from ffpack.config import globalConfig
 from collections import defaultdict 
 
@@ -79,10 +79,9 @@ def rychlikRainflowCounting( data, aggregate=True ):
 
         return right 
 
-
     # we need to use this util function since it keeps one peak 
     # if there are two or more points together with the same peak value
-    data = generalUtils.sequencePeakValleyFilter( data, keepEnds=True )
+    data = sequenceFilter.sequencePeakValleyFilter( data, keepEnds=True )
     rstSeq = [ ]
     for i in range( 1, len( data ) - 1 ):
         if ( data[ i ] > data[ i - 1 ] and data[ i ] > data[ i + 1 ] ):

@@ -65,7 +65,6 @@ def arNormal( numSteps, obs, phis, mu, sigma ):
     return rst
 
 
-
 def maNormal( numSteps, c, thetas, mu, sigma ):
     '''
     Generate load sequence by a moving-average model.

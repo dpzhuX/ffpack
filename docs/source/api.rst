@@ -8,12 +8,14 @@ Module API
 
    moduleApi/fdm
 
+
 ``lcc`` load counting and correction
 ------------------------------------
 .. toctree::
    :maxdepth: 2
 
    moduleApi/lcc
+
 
 ``lsg`` load sequence generator 
 -------------------------------
@@ -22,12 +24,14 @@ Module API
 
    moduleApi/lsg
 
+
 ``lsm`` load spectra and matrices
 ---------------------------------
 .. toctree::
    :maxdepth: 2
 
    moduleApi/lsm
+
 
 ``rpm`` random and probabilistic model
 --------------------------------------
@@ -36,6 +40,7 @@ Module API
 
    moduleApi/rpm
 
+
 ``rrm`` risk and reliability model
 ----------------------------------
 .. toctree::
@@ -43,12 +48,14 @@ Module API
 
    moduleApi/rrm
 
+
 ``utils`` utility methods 
 --------------------------
 .. toctree::
    :maxdepth: 2
 
    moduleApi/utils
+
 
 ``config`` package setting
 --------------------------

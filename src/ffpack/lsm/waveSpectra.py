@@ -52,7 +52,6 @@ def piersonMoskowitzSpectrum( w, Uw, alpha=0.0081, beta=0.74, g=9.81 ):
     return rst
 
 
-
 def jonswapSpectrum( w, wp, alpha=0.0081, beta=1.25, gamma=3.3, g=9.81 ):
     '''
     JONSWAP (Joint North Sea Wave Project) spectrum is an empirical relationship 
@@ -106,7 +105,6 @@ def jonswapSpectrum( w, wp, alpha=0.0081, beta=1.25, gamma=3.3, g=9.81 ):
     return rst
 
 
-
 def isscSpectrum( w, wp, Hs ):
     '''
     ISSC spectrum, also known as Bretschneider or modified Pierson-Moskowitz. 
@@ -150,7 +148,6 @@ def isscSpectrum( w, wp, Hs ):
     wwp4 = np.power( wp / w, 4 )
     rst = 5 / 16 * Hs * Hs * wwp4 / w * np.exp( -1.25 * wwp4 )
     return rst
-
 
 
 def gaussianSwellSpectrum( w, wp, Hs, sigma ):
@@ -209,7 +206,6 @@ def gaussianSwellSpectrum( w, wp, Hs, sigma ):
     pexp = np.power( ( w - wp ) / ( twoPi * sigma ), 2 ) / 2
     rst = Hs * Hs / ( 16 * sigma * np.power( twoPi, 1.5 ) ) * np.exp( -pexp )
     return rst
-
 
 
 def ochiHubbleSpectrum( w, wp1, wp2, Hs1, Hs2, lambda1, lambda2 ):
@@ -279,7 +275,6 @@ def ochiHubbleSpectrum( w, wp1, wp2, Hs1, Hs2, lambda1, lambda2 ):
         raise ValueError( "lambda2 should be a scalar" )
     if wp1 >= wp2:
         raise ValueError( "wp1 must be less than wp2" )
-
     
     def oneTerm( w, wp, Hs, lambdaVal ):
         fourLambda = ( 4 * lambdaVal + 1 ) / 4

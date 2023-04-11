@@ -40,7 +40,6 @@ def test_davenportSpectrumWithDragCoef_normalUseCase_expectedRst():
     np.testing.assert_allclose( np.round( calRst, 4 ), np.round( expectedRst, 4 ) )
 
 
-
 ###############################################################################
 # Test davenportSpectrumWithRoughnessLength
 ###############################################################################
@@ -87,7 +86,6 @@ def test_davenportSpectrum_normalized_sameRst():
     calDrag = lsm.davenportSpectrumWithDragCoef( n, delta1 )
     calRoughness = lsm.davenportSpectrumWithRoughnessLength( n, uz )
     np.testing.assert_allclose( calDrag, calRoughness )
-
 
 
 ###############################################################################
@@ -217,7 +215,6 @@ def test_ec1Spectrum_notNormalizedUseCase_expectedRst():
     np.testing.assert_allclose( np.round( calRst, 4 ), np.round( expectedRst, 4 ) )
 
 
-
 ###############################################################################
 # Test iecSpectrum
 ###############################################################################
@@ -308,7 +305,6 @@ def test_iecSpectrum_notNormalizedUseCase_expectedRst():
     calRst = lsm.iecSpectrum( f, vhub, sigma=sigma, z=z, k=k, normalized=False )
     expectedRst = rstCalc( sigma * 0.5, 0.7 * z * 0.66 )
     np.testing.assert_allclose( np.round( calRst, 4 ), np.round( expectedRst, 4 ) )
-
 
 
 ###############################################################################

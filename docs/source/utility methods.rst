@@ -6,6 +6,6 @@ Utility methods ( utils )
 
    moduleCookbook/utilsAggregation
    moduleCookbook/utilsCountingMatrix
-   moduleCookbook/utilsDegitization
+   moduleCookbook/utilsDigitization
    moduleCookbook/utilsFitter
    moduleCookbook/utilsSequenceFilters

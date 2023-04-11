@@ -26,7 +26,6 @@ def test_astmSimpleRangeCountingMatrix_twoDimInputCase_valueError():
         _ = lsm.astmSimpleRangeCountingMatrix( data )
 
 
-
 ###############################################################################
 # Test astmRainflowCountingMatrix
 ###############################################################################
@@ -46,7 +45,6 @@ def test_astmRainflowCountingMatrix_twoDimInputCase_valueError():
     data = [ [ 1.0 ], [ 2.0 ] ]
     with pytest.raises( ValueError ):
         _ = lsm.astmRainflowCountingMatrix( data )
-
 
 
 ###############################################################################
@@ -70,7 +68,6 @@ def test_astmRangePairCountingMatrix_twoDimInputCase_valueError():
         _ = lsm.astmRangePairCountingMatrix( data )
 
 
-
 ###############################################################################
 # Test astmRainflowRepeatHistoryCountingMatrix
 ###############################################################################
@@ -90,7 +87,6 @@ def test_astmRainflowRepeatHistoryCountingMatrix_twoDimInputCase_valueError():
     data = [ [ 1.0 ], [ 2.0 ] ]
     with pytest.raises( ValueError ):
         _ = lsm.astmRainflowRepeatHistoryCountingMatrix( data )
-
 
 
 ###############################################################################
@@ -114,7 +110,6 @@ def test_rychlikRainflowCountingMatrix_twoDimInputCase_valueError():
         _ = lsm.rychlikRainflowCountingMatrix( data )
 
 
-
 ###############################################################################
 # Test johannessonMinMaxCountingMatrix
 ###############################################################################
@@ -134,7 +129,6 @@ def test_johannessonMinMaxCountingMatrix_twoDimInputCase_valueError():
     data = [ [ 1.0 ], [ 2.0 ] ]
     with pytest.raises( ValueError ):
         _ = lsm.johannessonMinMaxCountingMatrix( data )
-
 
 
 ###############################################################################

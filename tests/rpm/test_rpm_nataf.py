@@ -651,7 +651,6 @@ def test_NatafTransformation_sampleDataPoint_1dArray( mock_randn ):
     expectedSample = [ 1.0, 1.0 ]
     np.testing.assert_allclose( expectedSample, calSample )
 
-
     mock_randn.return_value = [ 0.5, 0.5 ]
     calSample = natafDist.getSample()
     expectedSample = [ 0.5, 0.5 ]

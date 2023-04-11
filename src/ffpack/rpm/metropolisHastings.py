@@ -108,7 +108,6 @@ class MetropolisHastingsSampler:
         return self.cur.tolist()
 
 
-
 class AuModifiedMHSampler:
     '''
     Modified Metropolis-Hastings sampler based on Au and Beck algorithm [Au2001]_.
