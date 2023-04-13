@@ -58,6 +58,13 @@ Contents
 
 .. toctree::
    :maxdepth: 2
+   :caption: Application:
+
+   fatigue application
+
+
+.. toctree::
+   :maxdepth: 2
    :caption: Reference:
 
    api

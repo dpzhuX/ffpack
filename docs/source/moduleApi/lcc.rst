@@ -23,7 +23,7 @@ Rychlik Counting
    :members:
 
 Mean Stress Correction
-----------------
+----------------------
 
 .. automodule:: ffpack.lcc.meanStressCorrection
    :members:

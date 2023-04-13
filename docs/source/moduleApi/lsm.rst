@@ -11,7 +11,7 @@ Wind spectra
    :members:
 
 Sequence spectra
-------------
+----------------
 
 .. automodule:: ffpack.lsm.sequenceSpectra
    :members:

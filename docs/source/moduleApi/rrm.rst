@@ -17,7 +17,7 @@ Second order reliability method
    :members:
 
 Simulation based reliability method
--------------------------------
+-----------------------------------
 
 .. automodule:: ffpack.rrm.simulationBasedReliabilityMethod
    :members:

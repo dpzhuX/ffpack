@@ -1,19 +1,19 @@
 Aggregation
----------
+-----------
 
 .. automodule:: ffpack.utils.aggregation
    :members:
 
 
 Counting matrix
----------
+---------------
 
 .. automodule:: ffpack.utils.countingMatrix
    :members:
 
 
 Derivatives
-----------
+-----------
 
 .. automodule:: ffpack.utils.derivatives
    :members:
@@ -27,7 +27,7 @@ Digitization
 
 
 Fitter
----------
+------
 
 .. automodule:: ffpack.utils.fitter
    :members:
@@ -35,7 +35,7 @@ Fitter
 
 
 Sequence filter
--------------
+---------------
 
 .. automodule:: ffpack.utils.sequenceFilter
    :members:
