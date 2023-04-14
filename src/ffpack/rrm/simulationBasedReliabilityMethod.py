@@ -3,6 +3,7 @@
 import numpy as np
 from scipy.stats import norm
 from ffpack.rpm import metropolisHastings, nataf
+from ffpack.config import globalConfig
 
 
 def subsetSimulation( dim, g, distObjs, corrMat, numSamples, 
@@ -100,6 +101,9 @@ def subsetSimulation( dim, g, distObjs, corrMat, numSamples,
         return norm.pdf( x )
     
     targetPdf = [ tpdf ] * dim
+    
+    if globalConfig.seed is not None: 
+        np.random.seed( globalConfig.seed )
     
     def pcs( x ):
         return x - 0.5 + np.random.uniform()

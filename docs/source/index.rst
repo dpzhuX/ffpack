@@ -61,7 +61,7 @@ Contents
    :caption: Application:
 
    fatigue application
-
+   reliability application
 
 .. toctree::
    :maxdepth: 2
