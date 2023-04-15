@@ -1,30 +1,41 @@
-General utils
--------------
+Aggregation
+-----------
 
-.. automodule:: ffpack.utils.generalUtils
+.. automodule:: ffpack.utils.aggregation
    :members:
 
-fdr utils
----------
 
-.. automodule:: ffpack.utils.fdrUtils
+Counting matrix
+---------------
+
+.. automodule:: ffpack.utils.countingMatrix
+   :members:
+
+
+Derivatives
+-----------
+
+.. automodule:: ffpack.utils.derivatives
+   :members:
+
+
+Digitization
+-------------
+
+.. automodule:: ffpack.utils.digitization
+   :members:
+
+
+Fitter
+------
+
+.. automodule:: ffpack.utils.fitter
    :members:
    :private-members:
 
-lcc utils
----------
 
-.. automodule:: ffpack.utils.lccUtils
-   :members:
+Sequence filter
+---------------
 
-lsm utils
----------
-
-.. automodule:: ffpack.utils.lsmUtils
-   :members:
-
-misc utils
-----------
-
-.. automodule:: ffpack.utils.miscUtils
+.. automodule:: ffpack.utils.sequenceFilter
    :members:

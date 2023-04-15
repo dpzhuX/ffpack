@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import numpy as np
+from ffpack.config import globalConfig
 
 
 def randomWalkUniform( numSteps, dim=1 ):
@@ -39,6 +40,9 @@ def randomWalkUniform( numSteps, dim=1 ):
     if dim < 1:
         raise ValueError( "dim should be at least 1" )
 
+    if globalConfig.seed is not None: 
+        np.random.seed( globalConfig.seed )
+    
     rst = [ [ 0 ] * dim ]
     for i in range( numSteps ):
         randomInt = np.random.randint( 2 * dim )

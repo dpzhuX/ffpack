@@ -3,6 +3,7 @@
 import numpy as np
 from collections import defaultdict
 
+
 def cycleCountingAggregation( data, binSize=1.0 ):
     '''
     Count the number of occurrences of each cycle digitized to the nearest bin.

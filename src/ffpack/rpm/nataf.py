@@ -26,6 +26,7 @@ in reference [2]_.
 import numpy as np
 from scipy import stats, optimize
 
+
 class NatafTransformation:
     '''
     Nataf distribution for correlated marginal distributions.

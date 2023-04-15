@@ -64,7 +64,6 @@ def test_minerDamageModelNaive_fourPairsLargeCounts_scalarOutput():
     np.testing.assert_allclose( calRst, expectedRst )
 
 
-
 ###############################################################################
 # Test minerDamageModelClassic
 ###############################################################################

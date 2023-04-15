@@ -112,7 +112,6 @@ def test_MetropolisHastingsSampler_normalUseCase_diffByOne(
         sampleRst, candi if pseudoUniformVal <= acceptanceRatio else initialVal )
 
 
-
 ###############################################################################
 # Test AuModifiedMHSampler
 ###############################################################################

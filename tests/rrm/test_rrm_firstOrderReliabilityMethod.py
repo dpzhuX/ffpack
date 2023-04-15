@@ -517,7 +517,6 @@ def test_hlrfFORM_twoExpOneNormalOneGammaNonLinearCase_scalar( dgExists ):
                                 np.round( calXCoord, 4 ) )
 
 
-
 ###############################################################################
 # Test coptFORM
 ###############################################################################

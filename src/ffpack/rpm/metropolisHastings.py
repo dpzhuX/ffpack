@@ -2,6 +2,7 @@
 
 import numpy as np
 
+
 class MetropolisHastingsSampler:
     '''
     Metropolis-Hastings sampler to sample data [Bourinet2018]_.

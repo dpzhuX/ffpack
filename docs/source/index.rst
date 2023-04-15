@@ -49,12 +49,19 @@ Contents
    :caption: Cookbook:
 
    fatigue damage model
-   load correction and counting
+   load counting and correction
    load sequence generator
    load spectra and matrices
    random and probabilistic model
    risk and reliability model
    utility methods
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Application:
+
+   fatigue application
+   reliability application
 
 .. toctree::
    :maxdepth: 2

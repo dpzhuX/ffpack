@@ -67,7 +67,6 @@ def davenportSpectrumWithDragCoef( n, delta1, kappa=0.005, normalized=True ):
     return rst
 
 
-
 def davenportSpectrumWithRoughnessLength( n, uz, z=10, z0=0.03, normalized=True ):
     '''
     Davenport spectrum in the paper by Hiriart et al. [Hiriart2001]_.
@@ -134,7 +133,6 @@ def davenportSpectrumWithRoughnessLength( n, uz, z=10, z0=0.03, normalized=True 
     uf = 0.4 * uz / np.log( z / z0 )
     rst = rightPart( x ) * uf * uf / n
     return rst
-
 
 
 def ec1Spectrum( n, uz, sigma=0.03, z=10, tcat=0, normalized=True ):
@@ -210,7 +208,6 @@ def ec1Spectrum( n, uz, sigma=0.03, z=10, tcat=0, normalized=True ):
     f = n * lz / uz
     rst = rightPart( f ) * sigma * sigma / n
     return rst
-
 
 
 def iecSpectrum( f, vhub, sigma=0.03, z=10, k=1, normalized=True ):
@@ -289,7 +286,6 @@ def iecSpectrum( f, vhub, sigma=0.03, z=10, k=1, normalized=True ):
     nf = f * lk / vhub
     rst = rightPart( nf ) * sigmak * sigmak / f
     return rst
-
 
 
 def apiSpectrum( f, u0, z=10 ):

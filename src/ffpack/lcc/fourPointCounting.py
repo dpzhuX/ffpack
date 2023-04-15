@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import numpy as np
-from ffpack.utils import generalUtils
+from ffpack.utils import sequenceFilter
 from ffpack.config import globalConfig
 from collections import defaultdict
 
@@ -48,7 +48,7 @@ def fourPointRainflowCounting( data, aggregate=True ):
         raise ValueError( "Input data length should be at least 4" )
 
     # Remove the intermediate value first
-    data = np.array( generalUtils.sequencePeakValleyFilter( data, keepEnds=True ) )
+    data = np.array( sequenceFilter.sequencePeakValleyFilter( data, keepEnds=True ) )
     n = len( data )
     indices = np.array( range( 1, n + 1 ) )
     indices[ n - 1 ] = -1

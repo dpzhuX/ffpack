@@ -103,6 +103,8 @@ def spectralRepresentation( fs, time, freq, psd, freqBandwidth=None ):
     ts = 1 / fs * np.arange( n, dtype=float )
     amps = np.zeros( n )
     # generate phase angle
+    if globalConfig.seed is not None: 
+        np.random.seed( globalConfig.seed )
     phis = -np.pi + 2 * np.pi * np.random.randn( len( freq ) )
 
     i = 0

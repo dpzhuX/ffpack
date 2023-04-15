@@ -10,6 +10,12 @@ Wind spectra
 .. automodule:: ffpack.lsm.windSpectra
    :members:
 
+Sequence spectra
+----------------
+
+.. automodule:: ffpack.lsm.sequenceSpectra
+   :members:
+
 Cycle counting matrix
 ---------------------
 

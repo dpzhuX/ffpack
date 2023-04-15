@@ -1,4 +1,4 @@
-Load correction and counting ( lcc )
+Load counting and correction ( lcc )
 ======================================
 
 .. toctree::

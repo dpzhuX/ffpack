@@ -48,7 +48,6 @@ def test_piersonMoskowitzSpectrum_normalUseCase_expectedRst():
     np.testing.assert_allclose( np.round( calRst, 4 ), np.round( expectedRst, 4 ) )
 
 
-
 ###############################################################################
 # Test jonswapSpectrum
 ###############################################################################
@@ -93,7 +92,6 @@ def test_jonswapSpectrum_normalUseCase_expectedRst():
     expectedRst = alpha * g * g / np.power( w, 5 ) * np.exp( -beta / 16 ) \
         * np.power( gamma, np.exp( -1 / 2.0 / ( 0.09 * 0.09 ) ) )
     np.testing.assert_allclose( np.round( calRst, 4 ), np.round( expectedRst, 4 ) )
-
 
 
 ###############################################################################
@@ -143,7 +141,6 @@ def test_isscSpectrum_normalUseCase_expectedRst():
     calRst = lsm.isscSpectrum( w, wp, Hs )
     expectedRst = 5 / 16 * Hs * Hs * 16 / w * np.exp( -1.25 * 16 )
     np.testing.assert_allclose( np.round( calRst, 6 ), np.round( expectedRst, 6 ) )
-
 
 
 ###############################################################################
@@ -207,7 +204,6 @@ def test_gaussianSwellSpectrum_normalUseCase_expectedRst():
     pexp = np.power( wp / ( 4 * np.pi * sigma), 2 ) / 2
     expectedRst = Hs * Hs / ( 16 * sigma * np.power( 2 * np.pi, 1.5 ) ) * np.exp( -pexp )
     np.testing.assert_allclose( np.round( calRst, 4 ), np.round( expectedRst, 4 ) )
-
 
 
 ###############################################################################

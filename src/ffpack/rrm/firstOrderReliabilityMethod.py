@@ -5,6 +5,7 @@ from scipy import stats, optimize
 from ffpack.utils import gradient
 from ffpack import rpm
 
+
 def hlrfFORM( dim, g, dg, distObjs, corrMat, iter=1000, tol=1e-6, 
               quadDeg=99, quadRange=8, dx=1e-6 ):
     '''

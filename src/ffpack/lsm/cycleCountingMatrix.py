@@ -4,8 +4,8 @@ from ffpack.lcc import astmCounting
 from ffpack.lcc import rychlikCounting
 from ffpack.lcc import johannessonCounting
 from ffpack.lcc import fourPointCounting
-from ffpack.utils import generalUtils 
-from ffpack.utils import lsmUtils 
+from ffpack.utils import digitization 
+from ffpack.utils import countingMatrix 
 import numpy as np
 
 
@@ -49,10 +49,9 @@ def astmSimpleRangeCountingMatrix( data, resolution=0.5 ):
     if data.shape[0] <= 1:
         raise ValueError( "Input data length should be at least 2" )
 
-    data = generalUtils.sequenceDigitization( data, resolution )
+    data = digitization.sequenceDigitization( data, resolution )
     countingRst = astmCounting.astmSimpleRangeCounting( data, aggregate=False )
-    return lsmUtils.countingRstToCountingMatrix( countingRst )
-
+    return countingMatrix.countingRstToCountingMatrix( countingRst )
 
 
 def astmRainflowCountingMatrix( data, resolution=0.5 ):
@@ -95,10 +94,9 @@ def astmRainflowCountingMatrix( data, resolution=0.5 ):
     if data.shape[0] <= 1:
         raise ValueError( "Input data length should be at least 2" )
 
-    data = generalUtils.sequenceDigitization( data, resolution )
+    data = digitization.sequenceDigitization( data, resolution )
     countingRst = astmCounting.astmRainflowCounting( data, aggregate=False )
-    return lsmUtils.countingRstToCountingMatrix( countingRst )
-
+    return countingMatrix.countingRstToCountingMatrix( countingRst )
 
 
 def astmRangePairCountingMatrix( data, resolution=0.5 ):
@@ -141,10 +139,9 @@ def astmRangePairCountingMatrix( data, resolution=0.5 ):
     if data.shape[0] <= 1:
         raise ValueError( "Input data length should be at least 2" )
 
-    data = generalUtils.sequenceDigitization( data, resolution )
+    data = digitization.sequenceDigitization( data, resolution )
     countingRst = astmCounting.astmRangePairCounting( data, aggregate=False )
-    return lsmUtils.countingRstToCountingMatrix( countingRst )
-
+    return countingMatrix.countingRstToCountingMatrix( countingRst )
 
 
 def astmRainflowRepeatHistoryCountingMatrix( data, resolution=0.5 ):
@@ -188,10 +185,9 @@ def astmRainflowRepeatHistoryCountingMatrix( data, resolution=0.5 ):
     if data.shape[0] <= 1:
         raise ValueError( "Input data length should be at least 2" )
 
-    data = generalUtils.sequenceDigitization( data, resolution )
+    data = digitization.sequenceDigitization( data, resolution )
     countingRst = astmCounting.astmRainflowRepeatHistoryCounting( data, aggregate=False )
-    return lsmUtils.countingRstToCountingMatrix( countingRst )
-
+    return countingMatrix.countingRstToCountingMatrix( countingRst )
 
 
 def rychlikRainflowCountingMatrix( data, resolution=0.5 ):
@@ -234,10 +230,9 @@ def rychlikRainflowCountingMatrix( data, resolution=0.5 ):
     if data.shape[0] <= 1:
         raise ValueError( "Input data length should be at least 2" )
 
-    data = generalUtils.sequenceDigitization( data, resolution )
+    data = digitization.sequenceDigitization( data, resolution )
     countingRst = rychlikCounting.rychlikRainflowCounting( data, aggregate=False )
-    return lsmUtils.countingRstToCountingMatrix( countingRst )
-
+    return countingMatrix.countingRstToCountingMatrix( countingRst )
 
 
 def johannessonMinMaxCountingMatrix( data, resolution=0.5 ):
@@ -280,10 +275,9 @@ def johannessonMinMaxCountingMatrix( data, resolution=0.5 ):
     if data.shape[0] <= 1:
         raise ValueError( "Input data length should be at least 2" )
 
-    data = generalUtils.sequenceDigitization( data, resolution )
+    data = digitization.sequenceDigitization( data, resolution )
     countingRst = johannessonCounting.johannessonMinMaxCounting( data, aggregate=False )
-    return lsmUtils.countingRstToCountingMatrix( countingRst )
-
+    return countingMatrix.countingRstToCountingMatrix( countingRst )
 
 
 def fourPointCountingMatrix( data, resolution=0.5 ):
@@ -326,6 +320,6 @@ def fourPointCountingMatrix( data, resolution=0.5 ):
     if data.shape[0] <= 1:
         raise ValueError( "Input data length should be at least 2" )
 
-    data = generalUtils.sequenceDigitization( data, resolution )
+    data = digitization.sequenceDigitization( data, resolution )
     countingRst = fourPointCounting.fourPointRainflowCounting( data, aggregate=False )
-    return lsmUtils.countingRstToCountingMatrix( countingRst )
+    return countingMatrix.countingRstToCountingMatrix( countingRst )

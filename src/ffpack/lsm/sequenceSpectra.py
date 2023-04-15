@@ -47,7 +47,6 @@ def periodogramSpectrum( data, fs ):
     return freq, psd
 
 
-
 def welchSpectrum( data, fs, nperseg=1024 ):
     '''
     Power spectral density with `scipy.signal.welch`.

@@ -11,6 +11,7 @@ Reference: Miner, M.A., 1945. Cumulative damage in fatigue.
 import numpy as np
 from ffpack import utils
 
+
 def minerDamageModelNaive( fatigueData ):
     '''
     Naive Palmgren-miner damage model directly calcuates the damage results.

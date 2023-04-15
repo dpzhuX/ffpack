@@ -103,7 +103,6 @@ def test_periodogramSpectrum_threePeaks_samePeaks():
     np.testing.assert_allclose( [ peak1, peak2, peak3 ], [ fs1, fs2, fs3 ] )
 
 
-
 ###############################################################################
 # Test welchSpectrum
 ###############################################################################

@@ -6,6 +6,7 @@ from ffpack.utils import gradient, hessianMatrix, gramSchmidOrth
 from ffpack.rrm import firstOrderReliabilityMethod
 from ffpack import rpm
 
+
 def mainCurvaturesAtDesignPoint( dim, g, dg, distObjs, corrMat, 
                                  quadDeg=99, quadRange=8, dx=1e-6 ):
     # This function is internal use only.
@@ -63,6 +64,7 @@ def mainCurvaturesAtDesignPoint( dim, g, dg, distObjs, corrMat,
     ks = eigVal[ 0 ].tolist()
 
     return ks, beta, uCoord, xCoord
+
 
 def breitungSORM( dim, g, dg, distObjs, corrMat, quadDeg=99, quadRange=8, dx=1e-6 ):
     '''

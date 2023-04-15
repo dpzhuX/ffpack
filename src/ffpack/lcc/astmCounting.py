@@ -6,7 +6,7 @@ ASTM E1049-85(2017) Standard Practices for Cycle Counting in Fatigue Analysis
 '''
 
 import numpy as np
-from ffpack.utils import generalUtils
+from ffpack.utils import sequenceFilter
 from ffpack.config import globalConfig
 from collections import defaultdict, deque
 
@@ -59,7 +59,7 @@ def astmLevelCrossingCounting( data, refLevel=0.0, levels=None, aggregate=True )
         levels = np.array( sorted( set( levels ) ) )
 
     # Remove the intermediate value first
-    data = np.array( generalUtils.sequencePeakValleyFilter( data, keepEnds=True ) )
+    data = np.array( sequenceFilter.sequencePeakValleyFilter( data, keepEnds=True ) )
 
     rstDict = defaultdict( int )
     rstSeq = [ ]
@@ -183,7 +183,7 @@ def astmSimpleRangeCounting( data, aggregate=True ):
         raise ValueError( "Input data length should be at least 2")
 
     # Remove the intermediate value first
-    data = np.array( generalUtils.sequencePeakValleyFilter( data, keepEnds=True ) )
+    data = np.array( sequenceFilter.sequencePeakValleyFilter( data, keepEnds=True ) )
 
     rstDict = defaultdict( int )
     rstSeq = [ ]
@@ -238,7 +238,7 @@ def astmRainflowCounting( data, aggregate=True ):
         raise ValueError( "Input data length should be at least 2")
 
     # Remove the intermediate value first
-    data = np.array( generalUtils.sequencePeakValleyFilter( data, keepEnds=True ) )
+    data = np.array( sequenceFilter.sequencePeakValleyFilter( data, keepEnds=True ) )
 
     dequeA = deque()
     dequeB = deque( [ i for i in data ] )
@@ -331,7 +331,7 @@ def astmRangePairCounting( data, aggregate=True ):
         raise ValueError( "Input data length should be at least 2")
 
     # Remove the intermediate value first
-    data = np.array( generalUtils.sequencePeakValleyFilter( data, keepEnds=True ) )
+    data = np.array( sequenceFilter.sequencePeakValleyFilter( data, keepEnds=True ) )
     indices = np.array( range( -1, len( data ) - 1 ) )
 
     def checkPreviousThree( indices, i ):
@@ -433,7 +433,7 @@ def astmRainflowRepeatHistoryCounting( data, aggregate=True ):
         raise ValueError( "Input data should be repeating")
 
     # Remove the intermediate value first
-    data = np.array( generalUtils.sequencePeakValleyFilter( data, keepEnds=True ) )
+    data = np.array( sequenceFilter.sequencePeakValleyFilter( data, keepEnds=True ) )
     # search the peak and shift the data
     index = data.argmax( axis=0 )
     n = len( data )
@@ -442,7 +442,7 @@ def astmRainflowRepeatHistoryCounting( data, aggregate=True ):
             data[ i ] = data[ i + 1 ]
         data = np.roll( data, -index )
         # need to remove the intermediate value again
-        data = np.array( generalUtils.sequencePeakValleyFilter( data, keepEnds=True ) )
+        data = np.array( sequenceFilter.sequencePeakValleyFilter( data, keepEnds=True ) )
 
     indices = np.array( range( -1, len( data ) - 1 ) )
 

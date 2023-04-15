@@ -2,6 +2,7 @@
 
 import numpy as np
 
+
 class SnCurveFitter:
     '''
     Fitter for a SN curve based on the experimental data.
