@@ -33,7 +33,7 @@ def countingRstToCountingMatrix( countingRst ):
     >>> countingRst = [ [ -2.0, 1.0, 1.0 ], [ 5.0, -1.0, 3.0 ], [ -4.0, 4.0, 0.5 ] ]
     >>> rst, matrixIndexKey = countingRstToCountingMatrix( countingRst )
     '''
-    countingRst = np.array( countingRst )
+    countingRst = np.array( countingRst ) + 0.0
     if len( countingRst.shape ) != 2:
         raise ValueError( "Input data dimension should be 2" )
     if countingRst.shape[ 1 ] != 0 and len( countingRst[ 0 ] ) != 3:

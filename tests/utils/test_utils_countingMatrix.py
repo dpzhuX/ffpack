@@ -123,3 +123,14 @@ def test_countingRstToCountingMatrix_eightPoint_matrixDepends():
     expectedKeys = [ -4.0, -3.0, -2.0, -1.0, 1.0, 3.0, 4.0, 5.0 ]
     np.testing.assert_allclose( calMatrix, expectedMatrix )
     np.testing.assert_allclose( calKeys, expectedKeys )
+
+
+def test_countingRstToCountingMatrix_negativeZero_aggregated():
+    countingRst = [ [ -0.0, 2.5, 1 ], [ 0.0, 2.5, 0.5 ] ]
+    calMatrix, calKeys = utils.countingRstToCountingMatrix( countingRst )
+    calKeys = [ float( i ) for i in calKeys ]
+    expectedMatrix = [ [ 0.0, 1.5 ],
+                       [ 0.0, 0.0 ] ]
+    expectedKeys = [ 0.0, 2.5 ]
+    np.testing.assert_allclose( calMatrix, expectedMatrix )
+    np.testing.assert_allclose( calKeys, expectedKeys )
