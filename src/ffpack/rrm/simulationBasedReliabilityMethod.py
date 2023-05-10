@@ -3,11 +3,10 @@
 import numpy as np
 from scipy.stats import norm
 from ffpack.rpm import metropolisHastings, nataf
-from ffpack.config import globalConfig
 
 
 def subsetSimulation( dim, g, distObjs, corrMat, numSamples, 
-                      maxSubsets, probLevel=0.1, quadDeg=99, quadRange=8 ):
+                      maxSubsets, probLevel=0.1, quadDeg=99, quadRange=8, randomSeed=None ):
     '''
     Second order reliability method based on Breitung algorithm.
 
@@ -33,6 +32,9 @@ def subsetSimulation( dim, g, distObjs, corrMat, numSamples,
     quadRange: scalar, optional
         Quadrature range for Nataf transformation. The integral will be performed 
         in the range [ -quadRange, quadRange ].
+    randomSeed: integer, optional
+        Random seed. If randomSeed is none or is not an integer, the random seed in 
+        global config will be used. 
     
     Returns
     -------
@@ -102,8 +104,8 @@ def subsetSimulation( dim, g, distObjs, corrMat, numSamples,
     
     targetPdf = [ tpdf ] * dim
     
-    if globalConfig.seed is not None: 
-        np.random.seed( globalConfig.seed )
+    if isinstance(randomSeed, (int, type(None))):
+        np.random.seed( randomSeed )
     
     def pcs( x ):
         return x - 0.5 + np.random.uniform()

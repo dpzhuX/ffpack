@@ -31,7 +31,7 @@ class NatafTransformation:
     '''
     Nataf distribution for correlated marginal distributions.
     '''
-    def __init__( self, distObjs, corrMat, quadDeg=99, quadRange=8 ):
+    def __init__( self, distObjs, corrMat, quadDeg=99, quadRange=8, randomSeed=None ):
         '''
         Initialize the Nataf distribution.
         
@@ -47,6 +47,9 @@ class NatafTransformation:
         quadRange: scalar
             Quadrature range. The integral will be performed in the range
             [ -quadRange, quadRange ].
+        randomSeed: integer, optional
+            Random seed. If randomSeed is none or is not an integer, the random seed in 
+            global config will be used. 
         
         Raises
         ------
@@ -88,6 +91,9 @@ class NatafTransformation:
         except np.linalg.LinAlgError:
             raise ValueError( "corrMat should be positive definite" )
 
+        if isinstance(randomSeed, (int, type(None))):
+            np.random.seed( randomSeed )
+        
         self.distObjs = distObjs
         self.rhoX = np.array( corrMat )
         self.dim = len( distObjs )

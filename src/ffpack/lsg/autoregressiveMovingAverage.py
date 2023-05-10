@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 
 import numpy as np
-from ffpack.config import globalConfig
 
 
-def arNormal( numSteps, obs, phis, mu, sigma ):
+def arNormal( numSteps, obs, phis, mu, sigma, randomSeed=None ):
     '''
     Generate load sequence by an autoregressive model.
 
@@ -22,6 +21,9 @@ def arNormal( numSteps, obs, phis, mu, sigma ):
         Mean of the white noise.
     sigma: scalar
         Standard deviation of the white noise.
+    randomSeed: integer, optional
+        Random seed. If randomSeed is none or is not an integer, the random seed in 
+        global config will be used. 
     
     Returns
     -------
@@ -52,8 +54,8 @@ def arNormal( numSteps, obs, phis, mu, sigma ):
         raise ValueError( "length of obs or phis should be at least 1" )
 
     p = len( obs )
-    if globalConfig.seed is not None: 
-        np.random.seed( globalConfig.seed )
+    if isinstance(randomSeed, (int, type(None))):
+        np.random.seed( randomSeed )
     eps = np.random.normal( mu, sigma, numSteps )
 
     rst = [ 0 ] * numSteps
@@ -68,7 +70,7 @@ def arNormal( numSteps, obs, phis, mu, sigma ):
     return rst
 
 
-def maNormal( numSteps, c, thetas, mu, sigma ):
+def maNormal( numSteps, c, thetas, mu, sigma, randomSeed=None ):
     '''
     Generate load sequence by a moving-average model.
 
@@ -86,6 +88,9 @@ def maNormal( numSteps, c, thetas, mu, sigma ):
         Mean of the white noise.
     sigma: scalar
         Standard deviation of the white noise.
+    randomSeed: integer, optional
+        Random seed. If randomSeed is none or is not an integer, the random seed in 
+        global config will be used. 
     
     Returns
     -------
@@ -115,8 +120,8 @@ def maNormal( numSteps, c, thetas, mu, sigma ):
     if len( thetas ) < 1:
         raise ValueError( "length of coefficients for the white noise should be at least 1" )
 
-    if globalConfig.seed is not None: 
-        np.random.seed( globalConfig.seed )
+    if isinstance(randomSeed, (int, type(None))):
+        np.random.seed( randomSeed )
     eps = np.random.normal( mu, sigma, numSteps )
 
     rst = [ 0 ] * numSteps
@@ -131,7 +136,7 @@ def maNormal( numSteps, c, thetas, mu, sigma ):
     return rst
 
 
-def armaNormal( numSteps, obs, phis, thetas, mu, sigma ):
+def armaNormal( numSteps, obs, phis, thetas, mu, sigma, randomSeed=None ):
     '''
     Generate load sequence by an autoregressive-moving-average model.
 
@@ -151,6 +156,9 @@ def armaNormal( numSteps, obs, phis, thetas, mu, sigma ):
         Mean of the white noise.
     sigma: scalar
         Standard deviation of the white noise.
+    randomSeed: integer, optional
+        Random seed. If randomSeed is none or is not an integer, the random seed in 
+        global config will be used. 
     
     Returns
     -------
@@ -185,8 +193,8 @@ def armaNormal( numSteps, obs, phis, thetas, mu, sigma ):
     p = len( phis )
     q = len( thetas )
     n = len( obs )
-    if globalConfig.seed is not None: 
-        np.random.seed( globalConfig.seed )
+    if isinstance(randomSeed, (int, type(None))):
+        np.random.seed( randomSeed )
     eps = np.random.normal( mu, sigma, numSteps )
 
     rst = [ 0 ] * numSteps
@@ -210,7 +218,7 @@ def armaNormal( numSteps, obs, phis, thetas, mu, sigma ):
     return rst
 
 
-def arimaNormal( numSteps, c, phis, thetas, mu, sigma ):
+def arimaNormal( numSteps, c, phis, thetas, mu, sigma, randomSeed=None ):
     '''
     Generate load sequence by an autoregressive integrated moving average model.
 
@@ -232,7 +240,10 @@ def arimaNormal( numSteps, c, phis, thetas, mu, sigma ):
         Mean of the white noise.
     sigma: scalar
         Standard deviation of the white noise.
-    
+    randomSeed: integer, optional
+        Random seed. If randomSeed is none or is not an integer, the random seed in 
+        global config will be used. 
+        
     Returns
     -------
     rst: 1d array
@@ -267,8 +278,8 @@ def arimaNormal( numSteps, c, phis, thetas, mu, sigma ):
 
     p = len( phis )
     q = len( thetas )
-    if globalConfig.seed is not None: 
-        np.random.seed( globalConfig.seed )
+    if isinstance(randomSeed, (int, type(None))):
+        np.random.seed( randomSeed )
     eps = np.random.normal( mu, sigma, numSteps )
 
     rst = [ 0 ] * numSteps
