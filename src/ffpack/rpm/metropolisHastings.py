@@ -14,7 +14,7 @@ class MetropolisHastingsSampler:
        dissertation, Université Clermont Auvergne).
     '''
     def __init__( self, initialVal=None, targetPdf=None, proposalCSampler=None, 
-                  sampleDomain=None, **sdKwargs ):
+                  sampleDomain=None, randomSeed=None, **sdKwargs ):
         r'''
         Initialize the Metropolis-Hastings sampler
         
@@ -36,12 +36,15 @@ class MetropolisHastingsSampler:
             sample with the same type of initialVal should be returned.
         sampleDomain: function, optional
             Sample domain function. sampleDomain is a function to determine if a
-            sample is in the sample domain. For example, it the sample doamin is 
+            sample is in the sample domain. For example, if the sample doamin is 
             [ 0, inf ] and the sample is -2, the sample will be rejected. For the 
             sampling on field of real numbers, it should return True regardless of 
             the sample value. It called as sampleDomain( cur, nxt, \**sdKwargs ) 
             where cur, nxt are the same type as initivalVal, and a boolean value 
             should be returned.
+        randomSeed: integer, optional
+            Random seed. If randomSeed is none or is not an integer, the random seed in 
+            global config will be used. 
         
         Raises
         ------
@@ -72,6 +75,8 @@ class MetropolisHastingsSampler:
         self.targetPdf = targetPdf
         self.proposalCSampler = proposalCSampler
         self.sampleDomain = sampleDomain
+        if isinstance( randomSeed, ( int, type( None ) ) ):
+            np.random.seed( randomSeed )
     
     def getAcceptanceRatio( self, candi ):
         fcur = self.targetPdf( self.cur )
@@ -119,7 +124,7 @@ class AuModifiedMHSampler:
        engineering mechanics, 16(4), pp.263-277.
     '''
     def __init__( self, initialVal=None, targetPdf=None, proposalCSampler=None, 
-                  sampleDomain=None, **sdKwargs ):
+                  sampleDomain=None, randomSeed=None, **sdKwargs ):
         r'''
         Initialize the Au modified Metropolis-Hastings sampler
         
@@ -145,13 +150,16 @@ class AuModifiedMHSampler:
             sample with the same type of initialVal[ i ] should be returned.
         sampleDomain: function, optional
             Sample domain function. sampleDomain is a function to determine if a
-            sample is in the sample domain. For example, it the sample doamin is 
+            sample is in the sample domain. For example, if the sample doamin is 
             [ 0, inf ] and the sample is -2, the sample will be rejected. For the 
             sampling on field of real numbers, it should return True regardless of 
             the sample value. It called as sampleDomain( cur, nxt, \**sdKwargs ) 
             where cur, nxt are lists in which each element is the same type as 
             initivalVal[ i ], and a boolean value should be returned.
-        
+        randomSeed: integer, optional
+            Random seed. If randomSeed is none or is not an integer, the random seed in 
+            global config will be used. 
+
         Raises
         ------
         ValueError
@@ -190,7 +198,9 @@ class AuModifiedMHSampler:
         self.targetPdf = targetPdf
         self.proposalCSampler = proposalCSampler
         self.sampleDomain = sampleDomain
-    
+        if isinstance( randomSeed, ( int, type( None ) ) ):
+            np.random.seed( randomSeed )
+        
     def getAcceptanceRatio( self, candi, i ):
         fcur = self.targetPdf[ i ]( self.cur[ i ] )
         fcandi = self.targetPdf[ i ]( candi )

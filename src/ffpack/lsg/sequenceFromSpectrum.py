@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 
 import numpy as np
-from ffpack.config import globalConfig
 
 
-def spectralRepresentation( fs, time, freq, psd, freqBandwidth=None ):
+def spectralRepresentation( fs, time, freq, psd, freqBandwidth=None, randomSeed=None ):
     '''
     Generate a sequence from a given power spectrum density with spectral
     representation method.
@@ -23,6 +22,9 @@ def spectralRepresentation( fs, time, freq, psd, freqBandwidth=None ):
     freqBandwidth: scalar, optional
         Frequency bandwidth used to generate the time series from psd.
         Default to None, every frequency in freq will be used. 
+    randomSeed: integer, optional
+        Random seed. If randomSeed is none or is not an integer, the random seed in 
+        global config will be used. 
     
     Returns
     -------
@@ -102,9 +104,10 @@ def spectralRepresentation( fs, time, freq, psd, freqBandwidth=None ):
     n = round( fs * time )
     ts = 1 / fs * np.arange( n, dtype=float )
     amps = np.zeros( n )
+
     # generate phase angle
-    if globalConfig.seed is not None: 
-        np.random.seed( globalConfig.seed )
+    if isinstance( randomSeed, ( int, type( None ) ) ):
+        np.random.seed( randomSeed )
     phis = -np.pi + 2 * np.pi * np.random.randn( len( freq ) )
 
     i = 0

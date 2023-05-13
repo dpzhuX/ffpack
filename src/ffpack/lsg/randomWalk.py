@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 
 import numpy as np
-from ffpack.config import globalConfig
 
 
-def randomWalkUniform( numSteps, dim=1 ):
+def randomWalkUniform( numSteps, dim=1, randomSeed=None ):
     '''
     Generate load sequence by a random walk.
 
@@ -14,6 +13,9 @@ def randomWalkUniform( numSteps, dim=1 ):
         Number of steps for generating.
     dim: scalar, optional
         Data dimension.
+    randomSeed: integer, optional
+        Random seed. If randomSeed is none or is not an integer, the random seed in 
+        global config will be used. 
     
     Returns
     -------
@@ -40,8 +42,8 @@ def randomWalkUniform( numSteps, dim=1 ):
     if dim < 1:
         raise ValueError( "dim should be at least 1" )
 
-    if globalConfig.seed is not None: 
-        np.random.seed( globalConfig.seed )
+    if isinstance( randomSeed, ( int, type( None ) ) ):
+        np.random.seed( randomSeed )
     
     rst = [ [ 0 ] * dim ]
     for i in range( numSteps ):

@@ -58,8 +58,9 @@ class GlobalConfig:
         >>> from ffpack.config import globalConfig
         >>> globalConfig.setSeed( 0 )
         '''
-        self.seed = seed
-        np.random.seed( self.seed )
+        if isinstance(seed, (int, type(None))):
+            self.seed = seed
+            np.random.seed( self.seed )
 
 
 globalConfig = GlobalConfig()
