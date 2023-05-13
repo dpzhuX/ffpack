@@ -54,7 +54,7 @@ def arNormal( numSteps, obs, phis, mu, sigma, randomSeed=None ):
         raise ValueError( "length of obs or phis should be at least 1" )
 
     p = len( obs )
-    if isinstance(randomSeed, (int, type(None))):
+    if isinstance( randomSeed, ( int, type( None ) ) ):
         np.random.seed( randomSeed )
     eps = np.random.normal( mu, sigma, numSteps )
 
@@ -120,7 +120,7 @@ def maNormal( numSteps, c, thetas, mu, sigma, randomSeed=None ):
     if len( thetas ) < 1:
         raise ValueError( "length of coefficients for the white noise should be at least 1" )
 
-    if isinstance(randomSeed, (int, type(None))):
+    if isinstance( randomSeed, ( int, type( None ) ) ):
         np.random.seed( randomSeed )
     eps = np.random.normal( mu, sigma, numSteps )
 
@@ -193,7 +193,7 @@ def armaNormal( numSteps, obs, phis, thetas, mu, sigma, randomSeed=None ):
     p = len( phis )
     q = len( thetas )
     n = len( obs )
-    if isinstance(randomSeed, (int, type(None))):
+    if isinstance( randomSeed, ( int, type( None ) ) ):
         np.random.seed( randomSeed )
     eps = np.random.normal( mu, sigma, numSteps )
 
@@ -278,7 +278,7 @@ def arimaNormal( numSteps, c, phis, thetas, mu, sigma, randomSeed=None ):
 
     p = len( phis )
     q = len( thetas )
-    if isinstance(randomSeed, (int, type(None))):
+    if isinstance( randomSeed, ( int, type( None ) ) ):
         np.random.seed( randomSeed )
     eps = np.random.normal( mu, sigma, numSteps )
 

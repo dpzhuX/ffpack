@@ -42,7 +42,7 @@ def randomWalkUniform( numSteps, dim=1, randomSeed=None ):
     if dim < 1:
         raise ValueError( "dim should be at least 1" )
 
-    if isinstance(randomSeed, (int, type(None))):
+    if isinstance( randomSeed, ( int, type( None ) ) ):
         np.random.seed( randomSeed )
     
     rst = [ [ 0 ] * dim ]

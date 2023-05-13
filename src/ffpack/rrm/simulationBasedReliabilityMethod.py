@@ -104,7 +104,7 @@ def subsetSimulation( dim, g, distObjs, corrMat, numSamples,
     
     targetPdf = [ tpdf ] * dim
     
-    if isinstance(randomSeed, (int, type(None))):
+    if isinstance( randomSeed, ( int, type( None ) ) ):
         np.random.seed( randomSeed )
     
     def pcs( x ):

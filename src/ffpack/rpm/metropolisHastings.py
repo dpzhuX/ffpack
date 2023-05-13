@@ -75,7 +75,7 @@ class MetropolisHastingsSampler:
         self.targetPdf = targetPdf
         self.proposalCSampler = proposalCSampler
         self.sampleDomain = sampleDomain
-        if isinstance(randomSeed, (int, type(None))):
+        if isinstance( randomSeed, ( int, type( None ) ) ):
             np.random.seed( randomSeed )
     
     def getAcceptanceRatio( self, candi ):
@@ -198,7 +198,7 @@ class AuModifiedMHSampler:
         self.targetPdf = targetPdf
         self.proposalCSampler = proposalCSampler
         self.sampleDomain = sampleDomain
-        if isinstance(randomSeed, (int, type(None))):
+        if isinstance( randomSeed, ( int, type( None ) ) ):
             np.random.seed( randomSeed )
         
     def getAcceptanceRatio( self, candi, i ):

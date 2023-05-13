@@ -91,7 +91,7 @@ class NatafTransformation:
         except np.linalg.LinAlgError:
             raise ValueError( "corrMat should be positive definite" )
 
-        if isinstance(randomSeed, (int, type(None))):
+        if isinstance( randomSeed, ( int, type( None ) ) ):
             np.random.seed( randomSeed )
         
         self.distObjs = distObjs
